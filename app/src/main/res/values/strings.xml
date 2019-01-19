@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Khodemon</string>
+    <string name="bottom_navigation_tab_home">home</string>
+    <string name="bottom_navigation_tab_user">user</string>
+    <string name="bottom_navigation_tab_search">search</string>
+    <string name="bottom_navigation_tab_heart">heart</string>
+    <string name="bottom_navigation_tab_add">add</string>
+
+</resources>
