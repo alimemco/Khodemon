@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#509AF7</color>
+    <color name="colorPrimaryDark">#1e86dd</color>
+    <color name="colorAccent">#1bb8cb</color>
     <color name="blue_600">#039BE5</color>
+    <color name="blue_light">#32cbf4</color>
+    <color name="pantone_2019">#fa706d</color>
+    <color name="inactive_01">#747474</color>
+    <color name="background_01">#FEFEFE</color>
+    <color name="notification_color">#F63D2B</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_80_alpha">#aaFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="black_80_alpha">#aa000000</color>
+
+    <color name="blue_green_top">#00B8D4</color>
+    <color name="blue_green_bottom">#00cdac</color>
+    <color name="backgroundApp">#fafafa</color>
+    <color name="fragmentHome">#7986CB</color>
+    <color name="fragmentUser">#FFB74D</color>
+    <color name="fragmentForm">#e57373</color>
+    <color name="light_gray">#ddd</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="dark_gray">#565656</color>
+    <color name="toolbar_gray">#546E7A</color>
+    <color name="light_gray_disabled">#B0BEC5</color>
+    <color name="dark_gray_text">#323232</color>
+    <color name="red200">#ef9a9a</color>
+    <color name="red300">#e57373</color>
+    <color name="red400">#ef5350</color>
+    <color name="red500">#f44336</color>
+    <color name="toolbar_collapsed">#455A64</color>
+    <color name="toolbar_collapsed_text">#546E7A</color>
+    <color name="fab_subset">#2196F3</color>
+    <color name="fab_order">#f44336</color>
+    <color name="text_user_level">#01579B</color>
+    <color name="subset_icon">#01579B</color>
+    <color name="price_red">#ef5350</color>
+    <color name="price_green">#66BB6A</color>
+
+
+
+
+
+
+
+
 </resources>

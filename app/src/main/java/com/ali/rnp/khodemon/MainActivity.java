@@ -7,20 +7,29 @@ This Project Started for Achieve our dreams
 managers : ali , raana
  */
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private AHBottomNavigation bottomNavigation;
+    private Toolbar toolbar;
+
+    private static final String TAG = "MainActivityLogcat";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,41 @@ public class MainActivity extends AppCompatActivity {
         initViews ();
 
         SetupBottomNavigation();
+        SetupToolbar();
+        SetupStatusBarColor();
+    }
+
+    private void SetupStatusBarColor() {
+
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+                Window window = this.getWindow();
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(this,R.color.backgroundApp));
+
+            }
+    }
+
+    private void SetupToolbar() {
+
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        DrawerLayout drawerLayout = findViewById(R.id.mainActivity_drawer_layout);
+
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,0,0);
+
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        drawerToggle.syncState();
+
+
+
     }
 
     private void SetupBottomNavigation() {
@@ -44,51 +88,49 @@ public class MainActivity extends AppCompatActivity {
         AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.bottom_navigation_tab_home, R.drawable.ic_house, R.color.blue_600);
 
 // Add items
-        bottomNavigation.addItem(item1);
-        bottomNavigation.addItem(item2);
-        bottomNavigation.addItem(item3);
-        bottomNavigation.addItem(item4);
         bottomNavigation.addItem(item5);
+        bottomNavigation.addItem(item4);
+        bottomNavigation.addItem(item3);
+        bottomNavigation.addItem(item2);
+        bottomNavigation.addItem(item1);
 
-        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
-        bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
-        bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
-        bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
+       // bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
+        bottomNavigation.setDefaultBackgroundColor(ResourcesCompat.getColor(getResources(),R.color.background_01,null));
+        bottomNavigation.setAccentColor(ResourcesCompat.getColor(getResources(),R.color.colorPrimary,null));
+        bottomNavigation.setInactiveColor(ResourcesCompat.getColor(getResources(),R.color.inactive_01,null));
+        bottomNavigation.setNotificationBackgroundColor(ResourcesCompat.getColor(getResources(),R.color.notification_color,null));
 
         // Force to tint the drawable (useful for font with icon for example)
         bottomNavigation.setForceTint(true);
 
 
    // Manage titles
-        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
 
-        bottomNavigation.setCurrentItem(4);
+        bottomNavigation.setCurrentItem(0);
 
+        bottomNavigation.setNotification("1", 4);
 
-        bottomNavigation.setNotification("1", 0);
-
-
+        bottomNavigation.setUseElevation(true);
 
         // Set listeners
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
+
                 switch (position){
-                    case 0 :
+                    case 4 :
                         bottomNavigation.setNotification("", position);
                         break;
                 }
                 return true;
             }
         });
-        bottomNavigation.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
-            @Override public void onPositionChange(int y) {
-                // Manage the new y position
-            }
-        });
 
     }
 
     private void initViews() {
+
+        toolbar = findViewById(R.id.mainActivity_toolbar);
     }
 }

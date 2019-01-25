@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title=""
+        android:title="ارتباط با تیم توسعه دهنده"
         android:id="@+id/bottom_navigation_userManagement"
-        android:icon="@drawable/ic_add"/>
+        android:icon="@drawable/ic_house"
+/>
 
     <item
-        android:title=""
+        android:title="کسب درآمد"
         android:id="@+id/bottom_navigation_home"
-        android:icon="@drawable/ic_add" />
+        android:icon="@drawable/ic_avatar"
+/>
 
     <item
-        android:title=""
+        android:title="درباره برنامه"
         android:id="@+id/bottom_navigation_form"
-        android:icon="@drawable/ic_add"/>
+        android:icon="@drawable/ic_magnifying_glass" />
 </menu>
