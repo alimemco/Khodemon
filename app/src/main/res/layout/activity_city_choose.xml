@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.Activites.CityChoose"
+    android:background="@color/backgroundApp"
+    android:layoutDirection="rtl"
+    tools:ignore="UnusedAttribute">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/gray_200">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="انتخاب شهر"
+                app:fontCustom="iranSansBold"
+                android:textSize="@dimen/normal_textSize_sp"
+                android:textColor="@color/colorPrimary"/>
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center|left"
+            android:padding="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:layout_marginBottom="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:background="@color/backgroundApp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/ic_magnifying_glass"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="نام شهر خود را وارد کنید .."
+                android:gravity="right"
+                android:autofillHints="@string/app_name"
+                android:paddingRight="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                tools:ignore="RtlHardcoded,RtlSymmetry"
+                android:maxLines="1"
+                android:inputType="text" />
+
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activity_city_choose_recView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        tools:listitem="@layout/item_rec_view_city_adapter"
+
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

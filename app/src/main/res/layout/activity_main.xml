@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:layoutDirection="rtl"
->
+    tools:ignore="UnusedAttribute">
 
 
 
@@ -46,7 +46,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/main_activity_city_name_img"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="10dp"
@@ -56,19 +56,21 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_placeholder" />
+                        app:srcCompat="@drawable/ic_placeholder"
+                        tools:ignore="RtlHardcoded" />
 
                     <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/main_activity_city_name_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="ماهشهر"
                         android:textColor="@color/colorPrimary"
                         app:fontCustom="iranSansBold"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                        app:layout_constraintLeft_toRightOf="@+id/imageView"
-                        app:layout_constraintTop_toTopOf="@+id/imageView" />
+                        tools:ignore="RtlHardcoded"
+                        app:layout_constraintBottom_toBottomOf="@+id/main_activity_city_name_img"
+                        app:layout_constraintLeft_toRightOf="@+id/main_activity_city_name_img"
+                        app:layout_constraintTop_toTopOf="@+id/main_activity_city_name_img" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>

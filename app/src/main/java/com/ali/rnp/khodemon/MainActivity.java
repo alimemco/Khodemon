@@ -15,11 +15,17 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.Views.Activites.CityChoose;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
@@ -28,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AHBottomNavigation bottomNavigation;
     private Toolbar toolbar;
+    private MyTextView cityName;
+    private ImageView cityNameImg;
 
     private static final String TAG = "MainActivityLogcat";
 
@@ -40,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         SetupBottomNavigation();
         SetupToolbar();
-        SetupStatusBarColor();
+        //SetupStatusBarColor();
     }
 
     private void SetupStatusBarColor() {
@@ -74,11 +82,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        cityName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,CityChoose.class));
+            }
+        });
     }
 
     private void SetupBottomNavigation() {
 
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
 
         // Create items
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.bottom_navigation_tab_heart, R.drawable.ic_heart, R.color.blue_600);
@@ -132,5 +146,7 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
 
         toolbar = findViewById(R.id.mainActivity_toolbar);
+        cityName = findViewById(R.id.main_activity_city_name_txt);
+        cityNameImg = findViewById(R.id.main_activity_city_name_img);
     }
 }
