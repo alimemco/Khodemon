@@ -11,8 +11,6 @@
 
 
 
-
-
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/mainActivity_appbar"
             android:layout_width="match_parent"
@@ -29,7 +27,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <com.ali.rnp.khodemon.MyLibrary.MyTextView
                         android:id="@+id/textView"
@@ -45,32 +43,51 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/main_activity_city_name_img"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:contentDescription="@string/app_name"
+
+                    <LinearLayout
+                        android:id="@+id/main_activity_city_LinearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:background="@drawable/ripple_primary"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingRight="@dimen/standard_margin"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_placeholder"
-                        tools:ignore="RtlHardcoded" />
+                        tools:ignore="RtlHardcoded,RtlSymmetry">
 
-                    <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                        android:id="@+id/main_activity_city_name_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="ماهشهر"
-                        android:textColor="@color/colorPrimary"
-                        app:fontCustom="iranSansBold"
-                        tools:ignore="RtlHardcoded"
-                        app:layout_constraintBottom_toBottomOf="@+id/main_activity_city_name_img"
-                        app:layout_constraintLeft_toRightOf="@+id/main_activity_city_name_img"
-                        app:layout_constraintTop_toTopOf="@+id/main_activity_city_name_img" />
+
+                        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                            android:id="@+id/main_activity_city_name_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="ماهشهر"
+                            android:textColor="@color/colorPrimary"
+                            app:fontCustom="iranSansBold"
+                            app:layout_constraintBottom_toBottomOf="@+id/main_activity_city_name_img"
+                            app:layout_constraintLeft_toRightOf="@+id/main_activity_city_name_img"
+                            app:layout_constraintTop_toTopOf="@+id/main_activity_city_name_img"
+                            tools:ignore="RtlHardcoded" />
+
+
+                        <ImageView
+                            android:id="@+id/main_activity_city_name_img"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:contentDescription="@string/app_name"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_placeholder"
+                            tools:ignore="RtlHardcoded" />
+                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>

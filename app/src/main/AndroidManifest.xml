@@ -25,6 +25,8 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
+
+
     </application>
 
 </manifest>

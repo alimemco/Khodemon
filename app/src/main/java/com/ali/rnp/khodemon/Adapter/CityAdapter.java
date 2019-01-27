@@ -1,17 +1,25 @@
 package com.ali.rnp.khodemon.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.City;
+import com.ali.rnp.khodemon.MainActivity;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Views.Activites.CityChoose;
+
 import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static android.app.Activity.RESULT_OK;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHolder> {
 
@@ -39,7 +47,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CityAdapterHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CityAdapterHolder holder, final int position) {
 
         City city = cities.get(position);
         holder.cityNameTxt.setText(city.getCity());
@@ -50,6 +58,18 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
         }else {
             holder.line.setVisibility(View.VISIBLE);
         }
+
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sendCityData(holder.cityNameTxt.getText().toString());
+            }
+        });
+
+
 
 
     }
@@ -72,4 +92,15 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
 
     }
 }
+
+    private void sendCityData(String city) {
+
+        Intent intent = new Intent(context,MainActivity.class);
+        intent.putExtra(CityChoose.INTENT_CITY_NAME,city);
+        ((Activity)context).setResult(RESULT_OK,intent);
+        ((Activity)context).finish();
+
+    }
+
+
 }

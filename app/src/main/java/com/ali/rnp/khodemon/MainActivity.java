@@ -7,6 +7,7 @@ This Project Started for Achieve our dreams
 managers : ali , raana
  */
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,28 +15,30 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.Views.Activites.CityChoose;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private AHBottomNavigation bottomNavigation;
     private Toolbar toolbar;
     private MyTextView cityName;
     private ImageView cityNameImg;
+    private LinearLayout cityLinearLayout;
+    private ActionBarDrawerToggle drawerToggle;
+
+    private static final int REQUEST_CODE_GET_CITY=501;
 
     private static final String TAG = "MainActivityLogcat";
 
@@ -48,21 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
         SetupBottomNavigation();
         SetupToolbar();
-        //SetupStatusBarColor();
     }
 
-    private void SetupStatusBarColor() {
 
-            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
-                Window window = this.getWindow();
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(ContextCompat.getColor(this,R.color.backgroundApp));
-
-            }
-    }
 
     private void SetupToolbar() {
+
+        toolbar = findViewById(R.id.mainActivity_toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -74,20 +69,13 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawerLayout = findViewById(R.id.mainActivity_drawer_layout);
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,0,0);
+        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,0,0);
 
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this,R.color.colorPrimary));
         drawerToggle.syncState();
 
 
-
-        cityName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,CityChoose.class));
-            }
-        });
     }
 
     private void SetupBottomNavigation() {
@@ -145,8 +133,48 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        toolbar = findViewById(R.id.mainActivity_toolbar);
+
         cityName = findViewById(R.id.main_activity_city_name_txt);
         cityNameImg = findViewById(R.id.main_activity_city_name_img);
+        cityLinearLayout = findViewById(R.id.main_activity_city_LinearLayout);
+
+        cityLinearLayout.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+
+            case R.id.main_activity_city_LinearLayout:
+                startActivityForResult(new Intent(MainActivity.this,CityChoose.class),REQUEST_CODE_GET_CITY);
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+     drawerToggle.syncState();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        switch (requestCode){
+
+            case REQUEST_CODE_GET_CITY:
+
+                if (resultCode == RESULT_OK && data !=null){
+                    //Toast.makeText(this, ""+data.getStringExtra(CityChoose.INTENT_CITY_NAME), Toast.LENGTH_SHORT).show();
+                    cityName.setText(data.getStringExtra(CityChoose.INTENT_CITY_NAME));
+                }
+
+                break;
+        }
     }
 }

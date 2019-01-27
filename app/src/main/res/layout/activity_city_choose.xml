@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Views.Activites.CityChoose"
-    android:background="@color/backgroundApp"
+    android:background="@color/white"
     android:layoutDirection="rtl"
     tools:ignore="UnusedAttribute">
 
@@ -19,15 +19,10 @@
         android:background="@color/gray_200">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/activity_city_choose_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"/>
 
             <com.ali.rnp.khodemon.MyLibrary.MyTextView
                 android:layout_width="match_parent"
@@ -35,7 +30,7 @@
                 android:text="انتخاب شهر"
                 app:fontCustom="iranSansBold"
                 android:textSize="@dimen/normal_textSize_sp"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/dark_gray"/>
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -46,11 +41,9 @@
             android:orientation="horizontal"
             android:gravity="center|left"
             android:padding="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
-            android:layout_marginRight="@dimen/standard_margin"
-            android:layout_marginBottom="@dimen/standard_margin"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:background="@color/backgroundApp">
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -58,18 +51,20 @@
                 android:contentDescription="@string/app_name"
                 app:srcCompat="@drawable/ic_magnifying_glass"/>
 
-            <EditText
+            <AutoCompleteTextView
+                android:id="@+id/activity_city_choose_cityAutoCompleteTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="نام شهر خود را وارد کنید .."
-                android:gravity="right"
+                android:gravity="center_vertical|right"
                 android:autofillHints="@string/app_name"
                 android:paddingRight="@dimen/standard_margin"
                 android:layout_marginRight="@dimen/standard_margin"
                 tools:ignore="RtlHardcoded,RtlSymmetry"
                 android:maxLines="1"
-                android:inputType="text" />
+                android:inputType="text"
+                android:background="@drawable/shape_edit_text_search"/>
 
 
         </LinearLayout>
@@ -81,7 +76,7 @@
         android:id="@+id/activity_city_choose_recView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="@drawable/ripple_primary"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
