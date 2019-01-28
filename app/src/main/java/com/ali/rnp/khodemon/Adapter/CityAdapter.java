@@ -1,5 +1,6 @@
 package com.ali.rnp.khodemon.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.City;
+import com.ali.rnp.khodemon.DataModel.LocationCity;
 import com.ali.rnp.khodemon.MainActivity;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.SharedPrefManager;
 import com.ali.rnp.khodemon.Views.Activites.CityChoose;
 
 import java.util.List;
@@ -26,6 +29,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
     private static final String TAG = "CityAdapter";
     private Context context;
     private List<City> cities;
+
+
 
     public CityAdapter (Context context){
         this.context = context;
@@ -46,10 +51,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
         return new CityAdapterHolder(rootView);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull final CityAdapterHolder holder, final int position) {
 
-        City city = cities.get(position);
+        final City city = cities.get(position);
         holder.cityNameTxt.setText(city.getCity());
 
 
@@ -65,7 +71,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
             @Override
             public void onClick(View v) {
 
-                sendCityData(holder.cityNameTxt.getText().toString());
+                sendCityData( city );
             }
         });
 
@@ -88,15 +94,16 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
         cityNameTxt = itemView.findViewById(R.id.item_rec_view_adapter_city_name_txt);
         line = itemView.findViewById(R.id.item_rec_view_adapter_line);
 
-        Log.i(TAG, "CityAdapterHolder: "+cities.size());
 
     }
 }
 
-    private void sendCityData(String city) {
+    private void sendCityData(City city) {
 
         Intent intent = new Intent(context,MainActivity.class);
-        intent.putExtra(CityChoose.INTENT_CITY_NAME,city);
+        intent.putExtra(CityChoose.INTENT_CITY_ID,city.getId());
+        intent.putExtra(CityChoose.INTENT_CITY_NAME,city.getCity());
+        intent.putExtra(CityChoose.INTENT_CITY_PROVINCE_NAME,city.getProvince());
         ((Activity)context).setResult(RESULT_OK,intent);
         ((Activity)context).finish();
 

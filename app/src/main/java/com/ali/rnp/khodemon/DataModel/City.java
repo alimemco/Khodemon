@@ -4,6 +4,7 @@ public class City {
 
     private int id ;
     private String city;
+    private String province;
 
     public int getId() {
         return id;
@@ -19,5 +20,13 @@ public class City {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 }

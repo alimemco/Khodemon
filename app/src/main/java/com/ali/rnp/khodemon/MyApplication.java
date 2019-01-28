@@ -3,6 +3,8 @@ package com.ali.rnp.khodemon;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends Application {
 
@@ -13,6 +15,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
     }
 
     public static Typeface getBYekan(Context context) {

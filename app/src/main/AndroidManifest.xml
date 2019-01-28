@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ali.rnp.khodemon">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -27,6 +29,9 @@
         </activity>
 
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9e54bd6d0f53aa17c195cefb4c5041ef8cb90316" />
     </application>
 
 </manifest>

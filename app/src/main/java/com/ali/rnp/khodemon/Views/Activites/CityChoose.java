@@ -35,7 +35,9 @@ public class CityChoose extends AppCompatActivity {
     private Toolbar toolbar;
     private AutoCompleteTextView cityAutoTextEditText;
 
+    public static final String INTENT_CITY_ID="city_id";
     public static final String INTENT_CITY_NAME="city_name";
+    public static final String INTENT_CITY_PROVINCE_NAME="city_province_name";
 
     private static final String TAG = "CityChoose";
 
