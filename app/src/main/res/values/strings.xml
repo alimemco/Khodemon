@@ -6,4 +6,14 @@
     <string name="bottom_navigation_tab_heart">heart</string>
     <string name="bottom_navigation_tab_add">add</string>
 
+    <string name="default_notification_channel_id">chanell_id</string>
+    <string name="fcm_message">fcm_message</string>
+    <string name="default_notification_channel_name">chanelName</string>
+    <string name="msg_subscribed">subscribed</string>
+    <string name="msg_subscribe_failed">subscrbed fail</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Home</string>
+
 </resources>

@@ -112,69 +112,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/myTextView4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="فونت ایران سنس بولد"
-                android:textSize="@dimen/large_textSize_sp"
-                app:fontCustom="iranSansBold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myTextView3" />
-
-            <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/myTextView3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="فونت ایران سنس"
-                android:textSize="@dimen/large_textSize_sp"
-                app:fontCustom="iranSans"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myTextView2" />
-
-            <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/myTextView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="فونت یکان"
-                android:textSize="@dimen/large_textSize_sp"
-                app:fontCustom="bYekan"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myTextView" />
-
-            <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/myTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="فونت پیشفرض"
-                android:textSize="@dimen/large_textSize_sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
                 android:id="@+id/bottom_navigation"
                 android:layout_width="0dp"
@@ -187,6 +124,19 @@
 
 
             </com.aurelhubert.ahbottomnavigation.AHBottomNavigation>
+
+            <FrameLayout
+                android:id="@+id/mainActivity_fragment_container"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </FrameLayout>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

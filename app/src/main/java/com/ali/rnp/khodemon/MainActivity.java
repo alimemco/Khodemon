@@ -7,6 +7,7 @@ This Project Started for Achieve our dreams
 managers : ali , raana
  */
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -15,12 +16,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import io.fabric.sdk.android.Fabric;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -29,12 +37,22 @@ import com.ali.rnp.khodemon.DataModel.LocationCity;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.Views.Activites.CityChoose;
 import com.ali.rnp.khodemon.Views.SplashScreen;
+import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
+import com.ali.rnp.khodemon.Views.fragments.FragmentUser;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements
+        View.OnClickListener,
+        FragmentHome.OnFragmentInteractionListener,
+        FragmentUser.OnFragmentInteractionListener{
 
 
     private AHBottomNavigation bottomNavigation;
@@ -44,6 +62,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout cityLinearLayout;
     private ActionBarDrawerToggle drawerToggle;
     private SharedPrefManager sharedPrefManager;
+    private FrameLayout frameLayout;
+
+    private FragmentManager fragmentManager;
+    private FragmentHome fragmentHome;
+    private FragmentUser fragmentUser;
 
 
     private static final int REQUEST_CODE_GET_CITY = 501;
@@ -57,9 +80,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initViews();
 
+        SetupFragments();
         SetupBottomNavigation();
         SetupToolbar();
         SetupCityFromSharedPref();
+
 
         FirebaseCrash.log("Activity created with CrashReporter");
 
@@ -67,6 +92,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Fabric.with(this, new Crashlytics());
 
+        FCMsetup();
+
+    }
+
+    private void SetupFragments() {
+
+        fragmentManager = getSupportFragmentManager();
+
+        fragmentHome = new FragmentHome();
+        fragmentUser = new FragmentUser();
+
+        FragmentTransaction transactionHome = fragmentManager.beginTransaction();
+        transactionHome.add(R.id.mainActivity_fragment_container,fragmentHome);
+        transactionHome.commit();
+    }
+
+    private void FCMsetup() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            String channelId  = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+
+
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                Object value = getIntent().getExtras().get(key);
+                Log.d(TAG, "Key: " + key + " Value: " + value);
+            }
+        }
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic("weather")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = getString(R.string.msg_subscribed);
+                        if (!task.isSuccessful()) {
+                            msg = getString(R.string.msg_subscribe_failed);
+                        }
+                        Log.d(TAG, msg);
+                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+/*
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        */
     }
 
     private void SetupCityFromSharedPref() {
@@ -143,11 +237,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
 
-                switch (position) {
-                    case 4:
-                        bottomNavigation.setNotification("", position);
-                        break;
+                if (!wasSelected){
+                    switch (position) {
+                        case 0:
+
+                            FragmentTransaction transactionHome = fragmentManager.beginTransaction();
+                            transactionHome.replace(R.id.mainActivity_fragment_container,fragmentHome);
+                            transactionHome.addToBackStack("homeStack");
+                            transactionHome.commit();
+
+                            break;
+
+                        case 1:
+
+                            FragmentTransaction transactionUser = fragmentManager.beginTransaction();
+                            transactionUser.replace(R.id.mainActivity_fragment_container,fragmentUser);
+                            transactionUser.addToBackStack("userStack");
+                            transactionUser.commit();
+
+                            break;
+
+                        case 4:
+                            bottomNavigation.setNotification("", position);
+                            break;
+                    }
                 }
+
+
                 return true;
             }
         });
@@ -221,4 +337,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
