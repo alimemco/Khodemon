@@ -1,33 +1,26 @@
 package com.ali.rnp.khodemon.Views.Activites;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.CityAdapter;
 import com.ali.rnp.khodemon.DataModel.City;
 import com.ali.rnp.khodemon.DataModel.DataGenerator;
-import com.ali.rnp.khodemon.MainActivity;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CityChoose extends AppCompatActivity {
 
@@ -35,9 +28,9 @@ public class CityChoose extends AppCompatActivity {
     private Toolbar toolbar;
     private AutoCompleteTextView cityAutoTextEditText;
 
-    public static final String INTENT_CITY_ID="city_id";
-    public static final String INTENT_CITY_NAME="city_name";
-    public static final String INTENT_CITY_PROVINCE_NAME="city_province_name";
+    public static final String INTENT_CITY_ID = "city_id";
+    public static final String INTENT_CITY_NAME = "city_name";
+    public static final String INTENT_CITY_PROVINCE_NAME = "city_province_name";
 
     private static final String TAG = "CityChoose";
 
@@ -53,9 +46,8 @@ public class CityChoose extends AppCompatActivity {
         setContentView(R.layout.activity_city_choose);
 
         setupToolbar();
-        setupRecViewCity ();
+        setupRecViewCity();
         setupAutoCompleteText();
-
 
 
     }
@@ -77,7 +69,7 @@ public class CityChoose extends AppCompatActivity {
 
         cityAutoTextEditText.setThreshold(1);
 
-        ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(this,android.R.layout.select_dialog_item,cityList);
+        ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, cityList);
         cityAutoTextEditText.setAdapter(citiesAdapter);
         cityAutoTextEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -91,9 +83,9 @@ public class CityChoose extends AppCompatActivity {
 
     private void sendCityData(String city) {
 
-        Intent intent = new Intent(CityChoose.this,MainActivity.class);
-        intent.putExtra(INTENT_CITY_NAME,city);
-        setResult(RESULT_OK,intent);
+        Intent intent = new Intent(CityChoose.this, MainActivity.class);
+        intent.putExtra(INTENT_CITY_NAME, city);
+        setResult(RESULT_OK, intent);
         finish();
 
     }
@@ -119,14 +111,11 @@ public class CityChoose extends AppCompatActivity {
 
         CityAdapter cityAdapter = new CityAdapter(CityChoose.this);
         cityAdapter.setupCityAdapter(DataGenerator.getListCity());
-        recyclerViewCity.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
+        recyclerViewCity.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
         recyclerViewCity.setAdapter(cityAdapter);
 
     }
-
-
-
 
 
 }

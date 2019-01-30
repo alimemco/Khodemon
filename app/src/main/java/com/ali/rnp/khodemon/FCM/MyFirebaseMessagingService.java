@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
-import com.ali.rnp.khodemon.MainActivity;
+import com.ali.rnp.khodemon.Views.Activites.MainActivity;
 import com.ali.rnp.khodemon.R;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -118,7 +118,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     /**
      * Persist token to third-party servers.
-     *
+     * <p>
      * Modify this method to associate the user's FCM InstanceID token with any server-side account
      * maintained by your application.
      *

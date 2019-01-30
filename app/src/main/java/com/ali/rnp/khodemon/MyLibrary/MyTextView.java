@@ -31,13 +31,13 @@ public class MyTextView extends AppCompatTextView {
     }
 
     private void setupFont(AttributeSet attrs) {
-        if (attrs!=null){
+        if (attrs != null) {
             TypedArray attributes = getContext().obtainStyledAttributes(attrs, R.styleable.MyTextView);
 
             try {
-                int Font  = attributes.getInteger(R.styleable.MyTextView_fontCustom,BYEKAN_FONT);
+                int Font = attributes.getInteger(R.styleable.MyTextView_fontCustom, BYEKAN_FONT);
 
-                switch (Font){
+                switch (Font) {
                     case BYEKAN_FONT:
                         setTypeface(MyApplication.getBYekan(getContext()));
                         break;
@@ -51,7 +51,7 @@ public class MyTextView extends AppCompatTextView {
                         break;
                 }
 
-            }finally {
+            } finally {
                 invalidate();
                 requestLayout();
                 attributes.recycle();

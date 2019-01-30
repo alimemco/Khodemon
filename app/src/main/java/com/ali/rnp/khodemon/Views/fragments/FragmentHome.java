@@ -3,14 +3,16 @@ package com.ali.rnp.khodemon.Views.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
+import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
 import com.ali.rnp.khodemon.R;
+
+import androidx.fragment.app.Fragment;
+import ss.com.bannerslider.Slider;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,13 +63,27 @@ public class FragmentHome extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+    }
+
+
+
+    private void SetupBannerSlider(View rootView) {
+        Slider.init(new PicassoImageLoadingService(getContext()));
+        Slider slider = rootView.findViewById(R.id.fragment_home_MainSlider);
+        slider.setAdapter(new MainSliderAdapter());
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_home, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        SetupBannerSlider(rootView);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

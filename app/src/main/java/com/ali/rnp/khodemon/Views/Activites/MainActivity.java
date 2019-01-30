@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon;
+package com.ali.rnp.khodemon.Views.Activites;
 
 /*
 Start Project
@@ -6,6 +6,32 @@ at 1397,10,29 Sunday
 This Project Started for Achieve our dreams
 managers : ali , raana
  */
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import com.ali.rnp.khodemon.DataModel.LocationCity;
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.SharedPrefManager;
+import com.ali.rnp.khodemon.Views.fragments.FragmentAdd;
+import com.ali.rnp.khodemon.Views.fragments.FragmentFavorite;
+import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
+import com.ali.rnp.khodemon.Views.fragments.FragmentSearch;
+import com.ali.rnp.khodemon.Views.fragments.FragmentUser;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,57 +42,31 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import io.fabric.sdk.android.Fabric;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import com.ali.rnp.khodemon.DataModel.LocationCity;
-import com.ali.rnp.khodemon.MyLibrary.MyTextView;
-import com.ali.rnp.khodemon.Views.Activites.CityChoose;
-import com.ali.rnp.khodemon.Views.SplashScreen;
-import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
-import com.ali.rnp.khodemon.Views.fragments.FragmentUser;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.crash.FirebaseCrash;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
-
 public class MainActivity extends AppCompatActivity implements
         View.OnClickListener,
         FragmentHome.OnFragmentInteractionListener,
-        FragmentUser.OnFragmentInteractionListener{
+        FragmentUser.OnFragmentInteractionListener,
+        FragmentAdd.OnFragmentInteractionListener,
+        FragmentSearch.OnFragmentInteractionListener,
+        FragmentFavorite.OnFragmentInteractionListener{
 
 
     private AHBottomNavigation bottomNavigation;
-    private Toolbar toolbar;
     private MyTextView cityName;
-    private ImageView cityNameImg;
-    private LinearLayout cityLinearLayout;
-    private ActionBarDrawerToggle drawerToggle;
     private SharedPrefManager sharedPrefManager;
-    private FrameLayout frameLayout;
+    //private FrameLayout frameLayout;
 
     private FragmentManager fragmentManager;
     private FragmentHome fragmentHome;
     private FragmentUser fragmentUser;
+    private FragmentAdd fragmentAdd;
+    private FragmentSearch fragmentSearch;
+    private FragmentFavorite fragmentFavorite;
 
 
     private static final int REQUEST_CODE_GET_CITY = 501;
@@ -80,19 +80,17 @@ public class MainActivity extends AppCompatActivity implements
 
         initViews();
 
+
         SetupFragments();
         SetupBottomNavigation();
         SetupToolbar();
         SetupCityFromSharedPref();
 
 
-        FirebaseCrash.log("Activity created with CrashReporter");
-
-        FirebaseCrash.logcat(Log.ERROR, TAG, "NPE caught");
 
         Fabric.with(this, new Crashlytics());
 
-        FCMsetup();
+        FcmSetup();
 
     }
 
@@ -102,16 +100,20 @@ public class MainActivity extends AppCompatActivity implements
 
         fragmentHome = new FragmentHome();
         fragmentUser = new FragmentUser();
+        fragmentAdd = new FragmentAdd();
+        fragmentSearch = new FragmentSearch();
+        fragmentFavorite = new FragmentFavorite();
+
 
         FragmentTransaction transactionHome = fragmentManager.beginTransaction();
-        transactionHome.add(R.id.mainActivity_fragment_container,fragmentHome);
+        transactionHome.add(R.id.mainActivity_fragment_container, fragmentHome);
         transactionHome.commit();
     }
 
-    private void FCMsetup() {
+    private void FcmSetup() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create channel to show notifications.
-            String channelId  = getString(R.string.default_notification_channel_id);
+            String channelId = getString(R.string.default_notification_channel_id);
             String channelName = getString(R.string.default_notification_channel_name);
             NotificationManager notificationManager =
                     getSystemService(NotificationManager.class);
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void SetupToolbar() {
 
-        toolbar = findViewById(R.id.mainActivity_toolbar);
+        Toolbar toolbar = findViewById(R.id.mainActivity_toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -186,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements
 
         DrawerLayout drawerLayout = findViewById(R.id.mainActivity_drawer_layout);
 
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
 
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.colorPrimary));
@@ -237,27 +239,26 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
 
-                if (!wasSelected){
+                if (!wasSelected) {
                     switch (position) {
                         case 0:
-
-                            FragmentTransaction transactionHome = fragmentManager.beginTransaction();
-                            transactionHome.replace(R.id.mainActivity_fragment_container,fragmentHome);
-                            transactionHome.addToBackStack("homeStack");
-                            transactionHome.commit();
-
+                            fragmentReplace(fragmentHome);
                             break;
 
                         case 1:
+                            fragmentReplace(fragmentUser);
+                            break;
 
-                            FragmentTransaction transactionUser = fragmentManager.beginTransaction();
-                            transactionUser.replace(R.id.mainActivity_fragment_container,fragmentUser);
-                            transactionUser.addToBackStack("userStack");
-                            transactionUser.commit();
+                        case 2:
+                            fragmentReplace(fragmentAdd);
+                            break;
 
+                        case 3:
+                            fragmentReplace(fragmentSearch);
                             break;
 
                         case 4:
+                            fragmentReplace(fragmentFavorite);
                             bottomNavigation.setNotification("", position);
                             break;
                     }
@@ -266,6 +267,8 @@ public class MainActivity extends AppCompatActivity implements
 
                 return true;
             }
+
+
         });
 
     }
@@ -274,8 +277,8 @@ public class MainActivity extends AppCompatActivity implements
 
 
         cityName = findViewById(R.id.main_activity_city_name_txt);
-        cityNameImg = findViewById(R.id.main_activity_city_name_img);
-        cityLinearLayout = findViewById(R.id.main_activity_city_LinearLayout);
+//        ImageView cityNameImg = findViewById(R.id.main_activity_city_name_img);
+        LinearLayout cityLinearLayout = findViewById(R.id.main_activity_city_LinearLayout);
 
         cityLinearLayout.setOnClickListener(this);
 
@@ -295,13 +298,13 @@ public class MainActivity extends AppCompatActivity implements
 
         }
     }
-
+/*
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
-
+*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -312,9 +315,9 @@ public class MainActivity extends AppCompatActivity implements
             case REQUEST_CODE_GET_CITY:
 
                 if (resultCode == RESULT_OK && data != null) {
-                    final int cityId=data.getIntExtra(CityChoose.INTENT_CITY_ID,1);
-                    final String cityNameString=data.getStringExtra(CityChoose.INTENT_CITY_NAME);
-                    final String cityProvinceNameString=data.getStringExtra(CityChoose.INTENT_CITY_PROVINCE_NAME);
+                    final int cityId = data.getIntExtra(CityChoose.INTENT_CITY_ID, 1);
+                    final String cityNameString = data.getStringExtra(CityChoose.INTENT_CITY_NAME);
+                    final String cityProvinceNameString = data.getStringExtra(CityChoose.INTENT_CITY_PROVINCE_NAME);
 
                     cityName.setText(cityNameString);
 
@@ -336,6 +339,44 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    private void DetectFragment(){
+        Fragment frCurrent = getSupportFragmentManager().findFragmentById(R.id.mainActivity_fragment_container);
+
+        if (!(frCurrent instanceof FragmentHome)){
+            fragmentReplace(fragmentHome);
+            bottomNavigation.setCurrentItem(0);
+        }
+
+    }
+
+    private void fragmentReplace(Fragment fragment) {
+        FragmentTransaction transactionFragment = fragmentManager.beginTransaction();
+        transactionFragment.replace(R.id.mainActivity_fragment_container, fragment);
+        // transactionFragment.addToBackStack("HomeFragmentStack");
+        transactionFragment.commit();
+    }
+
+
+    boolean doubleBackToExitPressedOnce= false;
+
+    @Override
+    public void onBackPressed() {
+
+        if (doubleBackToExitPressedOnce){
+            super.onBackPressed();
+            return;
+        }
+        DetectFragment();
+        this.doubleBackToExitPressedOnce = true;
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {

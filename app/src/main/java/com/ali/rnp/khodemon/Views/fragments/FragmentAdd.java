@@ -3,24 +3,24 @@ package com.ali.rnp.khodemon.Views.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ali.rnp.khodemon.R;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentUser.OnFragmentInteractionListener} interface
+ * {@link FragmentAdd.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentUser#newInstance} factory method to
+ * Use the {@link FragmentAdd#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentUser extends Fragment {
+public class FragmentAdd extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,8 +32,8 @@ public class FragmentUser extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FragmentUser() {
-
+    public FragmentAdd() {
+        // Required empty public constructor
     }
 
     /**
@@ -42,11 +42,11 @@ public class FragmentUser extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentUser.
+     * @return A new instance of fragment FragmentAdd.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentUser newInstance(String param1, String param2) {
-        FragmentUser fragment = new FragmentUser();
+    public static FragmentAdd newInstance(String param1, String param2) {
+        FragmentAdd fragment = new FragmentAdd();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,10 +64,10 @@ public class FragmentUser extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        return inflater.inflate(R.layout.fragment_add, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,7 +78,7 @@ public class FragmentUser extends Fragment {
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
+    public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

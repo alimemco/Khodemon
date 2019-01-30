@@ -3,7 +3,9 @@ package com.ali.rnp.khodemon;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends Application {
@@ -19,22 +21,22 @@ public class MyApplication extends Application {
     }
 
     public static Typeface getBYekan(Context context) {
-        if (BYekan == null ){
-            BYekan = Typeface.createFromAsset(context.getAssets(),"fonts/byekan.ttf");
+        if (BYekan == null) {
+            BYekan = Typeface.createFromAsset(context.getAssets(), "fonts/byekan.ttf");
         }
         return BYekan;
     }
 
-    public static Typeface getIranSans(Context context){
-        if (iranSans == null ){
-            iranSans = Typeface.createFromAsset(context.getAssets(),"fonts/IRAN Sans.ttf");
+    public static Typeface getIranSans(Context context) {
+        if (iranSans == null) {
+            iranSans = Typeface.createFromAsset(context.getAssets(), "fonts/IRAN Sans.ttf");
         }
         return iranSans;
     }
 
-    public static Typeface getIranSansBold(Context context){
-        if (iranSansBold == null ){
-            iranSansBold = Typeface.createFromAsset(context.getAssets(),"fonts/IRANSansMobile.ttf");
+    public static Typeface getIranSansBold(Context context) {
+        if (iranSansBold == null) {
+            iranSansBold = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSansMobile.ttf");
         }
         return iranSansBold;
     }

@@ -10,11 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ali.rnp.khodemon.DataModel.City;
-import com.ali.rnp.khodemon.MainActivity;
+import com.ali.rnp.khodemon.Views.Activites.MainActivity;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.Activites.CityChoose;
 
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,12 +28,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
     private List<City> cities;
 
 
-
-    public CityAdapter (Context context){
+    public CityAdapter(Context context) {
         this.context = context;
     }
 
-    public void setupCityAdapter(List<City> cities){
+    public void setupCityAdapter(List<City> cities) {
         this.cities = cities;
         notifyDataSetChanged();
 
@@ -42,7 +42,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
     @Override
     public CityAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        @SuppressLint("InflateParams") View rootView = LayoutInflater.from(context).inflate(R.layout.item_rec_view_city_adapter,null,false);
+        @SuppressLint("InflateParams") View rootView = LayoutInflater.from(context).inflate(R.layout.item_rec_view_city_adapter, null, false);
 
         return new CityAdapterHolder(rootView);
     }
@@ -55,19 +55,18 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
         holder.cityNameTxt.setText(city.getCity());
 
 
-        if ((position)+1 == cities.size()){
+        if ((position) + 1 == cities.size()) {
             holder.line.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             holder.line.setVisibility(View.VISIBLE);
         }
-
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                sendCityData( city );
+                sendCityData(city);
             }
         });
     }
@@ -81,23 +80,24 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
 
         private TextView cityNameTxt;
         private View line;
-    CityAdapterHolder(@NonNull View itemView) {
-        super(itemView);
-        cityNameTxt = itemView.findViewById(R.id.item_rec_view_adapter_city_name_txt);
-        line = itemView.findViewById(R.id.item_rec_view_adapter_line);
+
+        CityAdapterHolder(@NonNull View itemView) {
+            super(itemView);
+            cityNameTxt = itemView.findViewById(R.id.item_rec_view_adapter_city_name_txt);
+            line = itemView.findViewById(R.id.item_rec_view_adapter_line);
 
 
+        }
     }
-}
 
     private void sendCityData(City city) {
 
-        Intent intent = new Intent(context,MainActivity.class);
-        intent.putExtra(CityChoose.INTENT_CITY_ID,city.getId());
-        intent.putExtra(CityChoose.INTENT_CITY_NAME,city.getCity());
-        intent.putExtra(CityChoose.INTENT_CITY_PROVINCE_NAME,city.getProvince());
-        ((Activity)context).setResult(RESULT_OK,intent);
-        ((Activity)context).finish();
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(CityChoose.INTENT_CITY_ID, city.getId());
+        intent.putExtra(CityChoose.INTENT_CITY_NAME, city.getCity());
+        intent.putExtra(CityChoose.INTENT_CITY_PROVINCE_NAME, city.getProvince());
+        ((Activity) context).setResult(RESULT_OK, intent);
+        ((Activity) context).finish();
 
     }
 

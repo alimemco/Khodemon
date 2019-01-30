@@ -17,7 +17,7 @@
         android:layout_margin="@dimen/standard_margin_2x"
         tools:text="TextView"
         app:fontCustom="iranSans"
-        android:textSize="@dimen/large_textSize_sp"/>
+        android:textSize="@dimen/large_textSize_sp" />
 
     <View
         android:id="@+id/item_rec_view_adapter_line"
@@ -25,5 +25,5 @@
         android:layout_height="1dp"
         android:layout_marginRight="@dimen/standard_margin"
         android:layout_marginLeft="@dimen/standard_margin"
-        android:background="@color/gray_300"/>
+        android:background="@color/gray_300" />
 </LinearLayout>

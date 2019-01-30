@@ -5,21 +5,21 @@ import java.util.List;
 
 public class DataGenerator {
 
-    public static final String KHUZESTAN_PROVINCE="خوزستان";
-    private static final String MARKAZI_PROVINCE="مرکزی";
-    private static final String TEHRAN_PROVINCE="تهران";
-    private static final String MASHHAD_PROVINCE="مشهد";
-    private static final String SHIRAZ_PROVINCE="شیراز";
-    private static final String ISFAHAN_PROVINCE="اصفهان";
-    private static final String HAMEDAN_PROVINCE="همدان";
-    private static final String BUSHEHR_PROVINCE="بوشهر";
-    private static final String KERMAN_PROVINCE="کرمان";
-    private static final String SHAHREKORD_PROVINCE="شهرکرد";
-    private static final String YAZD_PROVINCE="یزد";
+    public static final String KHUZESTAN_PROVINCE = "خوزستان";
+    private static final String MARKAZI_PROVINCE = "مرکزی";
+    private static final String TEHRAN_PROVINCE = "تهران";
+    private static final String MASHHAD_PROVINCE = "مشهد";
+    private static final String SHIRAZ_PROVINCE = "شیراز";
+    private static final String ISFAHAN_PROVINCE = "اصفهان";
+    private static final String HAMEDAN_PROVINCE = "همدان";
+    private static final String BUSHEHR_PROVINCE = "بوشهر";
+    private static final String KERMAN_PROVINCE = "کرمان";
+    private static final String SHAHREKORD_PROVINCE = "شهرکرد";
+    private static final String YAZD_PROVINCE = "یزد";
 
-    public static final String BESAST_TOWN_CITY="شهرک بعثت";
+    public static final String BESAST_TOWN_CITY = "شهرک بعثت";
 
-    public static List<City> getListCity(){
+    public static List<City> getListCity() {
 
         List<City> cities = new ArrayList<>();
 
@@ -29,7 +29,7 @@ public class DataGenerator {
 
             city.setId(i);
 
-            switch (i){
+            switch (i) {
                 case 1:
                     city.setCity("آبادان");
                     city.setProvince(KHUZESTAN_PROVINCE);
@@ -50,7 +50,6 @@ public class DataGenerator {
                     city.setCity("کرج");
                     city.setProvince(TEHRAN_PROVINCE);
                     break;
-
 
 
                 case 5:

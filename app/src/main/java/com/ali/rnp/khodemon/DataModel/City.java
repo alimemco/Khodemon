@@ -2,7 +2,7 @@ package com.ali.rnp.khodemon.DataModel;
 
 public class City {
 
-    private int id ;
+    private int id;
     private String city;
     private String province;
 

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1030950778387",
+    "firebase_url": "https://papital-86a26.firebaseio.com",
+    "project_id": "papital-86a26",
+    "storage_bucket": "papital-86a26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030950778387:android:b5176938df48e996",
+        "android_client_info": {
+          "package_name": "com.ali.rnp.khodemon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030950778387-4roapvqmplfkijn40krmlib95kcgpsls.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ali.rnp.khodemon",
+            "certificate_hash": "b32f2305d966996f8b6538c7e5466abc2d60ab45"
+          }
+        },
+        {
+          "client_id": "1030950778387-u430dv3omo677vsheknkinibgsoe3sdk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrq3Tvcv3TzJ23e6UQPNzdNgKqtarNK54"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030950778387-u430dv3omo677vsheknkinibgsoe3sdk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

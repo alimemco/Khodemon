@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Views.fragments.FragmentHome">
+    tools:context=".Views.fragments.FragmentFavorite">
 
     <!-- TODO: Update blank fragment layout -->
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="@dimen/large_textSize_sp"
+        android:textSize="30sp"
+        android:textColor="@color/fragmentForm"
         app:fontCustom="iranSansBold"
-        android:text="خانه برای همه اطلاعات"  />
+        android:text="علاقه مندی ها" />
 
 </FrameLayout>

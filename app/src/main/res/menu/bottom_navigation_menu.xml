@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="ارتباط با تیم توسعه دهنده"
         android:id="@+id/bottom_navigation_userManagement"
-        android:icon="@drawable/ic_house"
-/>
+        android:icon="@drawable/ic_house" />
 
     <item
         android:title="کسب درآمد"
         android:id="@+id/bottom_navigation_home"
-        android:icon="@drawable/ic_avatar"
-/>
+        android:icon="@drawable/ic_avatar" />
 
     <item
         android:title="درباره برنامه"
