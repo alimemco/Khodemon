@@ -64,7 +64,7 @@
                 tools:ignore="RtlHardcoded,RtlSymmetry"
                 android:maxLines="1"
                 android:inputType="text"
-                android:background="@drawable/shape_edit_text_search" />
+                android:background="@drawable/shape_search_choose_city_edit_text" />
 
 
         </LinearLayout>

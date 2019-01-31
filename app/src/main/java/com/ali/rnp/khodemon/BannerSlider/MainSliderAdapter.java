@@ -16,31 +16,31 @@ public class MainSliderAdapter extends SliderAdapter {
 
         switch (position) {
             case 0:
-               imageSlideViewHolder.bindImageSlide("http://hph.co.ir/data/upload/mirasmlm/slide/40b96ae72e26a25d2dbc27fd4958956f1548244027.jpg",R.drawable.banner_holder,R.drawable.banner_holder);
+               imageSlideViewHolder.bindImageSlide("https://fecdn.cafebazaar.ir/promos/promo2938_xl_fa.jpg",R.drawable.holder_banner,R.drawable.holder_banner);
                 break;
 
             case 1:
-                imageSlideViewHolder.bindImageSlide("http://hph.co.ir/data/upload/mirasmlm/slide/436722102e665b7f36c5f3796b13519f1548050219.jpg",R.drawable.banner_holder,R.drawable.banner_holder);
+                imageSlideViewHolder.bindImageSlide("https://fecdn.cafebazaar.ir/promos/promo2940_xl_fa.jpg",R.drawable.holder_banner,R.drawable.holder_banner);
                 break;
 
 
             case 2:
-                imageSlideViewHolder.bindImageSlide("http://hph.co.ir/data/upload/mirasmlm/slide/91dc5d2d0c2d3c56447366aa85aaa7481547302303.jpg",R.drawable.banner_holder,R.drawable.banner_holder);
+                imageSlideViewHolder.bindImageSlide("https://fecdn.cafebazaar.ir/promos/promo2945_xl_fa.jpg",R.drawable.holder_banner,R.drawable.holder_banner);
                 break;
 
 
             case 3:
-                imageSlideViewHolder.bindImageSlide("http://hph.co.ir/data/upload/mirasmlm/slide/0b0e30e39d7ff8c00498acc298afc64a1533557477.jpg",R.drawable.banner_holder,R.drawable.banner_holder);
+                imageSlideViewHolder.bindImageSlide("https://fecdn.cafebazaar.ir/promos/promo2661_xl_fa.jpg",R.drawable.holder_banner,R.drawable.holder_banner);
                 break;
 
 
             case 4:
-                imageSlideViewHolder.bindImageSlide("http://hph.co.ir/data/upload/mirasmlm/slide/91dc5d2d0c2d3c56447366aa85aaa7481547302303.jpg",R.drawable.banner_holder,R.drawable.banner_holder);
+                imageSlideViewHolder.bindImageSlide("https://fecdn.cafebazaar.ir/promos/promo240_xl_fa.jpg",R.drawable.holder_banner,R.drawable.holder_banner);
                 break;
 
 
             case 5:
-                imageSlideViewHolder.bindImageSlide("http://hph.co.ir/data/upload/mirasmlm/slide/9f3918773b6fc94b3680a90895fa8cce1548050584.jpg",R.drawable.banner_holder,R.drawable.banner_holder);
+                imageSlideViewHolder.bindImageSlide("https://fecdn.cafebazaar.ir/promos/promo683_xl_fa.jpg",R.drawable.holder_banner,R.drawable.holder_banner);
                 break;
 
         }

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
 import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
+import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
 
 import androidx.fragment.app.Fragment;
@@ -82,8 +84,16 @@ public class FragmentHome extends Fragment {
         // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
         SetupBannerSlider(rootView);
+        initViews(rootView);
+
         return rootView;
+    }
+
+    private void initViews(View rootView) {
+        EditText searchEdTxt = rootView.findViewById(R.id.fragment_home_edTxt_search);
+        searchEdTxt.setTypeface(MyApplication.getIranSans(getContext()));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

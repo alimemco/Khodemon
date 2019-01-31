@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false">
+        <layer-list
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:paddingRight="@dimen/standard_margin_2x"
+            android:paddingLeft="@dimen/standard_margin_2x"
+            android:paddingTop="@dimen/standard_margin_2x"
+            android:paddingBottom="@dimen/standard_margin_2x">
+            <item>
+                <shape android:shape="oval">
+                    <gradient android:angle="0" android:startColor="@color/gray_100"
+                        android:centerColor="@color/gray_200"
+                        android:endColor="@color/gray_300"/>
+                    <corners android:radius="90dp"/>
+
+                </shape>
+
+            </item>
+
+            <item
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp"
+                >
+
+                <shape
+                    android:shape="oval">
+                    <solid android:color="@color/white" />
+                    <corners android:radius="90dp" />
+                </shape>
+
+            </item>
+        </layer-list>
+    </item>
+
+
+    <item android:state_pressed="true" >
+        <layer-list
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:paddingRight="@dimen/standard_margin_2x"
+            android:paddingLeft="@dimen/standard_margin_2x"
+            android:paddingTop="@dimen/standard_margin_2x"
+            android:paddingBottom="@dimen/standard_margin_2x"
+            >
+            <item>
+                <shape android:shape="oval">
+                    <gradient android:angle="0" android:startColor="@color/gray_100"
+                        android:centerColor="@color/gray_200"
+                        android:endColor="@color/gray_300"/>
+                    <corners android:radius="90dp"/>
+
+                </shape>
+
+            </item>
+
+            <item
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp"
+
+
+                >
+
+                <shape android:shape="oval" >
+                    <solid android:color="@color/gray_300"/>
+                </shape>
+
+
+
+            </item>
+        </layer-list>
+
+    </item>
+
+</selector>
