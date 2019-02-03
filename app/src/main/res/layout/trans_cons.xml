@@ -2,26 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_home_constraintLayout"
+    android:id="@+id/fragment_home_constraintLayout_test"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    tools:context=".Views.fragments.FragmentHome"
-    tools:targetApi="jelly_bean_mr1"
-    android:paddingRight="@dimen/standard_margin"
     android:paddingLeft="@dimen/standard_margin"
-    android:paddingTop="@dimen/standard_margin">
+    android:paddingTop="@dimen/standard_margin"
+    android:paddingRight="@dimen/standard_margin"
+    tools:context=".Views.fragments.FragmentHome"
+    tools:targetApi="jelly_bean_mr1">
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fragment_home_MainSliderCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/fragment_home_edTxt_search"
+        android:layout_marginBottom="50dp"
+        >
 
         <ss.com.bannerslider.Slider
             android:id="@+id/fragment_home_MainSlider"
@@ -41,7 +42,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/shape_search_home_edit_text"
@@ -54,20 +55,20 @@
         android:textSize="@dimen/large_textSize_sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_home_MainSliderCardView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/fragment_home_frame_location"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="75dp"
         android:background="@drawable/shape_dialog_home_reverce"
         android:clickable="true"
         android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toRightOf="@+id/fragment_home_frame_expert"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_home_edTxt_search">
+        app:layout_constraintRight_toRightOf="parent">
 
         <ImageView
             android:layout_width="match_parent"
@@ -79,20 +80,20 @@
 
     <FrameLayout
         android:id="@+id/fragment_home_frame_expert"
-        android:layout_width="80dp"
+        android:layout_width="82dp"
         android:layout_height="80dp"
         android:background="@drawable/shape_dialog_home"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_home_frame_location"
+        app:layout_constraintRight_toLeftOf="@+id/fragment_home_frame_location"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/fragment_home_frame_location"
         app:layout_constraintTop_toTopOf="@+id/fragment_home_frame_location">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="52dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_graduate" />
     </FrameLayout>

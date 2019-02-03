@@ -202,18 +202,20 @@ public class MainActivity extends AppCompatActivity implements
         bottomNavigation = findViewById(R.id.bottom_navigation);
 
         // Create items
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.bottom_navigation_tab_heart, R.drawable.ic_heart, R.color.blue_600);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.bottom_navigation_tab_search, R.drawable.ic_magnifying_glass, R.color.blue_600);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.bottom_navigation_tab_add, R.drawable.ic_add, R.color.blue_600);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.bottom_navigation_tab_user, R.drawable.ic_avatar, R.color.blue_600);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.bottom_navigation_tab_home, R.drawable.ic_house, R.color.blue_600);
+        AHBottomNavigationItem itemHeart = new AHBottomNavigationItem(R.string.bottom_navigation_tab_heart, R.drawable.ic_heart, R.color.blue_600);
+        AHBottomNavigationItem itemSearch = new AHBottomNavigationItem(R.string.bottom_navigation_tab_search, R.drawable.ic_magnifying_glass, R.color.blue_600);
+        AHBottomNavigationItem itemAdd = new AHBottomNavigationItem(R.string.bottom_navigation_tab_add, R.drawable.ic_add, R.color.blue_600);
+        AHBottomNavigationItem itemUser = new AHBottomNavigationItem(R.string.bottom_navigation_tab_user, R.drawable.ic_avatar, R.color.blue_600);
+        AHBottomNavigationItem itemHome = new AHBottomNavigationItem(R.string.bottom_navigation_tab_home, R.drawable.ic_house, R.color.blue_600);
 
 // Add items
-        bottomNavigation.addItem(item5);
-        bottomNavigation.addItem(item4);
-        bottomNavigation.addItem(item3);
-        bottomNavigation.addItem(item2);
-        bottomNavigation.addItem(item1);
+        bottomNavigation.addItem(itemHome);
+        bottomNavigation.addItem(itemSearch);
+
+        bottomNavigation.addItem(itemAdd);
+
+        bottomNavigation.addItem(itemHeart);
+        bottomNavigation.addItem(itemUser);
 
         // bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
         bottomNavigation.setDefaultBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.background_01, null));
@@ -230,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements
 
         bottomNavigation.setCurrentItem(0);
 
-        bottomNavigation.setNotification("1", 4);
+        bottomNavigation.setNotification("1", 3);
 
         bottomNavigation.setUseElevation(true);
 
