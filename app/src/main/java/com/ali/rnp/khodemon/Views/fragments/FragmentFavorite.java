@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ali.rnp.khodemon.R;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +62,15 @@ public class FragmentFavorite extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        FirebaseAnalytics mfirebaseAnalytics;
+
+        mfirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID,"12");
+        bundle.putString("AliRnpEvent","We Can");
+
+        mfirebaseAnalytics.logEvent("eventForAliRnp",bundle);
     }
 
     @Override

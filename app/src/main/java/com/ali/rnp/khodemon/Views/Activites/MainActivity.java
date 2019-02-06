@@ -68,6 +68,13 @@ public class MainActivity extends AppCompatActivity implements
     private FragmentSearch fragmentSearch;
     private FragmentFavorite fragmentFavorite;
 
+    private static final int BOTTOM_NAV_ITEM_HOME=0;
+    private static final int BOTTOM_NAV_ITEM_SEARCH=1;
+    private static final int BOTTOM_NAV_ITEM_ADD=2;
+    private static final int BOTTOM_NAV_ITEM_FAVORITE =3;
+    private static final int BOTTOM_NAV_ITEM_USER=4;
+
+
 
     private static final int REQUEST_CODE_GET_CITY = 501;
 
@@ -106,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
         FragmentTransaction transactionHome = fragmentManager.beginTransaction();
-        transactionHome.add(R.id.mainActivity_fragment_container, fragmentHome);
+        transactionHome.replace(R.id.mainActivity_fragment_container, fragmentHome);
         transactionHome.commit();
     }
 
@@ -230,9 +237,9 @@ public class MainActivity extends AppCompatActivity implements
         // Manage titles
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
 
-        bottomNavigation.setCurrentItem(0);
+        bottomNavigation.setCurrentItem(BOTTOM_NAV_ITEM_HOME);
 
-        bottomNavigation.setNotification("1", 3);
+        bottomNavigation.setNotification("1", BOTTOM_NAV_ITEM_FAVORITE);
 
         bottomNavigation.setUseElevation(true);
 
@@ -243,25 +250,25 @@ public class MainActivity extends AppCompatActivity implements
 
                 if (!wasSelected) {
                     switch (position) {
-                        case 0:
+                        case BOTTOM_NAV_ITEM_HOME:
                             fragmentReplace(fragmentHome);
                             break;
 
-                        case 1:
+                        case BOTTOM_NAV_ITEM_USER:
                             fragmentReplace(fragmentUser);
                             break;
 
-                        case 2:
+                        case BOTTOM_NAV_ITEM_ADD:
                             fragmentReplace(fragmentAdd);
                             break;
 
-                        case 3:
+                        case BOTTOM_NAV_ITEM_SEARCH:
                             fragmentReplace(fragmentSearch);
                             break;
 
-                        case 4:
+                        case BOTTOM_NAV_ITEM_FAVORITE:
                             fragmentReplace(fragmentFavorite);
-                            bottomNavigation.setNotification("", position);
+                            bottomNavigation.setNotification("", BOTTOM_NAV_ITEM_FAVORITE);
                             break;
                     }
                 }
