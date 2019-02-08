@@ -3,83 +3,128 @@ package com.ali.rnp.khodemon.Views.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Views.Activites.MainActivity;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentUser.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentUser#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentUser extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class FragmentUser extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
+    
+    private MainActivity myContext;
+    private FragmentManager fragmentManager;
+
+    private FragmentLogin fragmentLogin;
+    private FragmentRegister fragmentRegister;
+
+    private static final String TAG = "FragmentUser";
+    
+    
 
     public FragmentUser() {
 
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentUser.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentUser newInstance(String param1, String param2) {
         FragmentUser fragment = new FragmentUser();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        fragmentLogin = new FragmentLogin();
+        fragmentRegister = FragmentRegister.newInstance();
+
+        fragmentManager = myContext.getSupportFragmentManager();
+
+        replaceFragment(fragmentLogin);
     }
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        
+        View rootView = inflater.inflate(R.layout.fragment_user, container, false);
+        SetupTabLayout(rootView);
+
+
+        
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    private void SetFontToTabLayout(TabLayout tabLayout) {
+
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(MyApplication.getIranSansBold(getContext()));
+                }
+            }
         }
     }
+
+    private void SetupTabLayout(View rootView) {
+        TabLayout tabLayout = rootView.findViewById(R.id.fragment_user_tab_layout);
+        SetFontToTabLayout(tabLayout);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()){
+                    case 0:
+                        replaceFragment(fragmentLogin);
+                        break;
+
+
+                    case 1:
+                        replaceFragment(fragmentRegister);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
+        myContext = (MainActivity) context;
+        
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -94,18 +139,22 @@ public class FragmentUser extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+
+        }
+
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_user_fragment_container,fragment);
+        fragmentTransaction.commit();
+    }
+
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

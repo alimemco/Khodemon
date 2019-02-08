@@ -15,16 +15,20 @@ import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
 import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Views.Activites.MainActivity;
 
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.transition.TransitionManager;
 import ss.com.bannerslider.Slider;
 
 
-public class FragmentHome extends Fragment implements View.OnClickListener {
+public class FragmentHome extends Fragment implements
+        View.OnClickListener{
 
 
     private FrameLayout expertFrame;
@@ -36,7 +40,10 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     private ConstraintLayout constraintLayoutTest;
     private boolean isConstraintOrg = true;
 
+
     private static final String TAG = "FragmentHome";
+
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -68,8 +75,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         SetupBannerSlider(rootView);
         SetupOnClick();
 
+
         return rootView;
     }
+
+
 
     private void SetupOnClick() {
         locationFrame.setOnClickListener(this);
@@ -93,6 +103,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         sliderCardView = rootView.findViewById(R.id.fragment_home_MainSliderCardView);
         constraintLayout = rootView.findViewById(R.id.fragment_home_constraintLayout);
         constraintLayoutTest = rootView.findViewById(R.id.fragment_home_constraintLayout_test);
+
 
 
         searchEdTxt.setTypeface(MyApplication.getIranSans(getContext()));
@@ -172,6 +183,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -185,6 +197,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         super.onDetach();
         mListener = null;
     }
+
+
 
 
     public interface OnFragmentInteractionListener {
@@ -213,15 +227,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 }
 
                 break;
-            /**
-             searchEdTxt = rootView.findViewById(R.id.fragment_home_edTxt_search);
-             expertFrame = rootView.findViewById(R.id.fragment_home_frame_expert);
-             locationFrame = rootView.findViewById(R.id.fragment_home_frame_location);
-             sliderCardView = rootView.findViewById(R.id.fragment_home_MainSliderCardView);
-             constraintLayout = rootView.findViewById(R.id.fragment_home_constraintLayout);
-             constraintLayoutTest = rootView.findViewById(R.id.fragment_home_constraintLayout_test);
 
-             */
 
         }
     }

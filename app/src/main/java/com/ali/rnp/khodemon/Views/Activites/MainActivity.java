@@ -24,6 +24,8 @@ import com.ali.rnp.khodemon.SharedPrefManager;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAdd;
 import com.ali.rnp.khodemon.Views.fragments.FragmentFavorite;
 import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
+import com.ali.rnp.khodemon.Views.fragments.FragmentLogin;
+import com.ali.rnp.khodemon.Views.fragments.FragmentRegister;
 import com.ali.rnp.khodemon.Views.fragments.FragmentSearch;
 import com.ali.rnp.khodemon.Views.fragments.FragmentUser;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -53,7 +55,9 @@ public class MainActivity extends AppCompatActivity implements
         FragmentUser.OnFragmentInteractionListener,
         FragmentAdd.OnFragmentInteractionListener,
         FragmentSearch.OnFragmentInteractionListener,
-        FragmentFavorite.OnFragmentInteractionListener{
+        FragmentFavorite.OnFragmentInteractionListener,
+        FragmentLogin.OnFragmentInteractionListener,
+        FragmentRegister.OnFragmentInteractionListener {
 
 
     private AHBottomNavigation bottomNavigation;
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements
     private void SetupFragments() {
 
         fragmentManager = getSupportFragmentManager();
+
 
         fragmentHome = new FragmentHome();
         fragmentUser = new FragmentUser();

@@ -11,7 +11,7 @@
     <View
         android:id="@+id/view2"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="230dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,6 +35,7 @@
         app:layout_constraintTop_toTopOf="@+id/view2">
 
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/fragment_user_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
@@ -44,40 +45,47 @@
             app:tabRippleColor="@color/colorPrimary"
             app:tabSelectedTextColor="@color/colorPrimary"
             app:tabTextColor="@color/inactive_01"
-            app:tabUnboundedRipple="true">
+            app:tabUnboundedRipple="true"
+            app:tabTextAppearance="@style/MyCustomTabText" >
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="login" />
+                android:text="ورود"
+
+                />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="signUp" />
+                android:text="ثبت نام" />
 
         </com.google.android.material.tabs.TabLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:alpha="0.98"
+        android:alpha="0.95"
         app:cardCornerRadius="@dimen/standard_margin_2x"
         app:cardElevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
 
+        <FrameLayout
+            android:id="@+id/fragment_user_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 
     </androidx.cardview.widget.CardView>
+
 
 
 
