@@ -1,14 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.fragments.FragmentRegister">
+    tools:context=".Views.fragments.FragmentLogin"
+    android:layoutDirection="rtl"
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/myTextView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:text="نام"
+            android:textColor="@color/colorPrimary"
+            app:fontCustom="iranSansBold"
+            app:layout_constraintEnd_toEndOf="@+id/editText3"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/editText3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:gravity="center"
+            android:text="نام خانوادگی"
+            android:textColor="@color/colorPrimary"
+            app:fontCustom="iranSansBold"
+            app:layout_constraintBottom_toBottomOf="@+id/myTextView6"
+            app:layout_constraintEnd_toEndOf="@+id/editText4"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/editText4"
+            app:layout_constraintTop_toTopOf="@+id/myTextView6" />
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape_edit_text_user_name"
+            android:drawableRight="@drawable/ic_user"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:paddingLeft="32dp"
+            android:paddingRight="@dimen/standard_margin_2x"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toRightOf="@+id/editText4"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myTextView6" />
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/shape_edit_text_user_family"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:paddingLeft="32dp"
+            android:paddingRight="@dimen/standard_margin_2x"
+            app:layout_constraintBottom_toBottomOf="@+id/editText3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/editText3"
+            app:layout_constraintTop_toTopOf="@+id/editText3" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/myTextView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="نام کاربری"
+            android:textColor="@color/colorPrimary"
+            app:fontCustom="iranSansBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText3" />
+
+        <EditText
+            android:id="@+id/editText5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape_edit_text_user_login_register"
+            android:drawableRight="@drawable/ic_user"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:paddingLeft="32dp"
+            android:paddingRight="@dimen/standard_margin_2x"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myTextView7" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/myTextView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="پسورد"
+            android:textColor="@color/colorPrimary"
+            app:fontCustom="iranSansBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText5" />
+
+        <EditText
+            android:id="@+id/editText60"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape_edit_text_user_login_register"
+            android:drawableRight="@drawable/ic_padlock"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:paddingLeft="32dp"
+            android:paddingRight="@dimen/standard_margin_2x"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myTextView8" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyButton
+            android:id="@+id/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape_button_oval_primary"
+            android:drawableRight="@drawable/ic_next"
+            android:foreground="@drawable/ripple_white"
+            android:paddingLeft="32dp"
+            android:paddingRight="@dimen/standard_margin_2x"
+            android:text="ثبت نام"
+            android:textColor="@color/white"
+            android:textSize="@dimen/large_textSize_dp"
+            app:fontCustom="shp_iranSansMobile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText60" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/myTextView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="حساب کاربری ندارید ؟"
+            app:fontCustom="shp_iranSansMobile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.65"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/myTextView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ثبت نام"
+            android:textColor="@color/black"
+            app:fontCustom="shp_iranSansMobile"
+            android:layout_marginRight="@dimen/standard_margin_2x"
+            app:layout_constraintBottom_toBottomOf="@+id/myTextView9"
+            app:layout_constraintRight_toLeftOf="@+id/myTextView9"
+            app:layout_constraintTop_toTopOf="@+id/myTextView9" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

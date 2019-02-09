@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="MyTextView">
+    <declare-styleable name="MyViewFont">
         <attr name="fontCustom" format="integer">
             <enum name="bYekan" value="0" />
             <enum name="iranSans" value="1" />
             <enum name="iranSansBold" value="2" />
+
+            <enum name="shp_iranSans" value="3" />
+            <enum name="shp_iranSansBold" value="4" />
+            <enum name="shp_iranSansLight" value="5" />
+            <enum name="shp_iranSansMobile" value="6" />
+            <enum name="shp_iranSansMobileBold" value="7" />
+            <enum name="shp_iranSansMobileLight" value="8" />
+            <enum name="shp_materialDrawer" value="9" />
+
         </attr>
     </declare-styleable>
 </resources>

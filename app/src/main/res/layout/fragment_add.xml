@@ -1,19 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layoutDirection="rtl"
     tools:context=".Views.fragments.FragmentAdd">
 
-    <!-- TODO: Update blank fragment layout -->
-    <com.ali.rnp.khodemon.MyLibrary.MyTextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textColor="@color/blue_green_top"
-        app:fontCustom="iranSansBold"
-        android:text="اضافه کردن" />
 
-</FrameLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="376dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        app:cardCornerRadius="6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+ >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_primary">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_graduate" />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/myTextView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="8dp"
+                android:text="متخصص ها"
+                app:fontCustom="shp_iranSansMobileBold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/view4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/myTextView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="انتخاب بهترین متخصص برای شما"
+                android:textColor="@color/inactive_01"
+                android:textSize="12dp"
+                app:fontCustom="shp_iranSansMobile"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="@+id/myTextView4"
+                app:layout_constraintTop_toBottomOf="@+id/myTextView4" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="5dp"
+                android:layout_height="0dp"
+                android:background="@color/price_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/light_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        app:cardCornerRadius="6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3"
+>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_primary">
+
+            <ImageView
+                android:id="@+id/imageView30"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_school" />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/myTextView40"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="8dp"
+                android:text="مکان ها"
+                app:fontCustom="shp_iranSansMobileBold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/view40"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/myTextView50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="نزدیک ترین مکان ها"
+                app:fontCustom="shp_iranSansMobile"
+                android:textColor="@color/inactive_01"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="@+id/myTextView40"
+                app:layout_constraintTop_toBottomOf="@+id/myTextView40" />
+
+            <View
+                android:id="@+id/view30"
+                android:layout_width="5dp"
+                android:layout_height="0dp"
+                android:background="@color/red300"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view40"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/light_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/imageView30"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

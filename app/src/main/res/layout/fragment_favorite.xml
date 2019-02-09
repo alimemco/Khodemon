@@ -1,19 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Views.fragments.FragmentFavorite">
+    tools:context=".Views.fragments.FragmentFavorite"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textColor="@color/fragmentForm"
-        app:fontCustom="iranSansBold"
-        android:text="علاقه مندی ها" />
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/standard_margin_2x"
+        android:textSize="@dimen/large_textSize_sp"
+        android:textColor="@color/colorPrimary"
+        app:fontCustom="shp_iranSansLight"
+        android:text="شیپور ایران سنس لایت" />
 
-</FrameLayout>
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/standard_margin_2x"
+        android:textSize="@dimen/large_textSize_sp"
+        android:textColor="@color/colorPrimary"
+        app:fontCustom="shp_iranSans"
+        android:text="شیپور ایران سنس" />
+
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/standard_margin_2x"
+        android:textSize="@dimen/large_textSize_sp"
+        android:textColor="@color/colorPrimary"
+        app:fontCustom="shp_iranSansMobile"
+        android:text="شیپور ایران سنس موبایل" />
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/standard_margin_2x"
+        android:textSize="@dimen/large_textSize_sp"
+        android:textColor="@color/colorPrimary"
+        app:fontCustom="shp_iranSansBold"
+        android:text="شیپور ایران سنس بولد" />
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/standard_margin_2x"
+        android:textSize="@dimen/large_textSize_sp"
+        android:textColor="@color/colorPrimary"
+        app:fontCustom="shp_iranSansMobileBold"
+        android:text="شیپور ایران سنس موبایل بولد" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

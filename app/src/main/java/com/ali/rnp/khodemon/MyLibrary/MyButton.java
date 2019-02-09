@@ -7,9 +7,9 @@ import android.util.AttributeSet;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
 
-import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.AppCompatButton;
 
-public class MyTextView extends AppCompatTextView {
+public class MyButton extends AppCompatButton {
 
     private static final int BYEKAN_FONT = 0;
     private static final int IRAN_SANS_FONT = 1;
@@ -22,20 +22,23 @@ public class MyTextView extends AppCompatTextView {
     private static final int SHP_IRAN_SANS_MOBILE_LIGHT = 8;
     private static final int SHP_MATERIAL_DRAWER = 9;
 
-    public MyTextView(Context context) {
+    public MyButton(Context context) {
         super(context);
         setupFont(null);
+
     }
 
-    public MyTextView(Context context, AttributeSet attrs) {
+    public MyButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupFont(attrs);
     }
 
-    public MyTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MyButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setupFont(attrs);
     }
+
+
 
     private void setupFont(AttributeSet attrs) {
         if (attrs != null) {
