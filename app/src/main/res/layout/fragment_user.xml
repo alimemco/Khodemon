@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Views.fragments.FragmentUser"
     android:layoutDirection="rtl"
-    android:background="@color/backgroundApp">
+    android:background="@color/backgroundApp"
+    android:id="@+id/fragment_user_constraintLayout">
 
     <View
         android:id="@+id/view2"
@@ -64,6 +65,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/fragment_user_cardView_logReg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

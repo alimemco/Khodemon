@@ -21,6 +21,7 @@ import com.ali.rnp.khodemon.DataModel.LocationCity;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.SharedPrefManager;
+import com.ali.rnp.khodemon.TestActivity;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAdd;
 import com.ali.rnp.khodemon.Views.fragments.FragmentFavorite;
 import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
@@ -291,6 +292,8 @@ public class MainActivity extends AppCompatActivity implements
 
 
         cityName = findViewById(R.id.main_activity_city_name_txt);
+        MyTextView titleToolbarTxt = findViewById(R.id.main_activity_toolbar_name_textView);
+        titleToolbarTxt.setOnClickListener(this);
 //        ImageView cityNameImg = findViewById(R.id.main_activity_city_name_img);
         LinearLayout cityLinearLayout = findViewById(R.id.main_activity_city_LinearLayout);
 
@@ -310,15 +313,13 @@ public class MainActivity extends AppCompatActivity implements
                 startActivityForResult(new Intent(MainActivity.this, CityChoose.class), REQUEST_CODE_GET_CITY);
                 break;
 
+            case R.id.main_activity_toolbar_name_textView:
+                startActivity(new Intent(MainActivity.this,TestActivity.class));
+                break;
+
         }
     }
-/*
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-*/
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -365,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void fragmentReplace(Fragment fragment) {
         FragmentTransaction transactionFragment = fragmentManager.beginTransaction();
+       // transactionFragment.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
         transactionFragment.replace(R.id.mainActivity_fragment_container, fragment);
         // transactionFragment.addToBackStack("HomeFragmentStack");
         transactionFragment.commit();

@@ -3,8 +3,6 @@ package com.ali.rnp.khodemon.Views.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +10,13 @@ import android.widget.TextView;
 
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Utils;
 import com.ali.rnp.khodemon.Views.Activites.MainActivity;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,6 +30,11 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
 
     private FragmentLogin fragmentLogin;
     private FragmentRegister fragmentRegister;
+
+    private CardView cardLogReg;
+
+    private ConstraintLayout rootLayout;
+
 
     private static final String TAG = "FragmentUser";
     
@@ -64,10 +68,15 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         
         View rootView = inflater.inflate(R.layout.fragment_user, container, false);
+
+        cardLogReg= rootView.findViewById(R.id.fragment_user_cardView_logReg);
+
+        rootLayout = rootView.findViewById(R.id.fragment_user_constraintLayout);
+
         SetupTabLayout(rootView);
 
+        Utils.startAnimationViewsFade(rootLayout,cardLogReg);
 
-        
         return rootView;
     }
 
@@ -97,11 +106,13 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
                 switch (tab.getPosition()){
                     case 0:
                         replaceFragment(fragmentLogin);
+                        Utils.startAnimationViewsFade(rootLayout,cardLogReg);
                         break;
 
 
                     case 1:
                         replaceFragment(fragmentRegister);
+                        Utils.startAnimationViewsFade(rootLayout,cardLogReg);
                         break;
                 }
             }
@@ -153,6 +164,8 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         fragmentTransaction.replace(R.id.fragment_user_fragment_container,fragment);
         fragmentTransaction.commit();
     }
+
+
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

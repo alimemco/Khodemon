@@ -10,11 +10,12 @@
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_register_constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
-            android:id="@+id/myTextView6"
+            android:id="@+id/fragment_register_txt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -24,13 +25,14 @@
             android:text="نام"
             android:textColor="@color/colorPrimary"
             app:fontCustom="iranSansBold"
-            app:layout_constraintEnd_toEndOf="@+id/editText3"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_editText_name"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/editText3"
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_editText_name"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_txt_family"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -39,14 +41,14 @@
             android:text="نام خانوادگی"
             android:textColor="@color/colorPrimary"
             app:fontCustom="iranSansBold"
-            app:layout_constraintBottom_toBottomOf="@+id/myTextView6"
-            app:layout_constraintEnd_toEndOf="@+id/editText4"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_txt_name"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_editText_family"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/editText4"
-            app:layout_constraintTop_toTopOf="@+id/myTextView6" />
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_editText_family"
+            app:layout_constraintTop_toTopOf="@+id/fragment_register_txt_name" />
 
-        <EditText
-            android:id="@+id/editText3"
+        <com.ali.rnp.khodemon.MyLibrary.MyEditText
+            android:id="@+id/fragment_register_editText_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
@@ -59,14 +61,15 @@
             android:paddingLeft="32dp"
             android:paddingRight="@dimen/standard_margin_2x"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintLeft_toRightOf="@+id/editText4"
+            app:layout_constraintLeft_toRightOf="@+id/fragment_register_editText_family"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myTextView6" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_name" />
 
-        <EditText
-            android:id="@+id/editText4"
+        <com.ali.rnp.khodemon.MyLibrary.MyEditText
+            android:id="@+id/fragment_register_editText_family"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+
             android:layout_marginLeft="16dp"
             android:layout_marginRight="4dp"
             android:background="@drawable/shape_edit_text_user_family"
@@ -75,14 +78,14 @@
             android:inputType="textPersonName"
             android:paddingLeft="32dp"
             android:paddingRight="@dimen/standard_margin_2x"
-            app:layout_constraintBottom_toBottomOf="@+id/editText3"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_editText_name"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/editText3"
-            app:layout_constraintTop_toTopOf="@+id/editText3" />
+            app:layout_constraintRight_toLeftOf="@+id/fragment_register_editText_name"
+            app:layout_constraintTop_toTopOf="@+id/fragment_register_editText_name" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
-            android:id="@+id/myTextView7"
+            android:id="@+id/fragment_register_txt_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -96,10 +99,10 @@
             app:fontCustom="iranSansBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText3" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_name" />
 
-        <EditText
-            android:id="@+id/editText5"
+        <com.ali.rnp.khodemon.MyLibrary.MyEditText
+            android:id="@+id/fragment_register_editText_username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -115,10 +118,10 @@
             android:paddingRight="@dimen/standard_margin_2x"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myTextView7" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_user" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
-            android:id="@+id/myTextView8"
+            android:id="@+id/fragment_register_txt_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -132,12 +135,13 @@
             app:fontCustom="iranSansBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText5" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_username" />
 
-        <EditText
-            android:id="@+id/editText60"
+        <com.ali.rnp.khodemon.MyLibrary.MyEditText
+            android:id="@+id/fragment_register_editText_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
@@ -152,12 +156,13 @@
             android:paddingRight="@dimen/standard_margin_2x"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myTextView8" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_password" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyButton
-            android:id="@+id/button"
+            android:id="@+id/fragment_register_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="36dp"
@@ -175,13 +180,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText60" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_password" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
-            android:id="@+id/myTextView9"
+            android:id="@+id/fragment_register_txt_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:visibility="visible"
             android:layout_marginBottom="24dp"
             android:text="حساب کاربری ندارید ؟"
             app:fontCustom="shp_iranSansMobile"
@@ -189,19 +195,19 @@
             app:layout_constraintHorizontal_bias="0.65"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_button" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
-            android:id="@+id/myTextView10"
+            android:id="@+id/fragment_register_txt_questionLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ثبت نام"
-            android:textColor="@color/black"
+            android:text="ایجاد حساب کاربری"
+            android:textColor="@color/dark_gray"
             app:fontCustom="shp_iranSansMobile"
             android:layout_marginRight="@dimen/standard_margin_2x"
-            app:layout_constraintBottom_toBottomOf="@+id/myTextView9"
-            app:layout_constraintRight_toLeftOf="@+id/myTextView9"
-            app:layout_constraintTop_toTopOf="@+id/myTextView9" />
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_txt_question"
+            app:layout_constraintRight_toLeftOf="@+id/fragment_register_txt_question"
+            app:layout_constraintTop_toTopOf="@+id/fragment_register_txt_question" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

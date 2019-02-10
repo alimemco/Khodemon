@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestActivity"
+    android:id="@+id/activity_test_root">
+
+    <View
+        android:id="@+id/red_box"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/blue_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/red500"
+        android:visibility="invisible"/>
+
+    <View
+        android:id="@+id/green_box"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toTopOf="@+id/black_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/red_box"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/price_green"
+        android:visibility="invisible"/>
+
+    <View
+        android:id="@+id/blue_box"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/red_box"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/red_box"
+        app:layout_constraintTop_toBottomOf="@+id/red_box"
+        android:background="@color/blue_green_top"
+        android:visibility="invisible"/>
+
+    <View
+        android:id="@+id/black_box"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/green_box"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/green_box"
+        app:layout_constraintTop_toBottomOf="@+id/green_box"
+        android:background="@color/fragmentForm"
+        android:visibility="invisible"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
