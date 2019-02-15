@@ -15,5 +15,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Home</string>
+    <string name="login">ورود</string>
+    <string name="register">ثبت نام</string>
+    <string name="name">نام</string>
+    <string name="family">نام خانوادگی</string>
+    <string name="username">نام کاربری</string>
+    <string name="password">پسورد</string>
+    <string name="doNotHaveAcc">حساب کاربری ندارید ؟</string>
+    <string name="createAcc">ایجاد حساب کاربری</string>
 
 </resources>

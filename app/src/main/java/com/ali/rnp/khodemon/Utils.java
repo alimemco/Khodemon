@@ -1,5 +1,8 @@
 package com.ali.rnp.khodemon;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,13 @@ public class Utils {
 
     }
 
+    public static boolean isConnectedToNetwork(Context context){
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo!=null && networkInfo.isConnected();
+
+    }
     public static void startAnimationViewsSlide(final View rootLayout, final View... views) {
         for (View view : views){
             view.setVisibility(View.INVISIBLE);

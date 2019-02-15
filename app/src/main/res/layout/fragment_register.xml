@@ -6,13 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".Views.fragments.FragmentLogin"
     android:layoutDirection="rtl"
-
+    tools:ignore="RtlHardcoded"
     >
-
+    <!-- TODO : change wrap To match -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_register_constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
             android:id="@+id/fragment_register_txt_name"
@@ -22,7 +24,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="16dp"
             android:gravity="center"
-            android:text="نام"
+            android:text="@string/name"
             android:textColor="@color/colorPrimary"
             app:fontCustom="iranSansBold"
             app:layout_constraintEnd_toEndOf="@+id/fragment_register_editText_name"
@@ -38,7 +40,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:gravity="center"
-            android:text="نام خانوادگی"
+            android:text="@string/family"
             android:textColor="@color/colorPrimary"
             app:fontCustom="iranSansBold"
             app:layout_constraintBottom_toBottomOf="@+id/fragment_register_txt_name"
@@ -90,16 +92,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:gravity="center"
-            android:text="نام کاربری"
+            android:text="@string/username"
             android:textColor="@color/colorPrimary"
             app:fontCustom="iranSansBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_name" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_name_error" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyEditText
             android:id="@+id/fragment_register_editText_username"
@@ -126,25 +128,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:gravity="center"
-            android:text="پسورد"
+            android:text="@string/password"
             android:textColor="@color/colorPrimary"
             app:fontCustom="iranSansBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_username" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_user_exist" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyEditText
             android:id="@+id/fragment_register_editText_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:visibility="visible"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:background="@drawable/shape_edit_text_user_login_register"
@@ -154,6 +154,7 @@
             android:inputType="textPersonName"
             android:paddingLeft="32dp"
             android:paddingRight="@dimen/standard_margin_2x"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_password" />
@@ -173,14 +174,15 @@
             android:foreground="@drawable/ripple_white"
             android:paddingLeft="32dp"
             android:paddingRight="@dimen/standard_margin_2x"
-            android:text="ثبت نام"
+            android:text="@string/register"
             android:textColor="@color/white"
             android:textSize="@dimen/large_textSize_dp"
             app:fontCustom="shp_iranSansMobile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_password" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_password"
+            tools:ignore="RtlHardcoded" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
             android:id="@+id/fragment_register_txt_question"
@@ -189,7 +191,7 @@
             android:layout_marginTop="24dp"
             android:visibility="visible"
             android:layout_marginBottom="24dp"
-            android:text="حساب کاربری ندارید ؟"
+            android:text="@string/doNotHaveAcc"
             app:fontCustom="shp_iranSansMobile"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.65"
@@ -201,7 +203,7 @@
             android:id="@+id/fragment_register_txt_questionLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ایجاد حساب کاربری"
+            android:text="@string/createAcc"
             android:textColor="@color/dark_gray"
             app:fontCustom="shp_iranSansMobile"
             android:layout_marginRight="@dimen/standard_margin_2x"
@@ -209,6 +211,66 @@
             app:layout_constraintRight_toLeftOf="@+id/fragment_register_txt_question"
             app:layout_constraintTop_toTopOf="@+id/fragment_register_txt_question" />
 
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_txt_user_exist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center_horizontal"
+            android:text="نام کاربری تکراری می باشد"
+            android:textColor="@color/price_red"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            app:fontCustom="shp_iranSansMobile"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_editText_username"
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_editText_username"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_username" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_txt_user_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center_horizontal"
+            android:text="نام کاربری نمی تواند می باشد"
+            android:textColor="@color/price_red"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            app:fontCustom="shp_iranSansMobile"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_editText_username"
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_editText_username"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_username" />
+
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_txt_name_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center_horizontal"
+            android:text="نام و نام خانوادگی نمی تواند خالی باشد"
+            android:visibility="invisible"
+            android:textColor="@color/price_red"
+            android:textSize="12sp"
+            app:fontCustom="shp_iranSansMobile"
+            app:layout_constraintLeft_toLeftOf="@+id/fragment_register_editText_family"
+            app:layout_constraintRight_toRightOf="@+id/fragment_register_editText_name"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_name" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_txt_password_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center_horizontal"
+            android:text="کلمه عبور نمی تواند خالی باشد"
+            android:visibility="invisible"
+            android:textColor="@color/price_red"
+            android:textSize="12sp"
+            app:fontCustom="shp_iranSansMobile"
+            app:layout_constraintLeft_toLeftOf="@+id/fragment_register_editText_password"
+            app:layout_constraintRight_toRightOf="@+id/fragment_register_editText_password"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_password" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
