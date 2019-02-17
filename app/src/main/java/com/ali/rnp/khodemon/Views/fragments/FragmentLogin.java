@@ -20,6 +20,8 @@ import org.json.JSONObject;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import me.zhanghai.android.materialprogressbar.IndeterminateHorizontalProgressDrawable;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 
 public class FragmentLogin extends Fragment {
@@ -34,6 +36,8 @@ public class FragmentLogin extends Fragment {
     private MyEditText passwordEdTxt;
 
     private MyButton loginBtn;
+    private MaterialProgressBar materialProgressBar;
+
 
     private ConstraintLayout rootlayout;
 
@@ -84,6 +88,8 @@ public class FragmentLogin extends Fragment {
                 !passwordEdTxt.getText().toString().equals("")) {
 
 
+            materialProgressBar.setVisibility(View.VISIBLE);
+
             JSONObject jsonObjectLogin = new JSONObject();
             try {
                 jsonObjectLogin.put(USER_NAME_LOGIN, usernameEdTxt.getText().toString());
@@ -94,9 +100,11 @@ public class FragmentLogin extends Fragment {
                 apiService.loginUser(jsonObjectLogin, new ApiService.OnLoginCompleted() {
                     @Override
                     public void onLoginStatusReceived(int status) {
+                        materialProgressBar.setVisibility(View.INVISIBLE);
                         switch (status) {
                             case ApiService.STATUS_Login_ERROR:
                                 Toast.makeText(getContext(),"Error Login",Toast.LENGTH_SHORT).show();
+
                                 break;
 
                             case 1:
@@ -142,6 +150,8 @@ public class FragmentLogin extends Fragment {
         questionTxt = rootView.findViewById(R.id.fragment_login_textView_question);
         usernameEdTxt = rootView.findViewById(R.id.fragment_login_editText_username);
         passwordEdTxt = rootView.findViewById(R.id.fragment_login_editText_password);
+
+        materialProgressBar = rootView.findViewById(R.id.fragment_login_materialProgressBar);
 
         rootlayout = rootView.findViewById(R.id.fragment_login_constraintLayout);
 

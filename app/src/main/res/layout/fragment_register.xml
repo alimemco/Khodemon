@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".Views.fragments.FragmentLogin"
     android:layoutDirection="rtl"
+    android:id="@+id/fragment_register_scrollView"
     tools:ignore="RtlHardcoded"
     >
-    <!-- TODO : change wrap To match -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_register_constraintLayout"
         android:layout_width="match_parent"
@@ -43,6 +43,7 @@
             android:text="@string/family"
             android:textColor="@color/colorPrimary"
             app:fontCustom="iranSansBold"
+
             app:layout_constraintBottom_toBottomOf="@+id/fragment_register_txt_name"
             app:layout_constraintEnd_toEndOf="@+id/fragment_register_editText_family"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -58,6 +59,9 @@
             android:background="@drawable/shape_edit_text_user_name"
             android:drawableRight="@drawable/ic_user"
             android:ems="10"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:nextFocusForward="@id/fragment_register_editText_family"
             android:gravity="center"
             android:inputType="textPersonName"
             android:paddingLeft="32dp"
@@ -71,11 +75,11 @@
             android:id="@+id/fragment_register_editText_family"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:layout_marginLeft="16dp"
             android:layout_marginRight="4dp"
             android:background="@drawable/shape_edit_text_user_family"
             android:ems="10"
+            android:singleLine="true"
             android:gravity="center"
             android:inputType="textPersonName"
             android:paddingLeft="32dp"
@@ -149,6 +153,7 @@
             android:layout_marginRight="16dp"
             android:background="@drawable/shape_edit_text_user_login_register"
             android:drawableRight="@drawable/ic_padlock"
+            android:imeOptions="actionGo"
             android:ems="10"
             android:gravity="center"
             android:inputType="textPersonName"
@@ -158,6 +163,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_password" />
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/fragment_register_pass_progressbar"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:indeterminate="false"
+            app:mpb_progressTint="@color/colorPrimary"
+            app:mpb_secondaryProgressTint="@color/light_gray"
+            android:max="100"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_txt_password_error"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_editText_password"
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_editText_password"
+            app:layout_constraintTop_toTopOf="@+id/fragment_register_txt_password_error"
+            app:mpb_progressStyle="horizontal" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyButton
             android:id="@+id/fragment_register_button"

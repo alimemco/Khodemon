@@ -87,6 +87,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_login_textView_password" />
 
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/fragment_login_materialProgressBar"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_login_button_login"
+            app:layout_constraintStart_toStartOf="@+id/fragment_login_button_login"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_login_button_login"
+            app:mpb_indeterminateTint="@color/colorPrimary"
+            app:mpb_progressStyle="horizontal" />
+
         <com.ali.rnp.khodemon.MyLibrary.MyButton
             android:id="@+id/fragment_login_button_login"
             android:layout_width="0dp"
@@ -102,12 +120,14 @@
             android:foreground="@drawable/ripple_white"
             android:paddingLeft="32dp"
             android:paddingRight="@dimen/standard_margin_2x"
+
             android:text="ورود"
             android:textSize="@dimen/large_textSize_dp"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_login_editText_password" />
+
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
             android:id="@+id/fragment_login_textView_question"
@@ -125,7 +145,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_login_button_login" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_login_materialProgressBar" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

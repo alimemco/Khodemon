@@ -43,6 +43,12 @@
     <color name="subset_icon">#01579B</color>
     <color name="price_red">#ef5350</color>
     <color name="price_green">#66BB6A</color>
+    <color name="red_400">#f44336</color>
+    <color name="orange_400">#FF9800</color>
+    <color name="yellow_400">#FDD835</color>
+    <color name="green_light_400">#CDDC39</color>
+    <color name="green_dark_500">#4CAF50</color>
+
 
 
 </resources>

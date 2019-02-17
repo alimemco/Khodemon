@@ -1,49 +1,58 @@
 package com.ali.rnp.khodemon;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.transition.AutoTransition;
-import androidx.transition.ChangeBounds;
-import androidx.transition.ChangeClipBounds;
-import androidx.transition.ChangeImageTransform;
-import androidx.transition.ChangeScroll;
-import androidx.transition.ChangeTransform;
-import androidx.transition.Fade;
-import androidx.transition.Slide;
-import androidx.transition.TransitionManager;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.ali.rnp.khodemon.Views.CustomViews.CustomLoadingDialog;
+import com.roger.catloadinglibrary.CatLoadingView;
+
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ViewGroup mRootView;
-    private View mRedBox, mGreenBox, mBlueBox, mBlackBox;
+    private Button catBtn,customBtn;
+    private CatLoadingView mView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        mRootView = (ViewGroup) findViewById(R.id.activity_test_root);
-        mRootView.setOnClickListener(this);
+        mView = new CatLoadingView();
 
-        mRedBox = findViewById(R.id.red_box);
-        mGreenBox = findViewById(R.id.green_box);
-        mBlueBox = findViewById(R.id.blue_box);
-        mBlackBox = findViewById(R.id.black_box);
+        catBtn = findViewById(R.id.test_btn1);
+        customBtn = findViewById(R.id.testBtn2);
+
+        catBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mView.setText("test");
+                mView.setCanceledOnTouchOutside(true);
+                mView.show(getSupportFragmentManager(),"tag");
+            }
+        });
+
+        customBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomLoadingDialog cdd=new CustomLoadingDialog(TestActivity.this);
+
+                cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                cdd.show();
+            }
+        });
+
     }
 
     @Override
     public void onClick(View v) {
-        TransitionManager.beginDelayedTransition(mRootView, new Slide());
-        toggleVisibility(mRedBox, mGreenBox, mBlueBox, mBlackBox);
+
     }
 
-    private static void toggleVisibility(View... views) {
-        for (View view : views) {
-            boolean isVisible = view.getVisibility() == View.VISIBLE;
-            view.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
-        }
-    }
+
 }
