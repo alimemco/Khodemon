@@ -59,6 +59,7 @@
             android:background="@drawable/shape_edit_text_user_name"
             android:drawableRight="@drawable/ic_user"
             android:ems="10"
+            app:fontCustom="shp_iranSansMobile"
             android:imeOptions="actionNext"
             android:singleLine="true"
             android:nextFocusForward="@id/fragment_register_editText_family"
@@ -79,6 +80,7 @@
             android:layout_marginRight="4dp"
             android:background="@drawable/shape_edit_text_user_family"
             android:ems="10"
+            app:fontCustom="shp_iranSansMobile"
             android:singleLine="true"
             android:gravity="center"
             android:inputType="textPersonName"
@@ -143,6 +145,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_user_exist" />
 
+
         <com.ali.rnp.khodemon.MyLibrary.MyEditText
             android:id="@+id/fragment_register_editText_password"
             android:layout_width="0dp"
@@ -156,10 +159,11 @@
             android:imeOptions="actionGo"
             android:ems="10"
             android:gravity="center"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:paddingLeft="32dp"
             android:paddingRight="@dimen/standard_margin_2x"
             android:visibility="visible"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_password" />
@@ -169,29 +173,26 @@
             style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="8dp"
             android:indeterminate="false"
-            app:mpb_progressTint="@color/colorPrimary"
-            app:mpb_secondaryProgressTint="@color/light_gray"
             android:max="100"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_txt_password_error"
-            app:layout_constraintEnd_toEndOf="@+id/fragment_register_editText_password"
-            app:layout_constraintStart_toStartOf="@+id/fragment_register_editText_password"
-            app:layout_constraintTop_toTopOf="@+id/fragment_register_txt_password_error"
-            app:mpb_progressStyle="horizontal" />
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_txt_passLevel"
+            app:layout_constraintLeft_toLeftOf="@+id/fragment_register_editText_password"
+            app:layout_constraintRight_toLeftOf="@+id/fragment_register_txt_passLevel"
+            app:layout_constraintTop_toTopOf="@+id/fragment_register_txt_passLevel"
+            app:mpb_progressStyle="horizontal"
+            app:mpb_progressTint="@color/colorPrimary"
+            app:mpb_secondaryProgressTint="@color/light_gray" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyButton
             android:id="@+id/fragment_register_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:visibility="visible"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:background="@drawable/shape_button_oval_primary"
@@ -202,21 +203,22 @@
             android:text="@string/register"
             android:textColor="@color/white"
             android:textSize="@dimen/large_textSize_dp"
+            android:visibility="visible"
             app:fontCustom="shp_iranSansMobile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_password"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_check_char_imageView"
             tools:ignore="RtlHardcoded" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
             android:id="@+id/fragment_register_txt_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:visibility="visible"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
             android:text="@string/doNotHaveAcc"
+            android:visibility="visible"
             app:fontCustom="shp_iranSansMobile"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.65"
@@ -286,16 +288,129 @@
             android:id="@+id/fragment_register_txt_password_error"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="8dp"
             android:gravity="center_horizontal"
             android:text="کلمه عبور نمی تواند خالی باشد"
-            android:visibility="invisible"
             android:textColor="@color/price_red"
             android:textSize="12sp"
+            android:visibility="invisible"
             app:fontCustom="shp_iranSansMobile"
-            app:layout_constraintLeft_toLeftOf="@+id/fragment_register_editText_password"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_editText_password"
+            app:layout_constraintRight_toRightOf="@+id/fragment_register_editText_password"
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_editText_password"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_password" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_txt_passLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:text="ضعیف"
+            android:visibility="visible"
+            app:fontCustom="shp_iranSansMobile"
             app:layout_constraintRight_toRightOf="@+id/fragment_register_editText_password"
             app:layout_constraintTop_toBottomOf="@+id/fragment_register_editText_password" />
+
+        <ImageView
+            android:id="@+id/fragment_register_check_lowerCase_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/ic_check_box_empty"
+            android:layout_marginRight="@dimen/standard_margin_2x"
+            app:layout_constraintRight_toRightOf="@+id/fragment_register_txt_passLevel"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_txt_passLevel" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_check_lowerCase_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:text="حروف کوچک ( a-z )"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_register_check_lowerCase_imageView"
+            app:layout_constraintRight_toLeftOf="@id/fragment_register_check_lowerCase_imageView"
+            app:layout_constraintTop_toTopOf="@id/fragment_register_check_lowerCase_imageView" />
+
+        <ImageView
+            android:id="@+id/fragment_register_check_upperCase_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/ic_check_box_empty"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_check_lowerCase_imageView"
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_check_lowerCase_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_check_lowerCase_imageView" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_check_upperCase_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:text="حروف بزرگ ( A-Z )"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_check_upperCase_imageView"
+            app:layout_constraintRight_toLeftOf="@+id/fragment_register_check_upperCase_imageView"
+            app:layout_constraintTop_toTopOf="@+id/fragment_register_check_upperCase_imageView" />
+
+        <ImageView
+            android:id="@+id/fragment_register_check_lentgh_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/ic_check_box_empty"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_check_upperCase_imageView"
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_check_upperCase_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_check_upperCase_imageView" />
+
+        <ImageView
+            android:id="@+id/fragment_register_check_number_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/ic_check_box_empty"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_check_lentgh_imageView"
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_check_lentgh_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_check_lentgh_imageView" />
+
+        <ImageView
+            android:id="@+id/fragment_register_check_char_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/ic_check_box_empty"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_register_check_number_imageView"
+            app:layout_constraintStart_toStartOf="@+id/fragment_register_check_number_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_register_check_number_imageView" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_check_length_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:text="طول ( 8 کاراکتر )"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_check_lentgh_imageView"
+            app:layout_constraintRight_toLeftOf="@+id/fragment_register_check_lentgh_imageView"
+            app:layout_constraintTop_toTopOf="@+id/fragment_register_check_lentgh_imageView" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_check_number_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="اعداد ( 9-0 )"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_check_number_imageView"
+            app:layout_constraintRight_toLeftOf="@+id/fragment_register_check_number_imageView"
+            android:layout_marginRight="@dimen/standard_margin"
+            app:layout_constraintTop_toTopOf="@+id/fragment_register_check_number_imageView" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_register_check_char_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="کاراکترها (* /  $ @ )"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_register_check_char_imageView"
+            app:layout_constraintRight_toLeftOf="@+id/fragment_register_check_char_imageView"
+           android:layout_marginRight="@dimen/standard_margin"
+            app:layout_constraintTop_toTopOf="@+id/fragment_register_check_char_imageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

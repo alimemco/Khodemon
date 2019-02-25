@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 
 public class MyEditText extends AppCompatEditText {
 
+    private static final int Default_FONT = -1;
     private static final int BYEKAN_FONT = 0;
     private static final int IRAN_SANS_FONT = 1;
     private static final int IRAN_SANS_BOLD_FONT = 2;
@@ -42,7 +43,7 @@ public class MyEditText extends AppCompatEditText {
             TypedArray attributes = getContext().obtainStyledAttributes(attrs, R.styleable.MyViewFont);
 
             try {
-                int Font = attributes.getInteger(R.styleable.MyViewFont_fontCustom, BYEKAN_FONT);
+                int Font = attributes.getInteger(R.styleable.MyViewFont_fontCustom, Default_FONT);
 
                 switch (Font) {
                     case BYEKAN_FONT:

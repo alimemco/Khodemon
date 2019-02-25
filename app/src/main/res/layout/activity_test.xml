@@ -8,6 +8,7 @@
     android:id="@+id/activity_test_root">
 
     <com.hamza.slidingsquaresloaderview.SlidingSquareLoaderView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/slidingSquareLoaderView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -52,6 +53,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/test_btn1" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slidingSquareLoaderView"
+        app:passwordToggleEnabled="true"
+        android:layoutDirection="rtl">
+
+        <com.ali.rnp.khodemon.MyLibrary.MyEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_edit_text_user_login_register"
+            android:paddingRight="@dimen/standard_margin_2x"
+            android:paddingLeft="@dimen/standard_margin_2x"
+            android:inputType="textPassword"
+            android:gravity="center"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

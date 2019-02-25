@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.Activites.MainActivity" />
+        <activity android:name=".Views.Activites.MainActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".Views.SplashScreen"
             android:theme="@style/SplashTheme">

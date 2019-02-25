@@ -6,11 +6,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +28,8 @@ import com.ali.rnp.khodemon.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.regex.Pattern;
-
+import androidx.annotation.ColorRes;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
@@ -48,6 +50,21 @@ public class FragmentRegister extends Fragment {
     private MyTextView questionTxt;
     private MyTextView questionLinkTxt;
 
+    private MyTextView lowerCaseTextCheck;
+    private MyTextView upperCaseTextCheck;
+    private MyTextView lengthTextCheck;
+    private MyTextView numberTextCheck;
+    private MyTextView charTextCheck;
+
+    private ImageView lowerCaseImageCheck;
+    private ImageView upperCaseImageCheck;
+    private ImageView lengthImageCheck;
+    private ImageView numberImageCheck;
+    private ImageView charImageCheck;
+
+
+    private MyTextView passLevelTxt;
+
     private MyEditText nameEdTxt;
     private MyEditText familyEdTxt;
     private MyEditText userEdTxt;
@@ -60,11 +77,13 @@ public class FragmentRegister extends Fragment {
     private ViewGroup rootLayout;
     private MaterialProgressBar progressBarPass;
 
-    int currentProgress=0;
-    int securityLevelLength =0;
-    int securityLevelChar =0;
-    int securityLevelNumber =0;
-    int securityLevelLetter =0;
+    private int numberPresent = 0;
+    private int upperCasePresent = 0;
+    private int lowerCasePresent = 0;
+    private int lengthPresent = 0;
+    private int specialCharacterPresent = 0;
+
+    private int currentProgress = 0;
 
 
     private static final String TAG = "FragmentRegister";
@@ -98,6 +117,8 @@ public class FragmentRegister extends Fragment {
 
         initViews(rootView);
 
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
         Utils.startAnimationViewsSlide(rootLayout,
                 nameTxt, familyTxt, userTxt, passwordTxt, questionTxt, questionLinkTxt,
                 nameEdTxt, familyEdTxt, userEdTxt, passwordEdTxt,
@@ -110,11 +131,15 @@ public class FragmentRegister extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
 
-                if (hasFocus || passwordEdTxt.isFocused()){
+                if (hasFocus || passwordEdTxt.isFocused()) {
                     progressBarPass.setVisibility(View.VISIBLE);
-                    scrollView.fullScroll(View.FOCUS_DOWN);
-                }else {
-                    scrollView.scrollTo(0,0);
+                   scrollView.fullScroll(View.FOCUS_DOWN);
+                    passLevelTxt.setVisibility(View.VISIBLE);
+                    passTxtError.setVisibility(View.INVISIBLE);
+
+
+                } else {
+                    scrollView.scrollTo(0, 0);
                 }
             }
         });
@@ -140,7 +165,6 @@ public class FragmentRegister extends Fragment {
     private void passwordSecurityCheck() {
 
 
-
         passwordEdTxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -152,7 +176,40 @@ public class FragmentRegister extends Fragment {
 
                 int level = checkSecurityLevel(s.toString());
 
+                if (level == 0) {
 
+                    passLevelTxt.setVisibility(View.INVISIBLE);
+                    progressBarPass.setVisibility(View.INVISIBLE);
+
+                    setGonePassViews(lowerCaseImageCheck,
+                            upperCaseImageCheck,
+                            lengthImageCheck,
+                            numberImageCheck,
+                            charImageCheck,
+                            lowerCaseTextCheck,
+                            upperCaseTextCheck,
+                            lengthTextCheck,
+                            numberTextCheck,
+                            charTextCheck
+
+                    );
+
+
+                } else {
+
+                    setVisibilityPassViews(lowerCaseImageCheck,
+                            upperCaseImageCheck,
+                            lengthImageCheck,
+                            numberImageCheck,
+                            charImageCheck,
+                            lowerCaseTextCheck,
+                            upperCaseTextCheck,
+                            lengthTextCheck,
+                            numberTextCheck,
+                            charTextCheck,
+                            progressBarPass,
+                            passLevelTxt);
+                }
 
                 ProgressBarAnimation anim = new ProgressBarAnimation(progressBarPass, currentProgress, level);
                 anim.setDuration(700);
@@ -161,6 +218,12 @@ public class FragmentRegister extends Fragment {
                 changeProgressColor(level);
 
                 currentProgress = level;
+
+                setCheckImageView(lowerCasePresent, lowerCaseImageCheck);
+                setCheckImageView(upperCasePresent, upperCaseImageCheck);
+                setCheckImageView(lengthPresent, lengthImageCheck);
+                setCheckImageView(numberPresent, numberImageCheck);
+                setCheckImageView(specialCharacterPresent, charImageCheck);
 
             }
 
@@ -171,34 +234,48 @@ public class FragmentRegister extends Fragment {
         });
     }
 
-    private void changeProgressColor(int level) {
-        if (level >=0 && level <= 20){
-            progressBarPass.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(),R.color.red500)));
-
-        }else if (level >=21 && level <= 40){
-            progressBarPass.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(),R.color.orange_400)));
-
-        }else if (level >=41 && level <= 60){
-            progressBarPass.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(),R.color.yellow_400)));
-
-        }else if (level >=61 && level <= 80){
-            progressBarPass.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(),R.color.green_light_400)));
-
-        }else if (level >=81 && level <= 100){
-            progressBarPass.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(),R.color.green_dark_500)));
-
+    private void setCheckImageView(int levelPassed, ImageView imageView) {
+        if (levelPassed == 20) {
+            imageView.setImageResource(R.drawable.ic_check);
+        } else {
+            imageView.setImageResource(R.drawable.ic_check_box_empty);
         }
     }
 
+    private void changeProgressColor(int level) {
 
-    private static int checkSecurityLevel(String input) {
+        if (level >= 0 && level <= 20) {
+            changeColorAndTextLevel(R.color.red_level, "بسیار ضعیف");
+
+        } else if (level >= 21 && level <= 40) {
+            changeColorAndTextLevel(R.color.orange_level, "ضعیف");
+
+        } else if (level >= 41 && level <= 60) {
+            changeColorAndTextLevel(R.color.blue_level, "خوب");
+
+        } else if (level >= 61 && level <= 80) {
+            changeColorAndTextLevel(R.color.green_light_level, "قوی");
+
+        } else if (level >= 81 && level <= 100) {
+            changeColorAndTextLevel(R.color.green_dark_level, "کم نظیر :)");
+        }
+    }
+
+    private void changeColorAndTextLevel(@ColorRes int colorLevel, CharSequence textLevel) {
+        progressBarPass.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), colorLevel)));
+        passLevelTxt.setText(textLevel);
+    }
+
+
+    private int checkSecurityLevel(String input) {
         String specialChars = "~`!@#$%^&*()-_=+\\|[{]};:'\",<.>/?";
         char currentCharacter;
-        int numberPresent = 0;
-        int upperCasePresent = 0;
-        int lowerCasePresent = 0;
-        int lengthPresent = 0;
-        int specialCharacterPresent = 0;
+
+        numberPresent = 0;
+        upperCasePresent = 0;
+        lowerCasePresent = 0;
+        lengthPresent = 0;
+        specialCharacterPresent = 0;
 
         for (int i = 0; i < input.length(); i++) {
             currentCharacter = input.charAt(i);
@@ -213,13 +290,15 @@ public class FragmentRegister extends Fragment {
             }
         }
 
-        if (input.length() >= 8){
-            lengthPresent = 20 ;
+        if (input.length() >= 8) {
+            lengthPresent = 20;
         }
 
+
         return
-                numberPresent + upperCasePresent + lowerCasePresent + specialCharacterPresent +lengthPresent;
+                numberPresent + upperCasePresent + lowerCasePresent + specialCharacterPresent + lengthPresent;
     }
+
     private void validateFields() {
 
         if (!nameEdTxt.getText().toString().equals("") &&
@@ -250,6 +329,7 @@ public class FragmentRegister extends Fragment {
             if (passwordEdTxt.getText().toString().equals("")) {
 
                 Utils.startAnimationViewsFade(rootLayout, passTxtError);
+
             } else {
                 passTxtError.setVisibility(View.INVISIBLE);
             }
@@ -320,6 +400,8 @@ public class FragmentRegister extends Fragment {
         nameTxtError = rootView.findViewById(R.id.fragment_register_txt_name_error);
         passTxtError = rootView.findViewById(R.id.fragment_register_txt_password_error);
 
+        passLevelTxt = rootView.findViewById(R.id.fragment_register_txt_passLevel);
+
 
         registerBtn = rootView.findViewById(R.id.fragment_register_button);
 
@@ -332,10 +414,33 @@ public class FragmentRegister extends Fragment {
 
         scrollView = rootView.findViewById(R.id.fragment_register_scrollView);
 
+        lowerCaseImageCheck = rootView.findViewById(R.id.fragment_register_check_lowerCase_imageView);
+        upperCaseImageCheck = rootView.findViewById(R.id.fragment_register_check_upperCase_imageView);
+        lengthImageCheck = rootView.findViewById(R.id.fragment_register_check_lentgh_imageView);
+        numberImageCheck = rootView.findViewById(R.id.fragment_register_check_number_imageView);
+        charImageCheck = rootView.findViewById(R.id.fragment_register_check_char_imageView);
+
+        lowerCaseTextCheck = rootView.findViewById(R.id.fragment_register_check_lowerCase_txt);
+        upperCaseTextCheck = rootView.findViewById(R.id.fragment_register_check_upperCase_txt);
+        lengthTextCheck = rootView.findViewById(R.id.fragment_register_check_length_txt);
+        numberTextCheck = rootView.findViewById(R.id.fragment_register_check_number_txt);
+        charTextCheck = rootView.findViewById(R.id.fragment_register_check_char_txt);
+
+        setGonePassViews(lowerCaseImageCheck,
+                upperCaseImageCheck,
+                lengthImageCheck,
+                numberImageCheck,
+                charImageCheck,
+                lowerCaseTextCheck,
+                upperCaseTextCheck,
+                lengthTextCheck,
+                numberTextCheck,
+                charTextCheck,
+                progressBarPass,
+                passLevelTxt);
+
 
         rootLayout = rootView.findViewById(R.id.fragment_register_constraintLayout);
-
-
 
 
         passwordEdTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -348,6 +453,22 @@ public class FragmentRegister extends Fragment {
                 return false;
             }
         });
+    }
+
+    private void setGonePassViews(View... views) {
+
+        for (View view : views) {
+            view.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void setVisibilityPassViews(View... views) {
+
+        for (View view : views) {
+            view.setVisibility(View.VISIBLE);
+        }
+
     }
 
 

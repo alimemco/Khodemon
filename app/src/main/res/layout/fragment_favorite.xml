@@ -1,235 +1,353 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Views.fragments.FragmentFavorite"
-    android:background="#AAECEFF1"
+    android:background="@color/gray_100"
 >
 
-
-    <FrameLayout
-        android:id="@+id/cardView5"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="2dp"
-        android:background="@drawable/shape_home_background_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="match_parent">
 
 
-
-
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
+            android:id="@+id/cardView5"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:layout_height="300dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView4"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
-                <ss.com.bannerslider.Slider
-                    android:id="@+id/fragment_fav_MainSlider"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView4"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:slider_animateIndicators="true"
-                    app:slider_defaultBanner="1"
-                    app:slider_interval="3000"
-                    app:slider_loopSlides="true" />
-            </androidx.cardview.widget.CardView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <com.ali.rnp.khodemon.MyLibrary.MyEditText
-                android:id="@+id/editText7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/shape_search_home_edit_text"
-                android:drawableRight="@drawable/ic_search"
-                android:ems="10"
-                app:fontCustom="shp_iranSansMobileLight"
-                android:gravity="center"
-                android:hint="مکان یا افراد متخصص رو پیدا کن .."
-                android:inputType="textAutoComplete"
-                android:paddingLeft="@dimen/standard_margin_2x"
-                android:paddingRight="@dimen/standard_margin_2x"
-                app:layout_constraintBottom_toBottomOf="parent"
+                    <ss.com.bannerslider.Slider
+                        android:id="@+id/fragment_fav_MainSlider"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:slider_animateIndicators="true"
+                        app:slider_defaultBanner="1"
+                        app:slider_interval="3000"
+                        app:slider_loopSlides="true" />
+                </androidx.cardview.widget.CardView>
+
+                <com.ali.rnp.khodemon.MyLibrary.MyEditText
+                    android:id="@+id/editText7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shape_search_home_edit_text"
+                    android:drawableLeft="@drawable/ic_search"
+                    android:ems="10"
+                    android:gravity="right|center_vertical"
+                    android:hint="مکان یا افراد متخصص رو پیدا کن .."
+                    android:inputType="textAutoComplete"
+                    android:paddingLeft="@dimen/standard_margin_2x"
+                    android:paddingRight="@dimen/standard_margin_2x"
+                    app:fontCustom="bYekan"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView4" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/cardT"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView5">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView4" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+                app:layout_constraintTop_toBottomOf="@+id/cardView5">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:cardCornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView5">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="3dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_gradiant_red_orange">
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginStart="60dp"
+                            android:layout_marginLeft="60dp"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginEnd="60dp"
+                            android:layout_marginRight="60dp"
+                            android:background="@drawable/shape_gray_sq"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_shop" />
+
+                        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                            android:id="@+id/myTextView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:text="مکان ها"
+
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/small_textSize_sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+                        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                            android:id="@+id/myTextView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center_horizontal"
+                            android:text="پیدا کردن جایی که میخوای بری"
+                            android:textColor="@color/white"
+                            app:fontCustom="shp_iranSansMobileLight"
+                            android:textSize="12dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/myTextView3" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView7"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="3dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_gradiant_elevation">
+
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginLeft="32dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="32dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/shape_gray_sq"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_tyre_expert" />
+
+                        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                            android:id="@+id/myTextView7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:text="متخصص ها"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+                        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                            android:id="@+id/myTextView8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center_horizontal"
+                            app:fontCustom="shp_iranSansMobileLight"
+                            android:text="یافتن افراد متخصص"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/myTextView7" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="204dp" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ripple_primary"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardT">
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_graduate" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/myTextView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="32dp"
-                android:layout_marginBottom="8dp"
-                android:text="متخصص ها"
-                app:fontCustom="shp_iranSansMobileBold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/view4"
-                app:layout_constraintTop_toTopOf="parent" />
+                <FrameLayout
+                    android:id="@+id/fragment_home_frame_location"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/shape_dialog_home_reverce"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintLeft_toRightOf="@+id/fragment_home_frame_expert"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/myTextView2">
 
-            <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/myTextView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="انتخاب بهترین متخصص برای شما"
-                android:textColor="@color/inactive_01"
-                android:textSize="12dp"
-                app:fontCustom="shp_iranSansMobile"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="@+id/myTextView4"
-                app:layout_constraintTop_toBottomOf="@+id/myTextView4" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_school" />
+                </FrameLayout>
 
-            <View
-                android:id="@+id/view3"
-                android:layout_width="7dp"
-                android:layout_height="0dp"
-                android:background="@color/price_green"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/view4"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/light_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/imageView3"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                <FrameLayout
+                    android:id="@+id/fragment_home_frame_expert"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/shape_dialog_home"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="@+id/fragment_home_frame_location"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/fragment_home_frame_location"
+                    app:layout_constraintTop_toTopOf="@+id/fragment_home_frame_location">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:cardCornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView6">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_graduate" />
+                </FrameLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ripple_primary"
-            android:clickable="true"
-            android:focusable="true">
+                <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                    android:id="@+id/myTextView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="16dp"
+                    android:text="گروه ها"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
-                android:id="@+id/imageView30"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_school" />
 
-            <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/myTextView40"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="32dp"
-                android:layout_marginBottom="8dp"
-                android:text="مکان ها"
-                app:fontCustom="shp_iranSansMobileBold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/view40"
-                app:layout_constraintTop_toTopOf="parent" />
+        </FrameLayout>
 
-            <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/myTextView50"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="نزدیک ترین مکان ها"
-                android:textColor="@color/inactive_01"
-                android:textSize="12dp"
-                app:fontCustom="shp_iranSansMobile"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="@+id/myTextView40"
-                app:layout_constraintTop_toBottomOf="@+id/myTextView40" />
+        <View
+            android:id="@+id/view5"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="@drawable/shape_shadow_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView5" />
 
-            <View
-                android:id="@+id/view30"
-                android:layout_width="7dp"
-                android:layout_height="0dp"
-                android:background="@color/red300"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:id="@+id/view40"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/light_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/imageView30"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>
