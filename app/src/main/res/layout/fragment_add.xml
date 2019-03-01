@@ -31,14 +31,15 @@
             android:background="@drawable/ripple_primary">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/MainActivity_imageView"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_graduate" />
+                app:srcCompat="@drawable/ic_graduate"
+                android:transitionName="@string/simple_fragment_transition"/>
 
             <com.ali.rnp.khodemon.MyLibrary.MyTextView
                 android:id="@+id/myTextView4"
@@ -82,7 +83,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@color/light_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/imageView3"
+                app:layout_constraintRight_toLeftOf="@+id/MainActivity_imageView"
                 app:layout_constraintTop_toTopOf="parent"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>

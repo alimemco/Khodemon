@@ -42,7 +42,7 @@ public class Utils {
         },1);
     }
 
-    public static void startAnimationViewsFade(final View rootLayout, final View... views) {
+    public static void startAnimationViewsFadeVisible(final View rootLayout, final View... views) {
         for (View view : views){
             view.setVisibility(View.INVISIBLE);
         }
@@ -54,6 +54,23 @@ public class Utils {
 
                 for (View view : views) {
                     view.setVisibility(View.VISIBLE);
+                }
+
+            }
+        },1);
+    }
+
+
+    public static void startAnimationViewsFadeGone(final View rootLayout, final View... views) {
+
+        //Handler handler = new Handler();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                TransitionManager.beginDelayedTransition((ViewGroup) rootLayout, new Fade());
+
+                for (View view : views) {
+                    view.setVisibility(View.INVISIBLE);
                 }
 
             }

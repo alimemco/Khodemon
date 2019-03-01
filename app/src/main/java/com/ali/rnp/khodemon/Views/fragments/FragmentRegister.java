@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -314,21 +313,21 @@ public class FragmentRegister extends Fragment {
         } else {
             if (nameEdTxt.getText().toString().equals("") || familyEdTxt.getText().toString().equals("")) {
 
-                Utils.startAnimationViewsFade(rootLayout, nameTxtError);
+                Utils.startAnimationViewsFadeVisible(rootLayout, nameTxtError);
             } else {
                 nameTxtError.setVisibility(View.INVISIBLE);
             }
 
 
             if (userEdTxt.getText().toString().equals("")) {
-                Utils.startAnimationViewsFade(rootLayout, userTxtError);
+                Utils.startAnimationViewsFadeVisible(rootLayout, userTxtError);
             } else {
                 userTxtError.setVisibility(View.INVISIBLE);
             }
 
             if (passwordEdTxt.getText().toString().equals("")) {
 
-                Utils.startAnimationViewsFade(rootLayout, passTxtError);
+                Utils.startAnimationViewsFadeVisible(rootLayout, passTxtError);
 
             } else {
                 passTxtError.setVisibility(View.INVISIBLE);
@@ -360,7 +359,7 @@ public class FragmentRegister extends Fragment {
 
                     switch (status) {
                         case 0:
-                            Utils.startAnimationViewsFade(rootLayout, userTxtExist);
+                            Utils.startAnimationViewsFadeVisible(rootLayout, userTxtExist);
                             break;
 
                         case 1:

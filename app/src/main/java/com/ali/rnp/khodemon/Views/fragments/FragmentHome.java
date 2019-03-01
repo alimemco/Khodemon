@@ -3,27 +3,35 @@ package com.ali.rnp.khodemon.Views.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.FrameLayout;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.ali.rnp.khodemon.Adapter.LocationPeopleAdapter;
+import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
 import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
-import com.ali.rnp.khodemon.MyApplication;
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Utils;
 import com.ali.rnp.khodemon.Views.Activites.MainActivity;
 
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
+import java.util.List;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.transition.TransitionManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import ss.com.bannerslider.Slider;
 
 
@@ -31,14 +39,15 @@ public class FragmentHome extends Fragment implements
         View.OnClickListener{
 
 
-    private FrameLayout expertFrame;
-    private FrameLayout locationFrame;
-    private EditText searchEdTxt;
+
     private Slider slider;
-    private CardView sliderCardView;
-    private ConstraintLayout constraintLayout;
-    private ConstraintLayout constraintLayoutTest;
-    private boolean isConstraintOrg = true;
+    private ProgressBar progressBar;
+    private CoordinatorLayout rootLayout;
+    private MyEditText searchEditText;
+    private RecyclerView recyclerView;
+
+    private Context context;
+
 
 
     private static final String TAG = "FragmentHome";
@@ -51,7 +60,12 @@ public class FragmentHome extends Fragment implements
 
     }
 
-    public static FragmentHome newInstance(String param1, String param2) {
+    @SuppressLint("ValidFragment")
+    public FragmentHome(Context context) {
+        this.context = context;
+    }
+
+    public static FragmentHome newInstance() {
         FragmentHome fragment = new FragmentHome();
         return fragment;
     }
@@ -60,6 +74,9 @@ public class FragmentHome extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+        }
 
     }
 
@@ -73,18 +90,47 @@ public class FragmentHome extends Fragment implements
 
         initViews(rootView);
         SetupBannerSlider(rootView);
-        SetupOnClick();
+        SetupRecyclerViewHomeItems();
+
 
 
         return rootView;
     }
 
+    private void SetupRecyclerViewHomeItems() {
+
+        recyclerView.setLayoutManager(new GridLayoutManager(context,1));
 
 
-    private void SetupOnClick() {
-        locationFrame.setOnClickListener(this);
-        expertFrame.setOnClickListener(this);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiService apiService = new ApiService(context);
+                apiService.getHomeItems(new ApiService.OnHomeItemReceived() {
+                    @Override
+                    public void onItemReceived(List<LocationPeople> locationPeopleList) {
+
+                        progressBar.setVisibility(View.INVISIBLE);
+
+                        if (locationPeopleList != null ){
+                            LocationPeopleAdapter locationPeopleAdapter = new LocationPeopleAdapter(context);
+                            locationPeopleAdapter.setListDataForAdapter(locationPeopleList);
+                            recyclerView.setAdapter(locationPeopleAdapter);
+                            Log.i(TAG, "onItemReceived: yes");
+                        }else {
+                            Toast.makeText(context, "Error Con", Toast.LENGTH_SHORT).show();
+                            Log.i(TAG, "onItemReceived: no");
+                        }
+
+
+
+                    }
+                });
+
+            }
+        },1);
     }
+
 
     private void SetupBannerSlider(View rootView) {
         Slider.init(new PicassoImageLoadingService(getContext()));
@@ -95,87 +141,33 @@ public class FragmentHome extends Fragment implements
 
     }
 
+
     @SuppressLint("ClickableViewAccessibility")
     private void initViews(View rootView) {
-        searchEdTxt = rootView.findViewById(R.id.fragment_home_edTxt_search);
-        expertFrame = rootView.findViewById(R.id.fragment_home_frame_expert);
-        locationFrame = rootView.findViewById(R.id.fragment_home_frame_location);
-        sliderCardView = rootView.findViewById(R.id.fragment_home_MainSliderCardView);
-        constraintLayout = rootView.findViewById(R.id.fragment_home_constraintLayout);
-        constraintLayoutTest = rootView.findViewById(R.id.fragment_home_constraintLayout_test);
+
+        recyclerView = rootView.findViewById(R.id.fragment_home_recyclerView_homeItems);
+        rootLayout = rootView.findViewById(R.id.fragment_home_coordinatorLayout);
+        searchEditText = rootView.findViewById(R.id.fragment_home_editText_search);
+
+        progressBar = rootView.findViewById(R.id.fragment_home_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        },5000);
 
 
-
-        searchEdTxt.setTypeface(MyApplication.getIranSans(getContext()));
-
-
-        constraintLayout.setOnTouchListener(new View.OnTouchListener() {
+        searchEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (searchEdTxt.isFocused()) {
-                    searchEdTxt.clearFocus();
-                }
+                Toast.makeText(getContext(), "test", Toast.LENGTH_SHORT).show();
+
                 return false;
             }
         });
-
-/*
-        expertFrame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                TransitionManager.beginDelayedTransition(constraintLayout);
-                if (isConstraintOrg){
-                    ConstraintSet constraintSetOrg = new ConstraintSet();
-                    constraintSetOrg.clone(getContext(),R.layout.fragment_home);
-                    constraintSetOrg.applyTo(constraintLayout);
-                    searchEdTxt.clearFocus();
-
-                }else {
-                    ConstraintSet constraintSetNew = new ConstraintSet();
-                    constraintSetNew.clone(getContext(),R.layout.trans_cons);
-                    constraintSetNew.applyTo(constraintLayout);
-                }
-                isConstraintOrg = !isConstraintOrg;
-
-
-            }
-        });*/
-/*
-        locationFrame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ObjectAnimator anim = ObjectAnimator.ofFloat(locationFrame, "translationY", 200f);
-                anim.setDuration(2000);
-                anim.start();
-
-            }
-        });
-*/
-
-        searchEdTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                TransitionManager.beginDelayedTransition(constraintLayout);
-                if (hasFocus) {
-
-                    ConstraintSet constraintSetNew = new ConstraintSet();
-                    constraintSetNew.clone(getContext(), R.layout.trans_cons);
-                    constraintSetNew.applyTo(constraintLayout);
-                    isConstraintOrg = false;
-
-                } else {
-                    ConstraintSet constraintSetOrg = new ConstraintSet();
-                    constraintSetOrg.clone(getContext(), R.layout.fragment_home);
-                    constraintSetOrg.applyTo(constraintLayout);
-                    isConstraintOrg = true;
-
-                }
-            }
-        });
-
 
     }
 
@@ -209,24 +201,6 @@ public class FragmentHome extends Fragment implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-            case R.id.fragment_home_frame_location:
-
-                if (isConstraintOrg) {
-                    searchEdTxt.requestFocus();
-                } else {
-                    searchEdTxt.clearFocus();
-                }
-                break;
-
-            case R.id.fragment_home_frame_expert:
-                if (isConstraintOrg) {
-                    searchEdTxt.requestFocus();
-                } else {
-                    searchEdTxt.clearFocus();
-                }
-
-                break;
 
 
         }

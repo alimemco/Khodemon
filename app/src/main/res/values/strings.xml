@@ -23,5 +23,6 @@
     <string name="password">پسورد</string>
     <string name="doNotHaveAcc">حساب کاربری ندارید ؟</string>
     <string name="createAcc">ایجاد حساب کاربری</string>
+    <string name="simple_fragment_transition">trans</string>
 
 </resources>

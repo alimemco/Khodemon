@@ -75,7 +75,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
 
         SetupTabLayout(rootView);
 
-        Utils.startAnimationViewsFade(rootLayout,cardLogReg);
+        Utils.startAnimationViewsFadeVisible(rootLayout,cardLogReg);
 
         return rootView;
     }
@@ -106,13 +106,13 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
                 switch (tab.getPosition()){
                     case 0:
                         replaceFragment(fragmentLogin);
-                        Utils.startAnimationViewsFade(rootLayout,cardLogReg);
+                        Utils.startAnimationViewsFadeVisible(rootLayout,cardLogReg);
                         break;
 
 
                     case 1:
                         replaceFragment(fragmentRegister);
-                        Utils.startAnimationViewsFade(rootLayout,cardLogReg);
+                        Utils.startAnimationViewsFadeVisible(rootLayout,cardLogReg);
                         break;
                 }
             }

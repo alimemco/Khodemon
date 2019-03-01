@@ -203,16 +203,10 @@
                             android:id="@+id/imageView5"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginLeft="32dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="32dp"
-                            android:layout_marginRight="32dp"
                             android:background="@drawable/shape_gray_sq"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_tyre_expert" />
+                            app:srcCompat="@drawable/ic_tyre_expert"
+                            tools:layout_editor_absoluteX="66dp"
+                            tools:layout_editor_absoluteY="16dp" />
 
                         <com.ali.rnp.khodemon.MyLibrary.MyTextView
                             android:id="@+id/myTextView7"

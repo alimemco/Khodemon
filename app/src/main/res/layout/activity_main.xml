@@ -12,7 +12,10 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/mainActivity_appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/mainActivity_toolbar"
@@ -35,8 +38,8 @@
                     android:textSize="@dimen/large_textSize_sp"
                     app:fontCustom="bYekan"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toRightOf="@+id/main_activity_city_LinearLayout"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -131,7 +134,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+
             </FrameLayout>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -144,8 +149,7 @@
             android:layout_gravity="right"
             app:menu="@menu/bottom_navigation_menu"
             tools:ignore="RtlHardcoded"
-            tools:layout_editor_absoluteX="384dp"
-            tools:layout_editor_absoluteY="56dp">
+>
 
 
         </com.google.android.material.navigation.NavigationView>

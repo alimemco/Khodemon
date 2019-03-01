@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.ali.rnp.khodemon.DataModel.LocationCity;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -44,6 +45,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private AHBottomNavigation bottomNavigation;
     private MyTextView cityName;
+    private ImageView imageView;
     private SharedPrefManager sharedPrefManager;
     //private FrameLayout frameLayout;
 
@@ -104,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements
 
         FcmSetup();
 
+
+
+
+
     }
 
     private void SetupFragments() {
@@ -111,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements
         fragmentManager = getSupportFragmentManager();
 
 
-        fragmentHome = new FragmentHome();
+        fragmentHome = new FragmentHome(MainActivity.this);
         fragmentUser = new FragmentUser();
         fragmentAdd = new FragmentAdd();
         fragmentSearch = new FragmentSearch();
@@ -269,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements
                             break;
 
                         case BOTTOM_NAV_ITEM_SEARCH:
-                            fragmentReplace(fragmentSearch);
+                             fragmentReplace(fragmentSearch);
                             break;
 
                         case BOTTOM_NAV_ITEM_FAVORITE:
@@ -294,13 +301,19 @@ public class MainActivity extends AppCompatActivity implements
         cityName = findViewById(R.id.main_activity_city_name_txt);
         MyTextView titleToolbarTxt = findViewById(R.id.main_activity_toolbar_name_textView);
         titleToolbarTxt.setOnClickListener(this);
-//        ImageView cityNameImg = findViewById(R.id.main_activity_city_name_img);
         LinearLayout cityLinearLayout = findViewById(R.id.main_activity_city_LinearLayout);
 
         cityLinearLayout.setOnClickListener(this);
 
 
         sharedPrefManager = new SharedPrefManager(MainActivity.this);
+
+
+
+
+      imageView = findViewById(R.id.MainActivity_imageView);
+
+
 
     }
 
@@ -398,4 +411,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }
