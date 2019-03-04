@@ -69,9 +69,7 @@
             android:id="@+id/fragment_login_editText_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
-            android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:background="@drawable/shape_edit_text_user_login_register"
             android:drawableRight="@drawable/ic_padlock"
@@ -79,10 +77,10 @@
             android:gravity="center"
 
             android:inputType="textPassword"
-            android:paddingLeft="32dp"
+            android:paddingLeft="40dp"
             android:paddingRight="@dimen/standard_margin_2x"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_login_textView_password" />
 
 
@@ -144,6 +142,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_login_materialProgressBar" />
+
+        <ImageView
+            android:id="@+id/fragment_login_imageView_eye"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:adjustViewBounds="true"
+            android:padding="9dp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_login_editText_password"
+            app:layout_constraintLeft_toLeftOf="@+id/fragment_login_editText_password"
+            app:layout_constraintTop_toTopOf="@+id/fragment_login_editText_password"
+            app:srcCompat="@drawable/ic_eye_visible_dark" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,6 @@ package com.ali.rnp.khodemon.Adapter;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class LocationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LocationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<LocationPeople> locationPeopleList;
@@ -30,9 +29,9 @@ public class LocationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final String LOCATION_GROUP = "LOCATION" ;
     private static final String PEOPLE_GROUP = "PEOPLE" ;
 
-    private static final String TAG = "LocationPeopleAdapter";
+    private static final String TAG = "LocationAdapter";
 
-    public LocationPeopleAdapter(Context context){
+    public LocationAdapter(Context context){
         this.context = context;
     }
 
@@ -51,7 +50,7 @@ public class LocationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-                View normalView = LayoutInflater.from(context).inflate(R.layout.recycler_view_home_items_location,parent,false);
+                View normalView = LayoutInflater.from(context).inflate(R.layout.recycler_view_group_items_location,parent,false);
                 return new LocationHolder(normalView);
 
     }
@@ -76,21 +75,24 @@ public class LocationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         MyTextView nameTextView;
         MyTextView tagTextView;
+        MyTextView cityTextView;
         ImageView originalPicImageView;
-        ImageView redImageView;
+
+
 
         public LocationHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.recycler_view_home_items_normal_name_textView);
             tagTextView = itemView.findViewById(R.id.recycler_view_home_items_normal_tag_textView);
+            cityTextView = itemView.findViewById(R.id.recycler_view_home_items_normal_city_textView);
             originalPicImageView = itemView.findViewById(R.id.recycler_view_home_items_normal_image_imageView);
-            redImageView = itemView.findViewById(R.id.recycler_view_home_items_normal_red_imageView);
         }
 
         public void bindNormalLocation(final LocationPeople locationPeople) {
 
             nameTextView.setText(locationPeople.getName());
             tagTextView.setText(locationPeople.getGroup());
+            cityTextView.setText("city "+locationPeople.getId());
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -99,11 +101,7 @@ public class LocationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
             },1);
 
-            if (locationPeople.getGroup().equals(LOCATION_GROUP)){
-                redImageView.setVisibility(View.INVISIBLE);
-            }else if (locationPeople.getGroup().equals(PEOPLE_GROUP)){
-                redImageView.setVisibility(View.VISIBLE);
-            }
+
 
         }
     }

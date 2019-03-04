@@ -3,18 +3,11 @@ package com.ali.rnp.khodemon.Views.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import ss.com.bannerslider.Slider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
-import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
 import com.ali.rnp.khodemon.R;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import androidx.fragment.app.Fragment;
 
 
 public class FragmentFavorite extends Fragment {
@@ -37,38 +30,13 @@ public class FragmentFavorite extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FirebaseAnalytics mfirebaseAnalytics;
-
-        mfirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
-
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID,"12");
-        bundle.putString("AliRnpEvent","We Can");
-
-        mfirebaseAnalytics.logEvent("eventForAliRnp",bundle);
-
-
-
-
     }
 
-    private void SetupBanner(View rootView) {
-
-            Slider.init(new PicassoImageLoadingService(getContext()));
-            Slider slider = rootView.findViewById(R.id.fragment_fav_MainSlider);
-
-            slider.setAdapter(new MainSliderAdapter());
-
-
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_favorite, container, false);
-
-        SetupBanner(rootView);
 
         return rootView;
     }

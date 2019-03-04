@@ -26,9 +26,16 @@ public class ApiService {
     private final static String API_REGISTER_USER = "http://khodemon.ir/registerUser.php";
     private final static String API_LOGIN_USER = "http://khodemon.ir/loginUser.php";
     private final static String API_GET_HOME_ITEMS = "http://khodemon.ir/getHomeItems.php";
+    private final static String API_GET_GROUP_ITEMS = "http://khodemon.ir/getGroupItems.php";
 
     public static final int STATUS_REGISTER_ERROR = 616;
     public static final int STATUS_Login_ERROR = 717;
+
+
+    public static final String LOCATION_GROUP_NAME = "LOCATION";
+    public static final String PEOPLE_GROUP_NAME = "PEOPLE";
+
+
 
     private int retryTime = 10000;
     private Context context;
@@ -95,6 +102,54 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
+    public void getGroupItems(JSONObject jsonObjectGroup, final OnGroupItemReceived onGroupItemReceived){
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_GROUP_ITEMS, jsonObjectGroup, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                parseJsonGroupItems(response,onGroupItemReceived);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onGroupItemReceived.onItemGroupReceived(null);
+            }
+        });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(context).add(request);
+    }
+
+    private void parseJsonGroupItems(JSONObject response,OnGroupItemReceived onGroupItemReceived) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(response.toString());
+            JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
+
+            List<LocationPeople> locationPeopleList = new ArrayList<>();
+
+            for (int i = 0; i < jsonArrayResult.length(); i++) {
+
+                JSONObject jsonObjectLocPeo = jsonArrayResult.getJSONObject(i);
+
+                LocationPeople locationPeople = new LocationPeople();
+
+                locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
+                locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
+                locationPeople.setName(jsonObjectLocPeo.getString("name"));
+                locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
+
+                locationPeopleList.add(locationPeople);
+            }
+            onGroupItemReceived.onItemGroupReceived(locationPeopleList);
+
+        } catch (JSONException e) {
+            Log.i(TAG, "parseJsonHomeItems: "+e);
+
+        }
+
+    }
+
     private void parseJsonHomeItems(JSONObject response, OnHomeItemReceived onHomeItemReceived) {
 
         try {
@@ -125,7 +180,6 @@ public class ApiService {
         }
     }
 
-
     private void parseJsonRegisterUser(JSONObject response, OnRegisterCompleted onRegisterCompleted) {
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -147,6 +201,9 @@ public class ApiService {
 
     }
 
+
+
+
     public interface OnRegisterCompleted {
         void onRegisterStatusReceived(int status);
     }
@@ -157,5 +214,9 @@ public class ApiService {
 
     public interface OnHomeItemReceived {
         void onItemReceived(List<LocationPeople> locationPeopleList);
+    }
+
+    public interface OnGroupItemReceived{
+        void onItemGroupReceived(List<LocationPeople> locationPeopleList);
     }
 }

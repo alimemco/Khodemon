@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import com.ali.rnp.khodemon.DataModel.LocationCity;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
@@ -45,7 +47,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements
     private FragmentFavorite fragmentFavorite;
 
     private static final int BOTTOM_NAV_ITEM_HOME=0;
-    private static final int BOTTOM_NAV_ITEM_SEARCH=1;
+    public static final int BOTTOM_NAV_ITEM_SEARCH=1;
     private static final int BOTTOM_NAV_ITEM_ADD=2;
     private static final int BOTTOM_NAV_ITEM_FAVORITE =3;
     private static final int BOTTOM_NAV_ITEM_USER=4;
@@ -311,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
-      imageView = findViewById(R.id.MainActivity_imageView);
+      imageView = findViewById(R.id.fragment_search_imageView);
 
 
 
@@ -391,11 +392,24 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
 
+        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+        if (backStackEntryCount == 0) {
+
+            goBackWithTimer();
+
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    private void goBackWithTimer() {
         if (doubleBackToExitPressedOnce){
             super.onBackPressed();
             return;
         }
         DetectFragment();
+
         this.doubleBackToExitPressedOnce = true;
 
         Handler handler = new Handler();
@@ -406,6 +420,7 @@ public class MainActivity extends AppCompatActivity implements
             }
         }, 2000);
     }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

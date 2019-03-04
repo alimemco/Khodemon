@@ -2,13 +2,19 @@ package com.ali.rnp.khodemon.Views.fragments;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.transition.TransitionInflater;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.ali.rnp.khodemon.R;
 
@@ -21,18 +27,18 @@ public class FragmentSearch extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private ImageView imageView;
+    private Button button;
+
     private OnFragmentInteractionListener mListener;
 
     public FragmentSearch() {
 
     }
 
-    public static FragmentSearch newInstance(String param1, String param2) {
+    public static FragmentSearch newInstance() {
         FragmentSearch fragment = new FragmentSearch();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -43,13 +49,21 @@ public class FragmentSearch extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+
+        }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+
+        return rootView;
     }
 
 
@@ -87,7 +101,6 @@ public class FragmentSearch extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

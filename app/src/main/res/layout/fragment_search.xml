@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
@@ -25,34 +26,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wefgwef"
         tools:layout_conversion_absoluteHeight="659dp"
         tools:layout_conversion_absoluteWidth="411dp" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/shape_half_circle"/>
-
-    <ImageView
-        android:id="@+id/MainActivity_imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/shape_frame_layout_oval_home"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="parent"
-        android:transitionName="@string/simple_fragment_transition"
-
-        app:srcCompat="@drawable/ic_graduate" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -61,6 +37,33 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintGuide_begin="240dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.ali.rnp.khodemon.MyLibrary.MyEditText
+        android:id="@+id/wefgwef"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/shape_search_home_edit_text"
+        android:drawableLeft="@drawable/ic_search"
+        android:ems="10"
+        android:gravity="right|center_vertical"
+        android:hint="مکان یا افراد متخصص رو پیدا کن .."
+        android:inputType="textAutoComplete"
+        android:paddingLeft="@dimen/standard_margin_2x"
+        android:paddingRight="@dimen/standard_margin_2x"
+        android:transitionName="rnp"
+        app:collapseContentDescription="@string/appbar_scrolling_view_behavior"
+        app:fontCustom="bYekan"
+        app:layout_collapseMode="pin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
