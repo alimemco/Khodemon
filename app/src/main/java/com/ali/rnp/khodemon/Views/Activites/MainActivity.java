@@ -247,6 +247,8 @@ public class MainActivity extends AppCompatActivity implements
         // Force to tint the drawable (useful for font with icon for example)
         bottomNavigation.setForceTint(true);
 
+        bottomNavigation.setBehaviorTranslationEnabled(true);
+
 
         // Manage titles
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
@@ -254,6 +256,8 @@ public class MainActivity extends AppCompatActivity implements
         bottomNavigation.setCurrentItem(BOTTOM_NAV_ITEM_HOME);
 
         bottomNavigation.setNotification("1", BOTTOM_NAV_ITEM_FAVORITE);
+        bottomNavigation.setNotification("new", BOTTOM_NAV_ITEM_USER);
+
 
         bottomNavigation.setUseElevation(true);
 
@@ -263,6 +267,9 @@ public class MainActivity extends AppCompatActivity implements
             public boolean onTabSelected(int position, boolean wasSelected) {
 
                 if (!wasSelected) {
+
+                    clearFragmentBackStack();
+
                     switch (position) {
                         case BOTTOM_NAV_ITEM_HOME:
                             fragmentReplace(fragmentHome);
@@ -292,6 +299,12 @@ public class MainActivity extends AppCompatActivity implements
             }
 
 
+        });
+
+        bottomNavigation.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
+            @Override public void onPositionChange(int y) {
+                Toast.makeText(MainActivity.this, "position"+y, Toast.LENGTH_SHORT).show();
+            }
         });
 
     }
@@ -419,6 +432,15 @@ public class MainActivity extends AppCompatActivity implements
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
+    }
+
+    private void clearFragmentBackStack(){
+        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+
+            fragmentManager.popBackStack();
+
+
+        }
     }
 
 

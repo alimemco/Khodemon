@@ -35,6 +35,9 @@ public class ApiService {
     public static final String LOCATION_GROUP_NAME = "LOCATION";
     public static final String PEOPLE_GROUP_NAME = "PEOPLE";
 
+    public static final int LOCATION_GROUP_KEY = 1;
+    public static final int PEOPLE_GROUP_KEY = 2;
+
 
 
     private int retryTime = 10000;
@@ -93,7 +96,7 @@ public class ApiService {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onHomeItemReceived.onItemReceived(null);
+                        onHomeItemReceived.onItemReceived(null,error);
                     }
                 }
         );
@@ -102,17 +105,17 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void getGroupItems(JSONObject jsonObjectGroup, final OnGroupItemReceived onGroupItemReceived){
+    public void getGroupItems(JSONObject jsonObjectGroup, final int groupKey, final OnGroupItemReceived onGroupItemReceived){
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_GROUP_ITEMS, jsonObjectGroup, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                parseJsonGroupItems(response,onGroupItemReceived);
+                parseJsonGroupItems(response,groupKey,onGroupItemReceived);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onGroupItemReceived.onItemGroupReceived(null);
+                onGroupItemReceived.onItemGroupReceived(null,error);
             }
         });
 
@@ -120,7 +123,7 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
-    private void parseJsonGroupItems(JSONObject response,OnGroupItemReceived onGroupItemReceived) {
+    private void parseJsonGroupItems(JSONObject response,int groupKey,OnGroupItemReceived onGroupItemReceived) {
 
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -134,14 +137,26 @@ public class ApiService {
 
                 LocationPeople locationPeople = new LocationPeople();
 
-                locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
-                locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
-                locationPeople.setName(jsonObjectLocPeo.getString("name"));
-                locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
+                if (groupKey == LOCATION_GROUP_KEY){
+                    locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
+                    locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
+                    locationPeople.setName(jsonObjectLocPeo.getString("name"));
+                    locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
+                }else if (groupKey == PEOPLE_GROUP_KEY){
+                    locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
+                    locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
+                    locationPeople.setName(jsonObjectLocPeo.getString("name"));
+                    locationPeople.setTag(jsonObjectLocPeo.getString("tagLocPeo"));
+                    locationPeople.setCity(jsonObjectLocPeo.getString("city"));
+                    locationPeople.setWork_experience(jsonObjectLocPeo.getInt("work_experience"));
+                    locationPeople.setExperts(jsonObjectLocPeo.getString("experts"));
+                    locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
+                }
+
 
                 locationPeopleList.add(locationPeople);
             }
-            onGroupItemReceived.onItemGroupReceived(locationPeopleList);
+            onGroupItemReceived.onItemGroupReceived(locationPeopleList,null);
 
         } catch (JSONException e) {
             Log.i(TAG, "parseJsonHomeItems: "+e);
@@ -172,7 +187,7 @@ public class ApiService {
 
                 locationPeopleList.add(locationPeople);
             }
-            onHomeItemReceived.onItemReceived(locationPeopleList);
+            onHomeItemReceived.onItemReceived(locationPeopleList,null);
 
         } catch (JSONException e) {
             Log.i(TAG, "parseJsonHomeItems: "+e);
@@ -213,10 +228,10 @@ public class ApiService {
     }
 
     public interface OnHomeItemReceived {
-        void onItemReceived(List<LocationPeople> locationPeopleList);
+        void onItemReceived(List<LocationPeople> locationPeopleList,VolleyError error);
     }
 
     public interface OnGroupItemReceived{
-        void onItemGroupReceived(List<LocationPeople> locationPeopleList);
+        void onItemGroupReceived(List<LocationPeople> locationPeopleList,VolleyError error);
     }
 }

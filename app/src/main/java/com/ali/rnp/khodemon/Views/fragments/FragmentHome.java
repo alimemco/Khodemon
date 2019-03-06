@@ -1,6 +1,7 @@
 package com.ali.rnp.khodemon.Views.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -22,6 +23,8 @@ import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.Activites.MainActivity;
+import com.android.volley.NoConnectionError;
+import com.android.volley.VolleyError;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 
 import java.util.List;
@@ -121,15 +124,13 @@ public class FragmentHome extends Fragment implements
         return rootView;
     }
 
-    private void SetupFragments() {
-    new Handler().postDelayed(new Runnable() {
-        @Override
-        public void run() {
-            fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentGroup = FragmentGroup.newInstance();
 
-        }
-    },1);
+
+    private void SetupFragments() {
+
+        fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentGroup = FragmentGroup.newInstance();
+
     }
 
     private void SetupRecyclerViewHomeItems() {
@@ -142,19 +143,34 @@ public class FragmentHome extends Fragment implements
             public void run() {
                 ApiService apiService = new ApiService(context);
                 apiService.getHomeItems(new ApiService.OnHomeItemReceived() {
+
                     @Override
-                    public void onItemReceived(List<LocationPeople> locationPeopleList) {
+                    public void onItemReceived(List<LocationPeople> locationPeopleList, VolleyError error) {
 
-                        progressBar.setVisibility(View.INVISIBLE);
+                        Activity activity = getActivity();
 
-                        if (locationPeopleList != null ){
-                            LocationPeopleAdapter locationPeopleAdapter = new LocationPeopleAdapter(context);
-                            locationPeopleAdapter.setListDataForAdapter(locationPeopleList);
-                            recyclerView.setAdapter(locationPeopleAdapter);
-                        }else {
-                            Toast.makeText(context, "Error Connection", Toast.LENGTH_SHORT).show();
+                        if( activity != null){
+
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            if (locationPeopleList != null && error == null ){
+                                LocationPeopleAdapter locationPeopleAdapter = new LocationPeopleAdapter(context);
+                                locationPeopleAdapter.setListDataForAdapter(locationPeopleList);
+                                recyclerView.setAdapter(locationPeopleAdapter);
+                            }else {
+                                assert error != null;
+                                if (error instanceof NoConnectionError){
+                                    String errorMsg = getResources().getString(R.string.no_internet_error_msg);
+                                    Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(context, "ERROR "+error.toString(), Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            }
 
                         }
+
 
 
 
@@ -222,6 +238,7 @@ public class FragmentHome extends Fragment implements
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -250,7 +267,10 @@ public class FragmentHome extends Fragment implements
         ApiService apiService = new ApiService(context);
         apiService.getHomeItems(new ApiService.OnHomeItemReceived() {
             @Override
-            public void onItemReceived(List<LocationPeople> locationPeopleList) {
+            public void onItemReceived(List<LocationPeople> locationPeopleList,VolleyError error) {
+
+                // TODO add if activity != null
+
                 swipeRefreshLayout.setRefreshing(false);
 
                 if (locationPeopleList != null ){

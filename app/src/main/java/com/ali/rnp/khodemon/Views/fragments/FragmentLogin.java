@@ -36,6 +36,7 @@ public class FragmentLogin extends Fragment {
     private MyEditText usernameEdTxt;
     private MyEditText passwordEdTxt;
     private ImageView eyeImageView;
+    private MaterialProgressBar progressBarLogin;
 
     private MyButton loginBtn;
     private MaterialProgressBar materialProgressBar;
@@ -43,7 +44,7 @@ public class FragmentLogin extends Fragment {
     private boolean visiblePass = false;
 
 
-    private ConstraintLayout rootlayout;
+    private ConstraintLayout rootLayout;
 
     private static final String USER_NAME_LOGIN = "user_name";
     private static final String USER_PASS_LOGIN = "user_pass";
@@ -66,7 +67,7 @@ public class FragmentLogin extends Fragment {
 
         initViews(rootView);
 
-        Utils.startAnimationViewsSlide(rootlayout,
+        Utils.startAnimationViewsSlide(rootLayout,
                 loginBtn,
                 usernameTxt, passwordTxt, questionTxt,
                 usernameEdTxt, passwordEdTxt,
@@ -75,8 +76,9 @@ public class FragmentLogin extends Fragment {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                assert getContext() != null;
                 if (Utils.isConnectedToNetwork(getContext())) {
+
                     validateFieldsLogin();
                 } else {
                     Toast.makeText(getContext(), "connectionError", Toast.LENGTH_SHORT).show();
@@ -113,8 +115,11 @@ public class FragmentLogin extends Fragment {
     }
 
     private void validateFieldsLogin() {
+
         if (!usernameEdTxt.getText().toString().equals("") &&
                 !passwordEdTxt.getText().toString().equals("")) {
+            progressBarLogin.setVisibility(View.VISIBLE);
+            loginBtn.setText("");
 
             materialProgressBar.setVisibility(View.VISIBLE);
 
@@ -129,7 +134,11 @@ public class FragmentLogin extends Fragment {
                     @Override
                     public void onLoginStatusReceived(int status) {
                         materialProgressBar.setVisibility(View.INVISIBLE);
+                        loginBtn.setText(getResources().getText(R.string.login));
+                        progressBarLogin.setVisibility(View.INVISIBLE);
                         switch (status) {
+
+
                             case ApiService.STATUS_Login_ERROR:
                                 Toast.makeText(getContext(),"Error Login",Toast.LENGTH_SHORT).show();
 
@@ -169,6 +178,7 @@ public class FragmentLogin extends Fragment {
                 passwordEdTxt.setHint("errorPass");
             }
         }
+
     }
 
     private void initViews(View rootView) {
@@ -181,8 +191,12 @@ public class FragmentLogin extends Fragment {
         eyeImageView = rootView.findViewById(R.id.fragment_login_imageView_eye);
 
         materialProgressBar = rootView.findViewById(R.id.fragment_login_materialProgressBar);
+        progressBarLogin = rootView.findViewById(R.id.fragment_login_progressLogin);
 
-        rootlayout = rootView.findViewById(R.id.fragment_login_constraintLayout);
+        progressBarLogin.setVisibility(View.INVISIBLE);
+        progressBarLogin.bringToFront();
+
+        rootLayout = rootView.findViewById(R.id.fragment_login_constraintLayout);
 
     }
 
@@ -190,6 +204,7 @@ public class FragmentLogin extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Toast.makeText(context, "attached", Toast.LENGTH_SHORT).show();
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

@@ -20,7 +20,7 @@
 
 
             <ImageView
-                android:id="@+id/recycler_view_home_items_normal_image_imageView"
+                android:id="@+id/recycler_view_group_items_people_image_imageView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:adjustViewBounds="true"
@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/recycler_view_home_items_normal_name_textView"
+                android:id="@+id/recycler_view_group_items_people_name_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -42,12 +42,12 @@
                 android:text="نام"
                 app:fontCustom="shp_iranSansMobile"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/recycler_view_home_items_normal_image_imageView"
+                app:layout_constraintEnd_toStartOf="@+id/recycler_view_group_items_people_image_imageView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/recycler_view_home_items_normal_tag_textView"
+                android:id="@+id/recycler_view_group_items_people_city_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -59,9 +59,9 @@
                 android:text="تگ ها"
                 android:background="@drawable/shape_search_home_edit_text"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/recycler_view_home_items_normal_image_imageView"
+                app:layout_constraintEnd_toStartOf="@+id/recycler_view_group_items_people_image_imageView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_home_items_normal_name_textView" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_group_items_people_name_textView" />
 
             <ImageView
                 android:id="@+id/recycler_view_home_items_normal_red_imageView"
@@ -71,7 +71,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/recycler_view_home_items_normal_image_imageView"
+                app:layout_constraintEnd_toStartOf="@+id/recycler_view_group_items_people_image_imageView"
                 app:srcCompat="@drawable/notification_background" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

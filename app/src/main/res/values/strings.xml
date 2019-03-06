@@ -13,7 +13,7 @@
     <string name="msg_subscribe_failed">subscrbed fail</string>
     <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Home</string>
     <string name="login">ورود</string>
     <string name="register">ثبت نام</string>
@@ -24,5 +24,6 @@
     <string name="doNotHaveAcc">حساب کاربری ندارید ؟</string>
     <string name="createAcc">ایجاد حساب کاربری</string>
     <string name="simple_fragment_transition">trans</string>
+    <string name="no_internet_error_msg">اینترنت در دسترس نیست</string>
 
 </resources>

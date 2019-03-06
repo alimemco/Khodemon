@@ -1,6 +1,7 @@
 package com.ali.rnp.khodemon.Views.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -11,10 +12,13 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.LocationAdapter;
 import com.ali.rnp.khodemon.Adapter.LocationPeopleAdapter;
+import com.ali.rnp.khodemon.Adapter.PeopleAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.Activites.MainActivity;
+import com.android.volley.NoConnectionError;
+import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,30 +85,54 @@ public class FragmentGroup extends Fragment {
             @Override
             public void run() {
                 ApiService apiService = new ApiService(getContext());
-
-                apiService.getGroupItems(jsonObjectGroup, new ApiService.OnGroupItemReceived() {
+                int groupInt = 0;
+                if (groupName.equals(ApiService.LOCATION_GROUP_NAME)){
+                    groupInt = ApiService.LOCATION_GROUP_KEY;
+                }else if (groupName.equals(ApiService.PEOPLE_GROUP_NAME)){
+                    groupInt = ApiService.PEOPLE_GROUP_KEY;
+                }
+                apiService.getGroupItems(jsonObjectGroup,groupInt ,new ApiService.OnGroupItemReceived() {
                     @Override
-                    public void onItemGroupReceived(List<LocationPeople> locationPeopleList) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        if (locationPeopleList != null ){
-                            if (groupName.equals(ApiService.LOCATION_GROUP_NAME)){
-                                LocationAdapter locationAdapter = new LocationAdapter(getContext());
-                                locationAdapter.setListDataForAdapter(locationPeopleList);
-                                recyclerView.setAdapter(locationAdapter);
+                    public void onItemGroupReceived(List<LocationPeople> locationPeopleList, VolleyError error) {
 
-                            }else if (groupName.equals(ApiService.PEOPLE_GROUP_NAME)){
-                                LocationPeopleAdapter locationPeopleAdapter = new LocationPeopleAdapter(getContext());
-                                locationPeopleAdapter.setListDataForAdapter(locationPeopleList);
-                                recyclerView.setAdapter(locationPeopleAdapter);
+
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Activity activity = getActivity();
+
+                        if (activity != null){
+
+                            if (locationPeopleList != null && error == null ){
+                                if (groupName.equals(ApiService.LOCATION_GROUP_NAME)){
+                                    LocationAdapter locationAdapter = new LocationAdapter(getContext());
+                                    locationAdapter.setListDataForAdapter(locationPeopleList);
+                                    recyclerView.setAdapter(locationAdapter);
+
+                                }else if (groupName.equals(ApiService.PEOPLE_GROUP_NAME)){
+                                    PeopleAdapter peopleAdapter = new PeopleAdapter(getContext());
+                                    peopleAdapter.setListDataForAdapter(locationPeopleList);
+                                    recyclerView.setAdapter(peopleAdapter);
+                                }
+
+                            }else if (error != null){
+                                if (error instanceof NoConnectionError){
+                                    String errorMsg = getResources().getString(R.string.no_internet_error_msg);
+                                    Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+
+                                }else {
+
+                                    Toast.makeText(getContext(), "ERROR "+error.toString(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }else {
+                                Toast.makeText(getContext(), "خطای نامشخص ", Toast.LENGTH_SHORT).show();
+
                             }
 
 
-
-
-                        }else {
-                            Toast.makeText(getContext(), "Error Connection", Toast.LENGTH_SHORT).show();
-
                         }
+
+
+
                     }
                 });
 

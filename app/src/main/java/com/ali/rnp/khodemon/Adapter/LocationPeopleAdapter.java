@@ -2,7 +2,6 @@ package com.ali.rnp.khodemon.Adapter;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,9 +80,9 @@ public class LocationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public LocationHolder(@NonNull View itemView) {
             super(itemView);
-            nameTextView = itemView.findViewById(R.id.recycler_view_home_items_normal_name_textView);
-            tagTextView = itemView.findViewById(R.id.recycler_view_home_items_normal_tag_textView);
-            originalPicImageView = itemView.findViewById(R.id.recycler_view_home_items_normal_image_imageView);
+            nameTextView = itemView.findViewById(R.id.recycler_view_group_items_people_name_textView);
+            tagTextView = itemView.findViewById(R.id.recycler_view_group_items_people_city_textView);
+            originalPicImageView = itemView.findViewById(R.id.recycler_view_group_items_people_image_imageView);
             redImageView = itemView.findViewById(R.id.recycler_view_home_items_normal_red_imageView);
         }
 
