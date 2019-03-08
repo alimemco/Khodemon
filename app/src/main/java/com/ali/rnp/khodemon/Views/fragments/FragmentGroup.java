@@ -18,6 +18,7 @@ import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.Activites.MainActivity;
 import com.android.volley.NoConnectionError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
 import org.json.JSONException;
@@ -118,7 +119,7 @@ public class FragmentGroup extends Fragment {
                                     String errorMsg = getResources().getString(R.string.no_internet_error_msg);
                                     Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
 
-                                }else {
+                                } else {
 
                                     Toast.makeText(getContext(), "ERROR "+error.toString(), Toast.LENGTH_SHORT).show();
                                 }

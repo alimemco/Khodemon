@@ -3,10 +3,10 @@ package com.ali.rnp.khodemon.Api;
 import android.content.Context;
 import android.util.Log;
 
+import com.ali.rnp.khodemon.DataModel.HomeList;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -27,6 +27,7 @@ public class ApiService {
     private final static String API_LOGIN_USER = "http://khodemon.ir/loginUser.php";
     private final static String API_GET_HOME_ITEMS = "http://khodemon.ir/getHomeItems.php";
     private final static String API_GET_GROUP_ITEMS = "http://khodemon.ir/getGroupItems.php";
+    private final static String API_GET_HOME_LIST_ITEMS = "http://khodemon.ir/getHomeItemsList.php";
 
     public static final int STATUS_REGISTER_ERROR = 616;
     public static final int STATUS_Login_ERROR = 717;
@@ -39,9 +40,10 @@ public class ApiService {
     public static final int PEOPLE_GROUP_KEY = 2;
 
 
-
     private int retryTime = 10000;
     private Context context;
+
+    List<LocationPeople> locationPeopleSingle;
 
     public ApiService(Context context) {
         this.context = context;
@@ -90,40 +92,60 @@ public class ApiService {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_ITEMS, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                parseJsonHomeItems(response,onHomeItemReceived);
+                parseJsonHomeItems(response, onHomeItemReceived);
             }
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onHomeItemReceived.onItemReceived(null,error);
+                        onHomeItemReceived.onItemReceived(null, error);
                     }
                 }
         );
 
-        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void getGroupItems(JSONObject jsonObjectGroup, final int groupKey, final OnGroupItemReceived onGroupItemReceived){
+    public void getGroupItems(JSONObject jsonObjectGroup, final int groupKey, final OnGroupItemReceived onGroupItemReceived) {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_GROUP_ITEMS, jsonObjectGroup, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                parseJsonGroupItems(response,groupKey,onGroupItemReceived);
+                parseJsonGroupItems(response, groupKey, onGroupItemReceived);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onGroupItemReceived.onItemGroupReceived(null,error);
+                onGroupItemReceived.onItemGroupReceived(null, error);
             }
         });
 
-        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
 
-    private void parseJsonGroupItems(JSONObject response,int groupKey,OnGroupItemReceived onGroupItemReceived) {
+    public void getHomeListItems(final OnHomeListItemReceived onHomeListItemReceived) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_ITEMS, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                parseJsonHomeListItems(response, onHomeListItemReceived);
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onHomeListItemReceived.onItemReceived(null, null, error);
+                    }
+                }
+        );
+
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(context).add(request);
+    }
+
+
+    private void parseJsonGroupItems(JSONObject response, int groupKey, OnGroupItemReceived onGroupItemReceived) {
 
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -137,12 +159,15 @@ public class ApiService {
 
                 LocationPeople locationPeople = new LocationPeople();
 
-                if (groupKey == LOCATION_GROUP_KEY){
+                if (groupKey == LOCATION_GROUP_KEY) {
                     locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
                     locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
                     locationPeople.setName(jsonObjectLocPeo.getString("name"));
+                    locationPeople.setTag(jsonObjectLocPeo.getString("tagLocPeo"));
+                    locationPeople.setOwnerSeller(jsonObjectLocPeo.getString("owner_seller"));
+                    locationPeople.setAddress(jsonObjectLocPeo.getString("address"));
                     locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
-                }else if (groupKey == PEOPLE_GROUP_KEY){
+                } else if (groupKey == PEOPLE_GROUP_KEY) {
                     locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
                     locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
                     locationPeople.setName(jsonObjectLocPeo.getString("name"));
@@ -156,10 +181,10 @@ public class ApiService {
 
                 locationPeopleList.add(locationPeople);
             }
-            onGroupItemReceived.onItemGroupReceived(locationPeopleList,null);
+            onGroupItemReceived.onItemGroupReceived(locationPeopleList, null);
 
         } catch (JSONException e) {
-            Log.i(TAG, "parseJsonHomeItems: "+e);
+            Log.i(TAG, "parseJsonHomeItems: " + e);
 
         }
 
@@ -183,16 +208,68 @@ public class ApiService {
                 locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
                 locationPeople.setName(jsonObjectLocPeo.getString("name"));
                 locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
-                Log.i(TAG, "parseJsonHomeItems: "+jsonObjectLocPeo.getString("group_name"));
 
                 locationPeopleList.add(locationPeople);
             }
-            onHomeItemReceived.onItemReceived(locationPeopleList,null);
+            onHomeItemReceived.onItemReceived(locationPeopleList, null);
 
         } catch (JSONException e) {
-            Log.i(TAG, "parseJsonHomeItems: "+e);
+            Log.i(TAG, "parseJsonHomeItems: " + e);
 
         }
+    }
+
+    private void parseJsonHomeListItems(JSONObject response, OnHomeListItemReceived onHomeListItemReceived) {
+
+
+        try {
+            JSONObject jsonObject = new JSONObject(response.toString());
+
+            JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
+
+
+            List<HomeList> locationPeopleList = new ArrayList<>();
+            Log.i(TAG, "jsonArrayResult" + jsonArrayResult.length());
+
+            for (int i = 0; i < jsonArrayResult.length(); i++) {
+
+                JSONObject jsonObjectLocPeo = jsonArrayResult.getJSONObject(i);
+
+                locationPeopleSingle = new ArrayList<>();
+
+                for (int j = 0; j < jsonObjectLocPeo.length(); j++) {
+                    Log.i(TAG, "jsonObjectLocPeo: " + jsonObjectLocPeo.length());
+
+
+                    LocationPeople locationPeople = new LocationPeople();
+
+                    locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
+                    locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
+                    locationPeople.setName(jsonObjectLocPeo.getString("name"));
+                    locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
+
+                    locationPeopleSingle.add(locationPeople);
+
+                }
+                //   onHomeListItemReceived.onItemReceived(null,locationPeopleSingle,null);
+
+                HomeList homeList = new HomeList();
+
+                homeList.setId(i);
+                homeList.setTitle("متن");
+                homeList.setLocationPeopleList(locationPeopleSingle);
+
+
+                locationPeopleList.add(homeList);
+            }
+            onHomeListItemReceived.onItemReceived(locationPeopleList, locationPeopleSingle, null);
+
+        } catch (JSONException e) {
+            Log.i(TAG, "parseJsonHomeItems: " + e);
+
+        }
+
+
     }
 
     private void parseJsonRegisterUser(JSONObject response, OnRegisterCompleted onRegisterCompleted) {
@@ -217,8 +294,6 @@ public class ApiService {
     }
 
 
-
-
     public interface OnRegisterCompleted {
         void onRegisterStatusReceived(int status);
     }
@@ -228,10 +303,14 @@ public class ApiService {
     }
 
     public interface OnHomeItemReceived {
-        void onItemReceived(List<LocationPeople> locationPeopleList,VolleyError error);
+        void onItemReceived(List<LocationPeople> locationPeopleList, VolleyError error);
     }
 
-    public interface OnGroupItemReceived{
-        void onItemGroupReceived(List<LocationPeople> locationPeopleList,VolleyError error);
+    public interface OnHomeListItemReceived {
+        void onItemReceived(List<HomeList> homeLists, List<LocationPeople> locationPeopleList, VolleyError error);
+    }
+
+    public interface OnGroupItemReceived {
+        void onItemGroupReceived(List<LocationPeople> locationPeopleList, VolleyError error);
     }
 }

@@ -6,9 +6,13 @@ public class LocationPeople {
     private String name;
     private String group;
     private String city;
+    private String province;
     private String tag;
     private int work_experience;
     private String experts;
+    private String ownerSeller;
+    private String address;
+
     private String originalPic;
 
     public LocationPeople() {
@@ -76,5 +80,29 @@ public class LocationPeople {
 
     public void setExperts(String experts) {
         this.experts = experts;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getOwnerSeller() {
+        return ownerSeller;
+    }
+
+    public void setOwnerSeller(String ownerSeller) {
+        this.ownerSeller = ownerSeller;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 }

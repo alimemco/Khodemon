@@ -4,11 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="190dp"
+        android:layout_margin="4dp"
         app:cardUseCompatPadding="true"
 
         app:cardElevation="2dp"
@@ -16,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
 
             <ImageView
@@ -24,55 +26,126 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/holder_banner"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:scaleType="centerCrop"
+                android:src="@drawable/holder_banner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
+                android:alpha="0.1"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toTopOf="@+id/recycler_view_group_items_location_tag_textView"
+                app:layout_constraintLeft_toRightOf="@id/recycler_view_group_items_people_image_imageView"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.ali.rnp.khodemon.MyLibrary.MyTextView
                 android:id="@+id/recycler_view_group_items_people_name_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="24dp"
-                android:text="نام"
-                app:fontCustom="shp_iranSansMobile"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/recycler_view_group_items_people_image_imageView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/recycler_view_group_items_people_city_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="تگ ها"
-                android:background="@drawable/shape_search_home_edit_text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/recycler_view_group_items_people_image_imageView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_group_items_people_name_textView" />
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                app:fontCustom="shp_iranSansMobile"
+                app:layout_constraintLeft_toRightOf="@+id/recycler_view_group_items_people_image_imageView"
+                app:layout_constraintRight_toRightOf="parent"
+
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="فروشگاه افق کوروش" />
+
+
 
             <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                android:id="@+id/recycler_view_group_items_people_tag_textView"
-                android:layout_width="wrap_content"
+                android:id="@+id/recycler_view_group_items_location_tag_textView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:gravity="right"
+                app:fontCustom="shp_iranSansMobile"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintLeft_toRightOf="@+id/recycler_view_group_items_people_image_imageView"
+                app:layout_constraintRight_toLeftOf="@id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                tools:text="باشگاه بدنسازی" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/gray_100"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_group_items_people_image_imageView" />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/recycler_view_group_items_location_address_textView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginRight="@dimen/standard_margin"
                 android:layout_marginLeft="8dp"
-                android:text="test"
-                app:layout_constraintBottom_toBottomOf="@+id/recycler_view_group_items_people_city_textView"
-                app:layout_constraintStart_toEndOf="@+id/recycler_view_group_items_people_city_textView"
-                app:layout_constraintTop_toTopOf="@+id/recycler_view_group_items_people_city_textView" />
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical|right"
+                app:fontCustom="shp_iranSansMobileLight"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/imageView5"
+                app:layout_constraintLeft_toLeftOf="@id/view3"
+                app:layout_constraintTop_toTopOf="@+id/view3"
+                android:ellipsize="end"
+                android:singleLine="true"
+                tools:text="خوزستان ، ماهشهر ، شهرک بعثت ، گلستان 5 ، آلفا 164" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_group_items_people_name_textView"
+                app:srcCompat="@drawable/ic_network" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="@dimen/standard_margin"
+                app:layout_constraintBottom_toBottomOf="@+id/view3"
+                app:layout_constraintRight_toRightOf="@id/view3"
+                app:layout_constraintTop_toTopOf="@+id/view3"
+                app:srcCompat="@drawable/ic_placeholder" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/imageView4"
+                app:srcCompat="@drawable/ic_user_loc"
+                app:layout_constraintRight_toRightOf="@id/imageView4"
+                 />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/recycler_view_group_items_location_ownerSeller_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                app:fontCustom="shp_iranSansMobile"
+                android:gravity="right"
+                app:layout_constraintRight_toLeftOf="@id/imageView8"
+                app:layout_constraintTop_toTopOf="@id/imageView8"
+                app:layout_constraintBottom_toBottomOf="@id/imageView8"
+                app:layout_constraintLeft_toRightOf="@id/recycler_view_group_items_people_image_imageView"
+                tools:text="فروشنده یا صاحب ملک" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -204,7 +204,6 @@ public class FragmentLogin extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Toast.makeText(context, "attached", Toast.LENGTH_SHORT).show();
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
