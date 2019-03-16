@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -19,23 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    Context context;
-    List<LocationPeople> locationPeopleList;
+    private Context context;
+    private List<LocationPeople> locationPeopleList;
 
 
-    private static final int AD_TYPE = 2 ;
+    // private static final String TAG = "PeopleAdapter";
 
-    private static final String LOCATION_GROUP = "LOCATION" ;
-    private static final String PEOPLE_GROUP = "PEOPLE" ;
-
-    private static final String TAG = "PeopleAdapter";
-
-    public PeopleAdapter(Context context){
+    public PeopleAdapter(Context context) {
         this.context = context;
     }
 
-    public void setListDataForAdapter(List<LocationPeople> locationPeopleList){
-        this.locationPeopleList = locationPeopleList ;
+    public void setListDataForAdapter(List<LocationPeople> locationPeopleList) {
+        this.locationPeopleList = locationPeopleList;
         notifyDataSetChanged();
     }
 
@@ -49,20 +45,21 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-                View normalView = LayoutInflater.from(context).inflate(R.layout.recycler_view_group_items_people,parent,false);
-                return new PeopleHolder(normalView);
+        View normalView = LayoutInflater.from(context).inflate(R.layout.recycler_view_group_items_people, parent, false);
+        return new PeopleHolder(normalView);
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof PeopleHolder){
+        if (holder instanceof PeopleHolder) {
             PeopleHolder locationHolder = (PeopleHolder) holder;
             locationHolder.bindPeople(locationPeopleList.get(position));
 
+            locationHolder.itemView.setOnClickListener(v -> Toast.makeText(context, locationPeopleList.get(position).getName(), Toast.LENGTH_SHORT).show());
+
         }
     }
-
 
 
     @Override
@@ -70,7 +67,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return locationPeopleList.size();
     }
 
-    public static class PeopleHolder extends RecyclerView.ViewHolder{
+    public static class PeopleHolder extends RecyclerView.ViewHolder {
 
         MyTextView nameTextView;
         MyTextView cityTextView;
@@ -81,8 +78,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ImageView originalPicImageView;
 
 
-
-        public PeopleHolder(@NonNull View itemView) {
+        PeopleHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.recycler_view_group_items_people_name_textView);
             tagTextView = itemView.findViewById(R.id.recycler_view_group_items_people_tag_textView);
@@ -92,21 +88,14 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             originalPicImageView = itemView.findViewById(R.id.recycler_view_group_items_people_image_imageView);
         }
 
-        public void bindPeople(final LocationPeople locationPeople) {
+        void bindPeople(final LocationPeople locationPeople) {
 
             nameTextView.setText(locationPeople.getName());
             tagTextView.setText(locationPeople.getTag());
             cityTextView.setText(locationPeople.getCity());
             workExperienceTextView.setText(convertMonthToYear(locationPeople.getWork_experience()));
             expertsTextView.setText(locationPeople.getExperts());
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Picasso.get().load(locationPeople.getOriginalPic()).centerCrop().resize(500,500).placeholder(R.drawable.holder_banner).into(originalPicImageView);
-
-                }
-            },1);
-
+            new Handler().postDelayed(() -> Picasso.get().load(locationPeople.getOriginalPic()).centerCrop().resize(500, 500).placeholder(R.drawable.holder_banner).into(originalPicImageView), 1);
 
 
         }
@@ -114,13 +103,13 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private String convertMonthToYear(int work_experience) {
 
             String msg = "";
-            if (work_experience >= 0 && work_experience <= 6){
+            if (work_experience >= 0 && work_experience <= 6) {
                 msg = "نیم سال تجربه";
-            }else if(work_experience >= 7 && work_experience <= 12) {
+            } else if (work_experience >= 7 && work_experience <= 12) {
                 msg = "1 سال تجربه";
-            }else if(work_experience >= 13&& work_experience <= 24) {
+            } else if (work_experience >= 13 && work_experience <= 24) {
                 msg = "2 سال تجربه";
-            }else if(work_experience >= 25) {
+            } else if (work_experience >= 25) {
                 msg = "بیش از 2 سال تجربه";
             }
             return msg;

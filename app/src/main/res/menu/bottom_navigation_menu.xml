@@ -12,6 +12,11 @@
 
     <item
         android:title="درباره برنامه"
-        android:id="@+id/bottom_navigation_form"
+        android:id="@+id/navigation_menu_about"
         android:icon="@drawable/ic_magnifying_glass" />
+
+    <item
+        android:title="آزمایشگاه مکان ها"
+        android:id="@+id/navigation_menu_places"
+        android:icon="@drawable/ic_padlock" />
 </menu>

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray_300"
+    android:background="@color/white"
     android:layoutDirection="rtl">
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:text="نام گروه"
+        tools:text="نام گروه"
+        app:fontCustom="shp_iranSansMobile"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,6 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:text="بیشتر"
+        app:fontCustom="shp_iranSansMobile"
+        android:textColor="@color/blue_600"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView_home_items_linear_layout_name_textView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/recyclerView_home_items_linear_layout_name_textView" />
@@ -32,7 +35,8 @@
         android:id="@+id/recyclerView_home_items_linear_layout_RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/standard_margin"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin_2x"
         app:layout_constraintTop_toBottomOf="@id/recyclerView_home_items_linear_layout_name_textView"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>

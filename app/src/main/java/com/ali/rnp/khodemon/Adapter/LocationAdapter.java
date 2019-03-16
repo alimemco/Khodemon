@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -60,6 +61,11 @@ public class LocationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             LocationHolder locationHolder = (LocationHolder) holder;
             locationHolder.bindNormalLocation(locationPeopleList.get(position));
 
+            locationHolder.itemView.setOnClickListener(v -> {
+                Toast.makeText(context, ""+locationPeopleList.get(position).getName(), Toast.LENGTH_SHORT).show();
+
+            });
+
         }
     }
 
@@ -93,12 +99,6 @@ public class LocationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             nameTextView.setText(locationPeople.getName());
             tagTextView.setText(locationPeople.getTag());
             ownerSellerTextView.setText(locationPeople.getOwnerSeller());
-/*
-            String address =
-                    locationPeople.getProvince() + ", " +
-                            locationPeople.getCity() + ", " +
-                            locationPeople.getAddress();
-                            */
 
             addressTextView.setText(locationPeople.getAddress());
 

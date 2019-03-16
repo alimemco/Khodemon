@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +29,9 @@ public class ApiService {
     private final static String API_GET_HOME_ITEMS = "http://khodemon.ir/getHomeItems.php";
     private final static String API_GET_GROUP_ITEMS = "http://khodemon.ir/getGroupItems.php";
     private final static String API_GET_HOME_LIST_ITEMS = "http://khodemon.ir/getHomeItemsList.php";
+
+    private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
+
 
     public static final int STATUS_REGISTER_ERROR = 616;
     public static final int STATUS_Login_ERROR = 717;
@@ -125,11 +129,11 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void getHomeListItems(final OnHomeListItemReceived onHomeListItemReceived) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_ITEMS, null, new Response.Listener<JSONObject>() {
+    public void getHomeRecyclerListItems(final OnHomeListItemReceived onHomeListItemReceived) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_LIST_ITEMS, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                parseJsonHomeListItems(response, onHomeListItemReceived);
+                parseJsonHomeRecyclerListItems(response, onHomeListItemReceived);
             }
         },
                 new Response.ErrorListener() {
@@ -190,11 +194,15 @@ public class ApiService {
 
     }
 
+
+
+
     private void parseJsonHomeItems(JSONObject response, OnHomeItemReceived onHomeItemReceived) {
 
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
             JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
+
 
             List<LocationPeople> locationPeopleList = new ArrayList<>();
 
@@ -219,7 +227,7 @@ public class ApiService {
         }
     }
 
-    private void parseJsonHomeListItems(JSONObject response, OnHomeListItemReceived onHomeListItemReceived) {
+    private void parseJsonHomeRecyclerListItems(JSONObject response, OnHomeListItemReceived onHomeListItemReceived) {
 
 
         try {
@@ -227,31 +235,33 @@ public class ApiService {
 
             JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
 
-
             List<HomeList> locationPeopleList = new ArrayList<>();
-            Log.i(TAG, "jsonArrayResult" + jsonArrayResult.length());
+
+            Log.i(TAG, "jsonArrayResult.length : "+jsonArrayResult.length());
 
             for (int i = 0; i < jsonArrayResult.length(); i++) {
 
-                JSONObject jsonObjectLocPeo = jsonArrayResult.getJSONObject(i);
+                JSONArray jsonArrayIndexGroup = jsonArrayResult.getJSONArray(i);
 
                 locationPeopleSingle = new ArrayList<>();
 
-                for (int j = 0; j < jsonObjectLocPeo.length(); j++) {
-                    Log.i(TAG, "jsonObjectLocPeo: " + jsonObjectLocPeo.length());
+                for (int j = 0; j < jsonArrayIndexGroup.length(); j++) {
+
+                    Log.i(TAG, "jsonObjectLocPeo.length() " + jsonArrayIndexGroup.length());
+                    JSONObject jsonObjectGroup = jsonArrayIndexGroup.getJSONObject(j);
 
 
                     LocationPeople locationPeople = new LocationPeople();
 
-                    locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
-                    locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
-                    locationPeople.setName(jsonObjectLocPeo.getString("name"));
-                    locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
+                    locationPeople.setId(jsonObjectGroup.getInt("ID"));
+                    locationPeople.setGroup(jsonObjectGroup.getString("group_name"));
+                    locationPeople.setName(jsonObjectGroup.getString("name"));
+                    locationPeople.setOriginalPic(jsonObjectGroup.getString("original_pic"));
 
                     locationPeopleSingle.add(locationPeople);
 
                 }
-                //   onHomeListItemReceived.onItemReceived(null,locationPeopleSingle,null);
+
 
                 HomeList homeList = new HomeList();
 
@@ -313,4 +323,6 @@ public class ApiService {
     public interface OnGroupItemReceived {
         void onItemGroupReceived(List<LocationPeople> locationPeopleList, VolleyError error);
     }
+
+
 }

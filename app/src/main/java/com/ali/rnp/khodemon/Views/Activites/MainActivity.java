@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,6 +38,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
@@ -60,13 +62,13 @@ public class MainActivity extends AppCompatActivity implements
         FragmentAdd.OnFragmentInteractionListener,
         FragmentSearch.OnFragmentInteractionListener,
         FragmentFavorite.OnFragmentInteractionListener,
-        FragmentLogin.OnFragmentInteractionListener,
-        FragmentRegister.OnFragmentInteractionListener {
+        FragmentLogin.OnFragmentInteractionListener {
 
 
     private AHBottomNavigation bottomNavigation;
     private MyTextView cityName;
     private ImageView imageView;
+    private NavigationView navigationView;
     private SharedPrefManager sharedPrefManager;
     //private FrameLayout frameLayout;
 
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements
         SetupBottomNavigation();
         SetupToolbar();
         SetupCityFromSharedPref();
+        SetupNavigationView();
 
 
 
@@ -112,6 +115,30 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
+    }
+
+    private void SetupNavigationView() {
+        navigationView = findViewById(R.id.mainActivity_navigation_view);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+
+                    case R.id.navigation_menu_about:
+                        Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.navigation_menu_places:
+                        startActivity(new Intent(MainActivity.this,TestPlace.class));
+
+                        break;
+                }
+
+                return false;
+            }
+        });
     }
 
     private void SetupFragments() {
@@ -262,43 +289,38 @@ public class MainActivity extends AppCompatActivity implements
         bottomNavigation.setUseElevation(true);
 
         // Set listeners
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
+        bottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
 
-                if (!wasSelected) {
+            if (!wasSelected) {
 
-                    clearFragmentBackStack();
+                clearFragmentBackStack();
 
-                    switch (position) {
-                        case BOTTOM_NAV_ITEM_HOME:
-                            fragmentReplace(fragmentHome);
-                            break;
+                switch (position) {
+                    case BOTTOM_NAV_ITEM_HOME:
+                        fragmentReplace(fragmentHome);
+                        break;
 
-                        case BOTTOM_NAV_ITEM_USER:
-                            fragmentReplace(fragmentUser);
-                            break;
+                    case BOTTOM_NAV_ITEM_USER:
+                        fragmentReplace(fragmentUser);
+                        break;
 
-                        case BOTTOM_NAV_ITEM_ADD:
-                            fragmentReplace(fragmentAdd);
-                            break;
+                    case BOTTOM_NAV_ITEM_ADD:
+                        fragmentReplace(fragmentAdd);
+                        break;
 
-                        case BOTTOM_NAV_ITEM_SEARCH:
-                             fragmentReplace(fragmentSearch);
-                            break;
+                    case BOTTOM_NAV_ITEM_SEARCH:
+                         fragmentReplace(fragmentSearch);
+                        break;
 
-                        case BOTTOM_NAV_ITEM_FAVORITE:
-                            fragmentReplace(fragmentFavorite);
-                            bottomNavigation.setNotification("", BOTTOM_NAV_ITEM_FAVORITE);
-                            break;
-                    }
+                    case BOTTOM_NAV_ITEM_FAVORITE:
+                        fragmentReplace(fragmentFavorite);
+                        bottomNavigation.setNotification("", BOTTOM_NAV_ITEM_FAVORITE);
+                        break;
                 }
-
-
-                return true;
             }
 
 
+            return true;
         });
 
         bottomNavigation.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
@@ -364,15 +386,12 @@ public class MainActivity extends AppCompatActivity implements
                     cityName.setText(cityNameString);
 
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            LocationCity locationCity = new LocationCity();
-                            locationCity.setCityId(cityId);
-                            locationCity.setCityName(cityNameString);
-                            locationCity.setCityProvinceName(cityProvinceNameString);
-                            sharedPrefManager.setSharedCity(locationCity);
-                        }
+                    runOnUiThread(() -> {
+                        LocationCity locationCity = new LocationCity();
+                        locationCity.setCityId(cityId);
+                        locationCity.setCityName(cityNameString);
+                        locationCity.setCityProvinceName(cityProvinceNameString);
+                        sharedPrefManager.setSharedCity(locationCity);
                     });
 
                 }

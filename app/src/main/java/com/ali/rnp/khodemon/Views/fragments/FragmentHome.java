@@ -15,10 +15,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.ali.rnp.khodemon.Adapter.LinearSingleAdapter;
 import com.ali.rnp.khodemon.Adapter.LocationPeopleAdapter;
+import com.ali.rnp.khodemon.Adapter.SingleItemAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
 import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
+import com.ali.rnp.khodemon.DataModel.HomeList;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.R;
@@ -39,6 +42,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.transition.TransitionInflater;
@@ -135,9 +139,32 @@ public class FragmentHome extends Fragment implements
 
     private void SetupRecyclerViewHomeItems() {
 
-        recyclerView.setLayoutManager(new GridLayoutManager(context,1));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context,RecyclerView.VERTICAL,false));
 
+        ApiService apiService = new ApiService(context);
+        final SingleItemAdapter singleItemAdapter = new SingleItemAdapter(context);
+        final LinearSingleAdapter linearSingleAdapter = new LinearSingleAdapter(context);
 
+        new Handler().postDelayed(() -> {
+
+            apiService.getHomeRecyclerListItems((homeLists, locationPeopleList, error) -> {
+
+                progressBar.setVisibility(View.INVISIBLE);
+
+                Activity activity = getActivity();
+
+                if (activity != null && homeLists != null && locationPeopleList != null){
+                    singleItemAdapter.setListDataForAdapter(locationPeopleList);
+                    linearSingleAdapter.setListDataForAdapter(homeLists);
+                    recyclerView.setAdapter(linearSingleAdapter);
+                }else {
+                    Log.i(TAG, "onItemReceived: Error");
+                }
+
+            });
+
+        },1);
+/*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -179,6 +206,7 @@ public class FragmentHome extends Fragment implements
 
             }
         },1);
+        */
     }
 
 

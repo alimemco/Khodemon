@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.LinearSingleAdapter;
 import com.ali.rnp.khodemon.Adapter.SingleItemAdapter;
@@ -40,7 +39,7 @@ public class TestActivity extends AppCompatActivity {
         final SingleItemAdapter singleItemAdapter = new SingleItemAdapter(this);
         final LinearSingleAdapter linearSingleAdapter = new LinearSingleAdapter(this);
 
-        apiService.getHomeListItems(new ApiService.OnHomeListItemReceived() {
+        apiService.getHomeRecyclerListItems(new ApiService.OnHomeListItemReceived() {
             @Override
             public void onItemReceived(List<HomeList> homeLists,List<LocationPeople> locationPeopleList, VolleyError error) {
                 if (homeLists != null && locationPeopleList != null){

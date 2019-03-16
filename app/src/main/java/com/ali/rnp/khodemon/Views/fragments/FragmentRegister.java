@@ -2,18 +2,15 @@ package com.ali.rnp.khodemon.Views.fragments;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Api.ApiService;
@@ -28,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -37,7 +35,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 public class FragmentRegister extends Fragment {
 
 
-    private OnFragmentInteractionListener mListener;
+
     private MyTextView nameTxt;
     private MyTextView familyTxt;
     private MyTextView userTxt;
@@ -85,7 +83,6 @@ public class FragmentRegister extends Fragment {
     private int currentProgress = 0;
 
 
-    private static final String TAG = "FragmentRegister";
     private static final String FIRST_NAME_REGISTER = "first_name";
     private static final String LAST_NAME_REGISTER = "last_name";
     private static final String USER_NAME_REGISTER = "user_name";
@@ -96,9 +93,8 @@ public class FragmentRegister extends Fragment {
 
     }
 
-    public static FragmentRegister newInstance() {
-        FragmentRegister fragment = new FragmentRegister();
-        return fragment;
+    static FragmentRegister newInstance() {
+        return new FragmentRegister();
     }
 
     @Override
@@ -109,7 +105,7 @@ public class FragmentRegister extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
@@ -126,34 +122,31 @@ public class FragmentRegister extends Fragment {
         passwordSecurityCheck();
 
 
-        passwordEdTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+        passwordEdTxt.setOnFocusChangeListener((v, hasFocus) -> {
 
-                if (hasFocus || passwordEdTxt.isFocused()) {
-                    progressBarPass.setVisibility(View.VISIBLE);
-                   scrollView.fullScroll(View.FOCUS_DOWN);
-                    passLevelTxt.setVisibility(View.VISIBLE);
-                    passTxtError.setVisibility(View.INVISIBLE);
+            if (hasFocus || passwordEdTxt.isFocused()) {
+                progressBarPass.setVisibility(View.VISIBLE);
+                scrollView.fullScroll(View.FOCUS_DOWN);
+                passLevelTxt.setVisibility(View.VISIBLE);
+                passTxtError.setVisibility(View.INVISIBLE);
 
 
-                } else {
-                    scrollView.scrollTo(0, 0);
-                }
+            } else {
+                scrollView.scrollTo(0, 0);
             }
         });
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (Utils.isConnectedToNetwork(getContext())) {
 
-                    validateFields();
+        registerBtn.setOnClickListener(v -> {
 
-                } else {
-                    Toast.makeText(getContext(), "Error Connection", Toast.LENGTH_SHORT).show();
-                }
+
+            if (getContext() != null && Utils.isConnectedToNetwork(getContext())) {
+
+                validateFields();
+
+            } else {
+                Toast.makeText(getContext(), "Error Connection", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -261,7 +254,8 @@ public class FragmentRegister extends Fragment {
     }
 
     private void changeColorAndTextLevel(@ColorRes int colorLevel, CharSequence textLevel) {
-        progressBarPass.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), colorLevel)));
+        assert getContext() != null ;
+        progressBarPass.setSupportProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), colorLevel)));
         passLevelTxt.setText(textLevel);
     }
 
@@ -300,18 +294,24 @@ public class FragmentRegister extends Fragment {
 
     private void validateFields() {
 
-        if (!nameEdTxt.getText().toString().equals("") &&
+        if (nameEdTxt.getText() != null &&
+                familyEdTxt.getText() != null &&
+                userEdTxt.getText() != null &&
+                passwordEdTxt.getText() != null &&
+
+                !nameEdTxt.getText().toString().equals("") &&
                 !familyEdTxt.getText().toString().equals("") &&
                 !userEdTxt.getText().toString().equals("") &&
                 !passwordEdTxt.getText().toString().equals("")
-                ) {
+        ) {
 
             invisibleTextErrors(passTxtError, userTxtError, nameTxtError);
             sendRegInfoToServer();
 
 
         } else {
-            if (nameEdTxt.getText().toString().equals("") || familyEdTxt.getText().toString().equals("")) {
+            if (nameEdTxt.getText() != null &&
+                    nameEdTxt.getText().toString().equals("") || familyEdTxt.getText().toString().equals("")) {
 
                 Utils.startAnimationViewsFadeVisible(rootLayout, nameTxtError);
             } else {
@@ -347,37 +347,43 @@ public class FragmentRegister extends Fragment {
     private void sendRegInfoToServer() {
         JSONObject jsonObjectUserRegInfo = new JSONObject();
         try {
-            jsonObjectUserRegInfo.put(FIRST_NAME_REGISTER, nameEdTxt.getText().toString());
-            jsonObjectUserRegInfo.put(LAST_NAME_REGISTER, familyEdTxt.getText().toString());
-            jsonObjectUserRegInfo.put(USER_NAME_REGISTER, userEdTxt.getText().toString());
-            jsonObjectUserRegInfo.put(USER_PASS_REGISTER, passwordEdTxt.getText().toString());
+            assert nameEdTxt.getText() != null &&
+                    familyEdTxt.getText() != null &&
+                    userEdTxt.getText() != null &&
+                    passwordEdTxt.getText() != null ;
+
+                jsonObjectUserRegInfo.put(FIRST_NAME_REGISTER, nameEdTxt.getText().toString());
+                jsonObjectUserRegInfo.put(LAST_NAME_REGISTER, familyEdTxt.getText().toString());
+                jsonObjectUserRegInfo.put(USER_NAME_REGISTER, userEdTxt.getText().toString());
+                jsonObjectUserRegInfo.put(USER_PASS_REGISTER, passwordEdTxt.getText().toString());
+
+
 
             ApiService apiService = new ApiService(getContext());
-            apiService.registerUser(jsonObjectUserRegInfo, new ApiService.OnRegisterCompleted() {
-                @Override
-                public void onRegisterStatusReceived(int status) {
+            apiService.registerUser(jsonObjectUserRegInfo, status -> {
 
-                    switch (status) {
-                        case 0:
-                            Utils.startAnimationViewsFadeVisible(rootLayout, userTxtExist);
-                            break;
+                switch (status) {
+                    case 0:
+                        Utils.startAnimationViewsFadeVisible(rootLayout, userTxtExist);
+                        break;
 
-                        case 1:
-                            Toast.makeText(getContext(), "error in Server", Toast.LENGTH_SHORT).show();
-                            break;
+                    case 1:
+                        Toast.makeText(getContext(), "error in Server", Toast.LENGTH_SHORT).show();
+                        break;
 
-                        case ApiService.STATUS_REGISTER_ERROR:
-                            Toast.makeText(getContext(), "error in lib", Toast.LENGTH_SHORT).show();
-                            break;
+                    case ApiService.STATUS_REGISTER_ERROR:
+                        Toast.makeText(getContext(), "error in lib", Toast.LENGTH_SHORT).show();
+                        break;
 
-                        case 29:
-                            Toast.makeText(getContext(), "Done :)", Toast.LENGTH_SHORT).show();
-                            break;
+                    case 29:
+                        Toast.makeText(getContext(), "Done :)", Toast.LENGTH_SHORT).show();
+                        break;
 
 
-                    }
                 }
             });
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -442,15 +448,12 @@ public class FragmentRegister extends Fragment {
         rootLayout = rootView.findViewById(R.id.fragment_register_constraintLayout);
 
 
-        passwordEdTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_GO) {
-                    registerBtn.performClick();
-                    return true;
-                }
-                return false;
+        passwordEdTxt.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                registerBtn.performClick();
+                return true;
             }
+            return false;
         });
     }
 
@@ -472,26 +475,14 @@ public class FragmentRegister extends Fragment {
 
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
 
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
+
+
+
 }
