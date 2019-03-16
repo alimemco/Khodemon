@@ -10,7 +10,7 @@ import android.util.Log;
 import com.ali.rnp.khodemon.Adapter.LinearSingleAdapter;
 import com.ali.rnp.khodemon.Adapter.SingleItemAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
-import com.ali.rnp.khodemon.DataModel.HomeList;
+import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.android.volley.VolleyError;
 
@@ -21,7 +21,7 @@ public class TestActivity extends AppCompatActivity {
     private static final String TAG = "TestActivity";
     
     private RecyclerView recyclerView;
-    private List<HomeList> homeLists;
+    private List<ListLayout> listLayouts;
 
 
 
@@ -41,10 +41,10 @@ public class TestActivity extends AppCompatActivity {
 
         apiService.getHomeRecyclerListItems(new ApiService.OnHomeListItemReceived() {
             @Override
-            public void onItemReceived(List<HomeList> homeLists,List<LocationPeople> locationPeopleList, VolleyError error) {
-                if (homeLists != null && locationPeopleList != null){
+            public void onItemReceived(List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList, VolleyError error) {
+                if (listLayouts != null && locationPeopleList != null){
                     singleItemAdapter.setListDataForAdapter(locationPeopleList);
-                    linearSingleAdapter.setListDataForAdapter(homeLists);
+                    linearSingleAdapter.setListDataForAdapter(listLayouts);
                     recyclerView.setAdapter(linearSingleAdapter);
                 }else {
                     Log.i(TAG, "onItemReceived: Error");

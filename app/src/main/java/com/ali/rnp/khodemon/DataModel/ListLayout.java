@@ -2,7 +2,7 @@ package com.ali.rnp.khodemon.DataModel;
 
 import java.util.List;
 
-public class HomeList {
+public class ListLayout {
     private int id ;
     private String title;
     private List<LocationPeople> locationPeopleList;

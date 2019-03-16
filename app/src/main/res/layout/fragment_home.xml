@@ -139,12 +139,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="false">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/backgroundApp">
+                android:background="@color/backgroundApp"
+                >
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/fragment_home_people_cardView"
@@ -237,6 +239,7 @@
                         android:id="@+id/fragment_home_location_constraintLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+
                         android:background="@drawable/shape_gradiant_red_orange"
                         android:clickable="true"
                         android:focusable="true">

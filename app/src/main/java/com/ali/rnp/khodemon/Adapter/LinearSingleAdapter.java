@@ -1,19 +1,14 @@
 package com.ali.rnp.khodemon.Adapter;
 
 import android.content.Context;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ali.rnp.khodemon.Api.ApiService;
-import com.ali.rnp.khodemon.DataModel.HomeList;
+import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
-import com.android.volley.VolleyError;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapter.LinearSingleAdapterHolder> {
 
     public List<LocationPeople> locationPeopleList;
-    private List<HomeList> homeList;
+    private List<ListLayout> listLayout;
     Context context;
     private static SingleItemAdapter singleItemAdapter;
 
@@ -33,8 +28,8 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
         this.context = context;
     }
 
-    public void setListDataForAdapter(List<HomeList> homeList) {
-        this.homeList = homeList;
+    public void setListDataForAdapter(List<ListLayout> listLayout) {
+        this.listLayout = listLayout;
         notifyDataSetChanged();
     }
 
@@ -70,7 +65,7 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
     public void onBindViewHolder(@NonNull LinearSingleAdapterHolder holder, int position) {
 
 
-            holder.bindNormalLocation(homeList.get(position));
+            holder.bindNormalLocation(listLayout.get(position));
 
 
 
@@ -78,7 +73,7 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
 
     @Override
     public int getItemCount() {
-        return homeList.size();
+        return listLayout.size();
     }
 
     public static class LinearSingleAdapterHolder extends RecyclerView.ViewHolder {
@@ -97,11 +92,11 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
 
         }
 
-        public void bindNormalLocation(final HomeList homeList) {
+        public void bindNormalLocation(final ListLayout listLayout) {
 
-            nameTextView.setText(homeList.getTitle());
+            nameTextView.setText(listLayout.getTitle());
 
-                List<LocationPeople> locationPeopleList = homeList.getLocationPeopleList();
+                List<LocationPeople> locationPeopleList = listLayout.getLocationPeopleList();
                 singleItemAdapter.setListDataForAdapter(locationPeopleList);
                 recyclerViewSingle.setAdapter(singleItemAdapter);
 
