@@ -193,9 +193,6 @@ public class ApiService {
 
     }
 
-
-
-
     private void parseJsonHomeItems(JSONObject response, OnHomeItemReceived onHomeItemReceived) {
 
         try {

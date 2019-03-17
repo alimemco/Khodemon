@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.squareup.picasso.Picasso;
 
@@ -54,13 +55,17 @@ public class SingleItemAdapter extends RecyclerView.Adapter<SingleItemAdapter.Si
     public static class SingleItemHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
+        MyTextView titleItemTextView;
 
         public SingleItemHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.recycler_view_home_items_linear_layout_imageView);
+            titleItemTextView = itemView.findViewById(R.id.recycler_view_home_items_linear_layout_title_textView);
         }
 
         public void bindNormalLocation(final LocationPeople locationPeople) {
+
+            titleItemTextView.setText(locationPeople.getName());
 
 
             new Handler().postDelayed(new Runnable() {

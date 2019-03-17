@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
@@ -18,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapter.LinearSingleAdapterHolder> {
 
-    public List<LocationPeople> locationPeopleList;
     private List<ListLayout> listLayout;
     Context context;
     private static SingleItemAdapter singleItemAdapter;
@@ -33,10 +33,6 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
         notifyDataSetChanged();
     }
 
-    public void setListDataForSingleAdapter(List<LocationPeople> locationPeopleList) {
-        this.locationPeopleList = locationPeopleList;
-        notifyDataSetChanged();
-    }
 
 
 
@@ -47,15 +43,6 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
 
         singleItemAdapter = new SingleItemAdapter(context);
 
-/*
-        singleItemAdapter = new SingleItemAdapter(context);
-        if (locationPeopleList != null ){
-            singleItemAdapter.setListDataForAdapter(locationPeopleList);
-        }else {
-            Log.i("adapter", "onCreateViewHolder: Error");
-        }
-
-        */
 
 
         return new LinearSingleAdapterHolder(rootView);
@@ -67,6 +54,10 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
 
             holder.bindNormalLocation(listLayout.get(position));
 
+
+
+            holder.itemView.setOnClickListener(v -> Toast.makeText(context, listLayout.get(position).getTitle(), Toast.LENGTH_SHORT).show());
+            holder.recyclerViewSingle.setOnClickListener(v -> Toast.makeText(context, "", Toast.LENGTH_SHORT).show());
 
 
     }
