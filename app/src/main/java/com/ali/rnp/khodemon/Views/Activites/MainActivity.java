@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationCity;
+import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.SharedPrefManager;
@@ -57,9 +58,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements
         View.OnClickListener,
-        FragmentHome.OnFragmentInteractionListener,
         FragmentUser.OnFragmentInteractionListener,
-        FragmentAdd.OnFragmentInteractionListener,
         FragmentSearch.OnFragmentInteractionListener,
         FragmentFavorite.OnFragmentInteractionListener,
         FragmentLogin.OnFragmentInteractionListener {
@@ -134,6 +133,16 @@ public class MainActivity extends AppCompatActivity implements
                         startActivity(new Intent(MainActivity.this,TestPlace.class));
 
                         break;
+
+                    case R.id.navigation_menu_bottomNav:
+                        startActivity(new Intent(MainActivity.this,TestActivity.class));
+
+                        break;
+
+                        case R.id.navigation_menu_PhotoPicker:
+                        startActivity(new Intent(MainActivity.this,AddRule.class));
+
+                        break;
                 }
 
                 return false;
@@ -146,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements
         fragmentManager = getSupportFragmentManager();
 
 
-        fragmentHome = new FragmentHome(MainActivity.this);
+        fragmentHome = FragmentHome.newInstance();
         fragmentUser = new FragmentUser();
         fragmentAdd = new FragmentAdd();
         fragmentSearch = new FragmentSearch();
@@ -272,18 +281,22 @@ public class MainActivity extends AppCompatActivity implements
         bottomNavigation.setNotificationBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.notification_color, null));
 
         // Force to tint the drawable (useful for font with icon for example)
-        bottomNavigation.setForceTint(true);
+        bottomNavigation.setForceTint(false);
 
         bottomNavigation.setBehaviorTranslationEnabled(true);
+
 
 
         // Manage titles
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
 
+        bottomNavigation.setTitleTypeface(MyApplication.getShpIranSansMoblie(MainActivity.this));
+
         bottomNavigation.setCurrentItem(BOTTOM_NAV_ITEM_HOME);
 
         bottomNavigation.setNotification("1", BOTTOM_NAV_ITEM_FAVORITE);
         bottomNavigation.setNotification("new", BOTTOM_NAV_ITEM_USER);
+
 
 
         bottomNavigation.setUseElevation(true);

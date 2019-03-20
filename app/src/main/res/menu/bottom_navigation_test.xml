@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Home"
+        android:id="@+id/item_1"
+        android:icon="@drawable/ic_house" />
+
+    <item
+        android:title="Account"
+        android:id="@+id/item_2"
+        android:icon="@drawable/ic_avatar"/>
+
+    <item
+        android:title="Settings"
+        android:id="@+id/item_3"
+        android:icon="@drawable/ic_add"/>
+
+    <item
+        android:title="Search"
+        android:id="@+id/item_4"
+        android:icon="@drawable/ic_magnifying_glass"/>
+
+
+    <item
+        android:title="heart"
+        android:id="@+id/item_5"
+        android:icon="@drawable/ic_heart"/>
+
+</menu>

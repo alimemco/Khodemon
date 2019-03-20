@@ -36,4 +36,17 @@
         android:maxLines="1"
         tools:text="نام"/>
 
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/recycler_view_home_items_linear_layout_tag_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:textSize="11sp"
+        app:fontCustom="shp_iranSansMobileLight"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorPrimary"
+        tools:text="برنامه نویس"/>
+
 </LinearLayout>

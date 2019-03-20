@@ -8,9 +8,35 @@
     tools:context=".TestActivity"
     android:id="@+id/activity_test_root">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_test_rec"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/activity_test_bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="#ffffff"
+        app:itemTextColor="@color/navigation_bottom_color"
+        app:itemIconTint="@color/navigation_bottom_color"
+
+        app:menu="@menu/bottom_navigation_test"/>
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/activity_test_textView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Test"
+        android:gravity="center"
+        android:textSize="@dimen/large_textSize_sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_test_bottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,11 @@
     package="com.ali.rnp.khodemon">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+
 
     <application
         android:name=".MyApplication"
@@ -12,8 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.Activites.TestPlace"
-            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".Views.Activites.AddRule"
+            android:label="@string/title_activity_add_rule"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Views.Activites.TestPlace"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Views.Activites.MainActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -48,6 +58,19 @@
         </service>
 
         <activity android:name=".TestActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.ali.rnp.khodemon.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public"></meta-data>
+        </provider>
+
     </application>
+
+
 
 </manifest>

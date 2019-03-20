@@ -48,7 +48,8 @@ import ss.com.bannerslider.Slider;
 
 public class FragmentHome extends Fragment implements
         View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener
+        SwipeRefreshLayout.OnRefreshListener,
+        LinearSingleAdapter.ItemClickListenerRecyclerList
 {
 
     private Slider slider;
@@ -79,7 +80,6 @@ public class FragmentHome extends Fragment implements
 
 
 
-    private OnFragmentInteractionListener mListener;
 
     public FragmentHome() {
 
@@ -91,8 +91,7 @@ public class FragmentHome extends Fragment implements
     }
 
     public static FragmentHome newInstance() {
-        FragmentHome fragment = new FragmentHome();
-        return fragment;
+        return new FragmentHome();
     }
 
     @Override
@@ -101,7 +100,6 @@ public class FragmentHome extends Fragment implements
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
-
         }
 
 
@@ -122,6 +120,8 @@ public class FragmentHome extends Fragment implements
 
 
 
+
+
         return rootView;
     }
 
@@ -138,9 +138,23 @@ public class FragmentHome extends Fragment implements
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context,RecyclerView.VERTICAL,false));
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Log.i(TAG, "\n dx "+dx+"\n dy" +dy);
+            }
+        });
+
+
         ApiService apiService = new ApiService(context);
         final SingleItemAdapter singleItemAdapter = new SingleItemAdapter(context);
-        final LinearSingleAdapter linearSingleAdapter = new LinearSingleAdapter(context);
+        final LinearSingleAdapter linearSingleAdapter = new LinearSingleAdapter(context,this);
 
         new Handler().postDelayed(() -> {
 
@@ -154,6 +168,10 @@ public class FragmentHome extends Fragment implements
                     singleItemAdapter.setListDataForAdapter(locationPeopleList);
                     linearSingleAdapter.setListDataForAdapter(homeLists);
                     recyclerView.setAdapter(linearSingleAdapter);
+
+
+
+
                 }else {
                     Log.i(TAG, "onItemReceived: Error");
                 }
@@ -161,49 +179,6 @@ public class FragmentHome extends Fragment implements
             });
 
         },1);
-/*
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ApiService apiService = new ApiService(context);
-                apiService.getHomeItems(new ApiService.OnHomeItemReceived() {
-
-                    @Override
-                    public void onItemReceived(List<LocationPeople> locationPeopleList, VolleyError error) {
-
-                        Activity activity = getActivity();
-
-                        if( activity != null){
-
-                            progressBar.setVisibility(View.INVISIBLE);
-
-                            if (locationPeopleList != null && error == null ){
-                                LocationPeopleAdapter locationPeopleAdapter = new LocationPeopleAdapter(context);
-                                locationPeopleAdapter.setListDataForAdapter(locationPeopleList);
-                                recyclerView.setAdapter(locationPeopleAdapter);
-                            }else {
-                                assert error != null;
-                                if (error instanceof NoConnectionError){
-                                    String errorMsg = getResources().getString(R.string.no_internet_error_msg);
-                                    Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
-                                }else {
-                                    Toast.makeText(context, "ERROR "+error.toString(), Toast.LENGTH_SHORT).show();
-
-                                }
-
-                            }
-
-                        }
-
-
-
-
-                    }
-                });
-
-            }
-        },1);
-        */
     }
 
 
@@ -248,14 +223,16 @@ public class FragmentHome extends Fragment implements
         locationCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick: mos");
+
             }
         });
-       // locationCardView.setOnClickListener(this);
+
         peopleCardView.setOnClickListener(this);
 
 
-       // progressBar.setVisibility(View.VISIBLE);
+
+
+
     }
 
 
@@ -263,27 +240,12 @@ public class FragmentHome extends Fragment implements
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
+        this.context = context;
 
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
 
-
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
 
     @Override
     public void onRefresh() {
@@ -316,13 +278,13 @@ public class FragmentHome extends Fragment implements
 
     @Override
     public void onClick(View v) {
-        Log.i(TAG, "onClick: "+v.getId());
+
         switch (v.getId()) {
 
 
             case R.id.fragment_home_location_constraintLayout:
                 Bundle argsLocation = new Bundle();
-                argsLocation.putString(GROUP_KEY,ApiService.LOCATION_GROUP_NAME);
+                argsLocation.putString(GROUP_KEY,ApiService.GROUP_NAME_LOCATION);
                 fragmentGroup.setArguments(argsLocation);
                 fragmentGroup.setArguments(argsLocation);
 
@@ -332,7 +294,7 @@ public class FragmentHome extends Fragment implements
 
             case R.id.fragment_home_people_constraintLayout:
                 Bundle argsPeople = new Bundle();
-                argsPeople.putString(GROUP_KEY,ApiService.PEOPLE_GROUP_NAME);
+                argsPeople.putString(GROUP_KEY,ApiService.GROUP_NAME_PEOPLE);
                 fragmentGroup.setArguments(argsPeople);
 
                 fragmentGroupReplace();
@@ -360,15 +322,16 @@ public class FragmentHome extends Fragment implements
                         .replace(R.id.mainActivity_fragment_container, fragmentSearch)
                         .commit();
 
+                bottomNavigation.setCurrentItem(MainActivity.BOTTOM_NAV_ITEM_SEARCH);
 
-
+/*
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         bottomNavigation.setCurrentItem(MainActivity.BOTTOM_NAV_ITEM_SEARCH,false);
                     }
                 },600);
-
+*/
 
 
         }
@@ -380,5 +343,30 @@ public class FragmentHome extends Fragment implements
         fragmentTrGroup.replace(R.id.mainActivity_fragment_container,fragmentGroup);
         fragmentTrGroup.addToBackStack("d");
         fragmentTrGroup.commit();
+    }
+
+    @Override
+    public void onItemClick(int position, String group) {
+        switch (group){
+            case ApiService.GROUP_NAME_LOCATION:
+                Bundle argsLocation = new Bundle();
+                argsLocation.putString(GROUP_KEY,ApiService.GROUP_NAME_LOCATION);
+                fragmentGroup.setArguments(argsLocation);
+                fragmentGroup.setArguments(argsLocation);
+
+                fragmentGroupReplace();
+                break;
+
+            case ApiService.GROUP_NAME_PEOPLE:
+                Bundle argsPeople = new Bundle();
+                argsPeople.putString(GROUP_KEY,ApiService.GROUP_NAME_PEOPLE);
+                fragmentGroup.setArguments(argsPeople);
+
+                fragmentGroupReplace();
+                break;
+
+
+
+        }
     }
 }

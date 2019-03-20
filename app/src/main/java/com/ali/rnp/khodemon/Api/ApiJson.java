@@ -23,26 +23,31 @@ public class ApiJson {
     private List<String> titleList = new ArrayList<>();
 
     private Context context;
+    private OnResultJsonReceived onResultJsonReceived;
 
-    public ApiJson(Context context){
+
+
+    public ApiJson(Context context,OnResultJsonReceived onResultJsonReceived){
         this.context = context;
+        this.onResultJsonReceived = onResultJsonReceived;
+
 
     }
 
 
-    public void getTitleFromJson(OnResultReceived onResultReceived){
+    public void getTitleFromJson(){
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, URL_API, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
 
-                parseDataFromJson(response,onResultReceived);
+                parseDataFromJson(response);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onResultReceived.onItemResultReceived(null,error.toString());
+                onResultJsonReceived.onItemResultReceived(null,error.toString());
             }
         });
 
@@ -52,7 +57,7 @@ public class ApiJson {
 
     }
 
-    private void parseDataFromJson(JSONArray response, OnResultReceived onResultReceived) {
+    private void parseDataFromJson(JSONArray response) {
 
         for (int i = 0; i < response.length(); i++) {
 
@@ -64,17 +69,17 @@ public class ApiJson {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                onResultReceived.onItemResultReceived(null,e.toString());
+                onResultJsonReceived.onItemResultReceived(null,e.toString());
             }
 
         }
 
-        onResultReceived.onItemResultReceived(titleList,null);
+        onResultJsonReceived.onItemResultReceived(titleList,null);
 
     }
 
 
-    public interface OnResultReceived {
+    public interface OnResultJsonReceived {
         void onItemResultReceived(List<String> titleList ,String error);
     }
 }

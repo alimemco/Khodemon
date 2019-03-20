@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">ویترین</string>
-    <string name="bottom_navigation_tab_home">home</string>
-    <string name="bottom_navigation_tab_user">user</string>
-    <string name="bottom_navigation_tab_search">search</string>
-    <string name="bottom_navigation_tab_heart">heart</string>
-    <string name="bottom_navigation_tab_add">add</string>
+    <string name="bottom_navigation_tab_home">خانه</string>
+    <string name="bottom_navigation_tab_user">کاربر</string>
+    <string name="bottom_navigation_tab_search">جست و جو</string>
+    <string name="bottom_navigation_tab_heart">علاقه مندی</string>
+    <string name="bottom_navigation_tab_add">اضافه کردن</string>
 
     <string name="default_notification_channel_id">chanell_id</string>
     <string name="fcm_message">fcm_message</string>
@@ -27,6 +27,9 @@
     <string name="no_internet_error_msg">اینترنت در دسترس نیست</string>
 
     <string name="kamaEnglish"> , </string>
+    <string name="title_activity_add_rule">AddRule</string>
 
+    <string name="permission_request_denied">Permission request denied</string>
+    <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
 
 </resources>

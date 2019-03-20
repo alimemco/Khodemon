@@ -19,4 +19,14 @@
         android:title="آزمایشگاه مکان ها"
         android:id="@+id/navigation_menu_places"
         android:icon="@drawable/ic_padlock" />
+
+    <item
+        android:title="آزمایشگاه Bottom Navigation"
+        android:id="@+id/navigation_menu_bottomNav"
+        android:icon="@drawable/ic_padlock" />
+
+    <item
+        android:title="آزمایشگاه PhotoPicker"
+        android:id="@+id/navigation_menu_PhotoPicker"
+        android:icon="@drawable/ic_padlock" />
 </menu>

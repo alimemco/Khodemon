@@ -1,27 +1,24 @@
 package com.ali.rnp.khodemon;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.ali.rnp.khodemon.Adapter.LinearSingleAdapter;
-import com.ali.rnp.khodemon.Adapter.SingleItemAdapter;
-import com.ali.rnp.khodemon.Api.ApiService;
-import com.ali.rnp.khodemon.DataModel.ListLayout;
-import com.ali.rnp.khodemon.DataModel.LocationPeople;
-import com.android.volley.VolleyError;
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.List;
 
 public class TestActivity extends AppCompatActivity {
 
     private static final String TAG = "TestActivity";
-    
-    private RecyclerView recyclerView;
-    private List<ListLayout> listLayouts;
+    private BottomNavigationView bottomNavigationView;
+    private MyTextView textView ;
+
 
 
 
@@ -31,25 +28,46 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        recyclerView = findViewById(R.id.activity_test_rec);
+        bottomNavigationView = findViewById(R.id.activity_test_bottomNav);
+        textView = findViewById(R.id.activity_test_textView);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
 
-        ApiService apiService = new ApiService(this);
-        final SingleItemAdapter singleItemAdapter = new SingleItemAdapter(this);
-        final LinearSingleAdapter linearSingleAdapter = new LinearSingleAdapter(this);
+        notificationBottomNav(3,"5");
+        notificationBottomNav(1,"new");
 
-        apiService.getHomeRecyclerListItems(new ApiService.OnHomeListItemReceived() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.item_1:
+                    setTextToMyText("item_1");
+                    break;
+
+                case R.id.item_2:
+                    setTextToMyText("item_2");
+                    break;
+
+                case R.id.item_3:
+                    setTextToMyText("item_3");
+                    break;
+
+                case R.id.item_4:
+                    setTextToMyText("item_4");
+                    notificationBottomNav(3,"");
+                    break;
+
+                case R.id.item_5:
+                    setTextToMyText("item_5");
+                    break;
+
+
+            }
+            return true;
+        });
+
+
+        textView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemReceived(List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList, VolleyError error) {
-                if (listLayouts != null && locationPeopleList != null){
-                    singleItemAdapter.setListDataForAdapter(locationPeopleList);
-                    linearSingleAdapter.setListDataForAdapter(listLayouts);
-                    recyclerView.setAdapter(linearSingleAdapter);
-                }else {
-                    Log.i(TAG, "onItemReceived: Error");
-                }
-
+            public void onClick(View v) {
+                bottomNavigationView.setSelectedItemId(R.id.item_5);
             }
         });
 
@@ -57,7 +75,36 @@ public class TestActivity extends AppCompatActivity {
 
     }
 
+    private void notificationBottomNav(int position , String text){
+        if (text.equals("")){
 
+            Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
+            BottomNavigationMenuView bottomNavigationMenuView =
+                    (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+            View v = bottomNavigationMenuView.getChildAt(position);
+            BottomNavigationItemView itemView = (BottomNavigationItemView) v;
+
+            View badge = LayoutInflater.from(this)
+                    .inflate(R.layout.notification_badge_layout, itemView, true);
+
+        }else {
+            BottomNavigationMenuView bottomNavigationMenuView =
+                    (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+            View v = bottomNavigationMenuView.getChildAt(position);
+            BottomNavigationItemView itemView = (BottomNavigationItemView) v;
+
+            View badge = LayoutInflater.from(this)
+                    .inflate(R.layout.notification_badge_layout, itemView, true);
+
+            TextView textView = badge.findViewById(R.id.notifications_badge_text);
+            textView.setText(text);
+        }
+
+    }
+
+    private void setTextToMyText(String text){
+        textView.setText(text);
+    }
 
 
 }

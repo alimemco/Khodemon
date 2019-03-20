@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +20,7 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TestPlace extends AppCompatActivity {
+public class TestPlace extends AppCompatActivity  {
 
     String API_KEY_PLACES = "AIzaSyCL2OQzXCytliGrm1OC_HI0VT0rarHn2h8";
     private static final String TAG = "TestPlaceNewActivity";
@@ -38,36 +37,37 @@ public class TestPlace extends AppCompatActivity {
 
         button = findViewById(R.id.test_place_button);
 
+        ApiJson apiJson = new ApiJson(this, new ApiJson.OnResultJsonReceived() {
+            @Override
+            public void onItemResultReceived(List<String> titleList, String error) {
+                if (titleList != null && error == null) {
+
+                    String textToShow =
+                            "length : " + titleList.size() +
+                                    "\n title one : " + titleList.get(0) +
+                                    "\n title two : " + titleList.get(1) +
+                                    "\n title three : " + titleList.get(2);
+
+                    textView.setText(textToShow);
+
+                } else {
+                    Toast.makeText(TestPlace.this, error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        apiJson.getTitleFromJson();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(TestPlace.this, "Empty", Toast.LENGTH_SHORT).show();
 
-                ApiJson apiJson = new ApiJson(TestPlace.this);
-
-                apiJson.getTitleFromJson(new ApiJson.OnResultReceived() {
-                    @Override
-                    public void onItemResultReceived(List<String> titleList, String error) {
-
-                        if (titleList != null && error == null) {
-
-                            String textToShow =
-                                    "length : " + titleList.size() +
-                                            "\n title one : " + titleList.get(0) +
-                                            "\n title two : " + titleList.get(1) +
-                                            "\n title three : " + titleList.get(2);
-
-                            textView.setText(textToShow);
-
-                        } else {
-                            Toast.makeText(TestPlace.this, error, Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
             }
         });
+  
 
+
+       /*
 
         // Initialize Places.
         Places.initialize(getApplicationContext(), API_KEY_PLACES);
@@ -124,6 +124,8 @@ public class TestPlace extends AppCompatActivity {
             }
         });
 
-
+*/
     }
+
+
 }

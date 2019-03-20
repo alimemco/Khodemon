@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
@@ -20,12 +19,21 @@ import androidx.recyclerview.widget.RecyclerView;
 public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapter.LinearSingleAdapterHolder> {
 
     private List<ListLayout> listLayout;
-    Context context;
+    private Context context;
     private static SingleItemAdapter singleItemAdapter;
 
+    private ItemClickListenerRecyclerList onItemClickListenerRecyclerList;
 
-    public LinearSingleAdapter(Context context){
+
+    public LinearSingleAdapter(Context context, ItemClickListenerRecyclerList clickListener){
         this.context = context;
+        onItemClickListenerRecyclerList = clickListener;
+    }
+
+
+
+    public void setItemClickListener(ItemClickListenerRecyclerList clickListener) {
+        onItemClickListenerRecyclerList = clickListener;
     }
 
     public void setListDataForAdapter(List<ListLayout> listLayout) {
@@ -56,8 +64,24 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
 
 
 
-            holder.itemView.setOnClickListener(v -> Toast.makeText(context, listLayout.get(position).getTitle(), Toast.LENGTH_SHORT).show());
-            holder.recyclerViewSingle.setOnClickListener(v -> Toast.makeText(context, "", Toast.LENGTH_SHORT).show());
+            holder.itemView.setOnClickListener(v -> {
+
+                onItemClickListenerRecyclerList.onItemClick( position,listLayout.get(position).getGroup());
+               /*
+                switch (listLayout.get(position).getGroup()){
+                    case ApiService.GROUP_NAME_LOCATION:
+
+                        break;
+
+                    case ApiService.GROUP_NAME_PEOPLE:
+
+                        break;
+
+
+
+                }
+                */
+            });
 
 
     }
@@ -66,6 +90,8 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
     public int getItemCount() {
         return listLayout.size();
     }
+
+
 
     public static class LinearSingleAdapterHolder extends RecyclerView.ViewHolder {
 
@@ -80,6 +106,7 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
             moreTextView = itemView.findViewById(R.id.recyclerView_home_items_linear_layout_more_textView);
             recyclerViewSingle = itemView.findViewById(R.id.recyclerView_home_items_linear_layout_RecyclerView);
         recyclerViewSingle.setLayoutManager(new LinearLayoutManager(itemView.getContext(),RecyclerView.HORIZONTAL,false));
+
 
         }
 
@@ -99,4 +126,10 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
 
         }
     }
+
+    public interface ItemClickListenerRecyclerList {
+        void onItemClick( int position,String group);
+    }
+
+
 }

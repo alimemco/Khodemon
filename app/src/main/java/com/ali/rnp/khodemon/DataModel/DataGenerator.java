@@ -16,7 +16,6 @@ public class DataGenerator {
     private static final String KERMAN_PROVINCE = "کرمان";
     private static final String SHAHREKORD_PROVINCE = "شهرکرد";
     private static final String YAZD_PROVINCE = "یزد";
-
     public static final String BESAST_TOWN_CITY = "شهرک بعثت";
 
     public static List<City> getListCity() {

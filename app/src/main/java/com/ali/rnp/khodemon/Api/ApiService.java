@@ -36,8 +36,8 @@ public class ApiService {
     public static final int STATUS_Login_ERROR = 717;
 
 
-    public static final String LOCATION_GROUP_NAME = "LOCATION";
-    public static final String PEOPLE_GROUP_NAME = "PEOPLE";
+    public static final String GROUP_NAME_LOCATION = "LOCATION";
+    public static final String GROUP_NAME_PEOPLE = "PEOPLE";
 
     public static final int LOCATION_GROUP_KEY = 1;
     public static final int PEOPLE_GROUP_KEY = 2;
@@ -235,7 +235,6 @@ public class ApiService {
             for (int i = 0; i < jsonArrayResult.length(); i++) {
 
                 JSONObject jsonObjectGp = jsonArrayResult.getJSONObject(i);
-                String title = jsonObjectGp.getString("title");
                 JSONArray jsonArrayData = jsonObjectGp.getJSONArray("data");
 
 
@@ -250,6 +249,7 @@ public class ApiService {
                     locationPeople.setId(jsonObjectGroup.getInt("ID"));
                     locationPeople.setGroup(jsonObjectGroup.getString("group_name"));
                     locationPeople.setName(jsonObjectGroup.getString("name"));
+                    locationPeople.setTag(jsonObjectGroup.getString("tag"));
                     locationPeople.setOriginalPic(jsonObjectGroup.getString("original_pic"));
 
                     locationPeoplePerItem.add(locationPeople);
@@ -257,10 +257,13 @@ public class ApiService {
                 }
 
 
+
+
                 ListLayout listLayout = new ListLayout();
 
                 listLayout.setId(i);
-                listLayout.setTitle(title);
+                listLayout.setTitle(jsonObjectGp.getString("title"));
+                listLayout.setGroup(jsonObjectGp.getString("group"));
                 listLayout.setLocationPeopleList(locationPeoplePerItem);
 
                 locationPeopleListLayout.add(listLayout);

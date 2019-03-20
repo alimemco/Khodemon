@@ -5,6 +5,7 @@ import java.util.List;
 public class ListLayout {
     private int id ;
     private String title;
+    private String group;
     private List<LocationPeople> locationPeopleList;
 
     public int getId() {
@@ -29,5 +30,13 @@ public class ListLayout {
 
     public void setLocationPeopleList(List<LocationPeople> locationPeopleList) {
         this.locationPeopleList = locationPeopleList;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

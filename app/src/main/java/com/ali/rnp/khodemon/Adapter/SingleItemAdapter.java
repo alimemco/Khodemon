@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -45,6 +46,8 @@ public class SingleItemAdapter extends RecyclerView.Adapter<SingleItemAdapter.Si
 
         holder.bindNormalLocation(locationPeopleList.get(position));
 
+        holder.itemView.setOnClickListener(v -> Toast.makeText(context, locationPeopleList.get(position).getName(), Toast.LENGTH_SHORT).show());
+
     }
 
     @Override
@@ -56,16 +59,19 @@ public class SingleItemAdapter extends RecyclerView.Adapter<SingleItemAdapter.Si
 
         ImageView imageView;
         MyTextView titleItemTextView;
+        MyTextView tagItemTextView;
 
         public SingleItemHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.recycler_view_home_items_linear_layout_imageView);
             titleItemTextView = itemView.findViewById(R.id.recycler_view_home_items_linear_layout_title_textView);
+            tagItemTextView = itemView.findViewById(R.id.recycler_view_home_items_linear_layout_tag_textView);
         }
 
         public void bindNormalLocation(final LocationPeople locationPeople) {
 
             titleItemTextView.setText(locationPeople.getName());
+            tagItemTextView.setText(locationPeople.getTag());
 
 
             new Handler().postDelayed(new Runnable() {

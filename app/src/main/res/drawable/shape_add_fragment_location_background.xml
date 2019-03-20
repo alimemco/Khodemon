@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:tools="http://schemas.android.com/tools"
+    android:color="@color/colorPrimary"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:targetApi="lollipop">
+
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <gradient
+                        android:startColor="#02AAB0"
+                        android:endColor="#00CDAC"
+                        android:angle="90"/>
+
+                    <corners android:radius="20dp"/>
+
+
+                </shape>
+
+            </item>
+            <item
+                android:top="@dimen/stroke_fragment_add_background"
+                android:right="@dimen/stroke_fragment_add_background"
+                android:left="@dimen/stroke_fragment_add_background"
+                android:bottom="@dimen/stroke_fragment_add_background"
+
+                >
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/white"/>
+                    <corners android:radius="18dp"/>
+                    <padding android:right="@dimen/padding_10"
+                        android:left="@dimen/padding_10"
+                        android:bottom="@dimen/padding_10"
+                        android:top="@dimen/padding_10"/>
+                </shape>
+
+            </item>
+
+
+        </layer-list>
+    </item>
+
+</ripple>
