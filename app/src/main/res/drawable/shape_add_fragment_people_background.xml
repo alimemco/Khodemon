@@ -12,6 +12,7 @@
                         android:startColor="#2193b0"
                         android:endColor="#6dd5ed"
                         android:angle="90"/>
+                    <solid android:color="#6dd5ed"/>
 
                     <corners android:radius="20dp"/>
 
@@ -28,7 +29,7 @@
                 >
                 <shape android:shape="rectangle">
                     <solid android:color="@color/white"/>
-                    <corners android:radius="18dp"/>
+                    <corners android:radius="20dp"/>
                     <padding android:right="@dimen/padding_10"
                         android:left="@dimen/padding_10"
                         android:bottom="@dimen/padding_10"

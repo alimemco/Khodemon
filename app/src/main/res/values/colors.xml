@@ -12,8 +12,9 @@
     <color name="white">#FFFFFF</color>
     <color name="white_80_alpha">#aaFFFFFF</color>
     <color name="black">#000000</color>
-    <color name="black_80_alpha">#aa000000</color>
+    <color name="black_80_a_alpha">#aa000000</color>
     <color name="colorPrimaryDark_80_alpha">#aa1e86dd</color>
+    <color name="black_80_alpha">#80000000</color>
 
     <color name="blue_green_top">#00B8D4</color>
     <color name="blue_green_bottom">#00cdac</color>

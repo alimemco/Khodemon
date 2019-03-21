@@ -274,14 +274,13 @@ public class MainActivity extends AppCompatActivity implements
         bottomNavigation.addItem(itemHeart);
         bottomNavigation.addItem(itemUser);
 
-        // bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
         bottomNavigation.setDefaultBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.background_01, null));
         bottomNavigation.setAccentColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
         bottomNavigation.setInactiveColor(ResourcesCompat.getColor(getResources(), R.color.inactive_01, null));
         bottomNavigation.setNotificationBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.notification_color, null));
 
         // Force to tint the drawable (useful for font with icon for example)
-        bottomNavigation.setForceTint(false);
+        bottomNavigation.setForceTint(true);
 
         bottomNavigation.setBehaviorTranslationEnabled(true);
 
@@ -438,11 +437,14 @@ public class MainActivity extends AppCompatActivity implements
     public void onBackPressed() {
 
         int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+
         if (backStackEntryCount == 0) {
 
             goBackWithTimer();
 
         } else {
+            String backStackTag = getSupportFragmentManager().getBackStackEntryAt(backStackEntryCount).getName();
+            Toast.makeText(this, ""+backStackTag, Toast.LENGTH_SHORT).show();
             super.onBackPressed();
         }
 

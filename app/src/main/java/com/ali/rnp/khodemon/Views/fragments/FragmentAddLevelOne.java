@@ -1,18 +1,15 @@
 package com.ali.rnp.khodemon.Views.fragments;
 
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -20,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.UriAdapter;
 
@@ -28,36 +24,37 @@ import com.ali.rnp.khodemon.Adapter.UriAdapter;
 import com.ali.rnp.khodemon.GifSizeFilter;
 import com.ali.rnp.khodemon.Glide4Engine;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activites.AddRule;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
-import com.zhihu.matisse.listener.OnCheckedListener;
 import com.zhihu.matisse.listener.OnSelectedListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FragmentAddLocationOne extends Fragment {
+public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemChooseRecyclerClicked {
 
     private Context context;
     private RecyclerView recyclerViewImages;
     private Button button;
     public static UriAdapter mAdapter;
     private static final int REQUEST_CODE_CHOOSE = 23;
-    private static final String TAG = "FragmentAddLocationOne";
+    private static final String TAG = "FragmentAddLevelOne";
+
+    private OnNextButtonClicked onNextButtonClicked;
 
 
-    public FragmentAddLocationOne() {
+    public FragmentAddLevelOne() {
 
     }
 
-
-    public static FragmentAddLocationOne newInstance() {
-        return new FragmentAddLocationOne();
+    @SuppressLint("ValidFragment")
+    public FragmentAddLevelOne(OnNextButtonClicked onNextButtonClicked) {
+        this.onNextButtonClicked = onNextButtonClicked;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +67,7 @@ public class FragmentAddLocationOne extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        View rootView = inflater.inflate(R.layout.fragment_add_location_one,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_add_level_one,container,false);
         initViews(rootView);
         return rootView;
     }
@@ -78,15 +75,15 @@ public class FragmentAddLocationOne extends Fragment {
     private void initViews(View rootView) {
         recyclerViewImages = rootView.findViewById(R.id.fragment_add_one_recycler_view);
         button = rootView.findViewById(R.id.fragment_add_one_button);
-        recyclerViewImages.setLayoutManager(new GridLayoutManager(context,4));
-        recyclerViewImages.setAdapter(mAdapter = new UriAdapter());
+        recyclerViewImages.setLayoutManager(new GridLayoutManager(context,3));
+        recyclerViewImages.setAdapter(mAdapter = new UriAdapter(context));
         
 
         
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                injectPhoto();
+               onNextButtonClicked.onNextClicked(2);
             }
         });
 
@@ -94,7 +91,7 @@ public class FragmentAddLocationOne extends Fragment {
         Uri path = Uri.parse("android.resource://com.ali.rnp.khodemon/" + R.drawable.holder_banner);
         List<Uri> uriPath = new ArrayList<>();
         uriPath.add(path);
-        mAdapter.setData(uriPath,null);
+        mAdapter.setData(uriPath,true,this);
     }
 
     private void injectPhoto() {
@@ -124,7 +121,7 @@ public class FragmentAddLocationOne extends Fragment {
 
                     }
                 })
-                .originalEnable(true)
+               /* .originalEnable(true)
                 .maxOriginalSize(10)
                 .autoHideToolbarOnSingleTap(true)
                 .setOnCheckedListener(new OnCheckedListener() {
@@ -133,7 +130,7 @@ public class FragmentAddLocationOne extends Fragment {
                         // DO SOMETHING IMMEDIATELY HERE
                         Log.e(TAG, "onCheck: isChecked=" + isChecked);
                     }
-                })
+                })*/
                 .forResult(REQUEST_CODE_CHOOSE);
 
     }
@@ -145,5 +142,14 @@ public class FragmentAddLocationOne extends Fragment {
     }
 
 
+    @Override
+    public void onRecyclerClicked() {
+        //Choose photo from gallery
+            injectPhoto();
 
+    }
+
+    public interface OnNextButtonClicked{
+        void onNextClicked(int nextLevel);
+    }
 }

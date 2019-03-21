@@ -20,7 +20,8 @@
         <activity
             android:name=".Views.Activites.AddRule"
             android:label="@string/title_activity_add_rule"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".Views.Activites.TestPlace"
             android:windowSoftInputMode="adjustPan" />
