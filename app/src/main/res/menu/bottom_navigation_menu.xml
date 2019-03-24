@@ -29,4 +29,9 @@
         android:title="آزمایشگاه PhotoPicker"
         android:id="@+id/navigation_menu_PhotoPicker"
         android:icon="@drawable/ic_padlock" />
+
+    <item
+        android:title="آزمایشگاه Expandable"
+        android:id="@+id/navigation_menu_Expandable"
+        android:icon="@drawable/ic_padlock" />
 </menu>

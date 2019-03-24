@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon;
+package com.ali.rnp.khodemon.UtilsApp;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

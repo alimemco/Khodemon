@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.UriAdapter;
 
@@ -77,6 +78,8 @@ public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemCh
         button = rootView.findViewById(R.id.fragment_add_one_button);
         recyclerViewImages.setLayoutManager(new GridLayoutManager(context,3));
         recyclerViewImages.setAdapter(mAdapter = new UriAdapter(context));
+        
+
         
 
         

@@ -53,5 +53,6 @@
     <color name="homeBlueIcon">#1bb8cb</color>
 
 
+    <color name="item_pressed">#8f8f8f</color>
 
 </resources>

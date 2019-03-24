@@ -143,6 +143,13 @@ public class MainActivity extends AppCompatActivity implements
                         startActivity(new Intent(MainActivity.this,AddRule.class));
 
                         break;
+
+
+
+                    case R.id.navigation_menu_Expandable:
+                        startActivity(new Intent(MainActivity.this,TagChooseActivity.class));
+
+                        break;
                 }
 
                 return false;
@@ -443,8 +450,7 @@ public class MainActivity extends AppCompatActivity implements
             goBackWithTimer();
 
         } else {
-            String backStackTag = getSupportFragmentManager().getBackStackEntryAt(backStackEntryCount).getName();
-            Toast.makeText(this, ""+backStackTag, Toast.LENGTH_SHORT).show();
+
             super.onBackPressed();
         }
 

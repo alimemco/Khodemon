@@ -1,12 +1,17 @@
 package com.ali.rnp.khodemon.Api;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.Views.Activites.AddRule;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -16,7 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ApiService {
@@ -28,6 +35,8 @@ public class ApiService {
     private final static String API_GET_HOME_ITEMS = "http://khodemon.ir/getHomeItems.php";
     private final static String API_GET_GROUP_ITEMS = "http://khodemon.ir/getGroupItems.php";
     private final static String API_GET_HOME_LIST_ITEMS = "http://khodemon.ir/getHomeItemsList.php";
+
+    private final static String API_UPLOAD_PHOTOS = "http://khodemon.ir/upload_images.php";
 
     private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
 
@@ -41,6 +50,8 @@ public class ApiService {
 
     public static final int LOCATION_GROUP_KEY = 1;
     public static final int PEOPLE_GROUP_KEY = 2;
+
+    private JSONObject jsonObjectPhoto;
 
 
     private int retryTime = 10000;
@@ -145,6 +156,57 @@ public class ApiService {
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
+    }
+
+
+    public void uploadImage(Bitmap bitmap,final int currentPhoto,int allPhoto,OnUploadedPhoto onUploadedPhoto){
+
+        try {
+            jsonObjectPhoto = new JSONObject();
+            String imgName = String.valueOf(Calendar.getInstance().getTimeInMillis());
+            //jsonObject.put("id",currentPhoto);
+            jsonObjectPhoto.put("name", imgName);
+            jsonObjectPhoto.put("image", bitmapToString(bitmap));
+
+        } catch (JSONException e) {
+            Log.e("JSONObject Here", e.toString());
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, API_UPLOAD_PHOTOS, jsonObjectPhoto,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        //  rQueue.getCache().clear();
+
+                        // int cu = jsonObject.getInt("currentPhoto");
+
+
+                        onUploadedPhoto.OnUploadPhoto(currentPhoto,null);
+/*
+                        int progress = (currentPhoto*(100/allPhoto));
+                        progressBar.setProgress( (currentPhoto*(100/allPhoto) ));
+                        levelToolbarTextView.setText(String.valueOf(progress));
+                        Log.i(TAG, "\n current: "+currentPhoto);
+*/
+
+
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e(TAG, volleyError.toString());
+                onUploadedPhoto.OnUploadPhoto(-1,volleyError);
+
+            }
+        });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue rQueue = Volley.newRequestQueue(context);
+        rQueue.add(jsonObjectRequest);
+
     }
 
 
@@ -277,60 +339,6 @@ public class ApiService {
             Log.i(TAG, "parseJsonHomeItems: " + e);
 
         }
-/*
-        try {
-
-            JSONObject jsonObject = new JSONObject(response.toString());
-
-            JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
-
-            List<ListLayout> locationPeopleList = new ArrayList<>();
-
-
-
-            for (int i = 0; i < jsonArrayResult.length(); i++) {
-
-                JSONArray jsonArrayIndexGroup = jsonArrayResult.getJSONArray(i);
-
-                locationPeoplePerItem = new ArrayList<>();
-
-                for (int j = 0; j < jsonArrayIndexGroup.length(); j++) {
-
-                    JSONObject jsonObjectGroup = jsonArrayIndexGroup.getJSONObject(j);
-
-
-                    LocationPeople locationPeople = new LocationPeople();
-
-                        locationPeople.setId(jsonObjectGroup.getInt("ID"));
-                        locationPeople.setGroup(jsonObjectGroup.getString("group_name"));
-                        locationPeople.setName(jsonObjectGroup.getString("name"));
-                        locationPeople.setOriginalPic(jsonObjectGroup.getString("original_pic"));
-
-                        locationPeoplePerItem.add(locationPeople);
-
-
-
-
-                }
-
-
-                ListLayout homeList = new ListLayout();
-
-                homeList.setId(i);
-                homeList.setTitle("متن");
-                homeList.setLocationPeopleList(locationPeoplePerItem);
-
-
-
-            }
-            onHomeListItemReceived.onItemReceived(locationPeopleList, locationPeoplePerItem, null);
-
-        } catch (JSONException e) {
-            Log.i(TAG, "parseJsonHomeItems: " + e);
-
-        }
-
-*/
 
     }
 
@@ -356,6 +364,13 @@ public class ApiService {
     }
 
 
+    private String bitmapToString(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+
+    }
+
     public interface OnRegisterCompleted {
         void onRegisterStatusReceived(int status);
     }
@@ -374,6 +389,10 @@ public class ApiService {
 
     public interface OnGroupItemReceived {
         void onItemGroupReceived(List<LocationPeople> locationPeopleList, VolleyError error);
+    }
+
+    public interface OnUploadedPhoto{
+        void OnUploadPhoto(int currentPhotoNum,VolleyError error);
     }
 
 

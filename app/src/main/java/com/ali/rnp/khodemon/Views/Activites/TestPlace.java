@@ -1,5 +1,6 @@
 package com.ali.rnp.khodemon.Views.Activites;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,12 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Api.ApiJson;
 import com.ali.rnp.khodemon.R;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -16,7 +23,9 @@ import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +37,10 @@ public class TestPlace extends AppCompatActivity  {
 
     private Button button;
 
+    String HttpUrl = "https://example.com/insert_record.php";
+    RequestQueue requestQueue;
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,39 +50,9 @@ public class TestPlace extends AppCompatActivity  {
 
         button = findViewById(R.id.test_place_button);
 
-        ApiJson apiJson = new ApiJson(this, new ApiJson.OnResultJsonReceived() {
-            @Override
-            public void onItemResultReceived(List<String> titleList, String error) {
-                if (titleList != null && error == null) {
-
-                    String textToShow =
-                            "length : " + titleList.size() +
-                                    "\n title one : " + titleList.get(0) +
-                                    "\n title two : " + titleList.get(1) +
-                                    "\n title three : " + titleList.get(2);
-
-                    textView.setText(textToShow);
-
-                } else {
-                    Toast.makeText(TestPlace.this, error, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        apiJson.getTitleFromJson();
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(TestPlace.this, "Empty", Toast.LENGTH_SHORT).show();
-
-            }
-        });
   
 
-
-       /*
-
-        // Initialize Places.
+//Initialize Places.
         Places.initialize(getApplicationContext(), API_KEY_PLACES);
 
 // Create a new Places client instance.
@@ -124,8 +107,10 @@ public class TestPlace extends AppCompatActivity  {
             }
         });
 
-*/
+
     }
+
+
 
 
 }

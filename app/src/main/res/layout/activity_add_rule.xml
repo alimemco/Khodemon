@@ -8,88 +8,77 @@
     android:layoutDirection="rtl"
     tools:context=".Views.Activites.AddRule">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/white">
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/add_rule_toolbar"
-            android:layout_width="match_parent"
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/add_rule_toolbar_textView_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           >
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="right"
+            android:text="اضافه کردن مکان"
+            android:textSize="@dimen/normal_textSize_sp"
+            app:fontCustom="shp_iranSansMobile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                    android:id="@+id/add_rule_toolbar_textView_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="right"
-                    android:text="اضافه کردن مکان"
-                    android:textSize="@dimen/normal_textSize_sp"
-                    app:fontCustom="shp_iranSansMobile"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                    android:id="@+id/add_rule_toolbar_textView_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="مرحله 1 از 4"
-                    android:textSize="@dimen/normal_textSize_sp"
-                    app:fontCustom="shp_iranSansMobile"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-            android:id="@+id/activity_add_rule_progressBar"
-            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/add_rule_toolbar_textView_level"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="20"
-            android:layout_gravity="bottom"
-            app:mpb_progressStyle="horizontal"
-            app:mpb_progressTint="@color/colorPrimary"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="مرحله 1 از 4"
+            android:textSize="@dimen/normal_textSize_sp"
+            app:fontCustom="shp_iranSansMobile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            app:mpb_secondaryProgressTint="@color/red200" />
-    </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/activity_add_rule_progressBar"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:layout_gravity="bottom"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:mpb_progressStyle="horizontal"
+        app:mpb_progressTint="@color/colorPrimary"
+        app:mpb_secondaryProgressTint="@color/red200"
+        />
 
 
     <FrameLayout
         android:id="@+id/add_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_add_rule_progressBar" />
 
 
 

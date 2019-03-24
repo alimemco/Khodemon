@@ -19,7 +19,7 @@ import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProgressBarAnimation;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Utils;
+import com.ali.rnp.khodemon.UtilsApp.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

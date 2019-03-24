@@ -31,4 +31,8 @@
     <dimen name="grid_expected_size">120dp</dimen>
     <dimen name="stroke_fragment_add_background">2dp</dimen>
 
+    <dimen name="list_item_height">48dp</dimen>
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="list_item_left_margin">72dp</dimen>
+
 </resources>
