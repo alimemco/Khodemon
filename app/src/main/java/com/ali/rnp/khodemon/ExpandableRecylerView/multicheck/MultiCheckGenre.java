@@ -2,7 +2,6 @@ package com.ali.rnp.khodemon.ExpandableRecylerView.multicheck;
 
 import com.ali.rnp.khodemon.ExpandableRecylerView.Artist;
 import com.thoughtbot.expandablecheckrecyclerview.models.MultiCheckExpandableGroup;
-
 import java.util.List;
 
 public class MultiCheckGenre extends MultiCheckExpandableGroup {

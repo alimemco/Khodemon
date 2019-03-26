@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationCity;
+import com.ali.rnp.khodemon.ExpandableRecActivity;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
                     case R.id.navigation_menu_Expandable:
-                        startActivity(new Intent(MainActivity.this,TagChooseActivity.class));
+                        startActivity(new Intent(MainActivity.this, ExpandableRecActivity.class));
 
                         break;
                 }

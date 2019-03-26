@@ -2,7 +2,6 @@ package com.ali.rnp.khodemon.ExpandableRecylerView.expand;
 
 import android.view.View;
 import android.widget.TextView;
-
 import com.ali.rnp.khodemon.R;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
 

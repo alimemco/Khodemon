@@ -4,85 +4,80 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
-import com.ali.rnp.khodemon.ExpandableRecylerView.Genre;
-import com.ali.rnp.khodemon.ExpandableRecylerView.expand.ExpandActivity;
-import com.ali.rnp.khodemon.ExpandableRecylerView.expand.GenreAdapter;
-import com.ali.rnp.khodemon.ExpandableRecylerView.multicheck.MultiCheckActivity;
-import com.ali.rnp.khodemon.ExpandableRecylerView.multitype.MultiTypeActivity;
-import com.ali.rnp.khodemon.ExpandableRecylerView.multitypeandcheck.MultiTypeCheckGenreActivity;
-import com.ali.rnp.khodemon.ExpandableRecylerView.singlecheck.SingleCheckActivity;
+import com.ali.rnp.khodemon.ExpandableRecylerView.singlecheck.SingleCheckGenreAdapter;
+import com.ali.rnp.khodemon.ExpandableTags.Expert;
+import com.ali.rnp.khodemon.ExpandableTags.SingleCheckGroupingAdapter;
+import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelOne;
+import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
+import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
+import com.thoughtbot.expandablerecyclerview.listeners.OnGroupClickListener;
 
-import java.util.List;
-
+import afu.org.checkerframework.checker.oigj.qual.O;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TagChooseActivity extends AppCompatActivity implements View.OnClickListener {
+import static com.ali.rnp.khodemon.ExpandableRecylerView.GenreDataFactory.makeSingleCheckGenres;
+import static com.ali.rnp.khodemon.ExpandableTags.TagsDataFactory.makeSingleCheckTags;
 
+
+public class TagChooseActivity extends AppCompatActivity {
+
+    private SingleCheckGroupingAdapter adapter;
+    private MyButton chooseButton;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag_choose);
 
-        //TODO Library Expandable RecyclerView api level 16
+        chooseButton = findViewById(R.id.activity_tag_choose_button);
 
-        Button expand = (Button) findViewById(R.id.expand_button);
-        expand.setOnClickListener(this);
-   //     expand.setOnClickListener(navigateTo(ExpandActivity.class));
 
-        Button multiSelect = (Button) findViewById(R.id.multi_check_button);
-        multiSelect.setOnClickListener(this);
-     //   multiSelect.setOnClickListener(navigateTo(MultiCheckActivity.class));
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_tag_choose_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
-        Button singleSelect = (Button) findViewById(R.id.single_check_button);
-        singleSelect.setOnClickListener(this);
-     //   singleSelect.setOnClickListener(navigateTo(SingleCheckActivity.class));
+        adapter = new SingleCheckGroupingAdapter(makeSingleCheckTags());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
-        Button mixedSelect = (Button) findViewById(R.id.mixedtype_button);
-        mixedSelect.setOnClickListener(this);
-      //  mixedSelect.setOnClickListener(navigateTo(MultiTypeActivity.class));
+        adapter.setChildClickListener(new OnCheckChildClickListener() {
+            @Override
+            public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
+                adapter.clearChoices();
+                group.checkChild(childIndex);
+                Expert expert = (Expert) group.getItems().get(childIndex);
+                Toast.makeText(TagChooseActivity.this, expert.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        Button mixedTypeAndCheck = (Button) findViewById(R.id.mixedtype_check_button);
-        mixedTypeAndCheck.setOnClickListener(this);
-      //  mixedTypeAndCheck.setOnClickListener(navigateTo(MultiTypeCheckGenreActivity.class));
 
+
+        chooseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+               // finish();
+            }
+        });
 
 
     }
 
-
+/*
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.expand_button:
-                startActivity(new Intent(TagChooseActivity.this,ExpandActivity.class));
-                break;
+    public void OnItemSelect(String title) {
+        Toast.makeText(TagChooseActivity.this, title, Toast.LENGTH_SHORT).show();
 
-            case R.id.multi_check_button:
-                startActivity(new Intent(TagChooseActivity.this,MultiCheckActivity.class));
-                break;
-
-
-            case R.id.single_check_button:
-                startActivity(new Intent(TagChooseActivity.this,SingleCheckActivity.class));
-                break;
-
-
-            case R.id.mixedtype_button:
-                startActivity(new Intent(TagChooseActivity.this,MultiTypeActivity.class));
-                break;
-
-
-            case R.id.mixedtype_check_button:
-                startActivity(new Intent(TagChooseActivity.this,MultiTypeCheckGenreActivity.class));
-                break;
-        }
-    }
-
-
+        intent = new Intent();
+        intent.putExtra("title", title);
+        setResult(Activity.RESULT_OK, intent);
+    }*/
 }

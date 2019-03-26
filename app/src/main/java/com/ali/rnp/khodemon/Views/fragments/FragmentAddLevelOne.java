@@ -3,6 +3,7 @@ package com.ali.rnp.khodemon.Views.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.ali.rnp.khodemon.Adapter.UriAdapter;
 import com.ali.rnp.khodemon.GifSizeFilter;
 import com.ali.rnp.khodemon.Glide4Engine;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Views.Activites.TagChooseActivity;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
@@ -39,12 +41,14 @@ public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemCh
 
     private Context context;
     private RecyclerView recyclerViewImages;
-    private Button button;
+    public Button button,chooseButton;
     public static UriAdapter mAdapter;
     private static final int REQUEST_CODE_CHOOSE = 23;
+    public static final int REQUEST_CODE_CHOOSE_TAG = 414;
     private static final String TAG = "FragmentAddLevelOne";
 
     private OnNextButtonClicked onNextButtonClicked;
+    private OnChooseButtonClicked onChooseButtonClicked;
 
 
     public FragmentAddLevelOne() {
@@ -52,8 +56,9 @@ public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemCh
     }
 
     @SuppressLint("ValidFragment")
-    public FragmentAddLevelOne(OnNextButtonClicked onNextButtonClicked) {
+    public FragmentAddLevelOne(OnNextButtonClicked onNextButtonClicked,OnChooseButtonClicked onChooseButtonClicked) {
         this.onNextButtonClicked = onNextButtonClicked;
+        this.onChooseButtonClicked= onChooseButtonClicked;
     }
 
 
@@ -76,6 +81,7 @@ public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemCh
     private void initViews(View rootView) {
         recyclerViewImages = rootView.findViewById(R.id.fragment_add_one_recycler_view);
         button = rootView.findViewById(R.id.fragment_add_one_button);
+        chooseButton = rootView.findViewById(R.id.fragment_add_one_buttonChoose);
         recyclerViewImages.setLayoutManager(new GridLayoutManager(context,3));
         recyclerViewImages.setAdapter(mAdapter = new UriAdapter(context));
         
@@ -87,6 +93,15 @@ public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemCh
             @Override
             public void onClick(View v) {
                onNextButtonClicked.onNextClicked(2);
+            }
+        });
+
+        chooseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onChooseButtonClicked.onChooseClicked();
+
             }
         });
 
@@ -154,5 +169,9 @@ public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemCh
 
     public interface OnNextButtonClicked{
         void onNextClicked(int nextLevel);
+    }
+
+    public interface OnChooseButtonClicked{
+        void onChooseClicked();
     }
 }

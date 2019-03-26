@@ -8,77 +8,119 @@
     android:layoutDirection="rtl"
     tools:context=".Views.Activites.AddRule">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/add_rule_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.ali.rnp.khodemon.MyLibrary.MyTextView
-            android:id="@+id/add_rule_toolbar_textView_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="right"
-            android:text="اضافه کردن مکان"
-            android:textSize="@dimen/normal_textSize_sp"
-            app:fontCustom="shp_iranSansMobile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.ali.rnp.khodemon.MyLibrary.MyTextView
-            android:id="@+id/add_rule_toolbar_textView_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="مرحله 1 از 4"
-            android:textSize="@dimen/normal_textSize_sp"
-            app:fontCustom="shp_iranSansMobile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/add_rule_toolbar_textView_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="اضافه کردن مکان"
+                android:textSize="@dimen/normal_textSize_sp"
+                app:fontCustom="shp_iranSansMobile"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/add_rule_toolbar_textView_level"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginLeft="8dp"
+                android:textSize="@dimen/small_textSize_sp"
+                app:fontCustom="shp_iranSansMobile"
+                app:layout_constraintBottom_toBottomOf="@+id/add_rule_photo_imageView"
+                app:layout_constraintLeft_toRightOf="@id/add_rule_photo_imageView"
+                app:layout_constraintTop_toTopOf="@+id/add_rule_photo_imageView"
+                tools:text="test" />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/add_rule_toolbar_textView_percentage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:textSize="@dimen/small_textSize_sp"
+                app:fontCustom="shp_iranSansMobile"
+                app:layout_constraintBottom_toBottomOf="@+id/add_rule_progressBar"
+                app:layout_constraintLeft_toRightOf="@id/add_rule_progressBar"
+                app:layout_constraintTop_toTopOf="@+id/add_rule_progressBar"
+                tools:text="100%" />
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/add_rule_progressBar"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/add_rule_toolbar_textView_level"
+                app:layout_constraintLeft_toRightOf="@+id/add_rule_toolbar_textView_level"
+                app:layout_constraintTop_toTopOf="@+id/add_rule_toolbar_textView_level" />
+
+            <ImageView
+                android:id="@+id/add_rule_photo_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_photo_camera" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/activity_add_rule_progressBar"
-        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+    <com.shuhart.stepview.StepView
+        android:id="@+id/step_view"
         android:layout_width="match_parent"
-        android:layout_height="12dp"
-        android:layout_gravity="bottom"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="20"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_10"
+        app:sv_stepsNumber="4"
+        android:padding="16dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:mpb_progressStyle="horizontal"
-        app:mpb_progressTint="@color/colorPrimary"
-        app:mpb_secondaryProgressTint="@color/red200"
-        />
-
+        app:layout_constraintTop_toBottomOf="@+id/add_rule_toolbar"
+        app:sv_animationType="All"
+        app:sv_doneCircleColor="@color/colorPrimary"
+        app:sv_doneCircleRadius="12dp"
+        app:sv_doneStepLineColor="@color/colorPrimary"
+        app:sv_doneStepMarkColor="@color/white"
+        app:sv_nextStepLineColor="@color/light_gray_disabled"
+        app:sv_nextTextColor="@color/inactive_01"
+        app:sv_selectedCircleColor="@color/colorPrimaryDark_80_alpha"
+        app:sv_selectedCircleRadius="13dp"
+        app:sv_selectedStepNumberColor="@color/white"
+        app:sv_stepLineWidth="1dp"
+        app:sv_stepNumberTextSize="12sp"
+        app:sv_stepPadding="4dp"
+        app:sv_stepViewStyle="@style/StepView" />
 
     <FrameLayout
         android:id="@+id/add_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
 
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_add_rule_progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/step_view" />
 
 
 

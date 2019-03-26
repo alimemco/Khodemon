@@ -36,7 +36,7 @@ public class MultiTypeCheckGenreAdapter
   private ChildCheckController childCheckController;
   private OnCheckChildClickListener childClickListener;
 
-  MultiTypeCheckGenreAdapter(List<? extends ExpandableGroup> groups) {
+  public MultiTypeCheckGenreAdapter(List<? extends ExpandableGroup> groups) {
     super(groups);
     childCheckController = new ChildCheckController(expandableList, this);
   }
@@ -58,6 +58,7 @@ public class MultiTypeCheckGenreAdapter
         View view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.list_item_singlecheck_arist, parent, false);
         SingleCheckArtistViewHolder holder = new SingleCheckArtistViewHolder(view);
+        //Todo change constrator
         holder.setOnChildCheckedListener(this);
         return holder;
       default:

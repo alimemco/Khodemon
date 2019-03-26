@@ -12,10 +12,13 @@ public class SingleCheckArtistViewHolder extends CheckableChildViewHolder {
 
   private CheckedTextView childCheckedTextView;
 
+
   public SingleCheckArtistViewHolder(View itemView) {
     super(itemView);
-    childCheckedTextView =
-        (CheckedTextView) itemView.findViewById(R.id.list_item_singlecheck_artist_name);
+    childCheckedTextView = itemView.findViewById(R.id.list_item_singlecheck_artist_name);
+
+
+
   }
 
   @Override
@@ -23,7 +26,12 @@ public class SingleCheckArtistViewHolder extends CheckableChildViewHolder {
     return childCheckedTextView;
   }
 
+
   public void setArtistName(String artistName) {
+
     childCheckedTextView.setText(artistName);
   }
+
+
+
 }

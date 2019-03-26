@@ -22,8 +22,17 @@ public class MyTextView extends AppCompatTextView {
     private static final int SHP_IRAN_SANS_MOBILE_LIGHT = 8;
     private static final int SHP_MATERIAL_DRAWER = 9;
 
+    private boolean isColored= false;
+
     public MyTextView(Context context) {
         super(context);
+        this.isColored = false ;
+        setupFont(null);
+    }
+
+    public MyTextView(Context context,boolean isColored) {
+        super(context);
+        this.isColored = isColored ;
         setupFont(null);
     }
 

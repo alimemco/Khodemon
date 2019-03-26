@@ -3,7 +3,6 @@ package com.ali.rnp.khodemon.ExpandableRecylerView;
 import com.ali.rnp.khodemon.ExpandableRecylerView.multicheck.MultiCheckGenre;
 import com.ali.rnp.khodemon.ExpandableRecylerView.singlecheck.SingleCheckGenre;
 import com.ali.rnp.khodemon.R;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,15 +33,15 @@ public class GenreDataFactory {
   }
 
   public static Genre makeRockGenre() {
-    return new Genre("Rock", makeRockArtists(), R.drawable.ic_address);
+    return new Genre("Rock", makeRockArtists(), R.drawable.ic_electric_guitar);
   }
 
   public static MultiCheckGenre makeMultiCheckRockGenre() {
-    return new MultiCheckGenre("Rock", makeRockArtists(), R.drawable.ic_address);
+    return new MultiCheckGenre("Rock", makeRockArtists(), R.drawable.ic_electric_guitar);
   }
 
   public static SingleCheckGenre makeSingleCheckRockGenre() {
-    return new SingleCheckGenre("Rock", makeRockArtists(), R.drawable.ic_address);
+    return new SingleCheckGenre("Rock", makeRockArtists(), R.drawable.ic_electric_guitar);
   }
 
   public static List<Artist> makeRockArtists() {
@@ -55,15 +54,15 @@ public class GenreDataFactory {
   }
 
   public static Genre makeJazzGenre() {
-    return new Genre("Jazz", makeJazzArtists(), R.drawable.ic_address);
+    return new Genre("Jazz", makeJazzArtists(), R.drawable.ic_saxaphone);
   }
 
   public static MultiCheckGenre makeMultiCheckJazzGenre() {
-    return new MultiCheckGenre("Jazz", makeJazzArtists(), R.drawable.ic_address);
+    return new MultiCheckGenre("Jazz", makeJazzArtists(), R.drawable.ic_saxaphone);
   }
 
   public static SingleCheckGenre makeSingleCheckJazzGenre() {
-    return new SingleCheckGenre("Jazz", makeJazzArtists(), R.drawable.ic_address);
+    return new SingleCheckGenre("Jazz", makeJazzArtists(), R.drawable.ic_saxaphone);
   }
 
   public static List<Artist> makeJazzArtists() {
@@ -75,15 +74,15 @@ public class GenreDataFactory {
   }
 
   public static Genre makeClassicGenre() {
-    return new Genre("Classic", makeClassicArtists(), R.drawable.ic_address);
+    return new Genre("Classic", makeClassicArtists(), R.drawable.ic_violin);
   }
 
   public static MultiCheckGenre makeMultiCheckClassicGenre() {
-    return new MultiCheckGenre("Classic", makeClassicArtists(), R.drawable.ic_address);
+    return new MultiCheckGenre("Classic", makeClassicArtists(), R.drawable.ic_violin);
   }
 
   public static SingleCheckGenre makeSingleCheckClassicGenre() {
-    return new SingleCheckGenre("Classic", makeClassicArtists(), R.drawable.ic_address);
+    return new SingleCheckGenre("Classic", makeClassicArtists(), R.drawable.ic_violin);
   }
 
   public static List<Artist> makeClassicArtists() {
@@ -96,15 +95,15 @@ public class GenreDataFactory {
   }
 
   public static Genre makeSalsaGenre() {
-    return new Genre("Salsa", makeSalsaArtists(), R.drawable.ic_address);
+    return new Genre("Salsa", makeSalsaArtists(), R.drawable.ic_maracas);
   }
 
   public static MultiCheckGenre makeMultiCheckSalsaGenre() {
-    return new MultiCheckGenre("Salsa", makeSalsaArtists(), R.drawable.ic_address);
+    return new MultiCheckGenre("Salsa", makeSalsaArtists(), R.drawable.ic_maracas);
   }
 
   public static SingleCheckGenre makeSingleCheckSalsaGenre() {
-    return new SingleCheckGenre("Salsa", makeSalsaArtists(), R.drawable.ic_address);
+    return new SingleCheckGenre("Salsa", makeSalsaArtists(), R.drawable.ic_maracas);
   }
 
   public static List<Artist> makeSalsaArtists() {
@@ -117,15 +116,15 @@ public class GenreDataFactory {
   }
 
   public static Genre makeBluegrassGenre() {
-    return new Genre("Bluegrass", makeBluegrassArtists(), R.drawable.ic_address);
+    return new Genre("Bluegrass", makeBluegrassArtists(), R.drawable.ic_banjo);
   }
 
   public static MultiCheckGenre makeMulitCheckBluegrassGenre() {
-    return new MultiCheckGenre("Bluegrass", makeBluegrassArtists(), R.drawable.ic_address);
+    return new MultiCheckGenre("Bluegrass", makeBluegrassArtists(), R.drawable.ic_banjo);
   }
 
   public static SingleCheckGenre makeSingleCheckBluegrassGenre() {
-    return new SingleCheckGenre("Bluegrass", makeBluegrassArtists(), R.drawable.ic_address);
+    return new SingleCheckGenre("Bluegrass", makeBluegrassArtists(), R.drawable.ic_banjo);
   }
 
   public static List<Artist> makeBluegrassArtists() {

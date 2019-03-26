@@ -181,14 +181,6 @@ public class ApiService {
 
 
                         onUploadedPhoto.OnUploadPhoto(currentPhoto,null);
-/*
-                        int progress = (currentPhoto*(100/allPhoto));
-                        progressBar.setProgress( (currentPhoto*(100/allPhoto) ));
-                        levelToolbarTextView.setText(String.valueOf(progress));
-                        Log.i(TAG, "\n current: "+currentPhoto);
-*/
-
-
 
 
 
@@ -202,7 +194,7 @@ public class ApiService {
             }
         });
 
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(120000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         RequestQueue rQueue = Volley.newRequestQueue(context);
         rQueue.add(jsonObjectRequest);

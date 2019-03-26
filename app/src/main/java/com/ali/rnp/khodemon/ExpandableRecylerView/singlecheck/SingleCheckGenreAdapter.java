@@ -1,5 +1,6 @@
 package com.ali.rnp.khodemon.ExpandableRecylerView.singlecheck;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +11,18 @@ import com.ali.rnp.khodemon.R;
 import com.thoughtbot.expandablecheckrecyclerview.CheckableChildRecyclerViewAdapter;
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
+
 import java.util.List;
 
 public class SingleCheckGenreAdapter extends
     CheckableChildRecyclerViewAdapter<GenreViewHolder, SingleCheckArtistViewHolder> {
 
+
+
   public SingleCheckGenreAdapter(List<SingleCheckGenre> groups) {
     super(groups);
   }
+
 
   @Override
   public SingleCheckArtistViewHolder onCreateCheckChildViewHolder(ViewGroup parent, int viewType) {
@@ -31,6 +36,9 @@ public class SingleCheckGenreAdapter extends
       CheckedExpandableGroup group, int childIndex) {
     final Artist artist = (Artist) group.getItems().get(childIndex);
     holder.setArtistName(artist.getName());
+
+
+
   }
 
   @Override
@@ -45,4 +53,6 @@ public class SingleCheckGenreAdapter extends
       ExpandableGroup group) {
     holder.setGenreTitle(group);
   }
+
+
 }

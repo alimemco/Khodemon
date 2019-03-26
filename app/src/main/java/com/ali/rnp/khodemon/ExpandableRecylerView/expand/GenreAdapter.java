@@ -9,7 +9,6 @@ import com.ali.rnp.khodemon.ExpandableRecylerView.Genre;
 import com.ali.rnp.khodemon.R;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
-
 import java.util.List;
 
 public class GenreAdapter extends ExpandableRecyclerViewAdapter<GenreViewHolder, ArtistViewHolder> {

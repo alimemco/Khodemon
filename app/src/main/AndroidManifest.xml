@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ali.rnp.khodemon">
 
+    <uses-sdk tools:overrideLibrary="
+    com.thoughtbot.expandablerecyclerview,
+         com.thoughtbot.expandablecheckrecyclerview,
+ir.neo.stepbarview" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-sdk tools:overrideLibrary="
-    com.thoughtbot.expandablerecyclerview,
-    com.thoughtbot.expandablecheckrecyclerview"/>
-
-
 
     <application
         android:name=".MyApplication"
@@ -22,16 +21,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
-
-
-        <activity android:name=".Views.Activites.TagChooseActivity"/>
-        <activity android:name=".ExpandableRecylerView.expand.ExpandActivity"/>
-        <activity android:name=".ExpandableRecylerView.multicheck.MultiCheckActivity"/>
-        <activity android:name=".ExpandableRecylerView.multitype.MultiTypeActivity"/>
-        <activity android:name=".ExpandableRecylerView.multitypeandcheck.MultiTypeCheckGenreActivity"/>
-        <activity android:name=".ExpandableRecylerView.singlecheck.SingleCheckActivity"/>
+        <activity android:name=".ExpandableRecActivity"></activity>
+        <activity android:name=".Views.Activites.TagChooseActivity" />
+        <activity android:name=".ExpandableRecylerView.expand.ExpandActivity" />
+        <activity android:name=".ExpandableRecylerView.multicheck.MultiCheckActivity" />
+        <activity android:name=".ExpandableRecylerView.multitype.MultiTypeActivity" />
+        <activity android:name=".ExpandableRecylerView.multitypeandcheck.MultiTypeCheckGenreActivity" />
+        <activity android:name=".ExpandableRecylerView.singlecheck.SingleCheckActivity" />
         <activity
             android:name=".Views.Activites.AddRule"
             android:label="@string/title_activity_add_rule"

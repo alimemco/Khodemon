@@ -29,7 +29,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical|end"
     android:layout_marginRight="@dimen/horizontal_margin"
-    app:srcCompat="@drawable/ic_house" />
+    app:srcCompat="@drawable/ic_arrow_down" />
 
 </FrameLayout>
 

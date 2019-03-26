@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.ali.rnp.khodemon.R;
 
+import com.ali.rnp.khodemon.R;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.ali.rnp.khodemon.ExpandableRecylerView.GenreDataFactory.makeSingleCheckGenres;
+
 
 public class SingleCheckActivity extends AppCompatActivity {
 
@@ -24,10 +25,8 @@ public class SingleCheckActivity extends AppCompatActivity {
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_single_check);
-    /*
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setTitle(getClass().getSimpleName());
-*/
+
+
     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
@@ -35,13 +34,7 @@ public class SingleCheckActivity extends AppCompatActivity {
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
 
-    Button clear = (Button) findViewById(R.id.clear_button);
-    clear.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        adapter.clearChoices();
-      }
-    });
+
   }
 
   @Override

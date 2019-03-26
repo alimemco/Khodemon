@@ -1,16 +1,11 @@
 package com.ali.rnp.khodemon.ExpandableRecylerView.expand;
 
 import android.os.Bundle;
-/*
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-*/
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
 
 import com.ali.rnp.khodemon.R;
 
@@ -32,13 +27,9 @@ public class ExpandActivity extends AppCompatActivity {
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_expand);
-   /*
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setTitle(getClass().getSimpleName());
-*/
-    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_expand);
 
 
+    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
     // RecyclerView has some built in animations to it, using the DefaultItemAnimator.
@@ -60,8 +51,6 @@ public class ExpandActivity extends AppCompatActivity {
         adapter.toggleGroup(makeClassicGenre());
       }
     });
-
-
   }
 
   @Override
