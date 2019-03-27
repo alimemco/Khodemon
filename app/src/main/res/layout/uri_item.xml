@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="6dp">
+    android:layout_margin="5dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp"
+    >
 
-    <ImageView
-        android:id="@+id/uri_item_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/holder_banner" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.ali.rnp.khodemon.MyLibrary.MyTextView
-        android:id="@+id/uri_item_textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="عکس اصلی"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/uri_item_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/uri_item_image"
-        android:textColor="@color/white"
-        android:background="@color/black_80_alpha"/>
+        <ImageView
+            android:id="@+id/uri_item_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/holder_banner" />
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/uri_item_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="عکس اصلی"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/uri_item_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/uri_item_image"
+            android:textColor="@color/white"
+            android:background="@color/black_80_alpha"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -32,10 +32,6 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
 
 
 
-    public void setItemClickListener(ItemClickListenerRecyclerList clickListener) {
-        onItemClickListenerRecyclerList = clickListener;
-    }
-
     public void setListDataForAdapter(List<ListLayout> listLayout) {
         this.listLayout = listLayout;
         notifyDataSetChanged();
@@ -51,8 +47,6 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
 
         singleItemAdapter = new SingleItemAdapter(context);
 
-
-
         return new LinearSingleAdapterHolder(rootView);
     }
 
@@ -67,20 +61,7 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
             holder.itemView.setOnClickListener(v -> {
 
                 onItemClickListenerRecyclerList.onItemClick( position,listLayout.get(position).getGroup());
-               /*
-                switch (listLayout.get(position).getGroup()){
-                    case ApiService.GROUP_NAME_LOCATION:
 
-                        break;
-
-                    case ApiService.GROUP_NAME_PEOPLE:
-
-                        break;
-
-
-
-                }
-                */
             });
 
 

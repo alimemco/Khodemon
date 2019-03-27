@@ -9,37 +9,45 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_height="match_parent"
+
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_add_one_buttonChoose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fragment_add_one_recycler_view"
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myTextView2" />
+                app:layout_constraintTop_toBottomOf="@+id/myTextView2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/fragment_add_one_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:listitem="@layout/uri_item"/>
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
 
 
             <com.ali.rnp.khodemon.MyLibrary.MyTextView
@@ -48,11 +56,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:text="نام مکان"
-                android:textSize="@dimen/large_textSize_sp"
+                android:textSize="14sp"
                 app:fontCustom="shp_iranSansMobile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,17 +69,81 @@
 
             </com.ali.rnp.khodemon.MyLibrary.MyTextView>
 
-            <com.ali.rnp.khodemon.MyLibrary.MyEditText
-                android:id="@+id/myEditText"
-                android:layout_width="0dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/add_level_one_cardView_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+                <com.ali.rnp.khodemon.MyLibrary.MyEditText
+                    android:id="@+id/myEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:drawableRight="@drawable/ic_maracas"
+                    android:gravity="center"
+                    android:hint="نام مکان مورد نظر "
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingTop="12dp"
+                    android:paddingRight="@dimen/standard_margin"
+                    android:paddingBottom="10dp"
+                    android:textSize="14dp"
+                    app:fontCustom="shp_iranSansMobile"
+
+                    />
+            </androidx.cardview.widget.CardView>
+
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/myTextView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="نوع مکان"
+                android:textSize="14sp"
+                app:fontCustom="shp_iranSansMobile"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+                app:layout_constraintTop_toBottomOf="@+id/add_level_one_cardView_name" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/add_level_one_cardView_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myTextView3">
+
+                <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                    android:id="@+id/fragment_add_level_one_MyTextView_chooseTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_arrow_down"
+                    android:drawableRight="@drawable/ic_saxaphone"
+                    android:gravity="center"
+                    android:hint="فروشگاه ، تعمیرات موبایل ، باشگاه .."
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingTop="10dp"
+                    android:paddingRight="@dimen/standard_margin"
+                    android:paddingBottom="8dp"
+                    app:fontCustom="shp_iranSansMobile" />
+
+            </androidx.cardview.widget.CardView>
+
 
             <com.ali.rnp.khodemon.MyLibrary.MyTextView
                 android:id="@+id/myTextView2"
@@ -79,43 +151,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:text="عکس مکان"
-                android:textSize="@dimen/large_textSize_sp"
+                android:textSize="14sp"
                 app:fontCustom="shp_iranSansMobile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myEditText" />
+                app:layout_constraintTop_toBottomOf="@id/add_level_one_cardView_tag" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-
-    <Button
-        android:id="@+id/fragment_add_one_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/fragment_add_one_buttonChoose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Choose"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_add_one_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

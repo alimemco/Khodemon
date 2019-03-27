@@ -10,11 +10,12 @@ import java.util.List;
 public class TagsDataFactory {
 
     public static List<SingleCheckGroup> makeSingleCheckTags() {
-        return Arrays.asList(makeSingleCheckRockGenre(),
+        return Arrays.asList( makeSingleCheckDr(),
+                makeSingleCheckRockGenre(),
                 makeSingleCheckJazzGenre(),
                 makeSingleCheckClassicGenre(),
                 makeSingleCheckSalsaGenre(),
-                makeSingleCheckBluegrassGenre());
+                makeSingleCheckBluegrassGenre() );
     }
 
 
@@ -78,6 +79,19 @@ public class TagsDataFactory {
         Expert earlScruggs = new Expert("Earl Scruggs", false);
         Expert osborneBrothers = new Expert("Osborne Brothers", true);
         Expert johnHartford = new Expert("John Hartford", false);
+
+        return Arrays.asList(billMonroe, earlScruggs, osborneBrothers, johnHartford);
+    }
+
+    public static SingleCheckGroup makeSingleCheckDr() {
+        return new SingleCheckGroup("پزشک", makeDrs(), R.drawable.ic_banjo);
+    }
+
+    public static List<Expert> makeDrs() {
+        Expert billMonroe = new Expert("پزشک عمومی", false);
+        Expert earlScruggs = new Expert("دندانپزشک", false);
+        Expert osborneBrothers = new Expert("چشم پزشک", true);
+        Expert johnHartford = new Expert("علوم آزمایشگاهی", false);
 
         return Arrays.asList(billMonroe, earlScruggs, osborneBrothers, johnHartford);
     }

@@ -3,25 +3,23 @@ package com.ali.rnp.khodemon.Views.Activites;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.widget.Toast;
 
-import com.ali.rnp.khodemon.ExpandableRecylerView.singlecheck.SingleCheckGenreAdapter;
 import com.ali.rnp.khodemon.ExpandableTags.Expert;
 import com.ali.rnp.khodemon.ExpandableTags.SingleCheckGroupingAdapter;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelOne;
+import com.ali.rnp.khodemon.Views.fragments.FragmentDialog;
 import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
-import com.thoughtbot.expandablerecyclerview.listeners.OnGroupClickListener;
 
-import afu.org.checkerframework.checker.oigj.qual.O;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.ali.rnp.khodemon.ExpandableRecylerView.GenreDataFactory.makeSingleCheckGenres;
 import static com.ali.rnp.khodemon.ExpandableTags.TagsDataFactory.makeSingleCheckTags;
 
 
@@ -30,6 +28,7 @@ public class TagChooseActivity extends AppCompatActivity {
     private SingleCheckGroupingAdapter adapter;
     private MyButton chooseButton;
     private Intent intent;
+    private String tagLocPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class TagChooseActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_tag_choose_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
-        adapter = new SingleCheckGroupingAdapter(makeSingleCheckTags());
+        adapter = new SingleCheckGroupingAdapter(makeSingleCheckTags(),this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -52,8 +51,10 @@ public class TagChooseActivity extends AppCompatActivity {
                 adapter.clearChoices();
                 group.checkChild(childIndex);
                 Expert expert = (Expert) group.getItems().get(childIndex);
-                Toast.makeText(TagChooseActivity.this, expert.getName(), Toast.LENGTH_SHORT).show();
-            }
+
+                tagLocPic = expert.getName();
+
+              }
         });
 
 
@@ -63,21 +64,50 @@ public class TagChooseActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
+              //  showDialog();
+                if (!tagLocPic.equals("")){
+                    intent = new Intent();
+                    intent.putExtra(AddRule.KEY_CHOOSE_EXPERT, tagLocPic);
+                    setResult(Activity.RESULT_OK, intent);
+                }
 
-               // finish();
+
+              finish();
             }
         });
 
 
     }
 
-/*
-    @Override
-    public void OnItemSelect(String title) {
-        Toast.makeText(TagChooseActivity.this, title, Toast.LENGTH_SHORT).show();
 
-        intent = new Intent();
-        intent.putExtra("title", title);
-        setResult(Activity.RESULT_OK, intent);
-    }*/
+    public void showDialog() {
+        boolean isLargeLayout = false ;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentDialog fragmentDialog = new FragmentDialog();
+
+
+
+        if (isLargeLayout) {
+            // The device is using a large layout, so show the fragment as a dialog
+            fragmentDialog.show(fragmentManager, "dialog");
+        } else {
+            // The device is smaller, so show the fragment fullscreen
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            // For a little polish, specify a transition animation
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            // To make it fullscreen, use the 'content' root view as the container
+            // for the fragment, which is always the root view for the activity
+            transaction.add(android.R.id.content, fragmentDialog)
+                    .addToBackStack(null).commit();
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fragmentDialog.dismiss();
+            }
+        },3000);
+    }
+
+
 }

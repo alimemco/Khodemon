@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.ali.rnp.khodemon.ExpandableRecylerView.Genre;
 import com.ali.rnp.khodemon.ExpandableRecylerView.multicheck.MultiCheckGenre;
 import com.ali.rnp.khodemon.ExpandableRecylerView.singlecheck.SingleCheckGenre;
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
@@ -16,21 +17,21 @@ import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
 public class GroupingViewHolder extends GroupViewHolder {
 
-    private TextView genreName;
+    private MyTextView groupName;
     private ImageView arrow;
     private ImageView icon;
 
     public GroupingViewHolder(View itemView) {
         super(itemView);
-        genreName = (TextView) itemView.findViewById(R.id.list_item_genre_name);
-        arrow = (ImageView) itemView.findViewById(R.id.list_item_genre_arrow);
-        icon = (ImageView) itemView.findViewById(R.id.list_item_genre_icon);
+        groupName =  itemView.findViewById(R.id.list_item_group_name);
+        arrow =  itemView.findViewById(R.id.list_item_group_arrow);
+        icon =  itemView.findViewById(R.id.list_item_group_icon);
     }
 
     public void setGroupingTitle(ExpandableGroup group) {
 
         if (group instanceof SingleCheckGroup) {
-            genreName.setText(group.getTitle());
+            groupName.setText(group.getTitle());
             icon.setBackgroundResource(((SingleCheckGroup) group).getIconResId());
         }
     }

@@ -3,12 +3,12 @@ package com.ali.rnp.khodemon.Views.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,16 +17,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.UriAdapter;
 
 
 import com.ali.rnp.khodemon.GifSizeFilter;
 import com.ali.rnp.khodemon.Glide4Engine;
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activites.TagChooseActivity;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
@@ -37,29 +35,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemChooseRecyclerClicked {
+public class FragmentAddLevelOne extends Fragment implements
+        UriAdapter.OnItemChooseRecyclerClicked
+{
 
     private Context context;
     private RecyclerView recyclerViewImages;
-    public Button button,chooseButton;
+    private CardView chooseTagCardView;
+    public static MyTextView chooseTagTextView;
     public static UriAdapter mAdapter;
     private static final int REQUEST_CODE_CHOOSE = 23;
     public static final int REQUEST_CODE_CHOOSE_TAG = 414;
     private static final String TAG = "FragmentAddLevelOne";
 
-    private OnNextButtonClicked onNextButtonClicked;
-    private OnChooseButtonClicked onChooseButtonClicked;
+    private OnViewClickListener onViewClickListener;
+
 
 
     public FragmentAddLevelOne() {
 
     }
-
     @SuppressLint("ValidFragment")
-    public FragmentAddLevelOne(OnNextButtonClicked onNextButtonClicked,OnChooseButtonClicked onChooseButtonClicked) {
-        this.onNextButtonClicked = onNextButtonClicked;
-        this.onChooseButtonClicked= onChooseButtonClicked;
+    public FragmentAddLevelOne(OnViewClickListener onViewClickListener) {
+        this.onViewClickListener = onViewClickListener;
+
     }
+
+
 
 
     @Override
@@ -80,30 +82,22 @@ public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemCh
 
     private void initViews(View rootView) {
         recyclerViewImages = rootView.findViewById(R.id.fragment_add_one_recycler_view);
-        button = rootView.findViewById(R.id.fragment_add_one_button);
-        chooseButton = rootView.findViewById(R.id.fragment_add_one_buttonChoose);
+
+
+        chooseTagCardView = rootView.findViewById(R.id.add_level_one_cardView_tag);
+        chooseTagTextView = rootView.findViewById(R.id.fragment_add_level_one_MyTextView_chooseTag);
+
+
+        chooseTagCardView.setOnClickListener(v -> {
+            onViewClickListener.viewClickedFrgOne();
+        });
+
         recyclerViewImages.setLayoutManager(new GridLayoutManager(context,3));
         recyclerViewImages.setAdapter(mAdapter = new UriAdapter(context));
         
 
-        
 
-        
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               onNextButtonClicked.onNextClicked(2);
-            }
-        });
 
-        chooseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                onChooseButtonClicked.onChooseClicked();
-
-            }
-        });
 
 
         Uri path = Uri.parse("android.resource://com.ali.rnp.khodemon/" + R.drawable.holder_banner);
@@ -167,11 +161,10 @@ public class FragmentAddLevelOne extends Fragment implements UriAdapter.OnItemCh
 
     }
 
-    public interface OnNextButtonClicked{
-        void onNextClicked(int nextLevel);
+    public interface OnViewClickListener {
+         void viewClickedFrgOne();
     }
 
-    public interface OnChooseButtonClicked{
-        void onChooseClicked();
-    }
+
+
 }
