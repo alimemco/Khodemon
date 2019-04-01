@@ -1,12 +1,12 @@
-package com.ali.rnp.khodemon.Views.Activites;
+package com.ali.rnp.khodemon.Views.Activities;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.R;
-import com.android.volley.RequestQueue;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class TestPlace extends AppCompatActivity  {
 
     String API_KEY_PLACES = "AIzaSyCL2OQzXCytliGrm1OC_HI0VT0rarHn2h8";
+    String PLACE_ID_MHR = "ChIJrTLr-GyuEmsRBfy61i59si0";
     private static final String TAG = "TestPlaceNewActivity";
     private TextView textView;
 
@@ -37,9 +38,16 @@ public class TestPlace extends AppCompatActivity  {
 
         button = findViewById(R.id.test_place_button);
 
-  
 
-//Initialize Places.
+        button.setOnClickListener(v -> fetchPlaceById());
+
+
+
+
+    }
+
+    private void fetchPlaceById () {
+        //Initialize Places.
         Places.initialize(getApplicationContext(), API_KEY_PLACES);
 
 // Create a new Places client instance.
@@ -47,7 +55,7 @@ public class TestPlace extends AppCompatActivity  {
 
 
         // Define a Place ID.
-        String placeId = "ChIJrTLr-GyuEmsRBfy61i59si0";
+       // String placeId = "ChIJrTLr-GyuEmsRBfy61i59si0";
 
 // Specify the fields to return (in this example all fields are returned).
         List<Place.Field> placeFields = Arrays.asList(
@@ -64,7 +72,7 @@ public class TestPlace extends AppCompatActivity  {
         );
 
 // Construct a request object, passing the place ID and fields array.
-        FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields).build();
+        FetchPlaceRequest request = FetchPlaceRequest.builder(PLACE_ID_MHR, placeFields).build();
 
 
         placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
@@ -72,14 +80,14 @@ public class TestPlace extends AppCompatActivity  {
             Log.i(TAG, "Place found: " + place.getName());
 
             String data =
-                    "Name : " + place.getName() + " \n " +
-                            "Address : " + place.getAddress() + " \n " +
-                            "LatLng : " + place.getLatLng() + " \n " +
-                            "PriceLevel : " + place.getPriceLevel() + " \n " +
-                            "PhoneNumber : " + place.getPhoneNumber() + " \n " +
-                            "OpeningHours : " + place.getOpeningHours() + " \n " +
-                            "UserRatingsTotal : " + place.getUserRatingsTotal() + " \n " +
-                            "WebsiteUri : " + place.getWebsiteUri() + " \n " +
+                    "Name : " + place.getName() + " \n \n" +
+                            "Address : " + place.getAddress() + " \n \n " +
+                            "LatLng : " + place.getLatLng() + " \n \n" +
+                            "PriceLevel : " + place.getPriceLevel() + " \n \n" +
+                            "PhoneNumber : " + place.getPhoneNumber() + " \n \n" +
+                            "OpeningHours : " + place.getOpeningHours() + " \n \n" +
+                            "UserRatingsTotal : " + place.getUserRatingsTotal() + " \n \n" +
+                            "WebsiteUri : " + place.getWebsiteUri() + " \n \n" +
                             "Viewport : " + place.getViewport();
 
 
@@ -91,13 +99,11 @@ public class TestPlace extends AppCompatActivity  {
 
                 textView.setText(exception.getMessage());
 
+            }else {
+                Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
-
-
 
 
 }

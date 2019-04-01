@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon.Views.Activites;
+package com.ali.rnp.khodemon.Views.Activities;
 
 /*
 Start Project
@@ -32,7 +32,6 @@ import com.ali.rnp.khodemon.Views.fragments.FragmentAdd;
 import com.ali.rnp.khodemon.Views.fragments.FragmentFavorite;
 import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
 import com.ali.rnp.khodemon.Views.fragments.FragmentLogin;
-import com.ali.rnp.khodemon.Views.fragments.FragmentRegister;
 import com.ali.rnp.khodemon.Views.fragments.FragmentSearch;
 import com.ali.rnp.khodemon.Views.fragments.FragmentUser;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -149,6 +148,11 @@ public class MainActivity extends AppCompatActivity implements
 
                     case R.id.navigation_menu_Expandable:
                         startActivity(new Intent(MainActivity.this, ExpandableRecActivity.class));
+
+                        break;
+
+                        case R.id.navigation_menu_googleMap:
+                        startActivity(new Intent(MainActivity.this, GoogleMapsActivity.class));
 
                         break;
                 }

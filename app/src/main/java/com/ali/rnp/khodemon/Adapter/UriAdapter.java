@@ -52,7 +52,7 @@ public class UriAdapter extends RecyclerView.Adapter<UriAdapter.UriViewHolder> {
         holder.mPath.setText(mPaths.get(position));
         */
 
-        Picasso.get().load(mUris.get(position)).placeholder(R.drawable.holder_banner).resize(500, 500).centerCrop().into(holder.mPic);
+        Picasso.get().load(mUris.get(position)).placeholder(R.drawable.add_photo).resize(500, 500).centerCrop().into(holder.mPic);
 
 
         if (positionOriginalPhoto == position && !isChooser ){

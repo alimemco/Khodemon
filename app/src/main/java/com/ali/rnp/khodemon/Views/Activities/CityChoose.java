@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon.Views.Activites;
+package com.ali.rnp.khodemon.Views.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;

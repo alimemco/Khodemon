@@ -3,7 +3,6 @@ package com.ali.rnp.khodemon.Views.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,7 +23,7 @@ import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activites.MainActivity;
+import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 import com.android.volley.VolleyError;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 

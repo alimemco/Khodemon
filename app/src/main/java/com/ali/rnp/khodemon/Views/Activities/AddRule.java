@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon.Views.Activites;
+package com.ali.rnp.khodemon.Views.Activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +20,7 @@ import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelOne;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelTwo;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.google.android.gms.maps.model.LatLng;
 import com.shuhart.stepview.StepView;
 import com.zhihu.matisse.Matisse;
 
@@ -68,20 +69,28 @@ FragmentAddLevelOne.OnViewClickListener{
     private int currentPhoto = 1;
     private int allPhoto = 1;
     private boolean isUploadPhotosSuccess = false;
+    private boolean inProgressUpload = false;
 
 
     private static final String TAG = "AddRuleApp";
 
     private static final int REQUEST_CODE_CHOOSE = 23;
     private static final int REQUEST_CODE_CHOOSE_EXPERT = 6363;
+    private static final int REQUEST_CODE_CHOOSE_LOCATION_MAP = 7259;
 
     public static final String KEY_CHOOSE_EXPERT = "Expert";
+    private int STEP_LEVEL_ONE = 0 ;
+    private int STEP_LEVEL_TWO = 1 ;
+    private int STEP_LEVEL_THREE = 2 ;
+    private int STEP_LEVEL_FOUR = 3 ;
 
 
     private final int GALLERY = 1;
 
     JSONObject jsonObject;
     RequestQueue rQueue;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +155,9 @@ FragmentAddLevelOne.OnViewClickListener{
         materialProgressBar.setVisibility(View.INVISIBLE);
         levelToolbarTextView.setText(String.valueOf(0));
 
+        DrawableCompat.setTint(photosImageView.getDrawable(), ContextCompat.getColor(AddRule.this, R.color.dark_gray));
+
+
 
     }
 
@@ -174,28 +186,7 @@ FragmentAddLevelOne.OnViewClickListener{
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-
-            FragmentAddLevelOne.mAdapter.setData(Matisse.obtainResult(data), false, null);
-
-            List<Uri> contentURIs = Matisse.obtainResult(data);
-            levelToolbarTextView.setText(String.valueOf(contentURIs.size()));
-
-
-            dataFromMatisse = data;
-
-
-        } else if (requestCode == REQUEST_CODE_CHOOSE_EXPERT && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(KEY_CHOOSE_EXPERT);
-            // Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
-            FragmentAddLevelOne.chooseTagTextView.setText(title);
-        }
-
-    }
 
 
 
@@ -207,6 +198,7 @@ FragmentAddLevelOne.OnViewClickListener{
             public void run() {
 
 
+                isUploadPhotosSuccess = true;
                 List<Uri> contentURIs = Matisse.obtainResult(dataFromMatisse);
 
                 int allPhoto = contentURIs.size();
@@ -227,6 +219,9 @@ FragmentAddLevelOne.OnViewClickListener{
                         apiService.uploadImage(bitmap, currentPhoto, allPhoto, new ApiService.OnUploadedPhoto() {
                             @Override
                             public void OnUploadPhoto(int currentPhotoNum, VolleyError error) {
+
+                                inProgressUpload = false;
+
                                 if (currentPhotoNum != -1 && error == null) {
 
                                     int progress = ((currentPhoto * 100) / allPhoto);
@@ -246,6 +241,7 @@ FragmentAddLevelOne.OnViewClickListener{
                                         levelToolbarTextView.setTextColor(ContextCompat.getColor(AddRule.this, R.color.colorPrimary));
 
                                         isUploadPhotosSuccess = true;
+
                                     }
                                     currentPhoto++;
                                 } else if (error != null) {
@@ -308,9 +304,12 @@ FragmentAddLevelOne.OnViewClickListener{
 
 
 
-                stepView.go(2-1, true);
+                stepView.go(STEP_LEVEL_TWO, true);
 
-                if (dataFromMatisse != null && !isUploadPhotosSuccess && Utils.isConnectedToNetwork(this)) {
+                if (dataFromMatisse != null &&
+                        !inProgressUpload &&
+                        !isUploadPhotosSuccess && Utils.isConnectedToNetwork(this)
+                ) {
                     uploadImage();
                 }
 
@@ -355,7 +354,35 @@ FragmentAddLevelOne.OnViewClickListener{
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+
+            FragmentAddLevelOne.mAdapter.setData(Matisse.obtainResult(data), false, null);
+
+            List<Uri> contentURIs = Matisse.obtainResult(data);
+            levelToolbarTextView.setText(String.valueOf(contentURIs.size()));
+
+
+            dataFromMatisse = data;
+
+
+        } else if (requestCode == REQUEST_CODE_CHOOSE_EXPERT && resultCode == RESULT_OK) {
+            String title = data.getStringExtra(KEY_CHOOSE_EXPERT);
+            // Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
+            FragmentAddLevelOne.chooseTagTextView.setText(title);
+        }
+
+    }
+
+    @Override
     public void viewClickedFrgOne() {
                 startActivityForResult(new Intent(AddRule.this, TagChooseActivity.class), REQUEST_CODE_CHOOSE_EXPERT);
     }
+
+
+
+
+
 }

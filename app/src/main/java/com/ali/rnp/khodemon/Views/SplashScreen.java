@@ -2,11 +2,8 @@ package com.ali.rnp.khodemon.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 
-import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activites.MainActivity;
+import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

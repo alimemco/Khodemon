@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ali.rnp.khodemon.DataModel.City;
-import com.ali.rnp.khodemon.Views.Activites.MainActivity;
+import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activites.CityChoose;
+import com.ali.rnp.khodemon.Views.Activities.CityChoose;
 
 import java.util.List;
 

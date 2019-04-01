@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/holder_banner" />
+            tools:src="@drawable/add_photo" />
 
         <com.ali.rnp.khodemon.MyLibrary.MyTextView
             android:id="@+id/uri_item_textView"

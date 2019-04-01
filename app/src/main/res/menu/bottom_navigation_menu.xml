@@ -34,4 +34,9 @@
         android:title="آزمایشگاه Expandable"
         android:id="@+id/navigation_menu_Expandable"
         android:icon="@drawable/ic_padlock" />
+
+    <item
+        android:title="آزمایشگاه Google Map"
+        android:id="@+id/navigation_menu_googleMap"
+        android:icon="@drawable/ic_padlock" />
 </menu>

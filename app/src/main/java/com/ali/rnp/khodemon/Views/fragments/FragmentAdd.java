@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.ali.rnp.khodemon.Providers;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activites.AddRule;
+import com.ali.rnp.khodemon.Views.Activities.AddRule;
 
 public class FragmentAdd extends Fragment implements View.OnClickListener {
 

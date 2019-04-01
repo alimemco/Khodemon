@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon.Views.Activites;
+package com.ali.rnp.khodemon.Views.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -68,6 +68,7 @@ public class TagChooseActivity extends AppCompatActivity {
                 if (!tagLocPic.equals("")){
                     intent = new Intent();
                     intent.putExtra(AddRule.KEY_CHOOSE_EXPERT, tagLocPic);
+
                     setResult(Activity.RESULT_OK, intent);
                 }
 

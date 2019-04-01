@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ali.rnp.khodemon">
 
-    <uses-sdk tools:overrideLibrary="
-    com.thoughtbot.expandablerecyclerview,
-         com.thoughtbot.expandablecheckrecyclerview,
-ir.neo.stepbarview" />
-
+    <uses-sdk tools:overrideLibrary="     com.thoughtbot.expandablerecyclerview,          com.thoughtbot.expandablecheckrecyclerview, ir.neo.stepbarview" />
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,23 +24,39 @@ ir.neo.stepbarview" />
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ExpandableRecActivity"></activity>
-        <activity android:name=".Views.Activites.TagChooseActivity" />
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".Views.Activities.GoogleMapsActivity"
+            android:label="@string/title_activity_google_maps"></activity>
+        <activity android:name=".ExpandableRecActivity" />
+        <activity android:name=".Views.Activities.TagChooseActivity" />
         <activity android:name=".ExpandableRecylerView.expand.ExpandActivity" />
         <activity android:name=".ExpandableRecylerView.multicheck.MultiCheckActivity" />
         <activity android:name=".ExpandableRecylerView.multitype.MultiTypeActivity" />
         <activity android:name=".ExpandableRecylerView.multitypeandcheck.MultiTypeCheckGenreActivity" />
         <activity android:name=".ExpandableRecylerView.singlecheck.SingleCheckActivity" />
         <activity
-            android:name=".Views.Activites.AddRule"
+            android:name=".Views.Activities.AddRule"
             android:label="@string/title_activity_add_rule"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Views.Activites.TestPlace"
+            android:name=".Views.Activities.TestPlace"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Views.Activites.MainActivity"
+            android:name=".Views.Activities.MainActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Views.SplashScreen"
@@ -49,7 +68,7 @@ ir.neo.stepbarview" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".Views.Activites.CityChoose"
+            android:name=".Views.Activities.CityChoose"
             android:windowSoftInputMode="stateHidden" />
 
         <meta-data

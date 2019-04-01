@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
-import com.ali.rnp.khodemon.Views.Activites.MainActivity;
+import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 import com.ali.rnp.khodemon.R;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;

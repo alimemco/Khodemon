@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.Utils;
-import com.ali.rnp.khodemon.Views.Activites.MainActivity;
+import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.Activites.TestPlace">
+    tools:context=".Views.Activities.TestPlace">
 
 
     <ScrollView
@@ -25,6 +25,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
+            android:textColor="@color/colorPrimary"
             android:scrollHorizontally="true"
             android:text="loading.."
             app:layout_constraintEnd_toEndOf="parent"

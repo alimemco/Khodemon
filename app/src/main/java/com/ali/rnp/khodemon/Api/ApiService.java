@@ -4,11 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
-import com.ali.rnp.khodemon.Views.Activites.AddRule;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
