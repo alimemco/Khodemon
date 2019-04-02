@@ -16,7 +16,7 @@
         android:icon="@drawable/ic_magnifying_glass" />
 
     <item
-        android:title="آزمایشگاه مکان ها"
+        android:title="آزمایشگاه places"
         android:id="@+id/navigation_menu_places"
         android:icon="@drawable/ic_padlock" />
 
@@ -38,5 +38,10 @@
     <item
         android:title="آزمایشگاه Google Map"
         android:id="@+id/navigation_menu_googleMap"
+        android:icon="@drawable/ic_padlock" />
+
+    <item
+        android:title="آزمایشگاه chooseCity"
+        android:id="@+id/navigation_menu_chooseCity"
         android:icon="@drawable/ic_padlock" />
 </menu>

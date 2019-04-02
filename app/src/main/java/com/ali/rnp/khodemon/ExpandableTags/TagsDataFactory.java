@@ -1,9 +1,6 @@
 package com.ali.rnp.khodemon.ExpandableTags;
 
-import com.ali.rnp.khodemon.ExpandableRecylerView.Artist;
-import com.ali.rnp.khodemon.ExpandableRecylerView.singlecheck.SingleCheckGenre;
 import com.ali.rnp.khodemon.R;
-
 import java.util.Arrays;
 import java.util.List;
 

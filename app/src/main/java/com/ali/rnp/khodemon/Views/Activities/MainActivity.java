@@ -155,6 +155,11 @@ public class MainActivity extends AppCompatActivity implements
                         startActivity(new Intent(MainActivity.this, GoogleMapsActivity.class));
 
                         break;
+
+                        case R.id.navigation_menu_chooseCity:
+                        startActivity(new Intent(MainActivity.this, CityChooseActivityNew.class));
+
+                        break;
                 }
 
                 return false;

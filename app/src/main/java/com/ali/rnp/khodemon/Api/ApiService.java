@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 
+import com.ali.rnp.khodemon.DataModel.City;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.android.volley.DefaultRetryPolicy;
@@ -12,8 +13,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,10 +37,13 @@ public class ApiService {
     private final static String API_GET_HOME_ITEMS = "http://khodemon.ir/getHomeItems.php";
     private final static String API_GET_GROUP_ITEMS = "http://khodemon.ir/getGroupItems.php";
     private final static String API_GET_HOME_LIST_ITEMS = "http://khodemon.ir/getHomeItemsList.php";
+    private final static String API_GET_PROVINCE = "http://khodemon.ir/json/Province.json";
 
     private final static String API_UPLOAD_PHOTOS = "http://khodemon.ir/upload_images.php";
 
     private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
+
+
 
 
     public static final int STATUS_REGISTER_ERROR = 616;
@@ -154,6 +161,29 @@ public class ApiService {
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
+    }
+
+    public void getProvince(OnProvinceReceived onProvinceReceived) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API_GET_PROVINCE, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                parseJsonProvince(response,onProvinceReceived);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                onProvinceReceived.onReceived(null,error);
+
+            }
+        });
+
+                request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                // Volley.newRequestQueue(context).add(request);
+        requestQueue.add(request);
     }
 
 
@@ -332,6 +362,36 @@ public class ApiService {
 
     }
 
+    private void parseJsonProvince(JSONArray response,OnProvinceReceived onProvinceReceived) {
+
+        List<City> cities = new ArrayList<>();
+
+
+
+        for (int i = 0; i < response.length(); i++) {
+
+            try {
+                JSONObject jsonObject = response.getJSONObject(i);
+                String provinceName = jsonObject.getString("name");
+                JSONArray jsonArrayCities = jsonObject.getJSONArray("Cities");
+
+                for (int j = 0; j <jsonArrayCities.length() ; j++) {
+                    JSONObject jsonObjectCity = jsonArrayCities.getJSONObject(j);
+                    String cityName = jsonObjectCity.getString("name");
+                    City city = new City();
+                    city.setCity(cityName);
+                    cities.add(city);
+                }
+
+                onProvinceReceived.onReceived(cities,null);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
     private void parseJsonRegisterUser(JSONObject response, OnRegisterCompleted onRegisterCompleted) {
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -379,6 +439,10 @@ public class ApiService {
 
     public interface OnGroupItemReceived {
         void onItemGroupReceived(List<LocationPeople> locationPeopleList, VolleyError error);
+    }
+
+    public interface OnProvinceReceived {
+        void onReceived(List<City> cities, VolleyError error);
     }
 
     public interface OnUploadedPhoto{

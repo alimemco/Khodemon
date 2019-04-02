@@ -97,7 +97,8 @@ GoogleMap.OnCameraMoveListener{
         Toolbar toolbar = findViewById(R.id.activity_google_maps_Toolbar);
 
         setSupportActionBar(toolbar);
-        toolbar.setTitle("انتخاب مکان");
+        setTitle("انتخاب مکان");
+
 
 
 

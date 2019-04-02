@@ -14,6 +14,7 @@ import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.Activities.CityChoose;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
         this.cities = cities;
         notifyDataSetChanged();
 
+    }
+
+    public void filterList(List<City> cities) {
+        this.cities = cities;
+        notifyDataSetChanged();
     }
 
     @NonNull

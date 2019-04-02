@@ -193,14 +193,6 @@ public class FragmentAddLevelTwo extends Fragment {
                             Manifest.permission.ACCESS_COARSE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED) {
 
-                // Permission is not granted
-                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION) ||
-                        ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                                Manifest.permission.ACCESS_COARSE_LOCATION)) {
-
-                    Toast.makeText(getContext(), "Set Intent Here", Toast.LENGTH_SHORT).show();
-                }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     requestPermissions(
@@ -210,9 +202,6 @@ public class FragmentAddLevelTwo extends Fragment {
                 }
 
             } else {
-                // Permission has already been granted
-              //  startActivityForResult(new Intent(getContext(), GoogleMapsActivity.class),PERMISSIONS_REQUEST_LOCATION_STORAGE);
-
                 goToMapForChoose();
 
             }
@@ -255,7 +244,6 @@ public class FragmentAddLevelTwo extends Fragment {
 
         startActivityForResult(intent,REQUEST_CODE_LOCATION_CHOOSE);
 
-       // startActivity(new Intent(getContext(), GoogleMapsActivity.class));
     }
 
 

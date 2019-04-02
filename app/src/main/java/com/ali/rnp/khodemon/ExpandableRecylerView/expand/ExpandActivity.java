@@ -7,7 +7,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 
+import com.ali.rnp.khodemon.ExpandableTags.Expert;
 import com.ali.rnp.khodemon.R;
+import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
+import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
+import com.thoughtbot.expandablerecyclerview.listeners.OnGroupClickListener;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +47,7 @@ public class ExpandActivity extends AppCompatActivity {
     adapter = new GenreAdapter(makeGenres());
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
+
 
     Button clear = (Button) findViewById(R.id.toggle_button);
     clear.setOnClickListener(new OnClickListener() {

@@ -6,12 +6,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.CityAdapter;
 import com.ali.rnp.khodemon.DataModel.City;
 import com.ali.rnp.khodemon.DataModel.DataGenerator;
+import com.ali.rnp.khodemon.ExpandableTags.Expert;
+import com.ali.rnp.khodemon.ExpandableTags.SingleCheckGroupingAdapter;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
+import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
+import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +27,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.ali.rnp.khodemon.ExpandableTags.TagsDataFactory.makeSingleCheckTags;
+
 public class CityChoose extends AppCompatActivity {
 
     private RecyclerView recyclerViewCity;
     private Toolbar toolbar;
     private AutoCompleteTextView cityAutoTextEditText;
+    private SingleCheckGroupingAdapter adapter;
 
     public static final String INTENT_CITY_ID = "city_id";
     public static final String INTENT_CITY_NAME = "city_name";
@@ -34,11 +42,7 @@ public class CityChoose extends AppCompatActivity {
 
     private static final String TAG = "CityChoose";
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class CityChoose extends AppCompatActivity {
         setContentView(R.layout.activity_city_choose);
 
         setupToolbar();
-        setupRecViewCity();
+        setupRecViewCityWithExp();
         setupAutoCompleteText();
 
 
@@ -114,6 +118,31 @@ public class CityChoose extends AppCompatActivity {
         recyclerViewCity.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
         recyclerViewCity.setAdapter(cityAdapter);
+
+    }
+
+    private void setupRecViewCityWithExp() {
+
+        recyclerViewCity = findViewById(R.id.activity_city_choose_recView);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+        adapter = new SingleCheckGroupingAdapter(makeSingleCheckTags(),this);
+        recyclerViewCity.setLayoutManager(layoutManager);
+        recyclerViewCity.setAdapter(adapter);
+
+        adapter.setChildClickListener(new OnCheckChildClickListener() {
+            @Override
+            public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
+                adapter.clearChoices();
+                group.checkChild(childIndex);
+                Expert expert = (Expert) group.getItems().get(childIndex);
+
+                Toast.makeText(CityChoose.this, expert.getName(), Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
 
     }
 
