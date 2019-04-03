@@ -15,15 +15,77 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/fragment_add_level_two_ImageViewHolder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/holder_banner"
+        app:layout_constraintBottom_toBottomOf="@+id/mapView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone"/>
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/fragment_add_level_two_textView_chooseFromMap"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/hello_blank_fragment"
-        android:textSize="@dimen/large_textSize_sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/black_80_alpha"
+        android:padding="@dimen/standard_margin"
+        android:text="انتخاب شهر از روی نقشه"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/mapView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/myTextView32"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:text="استان ، شهر"
+        android:textSize="14sp"
+        app:fontCustom="shp_iranSansMobileBold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapView" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_level_two_cardView_chooseCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myTextView32">
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/fragment_add_level_two_MyTextView_chooseCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_arrow_down"
+            android:drawableRight="@drawable/ic_saxaphone"
+            android:gravity="center"
+            android:hint="انتخاب کنید"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:paddingLeft="@dimen/standard_margin"
+            android:paddingTop="10dp"
+            android:paddingRight="@dimen/standard_margin"
+            android:paddingBottom="8dp"
+            app:fontCustom="shp_iranSansMobile" />
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements
         switch (v.getId()) {
 
             case R.id.main_activity_city_LinearLayout:
-                startActivityForResult(new Intent(MainActivity.this, CityChoose.class), REQUEST_CODE_GET_CITY);
+                startActivityForResult(new Intent(MainActivity.this, CityChooseActivity.class), REQUEST_CODE_GET_CITY);
                 break;
 
             case R.id.main_activity_toolbar_name_textView:
@@ -408,18 +408,18 @@ public class MainActivity extends AppCompatActivity implements
             case REQUEST_CODE_GET_CITY:
 
                 if (resultCode == RESULT_OK && data != null) {
-                    final int cityId = data.getIntExtra(CityChoose.INTENT_CITY_ID, 1);
-                    final String cityNameString = data.getStringExtra(CityChoose.INTENT_CITY_NAME);
-                    final String cityProvinceNameString = data.getStringExtra(CityChoose.INTENT_CITY_PROVINCE_NAME);
+                   // final int cityId = data.getIntExtra(CityChooseActivity.INTENT_CITY_ID, 1);
+                    final String cityNameString = data.getStringExtra(CityChooseActivity.INTENT_CITY_NAME);
+                   // final String cityProvinceNameString = data.getStringExtra(CityChooseActivity.INTENT_CITY_PROVINCE_NAME);
 
                     cityName.setText(cityNameString);
 
 
                     runOnUiThread(() -> {
                         LocationCity locationCity = new LocationCity();
-                        locationCity.setCityId(cityId);
+                       // locationCity.setCityId(cityId);
                         locationCity.setCityName(cityNameString);
-                        locationCity.setCityProvinceName(cityProvinceNameString);
+                       // locationCity.setCityProvinceName(cityProvinceNameString);
                         sharedPrefManager.setSharedCity(locationCity);
                     });
 

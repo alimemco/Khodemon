@@ -8,6 +8,9 @@ import android.util.Log;
 import com.ali.rnp.khodemon.DataModel.City;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
+import com.ali.rnp.khodemon.ExpandableSingleItems.SingleCheckItemsExp;
+import com.ali.rnp.khodemon.R;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,8 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,8 +43,6 @@ public class ApiService {
     private final static String API_UPLOAD_PHOTOS = "http://khodemon.ir/upload_images.php";
 
     private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
-
-
 
 
     public static final int STATUS_REGISTER_ERROR = 616;
@@ -170,30 +169,31 @@ public class ApiService {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API_GET_PROVINCE, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                parseJsonProvince(response,onProvinceReceived);
+                parseJsonProvince(response, onProvinceReceived);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                onProvinceReceived.onReceived(null,error);
+                onProvinceReceived.onReceived(null,null, error);
 
             }
         });
 
-                request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                // Volley.newRequestQueue(context).add(request);
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        // Volley.newRequestQueue(context).add(request);
         requestQueue.add(request);
     }
 
 
-    public void uploadImage(Bitmap bitmap,final int currentPhoto,int allPhoto,OnUploadedPhoto onUploadedPhoto){
+    public void uploadImage(Bitmap bitmap,String groupName, final int currentPhoto, int allPhoto, OnUploadedPhoto onUploadedPhoto) {
 
         try {
             jsonObjectPhoto = new JSONObject();
             String imgName = String.valueOf(Calendar.getInstance().getTimeInMillis());
             //jsonObject.put("id",currentPhoto);
             jsonObjectPhoto.put("name", imgName);
+            jsonObjectPhoto.put("group", groupName);
             jsonObjectPhoto.put("image", bitmapToString(bitmap));
 
         } catch (JSONException e) {
@@ -208,8 +208,7 @@ public class ApiService {
                         // int cu = jsonObject.getInt("currentPhoto");
 
 
-                        onUploadedPhoto.OnUploadPhoto(currentPhoto,null);
-
+                        onUploadedPhoto.OnUploadPhoto(currentPhoto, null);
 
 
                     }
@@ -217,12 +216,12 @@ public class ApiService {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e(TAG, volleyError.toString());
-                onUploadedPhoto.OnUploadPhoto(-1,volleyError);
+                onUploadedPhoto.OnUploadPhoto(-1, volleyError);
 
             }
         });
 
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(120000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(120000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         RequestQueue rQueue = Volley.newRequestQueue(context);
         rQueue.add(jsonObjectRequest);
@@ -339,8 +338,6 @@ public class ApiService {
                 }
 
 
-
-
                 ListLayout listLayout = new ListLayout();
 
                 listLayout.setId(i);
@@ -362,10 +359,10 @@ public class ApiService {
 
     }
 
-    private void parseJsonProvince(JSONArray response,OnProvinceReceived onProvinceReceived) {
+    private void parseJsonProvince(JSONArray response, OnProvinceReceived onProvinceReceived) {
 
         List<City> cities = new ArrayList<>();
-
+        List<SingleCheckItemsExp> makeSingleCheckParent = new ArrayList<>();
 
 
         for (int i = 0; i < response.length(); i++) {
@@ -375,20 +372,33 @@ public class ApiService {
                 String provinceName = jsonObject.getString("name");
                 JSONArray jsonArrayCities = jsonObject.getJSONArray("Cities");
 
-                for (int j = 0; j <jsonArrayCities.length() ; j++) {
+                List<ChildExp> makeChild = new ArrayList<>();
+                for (int j = 0; j < jsonArrayCities.length(); j++) {
                     JSONObject jsonObjectCity = jsonArrayCities.getJSONObject(j);
                     String cityName = jsonObjectCity.getString("name");
+
                     City city = new City();
-                    city.setCity(cityName);
+                    city.setCityName(cityName);
+                    city.setProvince(provinceName);
                     cities.add(city);
+
+                    ChildExp childExp = new ChildExp();
+                    childExp.setData(cityName, true);
+                    makeChild.add(childExp);
                 }
 
-                onProvinceReceived.onReceived(cities,null);
+
+                SingleCheckItemsExp makeSingleCheckChild = new SingleCheckItemsExp(provinceName, makeChild, R.drawable.ic_province);
+                makeSingleCheckParent.add(makeSingleCheckChild);
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
+
+        onProvinceReceived.onReceived(makeSingleCheckParent,cities, null);
 
     }
 
@@ -414,7 +424,7 @@ public class ApiService {
     }
 
 
-    private String bitmapToString(Bitmap bitmap){
+    private String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
@@ -442,11 +452,11 @@ public class ApiService {
     }
 
     public interface OnProvinceReceived {
-        void onReceived(List<City> cities, VolleyError error);
+        void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent,List<City> cities, VolleyError error);
     }
 
-    public interface OnUploadedPhoto{
-        void OnUploadPhoto(int currentPhotoNum,VolleyError error);
+    public interface OnUploadedPhoto {
+        void OnUploadPhoto(int currentPhotoNum, VolleyError error);
     }
 
 

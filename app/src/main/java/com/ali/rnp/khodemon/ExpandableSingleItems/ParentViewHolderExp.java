@@ -1,10 +1,9 @@
-package com.ali.rnp.khodemon.ExpandableItems;
+package com.ali.rnp.khodemon.ExpandableSingleItems;
 
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-import com.ali.rnp.khodemon.ExpandableTags.SingleCheckGroup;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
@@ -27,11 +26,14 @@ public class ParentViewHolderExp extends GroupViewHolder {
 
     public void setGroupingTitle(ExpandableGroup group) {
 
-        if (group instanceof SingleCheckGroup) {
+
             groupName.setText(group.getTitle());
-            icon.setBackgroundResource(((SingleCheckGroup) group).getIconResId());
-        }
+            icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
+
+
     }
+
+
 
     @Override
     public void expand() {

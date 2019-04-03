@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon.ExpandableItems;
+package com.ali.rnp.khodemon.ExpandableSingleItems;
 
 import com.ali.rnp.khodemon.ExpandableTags.Grouping;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;

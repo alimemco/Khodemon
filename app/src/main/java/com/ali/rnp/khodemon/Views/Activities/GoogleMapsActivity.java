@@ -1,19 +1,14 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
-import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelTwo;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,36 +21,31 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 public class GoogleMapsActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         GoogleMap.OnMapClickListener,
         GoogleMap.OnMyLocationButtonClickListener,
-GoogleMap.OnCameraMoveListener{
+        GoogleMap.OnCameraMoveListener {
 
     private GoogleMap mMap;
     private Marker mMarker;
-    private int requestCode=0;
+    private int requestCode = 0;
+
+    private boolean isFromFragmentAddTwo = false;
 
 
     private MyButton buttonChoose;
 
 
-
     private LatLng currentLatLng;
 
 
-    public final static String KEY_REQUEST_CHOOSE_LOCATION_ON_MAP ="CHOOSE_LOCATION_ON_MAP";
+    public final static String KEY_REQUEST_CHOOSE_LOCATION_ON_MAP = "CHOOSE_LOCATION_ON_MAP";
     public final static int REQUEST_FROM_FRAGMENT_ADD_LEVEL_TWO = 5246;
 
     private static final String TAG = "GoogleMapsActivity";
@@ -74,23 +64,21 @@ GoogleMap.OnCameraMoveListener{
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        if (mapFragment != null ){
+        if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-
 
 
     }
 
     private void getDataFromIntent() {
 
-        requestCode = getIntent().getIntExtra(KEY_REQUEST_CHOOSE_LOCATION_ON_MAP,0);
+        requestCode = getIntent().getIntExtra(KEY_REQUEST_CHOOSE_LOCATION_ON_MAP, 0);
 
-        if (requestCode == REQUEST_FROM_FRAGMENT_ADD_LEVEL_TWO){
-            Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(this, "No", Toast.LENGTH_SHORT).show();
-        }
+
+        isFromFragmentAddTwo = requestCode == REQUEST_FROM_FRAGMENT_ADD_LEVEL_TWO;
+
+
     }
 
     private void setupToolbar() {
@@ -100,25 +88,21 @@ GoogleMap.OnCameraMoveListener{
         setTitle("انتخاب مکان");
 
 
-
-
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-
         }
 
-       // DrawerLayout drawerLayout = findViewById(R.id.mainActivity_drawer_layout);
+        // DrawerLayout drawerLayout = findViewById(R.id.mainActivity_drawer_layout);
 
-       // ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        // ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
 
-      //  drawerLayout.addDrawerListener(drawerToggle);
-       // drawerToggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.colorPrimary));
-       // drawerToggle.syncState();
+        //  drawerLayout.addDrawerListener(drawerToggle);
+        // drawerToggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        // drawerToggle.syncState();
     }
 
     private void initViews() {
@@ -127,29 +111,25 @@ GoogleMap.OnCameraMoveListener{
 
         buttonChoose.setOnClickListener(v -> {
 
-            if (currentLatLng != null ){
+            if (currentLatLng != null) {
                 /*
                 Intent intent = new Intent();
                 intent.putExtra(KEY_REQUEST_CHOOSE_LOCATION_ON_MAP, currentLatLng);
                 intent.putExtra("test",currentLatLng.latitude);
                 setResult(Activity.RESULT_OK, intent);
 */
-                if(requestCode == REQUEST_FROM_FRAGMENT_ADD_LEVEL_TWO){
+                if (isFromFragmentAddTwo) {
                     FragmentAddLevelTwo.selectedLatLong = currentLatLng;
-                    Toast.makeText(this, "fromTwo", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(this, "NonFrom", Toast.LENGTH_SHORT).show();
                 }
 
 
                 finish();
-            }else {
+            } else {
                 Toast.makeText(this, "currentLatLng == null", Toast.LENGTH_SHORT).show();
             }
 
         });
     }
-
 
 
     @Override
@@ -185,11 +165,7 @@ GoogleMap.OnCameraMoveListener{
         updateLocationUI();
 
 
-
-
-
     }
-
 
 
     @Override
@@ -197,9 +173,9 @@ GoogleMap.OnCameraMoveListener{
 
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
-        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
         }
         return false;
@@ -210,7 +186,7 @@ GoogleMap.OnCameraMoveListener{
     public void onMapClick(LatLng latLng) {
 
 
-        if (mMarker!= null){
+        if (mMarker != null) {
             mMarker.remove();
         }
 
@@ -222,16 +198,14 @@ GoogleMap.OnCameraMoveListener{
         mMarker.setPosition(latLng);
 
 
-       // Toast.makeText(GoogleMapsActivity.this, "latCurrent : " + latLng.latitude + "\n long : " + latLng.longitude, Toast.LENGTH_SHORT).show();
-      //  Log.i(TAG, "onMapClick: latCurrent : " + latLng.latitude + "\n long : " + latLng.longitude);
+        // Toast.makeText(GoogleMapsActivity.this, "latCurrent : " + latLng.latitude + "\n long : " + latLng.longitude, Toast.LENGTH_SHORT).show();
+        //  Log.i(TAG, "onMapClick: latCurrent : " + latLng.latitude + "\n long : " + latLng.longitude);
 
 
         currentLatLng = latLng;
 
 
-
     }
-
 
 
     private void updateLocationUI() {
@@ -240,14 +214,13 @@ GoogleMap.OnCameraMoveListener{
         }
         try {
 
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
-
 
 
     private void buildAlertMessageNoGps() {

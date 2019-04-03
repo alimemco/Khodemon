@@ -14,13 +14,13 @@ import com.ali.rnp.khodemon.Adapter.UriAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.Utils;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelOne;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelTwo;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
-import com.google.android.gms.maps.model.LatLng;
 import com.shuhart.stepview.StepView;
 import com.zhihu.matisse.Matisse;
 
@@ -100,21 +100,10 @@ FragmentAddLevelOne.OnViewClickListener{
         initViews();
         initStepView();
 
-
         setupFragments();
 
+        groupName = getIntent().getStringExtra(ProvidersApp.GROUP_NAME_KEY);
 
-
-
-        /*
-        groupName = getIntent().getStringExtra(Providers.GROUP_NAME_KEY);
-        if (groupName!=null)
-        Toast.makeText(this, groupName, Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "Null Bood", Toast.LENGTH_SHORT).show();
-
-
-*/
 
 
     }
@@ -216,7 +205,7 @@ FragmentAddLevelOne.OnViewClickListener{
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), contentURIs.get(i));
 
                         ApiService apiService = new ApiService(AddRule.this);
-                        apiService.uploadImage(bitmap, currentPhoto, allPhoto, new ApiService.OnUploadedPhoto() {
+                        apiService.uploadImage(bitmap,groupName, currentPhoto, allPhoto, new ApiService.OnUploadedPhoto() {
                             @Override
                             public void OnUploadPhoto(int currentPhotoNum, VolleyError error) {
 
@@ -370,8 +359,10 @@ FragmentAddLevelOne.OnViewClickListener{
 
         } else if (requestCode == REQUEST_CODE_CHOOSE_EXPERT && resultCode == RESULT_OK) {
             String title = data.getStringExtra(KEY_CHOOSE_EXPERT);
-            // Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
             FragmentAddLevelOne.chooseTagTextView.setText(title);
+
+        }else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO && resultCode == RESULT_OK){
+
         }
 
     }

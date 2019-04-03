@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.Activities.CityChoose"
+    tools:context=".Views.Activities.CityChooseActivity"
     android:background="@color/white"
     android:layoutDirection="rtl"
     tools:ignore="UnusedAttribute">
@@ -51,7 +51,7 @@
                 android:contentDescription="@string/app_name"
                 app:srcCompat="@drawable/ic_magnifying_glass" />
 
-            <AutoCompleteTextView
+            <com.ali.rnp.khodemon.MyLibrary.MyEditText
                 android:id="@+id/activity_city_choose_cityAutoCompleteTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -64,6 +64,8 @@
                 tools:ignore="RtlHardcoded,RtlSymmetry"
                 android:maxLines="1"
                 android:inputType="text"
+                app:fontCustom="shp_iranSansMobile"
+                android:textSize="@dimen/small_textSize_sp"
                 android:background="@drawable/shape_search_choose_city_edit_text" />
 
 
@@ -87,5 +89,14 @@
 
 
         />
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/activity_city_choose_progressBar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/activity_city_choose_recView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

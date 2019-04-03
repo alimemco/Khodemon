@@ -10,16 +10,21 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Views.Activities.CityChooseActivity;
 import com.ali.rnp.khodemon.Views.Activities.GoogleMapsActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,12 +41,16 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class FragmentAddLevelTwo extends Fragment {
+public class FragmentAddLevelTwo extends Fragment implements
+        View.OnClickListener {
 
 
     private MapView mMapView;
     private GoogleMap mMap;
     private Marker mMarker;
+    private CardView chooseCityCard;
+    public static MyTextView chooseCityTextView;
+    public static MyTextView chooseMapTextView;
 
     public static LatLng selectedLatLong;
 
@@ -55,38 +64,24 @@ public class FragmentAddLevelTwo extends Fragment {
 
     Context context;
 
+    private static final String TAG = "FragmentAddLevelTwo";
+
 
     public FragmentAddLevelTwo() {
 
     }
 
-    public static FragmentAddLevelTwo newInstance(String param1, String param2) {
-        return new FragmentAddLevelTwo();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-
-
-
-    }
 
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_add_level_two, container, false);
-        initGoogleMap(rootView,savedInstanceState);
-        return rootView;
-    }
 
-    private void initGoogleMap(View rootView,Bundle savedInstanceState) {
+        initViews(rootView);
+
         mMapView = rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
@@ -97,6 +92,35 @@ public class FragmentAddLevelTwo extends Fragment {
             e.printStackTrace();
         }
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initGoogleMap(rootView,savedInstanceState);
+            }
+        },10);
+
+        return rootView;
+    }
+
+    private void initViews(View rootView) {
+        chooseCityCard = rootView.findViewById(R.id.add_level_two_cardView_chooseCity);
+        chooseCityTextView = rootView.findViewById(R.id.fragment_add_level_two_MyTextView_chooseCity);
+        chooseMapTextView = rootView.findViewById(R.id.fragment_add_level_two_textView_chooseFromMap);
+        chooseCityCard.setOnClickListener(this);
+    }
+
+    private void initGoogleMap(View rootView,Bundle savedInstanceState) {
+        /*
+        mMapView = rootView.findViewById(R.id.mapView);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.onResume();
+
+        try {
+            MapsInitializer.initialize(context);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+*/
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
@@ -139,7 +163,8 @@ public class FragmentAddLevelTwo extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mMapView.onResume();
+
+
 
         if (selectedLatLong != null && mMap != null){
 
@@ -154,7 +179,10 @@ public class FragmentAddLevelTwo extends Fragment {
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLatLong,12.0f));
 
-            getInfoLocation(selectedLatLong);
+
+                getInfoLocation(selectedLatLong);
+
+
 
         }else {
             Toast.makeText(context, "Zero ", Toast.LENGTH_SHORT).show();
@@ -165,19 +193,22 @@ public class FragmentAddLevelTwo extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        mMapView.onPause();
+
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mMapView.onDestroy();
+
+
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mMapView.onLowMemory();
+
+
     }
 
 
@@ -248,34 +279,66 @@ public class FragmentAddLevelTwo extends Fragment {
 
 
     private void getInfoLocation(LatLng latLng) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-        List<Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
 
-            if (addresses != null) {
-                countryName = addresses.get(0).getCountryName();
-                provinceName = addresses.get(0).getAdminArea();
-                cityName = addresses.get(0).getLocality();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+                List<Address> addresses = null;
+                try {
+                    addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
 
-                Toast.makeText(context, "country: " + countryName + "\n province: " + provinceName + "\n city: " + cityName, Toast.LENGTH_LONG).show();
-/*
-                provinceTextView.setText(provinceName);
-                cityTextView.setText(cityName);
-                */
-                mMarker.setTitle(cityName);
-            } else {
-                Toast.makeText(context, "address empty", Toast.LENGTH_LONG).show();
+                    if (addresses != null && addresses.size() > 0) {
+                        // countryName = addresses.get(0).getCountryName();
+                        provinceName = addresses.get(0).getAdminArea();
+                        cityName = addresses.get(0).getLocality();
 
+
+                        String detailCity = "";
+                        if (!provinceName.equals("") && !cityName.equals("")){
+
+                            detailCity = provinceName+" ، "+cityName;
+
+                        }else if (!provinceName.equals("") || !cityName.equals("")){
+                            if (!provinceName.equals("")){
+                                detailCity = provinceName;
+                            }
+                            if (!cityName.equals("")){
+                                detailCity = cityName;
+                            }
+                        }else {
+                            detailCity = "دور از محدوده";
+                        }
+
+
+
+                        chooseMapTextView.setText(detailCity);
+
+                    }
+
+
+                } catch (IOException e) {
+                    //e.printStackTrace();
+                    Log.i(TAG, "getInfoLocation: ");
+                }
             }
+        }, 100);
 
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.add_level_two_cardView_chooseCity:
+                //startActivityForResult(new Intent(context,CityChooseActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
+                Intent intent = new Intent(context,CityChooseActivity.class);
+                intent.putExtra(ProvidersApp.KEY_CHOOSE_CITY_FRG_ADD_LVL_TWO,ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
+                startActivityForResult(intent, ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
+
+                break;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon.ExpandableItems;
+package com.ali.rnp.khodemon.ExpandableSingleItems;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,11 +12,13 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.List;
 
-public class AdapterExp extends CheckableChildRecyclerViewAdapter<ParentViewHolderExp,ChildViewHolderExp> {
+public class AdapterSingleExp extends CheckableChildRecyclerViewAdapter<ParentViewHolderExp,ChildViewHolderExp> {
 
     private Context context;
 
-    public AdapterExp(List<SingleCheckItemsExp> groups, Context context) {
+    private static final String TAG = "AdapterSingleExp";
+
+    public AdapterSingleExp(List<SingleCheckItemsExp> groups, Context context) {
         super(groups);
         this.context = context;
     }
@@ -49,6 +51,8 @@ public class AdapterExp extends CheckableChildRecyclerViewAdapter<ParentViewHold
     public void onBindGroupViewHolder(ParentViewHolderExp holder, int flatPosition,
                                       ExpandableGroup group) {
         holder.setGroupingTitle(group);
+
+
     }
 
 }

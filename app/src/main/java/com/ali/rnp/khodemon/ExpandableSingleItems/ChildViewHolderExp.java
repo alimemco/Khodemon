@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon.ExpandableItems;
+package com.ali.rnp.khodemon.ExpandableSingleItems;
 
 import android.content.Context;
 import android.view.View;

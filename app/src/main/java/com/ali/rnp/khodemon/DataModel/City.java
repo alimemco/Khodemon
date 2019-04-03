@@ -3,7 +3,7 @@ package com.ali.rnp.khodemon.DataModel;
 public class City {
 
     private int id;
-    private String city;
+    private String cityName;
     private String province;
 
     public int getId() {
@@ -14,12 +14,12 @@ public class City {
         this.id = id;
     }
 
-    public String getCity() {
-        return city;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public String getProvince() {

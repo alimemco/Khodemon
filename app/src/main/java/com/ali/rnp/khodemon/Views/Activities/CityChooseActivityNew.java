@@ -4,16 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.CityAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.City;
-import com.ali.rnp.khodemon.DataModel.DataGenerator;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.R;
-import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +17,6 @@ import java.util.List;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CityChooseActivityNew extends AppCompatActivity {
@@ -84,7 +79,7 @@ public class CityChooseActivityNew extends AppCompatActivity {
 
         for (City s : citiesList) {
 
-            if (s.getCity().contains(text)) {
+            if (s.getCityName().contains(text)) {
                 filterCity.add(s);
             }
         }
@@ -126,6 +121,7 @@ public class CityChooseActivityNew extends AppCompatActivity {
 
        // cityAdapter.setupCityAdapter(DataGenerator.getListCity());
         ApiService apiService = new ApiService(CityChooseActivityNew.this);
+       /*
         apiService.getProvince(new ApiService.OnProvinceReceived() {
             @Override
             public void onReceived(List<City> cities, VolleyError error) {
@@ -142,7 +138,7 @@ public class CityChooseActivityNew extends AppCompatActivity {
                 }
             }
         });
-
+*/
 
 
 

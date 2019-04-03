@@ -1,8 +1,7 @@
-package com.ali.rnp.khodemon.ExpandableItems;
+package com.ali.rnp.khodemon.ExpandableSingleItems;
 
 import android.os.Parcel;
 
-import com.ali.rnp.khodemon.ExpandableTags.SingleCheckGroup;
 import com.thoughtbot.expandablecheckrecyclerview.models.SingleCheckExpandableGroup;
 
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 public class SingleCheckItemsExp  extends SingleCheckExpandableGroup {
 
     private int iconResId;
+
 
     public SingleCheckItemsExp(String title, List items, int iconResId) {
         super(title, items);

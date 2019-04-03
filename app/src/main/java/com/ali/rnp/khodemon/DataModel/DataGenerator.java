@@ -30,111 +30,111 @@ public class DataGenerator {
 
             switch (i) {
                 case 1:
-                    city.setCity("آبادان");
+                    city.setCityName("آبادان");
                     city.setProvince(KHUZESTAN_PROVINCE);
                     break;
 
                 case 2:
-                    city.setCity("ساوه");
+                    city.setCityName("ساوه");
                     city.setProvince(MARKAZI_PROVINCE);
                     break;
 
                 case 3:
-                    city.setCity("اهواز");
+                    city.setCityName("اهواز");
                     city.setProvince(KHUZESTAN_PROVINCE);
                     break;
 
 
                 case 4:
-                    city.setCity("کرج");
+                    city.setCityName("کرج");
                     city.setProvince(TEHRAN_PROVINCE);
                     break;
 
 
                 case 5:
-                    city.setCity(BESAST_TOWN_CITY);
+                    city.setCityName(BESAST_TOWN_CITY);
                     city.setProvince(KHUZESTAN_PROVINCE);
                     break;
 
 
                 case 6:
-                    city.setCity("خرمشهر");
+                    city.setCityName("خرمشهر");
                     city.setProvince(KHUZESTAN_PROVINCE);
                     break;
 
 
                 case 7:
-                    city.setCity("ماهشهر");
+                    city.setCityName("ماهشهر");
                     city.setProvince(KHUZESTAN_PROVINCE);
                     break;
 
                 case 8:
-                    city.setCity("مشهد");
+                    city.setCityName("مشهد");
                     city.setProvince(MASHHAD_PROVINCE);
                     break;
 
                 case 9:
-                    city.setCity("شیراز");
+                    city.setCityName("شیراز");
                     city.setProvince(SHIRAZ_PROVINCE);
                     break;
 
 
                 case 10:
-                    city.setCity("اصفهان");
+                    city.setCityName("اصفهان");
                     city.setProvince(ISFAHAN_PROVINCE);
                     break;
 
 
                 case 11:
-                    city.setCity("همدان");
+                    city.setCityName("همدان");
                     city.setProvince(HAMEDAN_PROVINCE);
                     break;
 
                 case 12:
-                    city.setCity("بوشهر");
+                    city.setCityName("بوشهر");
                     city.setProvince(BUSHEHR_PROVINCE);
                     break;
 
                 case 13:
-                    city.setCity("اراک");
+                    city.setCityName("اراک");
                     city.setProvince(MARKAZI_PROVINCE);
                     break;
 
 
                 case 14:
-                    city.setCity("شادگان");
+                    city.setCityName("شادگان");
                     city.setProvince(KHUZESTAN_PROVINCE);
                     break;
 
                 case 15:
-                    city.setCity("سمنان");
+                    city.setCityName("سمنان");
                     city.setProvince(KHUZESTAN_PROVINCE);
                     break;
 
                 case 16:
-                    city.setCity("شهرکرد");
+                    city.setCityName("شهرکرد");
                     city.setProvince(SHAHREKORD_PROVINCE);
                     break;
 
                 case 17:
-                    city.setCity("شوشتر");
+                    city.setCityName("شوشتر");
                     city.setProvince(KHUZESTAN_PROVINCE);
                     break;
 
                 case 18:
-                    city.setCity("کرمان");
+                    city.setCityName("کرمان");
                     city.setProvince(KERMAN_PROVINCE);
                     break;
 
 
                 case 19:
-                    city.setCity("یزد");
+                    city.setCityName("یزد");
                     city.setProvince(YAZD_PROVINCE);
                     break;
 
 
                 case 20:
-                    city.setCity("تهران");
+                    city.setCityName("تهران");
                     city.setProvince(TEHRAN_PROVINCE);
                     break;
 
@@ -144,4 +144,6 @@ public class DataGenerator {
         }
         return cities;
     }
+
+
 }

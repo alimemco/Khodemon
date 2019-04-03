@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ali.rnp.khodemon.Providers;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.Activities.AddRule;
 
@@ -78,7 +78,7 @@ public class FragmentAdd extends Fragment implements View.OnClickListener {
             case R.id.fragment_add_location_constraintLayout:
 
                 Intent intentLocation = new Intent(context, AddRule.class);
-                intentLocation.putExtra(Providers.GROUP_NAME_KEY,Providers.GROUP_NAME_LOCATION);
+                intentLocation.putExtra(ProvidersApp.GROUP_NAME_KEY, ProvidersApp.GROUP_NAME_LOCATION);
                 startActivity(intentLocation);
 
                 break;
@@ -86,7 +86,7 @@ public class FragmentAdd extends Fragment implements View.OnClickListener {
             case R.id.fragment_add_people_constraintLayout:
 
                 Intent intentPeople = new Intent(context, AddRule.class);
-                intentPeople.putExtra(Providers.GROUP_NAME_KEY,Providers.GROUP_NAME_PEOPLE);
+                intentPeople.putExtra(ProvidersApp.GROUP_NAME_KEY, ProvidersApp.GROUP_NAME_PEOPLE);
                 startActivity(intentPeople);
 
                 break;

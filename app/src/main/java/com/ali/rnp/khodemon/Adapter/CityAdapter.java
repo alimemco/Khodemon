@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ali.rnp.khodemon.DataModel.City;
+import com.ali.rnp.khodemon.Views.Activities.CityChooseActivity;
 import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activities.CityChoose;
+import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelTwo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -27,6 +27,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
     //private static final String TAG = "CityAdapter";
     private Context context;
     private List<City> cities;
+    private boolean isFromFragmentAddTwo = false ;
 
 
     public CityAdapter(Context context) {
@@ -37,6 +38,9 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
         this.cities = cities;
         notifyDataSetChanged();
 
+    }
+    public void setIsFromFragmentAddTwo(boolean isFromFragmentAddTwo){
+        this.isFromFragmentAddTwo = isFromFragmentAddTwo;
     }
 
     public void filterList(List<City> cities) {
@@ -58,7 +62,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
     public void onBindViewHolder(@NonNull final CityAdapterHolder holder, final int position) {
 
         final City city = cities.get(position);
-        holder.cityNameTxt.setText(city.getCity());
+        holder.cityNameTxt.setText(city.getCityName());
 
 
         if ((position) + 1 == cities.size()) {
@@ -98,11 +102,18 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
 
     private void sendCityData(City city) {
 
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(CityChoose.INTENT_CITY_ID, city.getId());
-        intent.putExtra(CityChoose.INTENT_CITY_NAME, city.getCity());
-        intent.putExtra(CityChoose.INTENT_CITY_PROVINCE_NAME, city.getProvince());
-        ((Activity) context).setResult(RESULT_OK, intent);
+        if (isFromFragmentAddTwo){
+            String name = city.getProvince()+" ، "+city.getCityName();
+            FragmentAddLevelTwo.chooseCityTextView.setText(name);
+        }else {
+
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtra(CityChooseActivity.INTENT_CITY_ID, city.getId());
+            intent.putExtra(CityChooseActivity.INTENT_CITY_NAME, city.getCityName());
+            intent.putExtra(CityChooseActivity.INTENT_CITY_PROVINCE_NAME, city.getProvince());
+            ((Activity) context).setResult(RESULT_OK, intent);
+        }
+
         ((Activity) context).finish();
 
     }

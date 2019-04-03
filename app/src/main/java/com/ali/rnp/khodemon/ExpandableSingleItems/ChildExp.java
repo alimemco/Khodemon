@@ -1,4 +1,4 @@
-package com.ali.rnp.khodemon.ExpandableItems;
+package com.ali.rnp.khodemon.ExpandableSingleItems;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,6 +7,8 @@ public class ChildExp implements Parcelable {
     private String name;
     private boolean isFavorite;
 
+    public ChildExp() {
+    }
 
     public ChildExp(String name, boolean isFavorite) {
         this.name = name;
@@ -15,6 +17,11 @@ public class ChildExp implements Parcelable {
 
     protected ChildExp(Parcel in) {
         name = in.readString();
+    }
+
+    public void setData(String name, boolean isFavorite){
+        this.name = name;
+        this.isFavorite = isFavorite;
     }
 
     public String getName() {
