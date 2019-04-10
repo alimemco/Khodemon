@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataGenerator {
+/*
 
-    public static final String KHUZESTAN_PROVINCE = "خوزستان";
     private static final String MARKAZI_PROVINCE = "مرکزی";
     private static final String TEHRAN_PROVINCE = "تهران";
     private static final String MASHHAD_PROVINCE = "مشهد";
@@ -16,8 +16,10 @@ public class DataGenerator {
     private static final String KERMAN_PROVINCE = "کرمان";
     private static final String SHAHREKORD_PROVINCE = "شهرکرد";
     private static final String YAZD_PROVINCE = "یزد";
+    */
+    public static final String KHUZESTAN_PROVINCE = "خوزستان";
     public static final String BESAST_TOWN_CITY = "شهرک بعثت";
-
+/*
     public static List<City> getListCity() {
 
         List<City> cities = new ArrayList<>();
@@ -144,6 +146,20 @@ public class DataGenerator {
         }
         return cities;
     }
+*/
 
+    public static List<String> dayList(){
 
+        List<String> dayList = new ArrayList<>();
+        dayList.add("شنبه");
+        dayList.add("یک شنبه");
+        dayList.add("دو شنبه");
+        dayList.add("سه شنبه");
+        dayList.add("چهار شنبه");
+        dayList.add("پنج شنبه");
+        dayList.add("جمعه");
+
+        return dayList;
+
+    }
 }

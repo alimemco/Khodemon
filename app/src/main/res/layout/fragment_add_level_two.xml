@@ -15,17 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/fragment_add_level_two_ImageViewHolder"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/holder_banner"
-        app:layout_constraintBottom_toBottomOf="@+id/mapView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerCrop"
-        android:visibility="gone"/>
+
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:id="@+id/fragment_add_level_two_textView_chooseFromMap"
@@ -33,6 +23,7 @@
         android:layout_height="wrap_content"
         android:background="@color/black_80_alpha"
         android:padding="@dimen/standard_margin"
+
         android:text="انتخاب شهر از روی نقشه"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/mapView"
@@ -86,6 +77,60 @@
             android:paddingBottom="8dp"
             app:fontCustom="shp_iranSansMobile" />
 
+    </androidx.cardview.widget.CardView>
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/textInputLayout12345"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:text="آدرس"
+        android:textSize="14sp"
+        app:fontCustom="shp_iranSansMobileBold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_level_two_cardView_chooseCity">
+
+
+    </com.ali.rnp.khodemon.MyLibrary.MyTextView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_level_one_cardView_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout12345">
+
+        <com.ali.rnp.khodemon.MyLibrary.MyEditText
+            android:id="@+id/fragment_add_level_two_EditText_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:drawableRight="@drawable/ic_maracas"
+            android:hint="بزگراه ستاری ، بالاتر از مجتمع تجاری کوروش"
+            android:gravity="center"
+            android:paddingLeft="@dimen/standard_margin"
+            android:paddingTop="12dp"
+            android:paddingRight="@dimen/standard_margin"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="@dimen/standard_margin_2x"
+            android:layout_marginBottom="@dimen/standard_margin_2x"
+            android:textSize="14sp"
+            app:fontCustom="shp_iranSansMobile"
+
+            />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

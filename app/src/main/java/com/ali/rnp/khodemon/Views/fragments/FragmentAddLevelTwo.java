@@ -21,9 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Views.Activities.AddRule;
 import com.ali.rnp.khodemon.Views.Activities.CityChooseActivity;
 import com.ali.rnp.khodemon.Views.Activities.GoogleMapsActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,7 +44,8 @@ import java.util.Locale;
 
 
 public class FragmentAddLevelTwo extends Fragment implements
-        View.OnClickListener {
+        View.OnClickListener,
+OnMapReadyCallback{
 
 
     private MapView mMapView;
@@ -50,14 +53,16 @@ public class FragmentAddLevelTwo extends Fragment implements
     private Marker mMarker;
     private CardView chooseCityCard;
     public static MyTextView chooseCityTextView;
-    public static MyTextView chooseMapTextView;
+    public static MyEditText addressEdiText;
+    private MyTextView chooseMapTextView;
+
 
     public static LatLng selectedLatLong;
 
 
     String countryName;
-    String provinceName;
-    String cityName;
+    public static String provinceName;
+    public static String cityName;
 
     private final int PERMISSIONS_REQUEST_LOCATION_STORAGE = 4286;
     public final int REQUEST_CODE_LOCATION_CHOOSE = 7598;
@@ -68,6 +73,7 @@ public class FragmentAddLevelTwo extends Fragment implements
 
 
     public FragmentAddLevelTwo() {
+
 
     }
 
@@ -81,37 +87,35 @@ public class FragmentAddLevelTwo extends Fragment implements
         View rootView = inflater.inflate(R.layout.fragment_add_level_two, container, false);
 
         initViews(rootView);
+        initGoogleMap(savedInstanceState);
 
-        mMapView = rootView.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.onResume();
-
-        try {
-            MapsInitializer.initialize(context);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initGoogleMap(rootView,savedInstanceState);
-            }
-        },10);
 
         return rootView;
     }
 
     private void initViews(View rootView) {
+        mMapView = rootView.findViewById(R.id.mapView);
         chooseCityCard = rootView.findViewById(R.id.add_level_two_cardView_chooseCity);
         chooseCityTextView = rootView.findViewById(R.id.fragment_add_level_two_MyTextView_chooseCity);
         chooseMapTextView = rootView.findViewById(R.id.fragment_add_level_two_textView_chooseFromMap);
+        addressEdiText = rootView.findViewById(R.id.fragment_add_level_two_EditText_address);
+
+
         chooseCityCard.setOnClickListener(this);
+
+        /*
+        cityChooseActivity.setOnCityChooseClickListener(new CityChooseActivity.OnCityChooseClick() {
+            @Override
+            public void OnCityClick(String provinceName, String cityName) {
+                Toast.makeText(context, provinceName+" "+cityName, Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
     }
 
-    private void initGoogleMap(View rootView,Bundle savedInstanceState) {
-        /*
-        mMapView = rootView.findViewById(R.id.mapView);
+    private void initGoogleMap(Bundle savedInstanceState) {
+
+
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
 
@@ -120,33 +124,16 @@ public class FragmentAddLevelTwo extends Fragment implements
         } catch (Exception e) {
             e.printStackTrace();
         }
-*/
-        mMapView.getMapAsync(new OnMapReadyCallback() {
+
+        //initGoogleMap(rootView,savedInstanceState);
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onMapReady(GoogleMap googleMap) {
-                mMap = googleMap;
-
-                mMap.setIndoorEnabled(true);
-
-
-                LatLng abadan = new LatLng(30.3473, 48.2934);
-              //  mMap.addMarker(new MarkerOptions().position(abadan).title("Marker Title").snippet("Marker Description"));
-
-
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(abadan,12.0f));
-               // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(abadan, 12.0f));
-
-                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-
-                        getNeedPermissions();
-
-                    }
-                });
-
+            public void run() {
+                mMapView.getMapAsync(FragmentAddLevelTwo.this);
             }
-        });
+        }, 100);
+
+
     }
 
 
@@ -164,8 +151,6 @@ public class FragmentAddLevelTwo extends Fragment implements
     public void onResume() {
         super.onResume();
 
-
-
         if (selectedLatLong != null && mMap != null){
 
             if (mMarker != null){
@@ -180,12 +165,10 @@ public class FragmentAddLevelTwo extends Fragment implements
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLatLong,12.0f));
 
 
-                getInfoLocation(selectedLatLong);
+              //  getInfoLocation(selectedLatLong);
 
 
 
-        }else {
-            Toast.makeText(context, "Zero ", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -319,7 +302,7 @@ public class FragmentAddLevelTwo extends Fragment implements
 
                 } catch (IOException e) {
                     //e.printStackTrace();
-                    Log.i(TAG, "getInfoLocation: ");
+                    Log.i(TAG, "getInfoLocation: "+e.toString());
                 }
             }
         }, 100);
@@ -340,5 +323,27 @@ public class FragmentAddLevelTwo extends Fragment implements
 
                 break;
         }
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        mMap.setIndoorEnabled(true);
+
+        //LatLng abadan = new LatLng(30.3473, 48.2934);
+        LatLng iran = new LatLng(32.4279, 53.6880);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(iran,4.0f));
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                getNeedPermissions();
+
+            }
+        });
     }
 }

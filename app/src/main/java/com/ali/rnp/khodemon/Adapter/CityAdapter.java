@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
     private List<City> cities;
     private boolean isFromFragmentAddTwo = false ;
 
+    private static final String TAG = "CityAdapter";
+
 
     public CityAdapter(Context context) {
         this.context = context;
@@ -41,6 +44,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
     }
     public void setIsFromFragmentAddTwo(boolean isFromFragmentAddTwo){
         this.isFromFragmentAddTwo = isFromFragmentAddTwo;
+
     }
 
     public void filterList(List<City> cities) {
@@ -105,6 +109,10 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
         if (isFromFragmentAddTwo){
             String name = city.getProvince()+" ، "+city.getCityName();
             FragmentAddLevelTwo.chooseCityTextView.setText(name);
+            FragmentAddLevelTwo.provinceName = city.getProvince();
+            FragmentAddLevelTwo.cityName = city.getCityName();
+
+
         }else {
 
             Intent intent = new Intent(context, MainActivity.class);
@@ -117,6 +125,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
         ((Activity) context).finish();
 
     }
+
+
 
 
 }

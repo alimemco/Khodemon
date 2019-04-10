@@ -15,4 +15,6 @@ public class ProvidersApp {
     public static final String KEY_CHOOSE_CITY_FRG_ADD_LVL_TWO = "KEY_CHOOSE_CITY_FRG_ADD_LVL_TWO" ;
 
 
+    public static final int REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE = 752;
+
 }

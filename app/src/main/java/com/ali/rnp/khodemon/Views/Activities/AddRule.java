@@ -17,7 +17,9 @@ import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.Utils;
+import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelFour;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelOne;
+import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelThree;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelTwo;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -48,7 +50,9 @@ FragmentAddLevelOne.OnViewClickListener{
     private MyTextView titleToolbarTextView;
     private MyTextView levelToolbarTextView;
     private MyTextView percentageToolbarTextView;
-    private MyButton nextLevelButton;
+    public static MyButton nextLevelButton;
+
+
 
 
     private ImageView photosImageView;
@@ -56,10 +60,12 @@ FragmentAddLevelOne.OnViewClickListener{
     private StepView stepView;
 
 
-    private MaterialProgressBar materialProgressBar;
+    private MaterialProgressBar materialProgressBarToolbar;
 
     private FragmentAddLevelOne fragmentAddLevelOne;
     private FragmentAddLevelTwo fragmentAddLevelTwo;
+    private FragmentAddLevelThree fragmentAddLevelThree;
+    private FragmentAddLevelFour fragmentAddLevelFour;
     private FragmentManager fragmentManager;
 
     private String groupName;
@@ -134,14 +140,15 @@ FragmentAddLevelOne.OnViewClickListener{
         photosImageView = findViewById(R.id.add_rule_photo_imageView);
         nextLevelButton = findViewById(R.id.activity_add_rule_nextButton);
 
-        materialProgressBar = findViewById(R.id.add_rule_progressBar);
+        materialProgressBarToolbar = findViewById(R.id.add_rule_progressBar);
+
 
 
         nextLevelButton.setOnClickListener(this);
 
 
 
-        materialProgressBar.setVisibility(View.INVISIBLE);
+        materialProgressBarToolbar.setVisibility(View.INVISIBLE);
         levelToolbarTextView.setText(String.valueOf(0));
 
         DrawableCompat.setTint(photosImageView.getDrawable(), ContextCompat.getColor(AddRule.this, R.color.dark_gray));
@@ -156,6 +163,8 @@ FragmentAddLevelOne.OnViewClickListener{
 
         fragmentAddLevelOne = new FragmentAddLevelOne(this);
         fragmentAddLevelTwo = new FragmentAddLevelTwo();
+        fragmentAddLevelThree = new FragmentAddLevelThree();
+        fragmentAddLevelFour = new FragmentAddLevelFour();
 
 
         replaceNewFragment(fragmentAddLevelOne);
@@ -164,11 +173,13 @@ FragmentAddLevelOne.OnViewClickListener{
     private void replaceNewFragment(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.add_fragment_container, fragment);
-
+/*
         if (!(fragment instanceof FragmentAddLevelOne)) {
             transaction.addToBackStack("FragmentAddLevelOne");
         }
+*/
 
+        transaction.addToBackStack(fragment.toString());
         transaction.commit();
 
 
@@ -192,7 +203,7 @@ FragmentAddLevelOne.OnViewClickListener{
 
                 int allPhoto = contentURIs.size();
 
-                materialProgressBar.setVisibility(View.VISIBLE);
+                materialProgressBarToolbar.setVisibility(View.VISIBLE);
                 String imagesCount =
                         0 + "/" + allPhoto;
 
@@ -224,7 +235,7 @@ FragmentAddLevelOne.OnViewClickListener{
                                     if (currentPhoto == allPhoto) {
                                         levelToolbarTextView.setText(String.valueOf(allPhoto));
                                         percentageToolbarTextView.setText("");
-                                        materialProgressBar.setVisibility(View.INVISIBLE);
+                                        materialProgressBarToolbar.setVisibility(View.INVISIBLE);
 
                                         DrawableCompat.setTint(photosImageView.getDrawable(), ContextCompat.getColor(AddRule.this, R.color.colorPrimary));
                                         levelToolbarTextView.setTextColor(ContextCompat.getColor(AddRule.this, R.color.colorPrimary));
@@ -254,22 +265,28 @@ FragmentAddLevelOne.OnViewClickListener{
 
     @Override
     public void onBackPressed() {
-
-        super.onBackPressed();
-
-
         if (getVisibleFragment() != null) {
             Fragment fragment = getVisibleFragment();
             if (fragment instanceof FragmentAddLevelOne) {
 
-                levelAddManager(1);
+                finish();
+
+            }else if (fragment instanceof  FragmentAddLevelTwo){
+
+                levelBackManager(1);
                 if (dataFromMatisse != null) {
                     FragmentAddLevelOne.mAdapter.setData(Matisse.obtainResult(dataFromMatisse), false, null);
                 }
 
-
+            }else if (fragment instanceof  FragmentAddLevelThree) {
+                levelBackManager(2);
+            }else if (fragment instanceof FragmentAddLevelFour){
+                levelBackManager(3);
             }
+
         }
+
+        super.onBackPressed();
 
     }
 
@@ -285,13 +302,13 @@ FragmentAddLevelOne.OnViewClickListener{
 
     private void fragmentAddLevelManager(){
 
+
+
         if (getVisibleFragment() != null) {
             Fragment fragment = getVisibleFragment();
             if (fragment instanceof FragmentAddLevelOne) {
 
                 replaceNewFragment(fragmentAddLevelTwo);
-
-
 
                 stepView.go(STEP_LEVEL_TWO, true);
 
@@ -303,24 +320,39 @@ FragmentAddLevelOne.OnViewClickListener{
                 }
 
 
+            }else if (fragment instanceof FragmentAddLevelTwo){
+                replaceNewFragment(fragmentAddLevelThree);
+
+                stepView.go(STEP_LEVEL_THREE, true);
+            } else if (fragment instanceof FragmentAddLevelThree){
+                replaceNewFragment(fragmentAddLevelFour);
+
+                stepView.go(STEP_LEVEL_FOUR, true);
             }
         }
 
     }
 
-    private void levelAddManager(int level) {
+    private void levelBackManager(int level) {
 
         stepView.go(level - 1, true);
 
         switch (level) {
-            case 2:
-                replaceNewFragment(fragmentAddLevelTwo);
+            case 1:
+               // replaceNewFragment(fragmentAddLevelOne);
 
+                break;
+
+            case 2:
+              //  replaceNewFragment(fragmentAddLevelTwo);
+/*
                 if (dataFromMatisse != null && !isUploadPhotosSuccess && Utils.isConnectedToNetwork(this)) {
                     uploadImage();
                 }
-
+*/
                 break;
+
+
         }
 
 
@@ -361,8 +393,8 @@ FragmentAddLevelOne.OnViewClickListener{
             String title = data.getStringExtra(KEY_CHOOSE_EXPERT);
             FragmentAddLevelOne.chooseTagTextView.setText(title);
 
-        }else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO && resultCode == RESULT_OK){
-
+        }else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE){
+            Toast.makeText(this, "req: "+requestCode+" resOk"+resultCode, Toast.LENGTH_SHORT).show();
         }
 
     }

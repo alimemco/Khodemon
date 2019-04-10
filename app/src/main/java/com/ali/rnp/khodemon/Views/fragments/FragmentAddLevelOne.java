@@ -4,7 +4,6 @@ package com.ali.rnp.khodemon.Views.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -24,6 +23,7 @@ import com.ali.rnp.khodemon.GifSizeFilter;
 import com.ali.rnp.khodemon.Glide4Engine;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Views.Activities.AddRule;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -86,6 +85,7 @@ public class FragmentAddLevelOne extends Fragment implements
         View rootView = inflater.inflate(R.layout.fragment_add_level_one, container, false);
         initViews(rootView);
         setupSpinner();
+
         return rootView;
     }
 
@@ -95,6 +95,7 @@ public class FragmentAddLevelOne extends Fragment implements
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, chooseOwnerModel);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerOwner.setAdapter(adapter);
+
 
 
         spinnerOwner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

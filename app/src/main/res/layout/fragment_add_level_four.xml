@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Views.fragments.FragmentAddLevelFour">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/textInputLayout15234745671"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="تلگرام"
+            android:textSize="14sp"
+            app:fontCustom="shp_iranSansMobileBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </com.ali.rnp.khodemon.MyLibrary.MyTextView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fragment_add_level_three_cardView_telegram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout15234745671">
+
+            <com.ali.rnp.khodemon.MyLibrary.MyEditText
+                android:id="@+id/fragment_add_level_three_EditText_telegram"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:drawableRight="@drawable/ic_maracas"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="t.me/wEegFgeGe4g"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/standard_margin"
+                android:paddingTop="12dp"
+                android:paddingRight="@dimen/standard_margin"
+                android:paddingBottom="10dp"
+                android:textSize="14sp"
+                app:fontCustom="shp_iranSansMobile"
+
+                />
+        </androidx.cardview.widget.CardView>
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/textInputLayout152347445671"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="اینستاگرام"
+            android:textSize="14sp"
+            app:fontCustom="shp_iranSansMobileBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_add_level_three_cardView_telegram">
+
+
+        </com.ali.rnp.khodemon.MyLibrary.MyTextView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fragment_add_level_three_cardView_instagram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout152347445671">
+
+            <com.ali.rnp.khodemon.MyLibrary.MyEditText
+                android:id="@+id/fragment_add_level_three_EditText_instagram"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:drawableRight="@drawable/ic_maracas"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="ali.moghadam.ali"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/standard_margin"
+                android:paddingTop="12dp"
+                android:paddingRight="@dimen/standard_margin"
+                android:paddingBottom="10dp"
+                android:textSize="14sp"
+                app:fontCustom="shp_iranSansMobile"
+
+                />
+        </androidx.cardview.widget.CardView>
+
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/textInputLayout1545671"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="سایت"
+            android:textSize="14sp"
+            app:fontCustom="shp_iranSansMobileBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_add_level_three_cardView_instagram">
+
+
+        </com.ali.rnp.khodemon.MyLibrary.MyTextView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fragment_add_level_three_cardView_site"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout1545671">
+
+            <com.ali.rnp.khodemon.MyLibrary.MyEditText
+                android:id="@+id/fragment_add_level_three_EditText_site"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:drawableRight="@drawable/ic_maracas"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="google.com"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/standard_margin"
+                android:paddingTop="12dp"
+                android:paddingRight="@dimen/standard_margin"
+                android:paddingBottom="10dp"
+                android:textSize="14sp"
+                app:fontCustom="shp_iranSansMobile"
+
+                />
+        </androidx.cardview.widget.CardView>
+
+        <com.ali.rnp.khodemon.MyLibrary.MyTextView
+            android:id="@+id/textInputLayout15451671"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="توضیحات"
+            android:textSize="14sp"
+            app:fontCustom="shp_iranSansMobileBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_add_level_three_cardView_site">
+
+
+        </com.ali.rnp.khodemon.MyLibrary.MyTextView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fragment_add_level_three_cardView_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout15451671">
+
+            <com.ali.rnp.khodemon.MyLibrary.MyEditText
+                android:id="@+id/fragment_add_level_three_EditText_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:drawableRight="@drawable/ic_maracas"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="وارد کنید"
+                android:lines="4"
+                android:paddingLeft="@dimen/standard_margin"
+                android:paddingTop="12dp"
+                android:paddingRight="@dimen/standard_margin"
+                android:paddingBottom="10dp"
+                android:textSize="14sp"
+                app:fontCustom="shp_iranSansMobile"
+
+                />
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

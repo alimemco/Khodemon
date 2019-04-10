@@ -31,7 +31,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class CityChooseActivity extends AppCompatActivity implements TextWatcher {
+public class CityChooseActivity extends AppCompatActivity implements
+        TextWatcher {
 
     private RecyclerView recyclerViewCity;
     private Toolbar toolbar;
@@ -47,9 +48,15 @@ public class CityChooseActivity extends AppCompatActivity implements TextWatcher
     public static final String INTENT_CITY_NAME = "city_name";
     public static final String INTENT_CITY_PROVINCE_NAME = "city_province_name";
 
+
+
     private boolean isFromFragmentAddTwo = false ;
 
+    private String provinceName;
+    private String cityName;
+
     private static final String TAG = "CityChooseActivity";
+
 
 
 
@@ -87,22 +94,30 @@ public class CityChooseActivity extends AppCompatActivity implements TextWatcher
         isFromFragmentAddTwo = requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO;
 
         cityAdapter.setIsFromFragmentAddTwo(isFromFragmentAddTwo);
+
     }
 
 
-    private void sendCityData(String province , String city) {
+
+
+    public void sendCityData() {
+
         if (isFromFragmentAddTwo){
-            String name = province+" ، "+city;
+
+            String name = provinceName+" ، "+cityName;
             FragmentAddLevelTwo.chooseCityTextView.setText(name);
 
-        }else {
+            FragmentAddLevelTwo.provinceName = provinceName;
+            FragmentAddLevelTwo.cityName = cityName;
 
+        }else {
             Intent intent = new Intent(CityChooseActivity.this, MainActivity.class);
             //  intent.putExtra(CityChooseActivity.INTENT_CITY_ID, city.getId());
-            intent.putExtra(CityChooseActivity.INTENT_CITY_NAME, city);
+            intent.putExtra(CityChooseActivity.INTENT_CITY_NAME, cityName);
             // intent.putExtra(CityChooseActivity.INTENT_CITY_PROVINCE_NAME, city.getProvince());
             setResult(RESULT_OK, intent);
         }
+
 
         finish();
 
@@ -172,13 +187,22 @@ public class CityChooseActivity extends AppCompatActivity implements TextWatcher
                 ChildExp childExp = (ChildExp) group.getItems().get(childIndex);
                // Toast.makeText(CityChooseActivity.this, childExp.getName(), Toast.LENGTH_SHORT).show();
 
-                sendCityData(group.getTitle(),childExp.getName());
+                provinceName = group.getTitle();
+                cityName = childExp.getName();
+
+                sendCityData();
+
+
 
             }
         });
 
     }
-
+/*
+    public void detectDataForFragment(OnCityChooseClick onCityChooseClick) {
+        onCityChooseClick.OnCityClick(provinceName,cityName);
+    }
+*/
     private void setupRecForSearch(){
 
                     cityAdapter.setupCityAdapter(cityList);
@@ -235,4 +259,8 @@ public class CityChooseActivity extends AppCompatActivity implements TextWatcher
 
         cityAdapter.filterList(filterCity);
     }
+
+
+
+
 }
