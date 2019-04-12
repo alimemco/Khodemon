@@ -8,4 +8,5 @@
     android:padding="10dp"
     android:textStyle="italic"
     app:fontCustom="shp_iranSansMobile"
-    tools:text="شنبه" />
+    tools:text="testError"
+    />

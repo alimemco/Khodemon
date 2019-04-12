@@ -26,8 +26,8 @@
         android:icon="@drawable/ic_padlock" />
 
     <item
-        android:title="آزمایشگاه PhotoPicker"
-        android:id="@+id/navigation_menu_PhotoPicker"
+        android:title="آزمایشگاه choose hour"
+        android:id="@+id/navigation_menu_hour_picker"
         android:icon="@drawable/ic_padlock" />
 
     <item

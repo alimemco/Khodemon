@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataGenerator {
-/*
+    /*
 
-    private static final String MARKAZI_PROVINCE = "مرکزی";
-    private static final String TEHRAN_PROVINCE = "تهران";
-    private static final String MASHHAD_PROVINCE = "مشهد";
-    private static final String SHIRAZ_PROVINCE = "شیراز";
-    private static final String ISFAHAN_PROVINCE = "اصفهان";
-    private static final String HAMEDAN_PROVINCE = "همدان";
-    private static final String BUSHEHR_PROVINCE = "بوشهر";
-    private static final String KERMAN_PROVINCE = "کرمان";
-    private static final String SHAHREKORD_PROVINCE = "شهرکرد";
-    private static final String YAZD_PROVINCE = "یزد";
-    */
+        private static final String MARKAZI_PROVINCE = "مرکزی";
+        private static final String TEHRAN_PROVINCE = "تهران";
+        private static final String MASHHAD_PROVINCE = "مشهد";
+        private static final String SHIRAZ_PROVINCE = "شیراز";
+        private static final String ISFAHAN_PROVINCE = "اصفهان";
+        private static final String HAMEDAN_PROVINCE = "همدان";
+        private static final String BUSHEHR_PROVINCE = "بوشهر";
+        private static final String KERMAN_PROVINCE = "کرمان";
+        private static final String SHAHREKORD_PROVINCE = "شهرکرد";
+        private static final String YAZD_PROVINCE = "یزد";
+        */
     public static final String KHUZESTAN_PROVINCE = "خوزستان";
     public static final String BESAST_TOWN_CITY = "شهرک بعثت";
 /*
@@ -148,7 +148,7 @@ public class DataGenerator {
     }
 */
 
-    public static List<String> dayList(){
+    public static List<String> dayList() {
 
         List<String> dayList = new ArrayList<>();
         dayList.add("شنبه");
@@ -162,4 +162,71 @@ public class DataGenerator {
         return dayList;
 
     }
+
+    public static List<String> hoursFrom() {
+
+        List<String> hours = new ArrayList<>();
+        hours.add("از ساعت");
+        hours.add("00:00");
+        hours.add("00:30");
+        hours.add("01:30");
+        hours.add("02:00");
+        hours.add("02:30");
+        hours.add("03:00");
+        hours.add("03:30");
+        hours.add("04:00");
+        hours.add("04:30");
+        hours.add("05:00");
+        hours.add("05:30");
+        hours.add("06:00");
+        hours.add("06:30");
+        hours.add("07:00");
+        hours.add("07:30");
+        hours.add("08:00");
+        hours.add("08:30");
+
+        return hours;
+
+    }
+
+
+    public static String[] hours() {
+
+        return new String[]{
+                "انتخاب کنید",
+                "12:00",
+                "12:30",
+                "01:00",
+                "01:30",
+                "02:00",
+                "02:30",
+                "03:00",
+                "03:30",
+                "04:00",
+                "04:30",
+                "05:00",
+                "05:30",
+                "06:00",
+                "06:30",
+                "12:00",
+                "12:30",
+                "01:00",
+                "01:30",
+                "02:00",
+                "02:30",
+                "03:00",
+                "03:30",
+                "04:00",
+                "04:30",
+                "05:00",
+                "05:30",
+                "06:00",
+                "06:30"
+
+
+        };
+
+}
+
+
 }

@@ -139,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements
 
                         break;
 
-                        case R.id.navigation_menu_PhotoPicker:
-                        startActivity(new Intent(MainActivity.this,AddRule.class));
+                        case R.id.navigation_menu_hour_picker:
+                        startActivity(new Intent(MainActivity.this,HoursChooseActivity.class));
 
                         break;
 
