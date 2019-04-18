@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.ali.rnp.khodemon.Adapter.UriAdapter;
 import com.ali.rnp.khodemon.GifSizeFilter;
 import com.ali.rnp.khodemon.Glide4Engine;
+import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.Activities.AddRule;
@@ -48,6 +49,8 @@ public class FragmentAddLevelOne extends Fragment implements
     private RecyclerView recyclerViewImages;
     private CardView chooseTagCardView;
     public static MyTextView chooseTagTextView;
+    public static MyEditText nameLocation;
+    public static MyEditText ownerSeller;
     public static UriAdapter mAdapter;
     private static final int REQUEST_CODE_CHOOSE = 23;
     public static final int REQUEST_CODE_CHOOSE_TAG = 414;
@@ -121,6 +124,8 @@ public class FragmentAddLevelOne extends Fragment implements
 
         chooseTagCardView = rootView.findViewById(R.id.add_level_one_cardView_tag);
         chooseTagTextView = rootView.findViewById(R.id.fragment_add_level_one_MyTextView_chooseTag);
+        nameLocation = rootView.findViewById(R.id.fragment_add_level_one_MyEditText_name);
+        ownerSeller = rootView.findViewById(R.id.fragment_add_level_one_EditText_ownerSeller);
 
 
         chooseTagCardView.setOnClickListener(v -> {

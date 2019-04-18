@@ -5,10 +5,11 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ali.rnp.khodemon.MyApplication;
-import com.ali.rnp.khodemon.R;
+
 
 import java.util.List;
 
@@ -16,11 +17,24 @@ import androidx.annotation.NonNull;
 
 public class MySpinnerAdapter extends ArrayAdapter<String> {
 
-    private Context context;
+    private View spinnerView;
 
-    public MySpinnerAdapter(Context context, int resource, List<String> items) {
+    MySpinnerAdapter(Context context, int resource, List<String> items) {
         super(context, resource, items);
     }
+
+
+
+
+    View getSpinnerView() {
+        return spinnerView;
+    }
+
+    void setSpinnerView(View spinnerView) {
+        this.spinnerView = spinnerView;
+    }
+
+
 
     @NonNull
     @Override
@@ -51,4 +65,7 @@ public class MySpinnerAdapter extends ArrayAdapter<String> {
     public boolean isEnabled(int position) {
         return position != 0;
     }
+
+
+
 }

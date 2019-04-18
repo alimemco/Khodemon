@@ -95,7 +95,14 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             cityTextView.setText(locationPeople.getCity());
             workExperienceTextView.setText(convertMonthToYear(locationPeople.getWork_experience()));
             expertsTextView.setText(locationPeople.getExperts());
-            new Handler().postDelayed(() -> Picasso.get().load(locationPeople.getOriginalPic()).centerCrop().resize(500, 500).placeholder(R.drawable.holder_banner).into(originalPicImageView), 1);
+           new Handler().postDelayed(new Runnable() {
+               @Override
+               public void run() {
+                   if (!locationPeople.getOriginalPic().equals("")){
+                       Picasso.get().load(locationPeople.getOriginalPic()).centerCrop().resize(500, 500).placeholder(R.drawable.holder_banner).into(originalPicImageView);
+                   }
+               }
+           },1);
 
 
         }

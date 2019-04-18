@@ -6,14 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".Views.Activities.HoursChooseActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/activity_choose_hours_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/activity_choose_hours_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="انتخاب روز و ساعت"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:textSize="@dimen/small_textSize_sp"
+                app:fontCustom="shp_iranSansMobile" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_choose_hours_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/standard_margin"
         app:layout_constraintBottom_toTopOf="@+id/activity_choose_hours_buttonChoose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_choose_hours_appbar"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/recycler_view_item_hours" />
 
@@ -21,12 +54,8 @@
         android:id="@+id/activity_choose_hours_buttonChoose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="24dp"
         android:text="انتخاب"
+        style="@style/buttonPrimaryChoose"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

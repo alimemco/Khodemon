@@ -1,11 +1,15 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.HoursAdapter;
 import com.ali.rnp.khodemon.DataModel.DataGenerator;
@@ -17,6 +21,7 @@ public class HoursChooseActivity extends AppCompatActivity {
     private MyButton chooseBtn;
     private RecyclerView recyclerView;
     private HoursAdapter hoursAdapter;
+    private Toolbar toolbar;
 
 
     @Override
@@ -26,6 +31,27 @@ public class HoursChooseActivity extends AppCompatActivity {
 
         initViews();
         initRecyclerView();
+        initToolbar();
+    }
+
+    private void initToolbar() {
+
+        setSupportActionBar(toolbar);
+        ActionBar mActionBar = getSupportActionBar();
+
+        if (mActionBar != null){
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setDisplayShowHomeEnabled(true);
+        }
+
+
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 
     private void initRecyclerView() {
@@ -40,6 +66,7 @@ public class HoursChooseActivity extends AppCompatActivity {
 
         chooseBtn = findViewById(R.id.activity_choose_hours_buttonChoose);
         recyclerView = findViewById(R.id.activity_choose_hours_recyclerView);
+        toolbar = findViewById(R.id.activity_choose_hours_toolbar);
 
 
 

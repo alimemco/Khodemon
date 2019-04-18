@@ -1,11 +1,14 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -21,14 +24,16 @@ import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelFour;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelOne;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelThree;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelTwo;
-import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.shuhart.stepview.StepView;
 import com.zhihu.matisse.Matisse;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +47,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class AddRule extends AppCompatActivity implements
         View.OnClickListener,
-FragmentAddLevelOne.OnViewClickListener{
+        FragmentAddLevelOne.OnViewClickListener {
 
     private RecyclerView recyclerView;
     private UriAdapter mAdapter;
@@ -50,9 +55,10 @@ FragmentAddLevelOne.OnViewClickListener{
     private MyTextView titleToolbarTextView;
     private MyTextView levelToolbarTextView;
     private MyTextView percentageToolbarTextView;
-    public static MyButton nextLevelButton;
+    private MyButton nextLevelButton;
 
 
+    private JSONObject jsonObjectLocation;
 
 
     private ImageView photosImageView;
@@ -77,25 +83,27 @@ FragmentAddLevelOne.OnViewClickListener{
     private boolean isUploadPhotosSuccess = false;
     private boolean inProgressUpload = false;
 
+    private List<String> imageUrlList;
+
+    private String originalPhotoUrl;
 
     private static final String TAG = "AddRuleApp";
 
     private static final int REQUEST_CODE_CHOOSE = 23;
     private static final int REQUEST_CODE_CHOOSE_EXPERT = 6363;
-    private static final int REQUEST_CODE_CHOOSE_LOCATION_MAP = 7259;
+    // private static final int REQUEST_CODE_CHOOSE_LOCATION_MAP = 7259;
 
     public static final String KEY_CHOOSE_EXPERT = "Expert";
-    private int STEP_LEVEL_ONE = 0 ;
-    private int STEP_LEVEL_TWO = 1 ;
-    private int STEP_LEVEL_THREE = 2 ;
-    private int STEP_LEVEL_FOUR = 3 ;
+    private int STEP_LEVEL_ONE = 0;
+    private int STEP_LEVEL_TWO = 1;
+    private int STEP_LEVEL_THREE = 2;
+    private int STEP_LEVEL_FOUR = 3;
 
 
-    private final int GALLERY = 1;
+    // private final int GALLERY = 1;
 
-    JSONObject jsonObject;
-    RequestQueue rQueue;
-
+    //JSONObject jsonObject;
+    //RequestQueue rQueue;
 
 
     @Override
@@ -108,7 +116,7 @@ FragmentAddLevelOne.OnViewClickListener{
 
         setupFragments();
 
-        groupName = getIntent().getStringExtra(ProvidersApp.GROUP_NAME_KEY);
+
 
 
 
@@ -143,9 +151,7 @@ FragmentAddLevelOne.OnViewClickListener{
         materialProgressBarToolbar = findViewById(R.id.add_rule_progressBar);
 
 
-
         nextLevelButton.setOnClickListener(this);
-
 
 
         materialProgressBarToolbar.setVisibility(View.INVISIBLE);
@@ -153,6 +159,16 @@ FragmentAddLevelOne.OnViewClickListener{
 
         DrawableCompat.setTint(photosImageView.getDrawable(), ContextCompat.getColor(AddRule.this, R.color.dark_gray));
 
+        jsonObjectLocation = new JSONObject();
+
+
+
+        groupName = getIntent().getStringExtra(ProvidersApp.GROUP_NAME_KEY);
+        try {
+            jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_GROUP_NAME, groupName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -173,12 +189,6 @@ FragmentAddLevelOne.OnViewClickListener{
     private void replaceNewFragment(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.add_fragment_container, fragment);
-/*
-        if (!(fragment instanceof FragmentAddLevelOne)) {
-            transaction.addToBackStack("FragmentAddLevelOne");
-        }
-*/
-
         transaction.addToBackStack(fragment.toString());
         transaction.commit();
 
@@ -186,12 +196,9 @@ FragmentAddLevelOne.OnViewClickListener{
     }
 
 
-
-
-
-
-
     private void uploadImage() {
+
+        imageUrlList = new ArrayList<>();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -214,13 +221,29 @@ FragmentAddLevelOne.OnViewClickListener{
 
                     for (int i = 0; i < contentURIs.size(); i++) {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), contentURIs.get(i));
+                        String imageName = getFileName(contentURIs.get(i));
+                        String originalImageName = "";
+                        if (i == 0) {
+                            originalImageName = imageName;
+                        }
+
 
                         ApiService apiService = new ApiService(AddRule.this);
-                        apiService.uploadImage(bitmap,groupName, currentPhoto, allPhoto, new ApiService.OnUploadedPhoto() {
+                        String finalOriginalImageName = originalImageName;
+                        apiService.uploadImage(bitmap, imageName, groupName, currentPhoto, allPhoto, new ApiService.OnUploadedPhoto() {
                             @Override
-                            public void OnUploadPhoto(int currentPhotoNum, VolleyError error) {
+                            public void OnUploadPhoto(String imageUrl, int currentPhotoNum, VolleyError error) {
 
                                 inProgressUpload = false;
+                                imageUrlList.add(imageUrl);
+
+
+                                String urlCheck = isOriginalImage(imageUrl, finalOriginalImageName);
+                                if (!urlCheck.equals("")) {
+                                     originalPhotoUrl = imageUrl;
+
+                                }
+
 
                                 if (currentPhotoNum != -1 && error == null) {
 
@@ -242,7 +265,15 @@ FragmentAddLevelOne.OnViewClickListener{
 
                                         isUploadPhotosSuccess = true;
 
+                                        try {
+                                            jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_ORIGINAL_IMAGE,originalPhotoUrl);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+
                                     }
+
                                     currentPhoto++;
                                 } else if (error != null) {
                                     Toast.makeText(AddRule.this, error.toString(), Toast.LENGTH_SHORT).show();
@@ -263,6 +294,39 @@ FragmentAddLevelOne.OnViewClickListener{
         }, 1);
     }
 
+    public String getFileName(Uri uri) {
+        String result = null;
+        String timeCu = String.valueOf(Calendar.getInstance().getTimeInMillis());
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+
+        return timeCu + "-" + result;
+    }
+
+    private String isOriginalImage(String url, String fileName) {
+
+        url = url.substring(url.lastIndexOf("/") + 1);
+        if (url.startsWith(fileName) && !fileName.equals("")) {
+            return url;
+        } else {
+            return "";
+        }
+
+
+    }
+
     @Override
     public void onBackPressed() {
         if (getVisibleFragment() != null) {
@@ -271,16 +335,16 @@ FragmentAddLevelOne.OnViewClickListener{
 
                 finish();
 
-            }else if (fragment instanceof  FragmentAddLevelTwo){
+            } else if (fragment instanceof FragmentAddLevelTwo) {
 
                 levelBackManager(1);
                 if (dataFromMatisse != null) {
                     FragmentAddLevelOne.mAdapter.setData(Matisse.obtainResult(dataFromMatisse), false, null);
                 }
 
-            }else if (fragment instanceof  FragmentAddLevelThree) {
+            } else if (fragment instanceof FragmentAddLevelThree) {
                 levelBackManager(2);
-            }else if (fragment instanceof FragmentAddLevelFour){
+            } else if (fragment instanceof FragmentAddLevelFour) {
                 levelBackManager(3);
             }
 
@@ -300,8 +364,7 @@ FragmentAddLevelOne.OnViewClickListener{
         return null;
     }
 
-    private void fragmentAddLevelManager(){
-
+    private void fragmentAddLevelManager() {
 
 
         if (getVisibleFragment() != null) {
@@ -320,14 +383,46 @@ FragmentAddLevelOne.OnViewClickListener{
                 }
 
 
-            }else if (fragment instanceof FragmentAddLevelTwo){
+
+
+            } else if (fragment instanceof FragmentAddLevelTwo) {
                 replaceNewFragment(fragmentAddLevelThree);
 
                 stepView.go(STEP_LEVEL_THREE, true);
-            } else if (fragment instanceof FragmentAddLevelThree){
+            } else if (fragment instanceof FragmentAddLevelThree) {
                 replaceNewFragment(fragmentAddLevelFour);
 
                 stepView.go(STEP_LEVEL_FOUR, true);
+
+                try {
+                    if (FragmentAddLevelOne.nameLocation.getText() != null &&
+                            FragmentAddLevelOne.ownerSeller.getText() != null) {
+                        jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_NAME, FragmentAddLevelOne.nameLocation.getText().toString());
+                        jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_OWNER_SELLER, FragmentAddLevelOne.ownerSeller.getText().toString());
+                        jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_TAG, FragmentAddLevelOne.chooseTagTextView.getText().toString());
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObjectLocation != null){
+                    ApiService apiService = new ApiService(AddRule.this);
+                    apiService.addLocation(jsonObjectLocation, new ApiService.OnAddLocationPeople() {
+                        @Override
+                        public void OnAdded(String result, VolleyError error) {
+                            if (result != null && error == null) {
+                                Toast.makeText(AddRule.this, result, Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(AddRule.this,MainActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(AddRule.this, "" + error.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+
+
             }
         }
 
@@ -339,12 +434,12 @@ FragmentAddLevelOne.OnViewClickListener{
 
         switch (level) {
             case 1:
-               // replaceNewFragment(fragmentAddLevelOne);
+                // replaceNewFragment(fragmentAddLevelOne);
 
                 break;
 
             case 2:
-              //  replaceNewFragment(fragmentAddLevelTwo);
+                //  replaceNewFragment(fragmentAddLevelTwo);
 /*
                 if (dataFromMatisse != null && !isUploadPhotosSuccess && Utils.isConnectedToNetwork(this)) {
                     uploadImage();
@@ -357,7 +452,6 @@ FragmentAddLevelOne.OnViewClickListener{
 
 
     }
-
 
 
     @Override
@@ -393,19 +487,16 @@ FragmentAddLevelOne.OnViewClickListener{
             String title = data.getStringExtra(KEY_CHOOSE_EXPERT);
             FragmentAddLevelOne.chooseTagTextView.setText(title);
 
-        }else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE){
-            Toast.makeText(this, "req: "+requestCode+" resOk"+resultCode, Toast.LENGTH_SHORT).show();
+        } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE) {
+            Toast.makeText(this, "req: " + requestCode + " resOk" + resultCode, Toast.LENGTH_SHORT).show();
         }
 
     }
 
     @Override
     public void viewClickedFrgOne() {
-                startActivityForResult(new Intent(AddRule.this, TagChooseActivity.class), REQUEST_CODE_CHOOSE_EXPERT);
+        startActivityForResult(new Intent(AddRule.this, TagChooseActivity.class), REQUEST_CODE_CHOOSE_EXPERT);
     }
-
-
-
 
 
 }

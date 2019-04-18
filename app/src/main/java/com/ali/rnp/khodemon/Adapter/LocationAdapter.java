@@ -105,7 +105,10 @@ public class LocationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Picasso.get().load(locationPeople.getOriginalPic()).centerCrop().resize(500, 500).placeholder(R.drawable.holder_banner).into(originalPicImageView);
+
+                    if (!locationPeople.getOriginalPic().equals("")){
+                        Picasso.get().load(locationPeople.getOriginalPic()).centerCrop().resize(500, 500).placeholder(R.drawable.holder_banner).into(originalPicImageView);
+                    }
 
                 }
             }, 1);

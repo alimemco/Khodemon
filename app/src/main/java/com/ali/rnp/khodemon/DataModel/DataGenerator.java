@@ -189,44 +189,31 @@ public class DataGenerator {
 
     }
 
+    public static List<String> hoursTo() {
 
-    public static String[] hours() {
+        List<String> hours = new ArrayList<>();
+        hours.add("تا ساعت");
+        hours.add("00:00");
+        hours.add("00:30");
+        hours.add("01:30");
+        hours.add("02:00");
+        hours.add("02:30");
+        hours.add("03:00");
+        hours.add("03:30");
+        hours.add("04:00");
+        hours.add("04:30");
+        hours.add("05:00");
+        hours.add("05:30");
+        hours.add("06:00");
+        hours.add("06:30");
+        hours.add("07:00");
+        hours.add("07:30");
+        hours.add("08:00");
+        hours.add("08:30");
 
-        return new String[]{
-                "انتخاب کنید",
-                "12:00",
-                "12:30",
-                "01:00",
-                "01:30",
-                "02:00",
-                "02:30",
-                "03:00",
-                "03:30",
-                "04:00",
-                "04:30",
-                "05:00",
-                "05:30",
-                "06:00",
-                "06:30",
-                "12:00",
-                "12:30",
-                "01:00",
-                "01:30",
-                "02:00",
-                "02:30",
-                "03:00",
-                "03:30",
-                "04:00",
-                "04:30",
-                "05:00",
-                "05:30",
-                "06:00",
-                "06:30"
+        return hours;
 
-
-        };
-
-}
+    }
 
 
 }

@@ -17,4 +17,12 @@ public class ProvidersApp {
 
     public static final int REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE = 752;
 
+
+
+    public static final String KEY_JSON_OBJECT_GROUP_NAME= "group_name";
+    public static final String KEY_JSON_OBJECT_LOCATION_NAME= "nameLocPeo";
+    public static final String KEY_JSON_OBJECT_LOCATION_TAG= "tagLoc";
+    public static final String KEY_JSON_OBJECT_LOCATION_OWNER_SELLER= "owner_seller";
+    public static final String KEY_JSON_OBJECT_LOCATION_ORIGINAL_IMAGE = "original_pic";
+
 }

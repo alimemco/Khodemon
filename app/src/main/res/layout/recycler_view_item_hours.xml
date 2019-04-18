@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
@@ -15,8 +16,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:textSize="@dimen/small_textSize_sp"
         app:fontCustom="shp_iranSansMobile"
-        android:textSize="@dimen/normal_textSize_sp"
         app:layout_constraintLeft_toRightOf="@+id/recyclerView_item_hours_TextView_close"
         app:layout_constraintRight_toLeftOf="@+id/recyclerView_item_hours_checkBox_day"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,27 +25,35 @@
 
     <Spinner
         android:id="@+id/recyclerView_item_hours_spinner_hours_from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
+        android:layoutDirection="rtl"
         android:background="@drawable/shape_background_spinner_hour"
-        app:layout_constraintLeft_toRightOf="@+id/guideline5"
+        app:layout_constraintLeft_toRightOf="@+id/recyclerView_item_hours_spinner_hours_dash"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView_item_hours_checkedTextView_day" />
 
     <Spinner
         android:id="@+id/recyclerView_item_hours_spinner_hours_to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerView_item_hours_spinner_hours_from"
-        app:layout_constraintRight_toLeftOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/recyclerView_item_hours_spinner_hours_from"
+        android:layoutDirection="rtl"
         android:background="@drawable/shape_background_spinner_hour"
-        />
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerView_item_hours_spinner_hours_from"
+        app:layout_constraintRight_toLeftOf="@+id/recyclerView_item_hours_spinner_hours_dash"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView_item_hours_spinner_hours_from" />
 
+    <View
+        android:id="@+id/recyclerView_item_hours_spinner_hours_dash"
+        android:layout_width="4dp"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerView_item_hours_spinner_hours_from"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recyclerView_item_hours_spinner_hours_from" />
 
     <CheckBox
         android:id="@+id/recyclerView_item_hours_checkBox_day"
@@ -59,33 +68,87 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/gray_300"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView_item_hours_spinner_hours_from" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_item_hours_checkBox_24hour" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:id="@+id/recyclerView_item_hours_TextView_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="تعطیل"
         android:textColor="@color/red200"
         app:fontCustom="shp_iranSansMobile"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView_item_hours_checkedTextView_day"
-        app:layout_constraintTop_toTopOf="@+id/recyclerView_item_hours_checkedTextView_day"
-        tools:layout_editor_absoluteX="20dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView_item_hours_checkedTextView_day" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
+
+    <Switch
+        android:id="@+id/recyclerView_item_hours_switch_shift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="199dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="شیفت دوم"
+        android:switchPadding="@dimen/standard_margin"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerView_item_hours_spinner_hours_from"
+        app:layout_constraintStart_toStartOf="@+id/recyclerView_item_hours_spinner_hours_to"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_item_hours_spinner_hours_from" />
+
+
+    <Spinner
+        android:id="@+id/recyclerView_item_hours_spinner_hours_second_from"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+
+        android:layoutDirection="rtl"
+        android:background="@drawable/shape_background_spinner_hour"
+        app:layout_constraintLeft_toRightOf="@+id/recyclerView_item_hours_spinner_hours_second_dash"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_item_hours_switch_shift" />
+
+    <Spinner
+        android:id="@+id/recyclerView_item_hours_spinner_hours_second_to"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:layout_marginRight="8dp"
+        android:layoutDirection="rtl"
+
+        android:background="@drawable/shape_background_spinner_hour"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerView_item_hours_spinner_hours_second_from"
+        app:layout_constraintRight_toLeftOf="@+id/recyclerView_item_hours_spinner_hours_second_dash"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView_item_hours_spinner_hours_second_from" />
+
+    <View
+        android:id="@+id/recyclerView_item_hours_spinner_hours_second_dash"
+        android:layout_width="4dp"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerView_item_hours_spinner_hours_second_from"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recyclerView_item_hours_spinner_hours_second_from" />
+
+    <CheckBox
+        android:id="@+id/recyclerView_item_hours_checkBox_24hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="24 ساعته"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_item_hours_spinner_hours_second_from" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
