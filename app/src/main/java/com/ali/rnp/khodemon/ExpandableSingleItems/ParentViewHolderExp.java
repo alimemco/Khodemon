@@ -3,9 +3,11 @@ package com.ali.rnp.khodemon.ExpandableSingleItems;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
+import com.squareup.picasso.Picasso;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
@@ -28,7 +30,15 @@ public class ParentViewHolderExp extends GroupViewHolder {
 
 
             groupName.setText(group.getTitle());
-            icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
+            /*
+            if (!((SingleCheckItemsExp) group).isUrl() ){
+                Picasso.get().load(((SingleCheckItemsExp) group).getIconUrl()).into(icon);
+
+            }else {
+                icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
+            }
+*/
+        icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
 
 
     }

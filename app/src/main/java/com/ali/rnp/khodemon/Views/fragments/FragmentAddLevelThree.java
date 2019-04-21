@@ -27,9 +27,10 @@ import java.text.DecimalFormat;
 public class FragmentAddLevelThree extends Fragment
 implements TextWatcher, View.OnClickListener {
 
-
     private MyTextView dimenTypeTextView;
-    private MyEditText dimenEditText;
+    public static MyEditText dimenEditText;
+    public static MyEditText phoneEditText;
+    public static MyEditText sinceEditText;
     private CardView chooseHoursCardView;
     private MyTextView chooseHoursTextView;
 
@@ -52,6 +53,8 @@ implements TextWatcher, View.OnClickListener {
     private void initView(View rootView) {
         dimenTypeTextView = rootView.findViewById(R.id.fragment_add_level_three_dimenType_TextView);
         dimenEditText = rootView.findViewById(R.id.fragment_add_level_three_demens_EditText);
+        phoneEditText = rootView.findViewById(R.id.fragment_add_level_three_EditText_phone);
+        sinceEditText = rootView.findViewById(R.id.fragment_add_level_three_EditText_since);
         chooseHoursCardView = rootView.findViewById(R.id.fragment_add_level_three_cardView_chooseHours);
         chooseHoursTextView = rootView.findViewById(R.id.fragment_add_level_three_MyTextView_chooseHours);
 
@@ -97,7 +100,9 @@ implements TextWatcher, View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fragment_add_level_three_cardView_chooseHours:
-                startActivityForResult(new Intent(context, HoursChooseActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE);
+                if (getActivity() != null){
+                    getActivity().startActivityForResult(new Intent(context, HoursChooseActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE);
+                }
                 break;
         }
     }

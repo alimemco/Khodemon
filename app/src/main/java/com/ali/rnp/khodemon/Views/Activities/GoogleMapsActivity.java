@@ -1,5 +1,6 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelTwo;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -73,10 +75,10 @@ public class GoogleMapsActivity extends AppCompatActivity implements
 
     private void getDataFromIntent() {
 
-        requestCode = getIntent().getIntExtra(KEY_REQUEST_CHOOSE_LOCATION_ON_MAP, 0);
+        requestCode = getIntent().getIntExtra(ProvidersApp.KEY_CHOOSE_MAP_FRG_ADD_LVL_TWO, 0);
 
 
-        isFromFragmentAddTwo = requestCode == REQUEST_FROM_FRAGMENT_ADD_LEVEL_TWO;
+        isFromFragmentAddTwo = requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO;
 
 
     }
@@ -118,12 +120,18 @@ public class GoogleMapsActivity extends AppCompatActivity implements
                 intent.putExtra("test",currentLatLng.latitude);
                 setResult(Activity.RESULT_OK, intent);
 */
-                if (isFromFragmentAddTwo) {
-                    FragmentAddLevelTwo.selectedLatLong = currentLatLng;
-                }
+              //  if (isFromFragmentAddTwo) {
+                  //  FragmentAddLevelTwo.selectedLatLong = currentLatLng;
+                    Intent intent = new Intent();
+                    intent.putExtra(ProvidersApp.KEY_CHOOSE_MAP_LATITUDE,currentLatLng.latitude);
+                    intent.putExtra(ProvidersApp.KEY_CHOOSE_MAP_LONGITUDE,currentLatLng.longitude);
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
+
+               // }
 
 
-                finish();
+
             } else {
                 Toast.makeText(this, "currentLatLng == null", Toast.LENGTH_SHORT).show();
             }

@@ -2,19 +2,34 @@ package com.ali.rnp.khodemon.Views.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Toast;
 
+import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.DataModel.City;
+import com.ali.rnp.khodemon.DataModel.Tags;
+import com.ali.rnp.khodemon.ExpandableSingleItems.AdapterSingleExp;
+import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
+import com.ali.rnp.khodemon.ExpandableSingleItems.SingleCheckItemsExp;
 import com.ali.rnp.khodemon.ExpandableTags.Expert;
 import com.ali.rnp.khodemon.ExpandableTags.SingleCheckGroupingAdapter;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.fragments.FragmentDialog;
+import com.android.volley.VolleyError;
 import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,10 +40,17 @@ import static com.ali.rnp.khodemon.ExpandableTags.TagsDataFactory.makeSingleChec
 
 public class TagChooseActivity extends AppCompatActivity {
 
-    private SingleCheckGroupingAdapter adapter;
+    //private SingleCheckGroupingAdapter adapter;
     private MyButton chooseButton;
     private Intent intent;
-    private String tagLocPic;
+
+    private List<Tags> tagsList;
+    private List<SingleCheckItemsExp> makeSingleCheckParentList;
+    private AdapterSingleExp adapterSingleExp;
+    private RecyclerView recyclerView;
+    private Toolbar toolbar;
+    private String tagName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +59,8 @@ public class TagChooseActivity extends AppCompatActivity {
 
         chooseButton = findViewById(R.id.activity_tag_choose_button);
 
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_tag_choose_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-
-        adapter = new SingleCheckGroupingAdapter(makeSingleCheckTags(),this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-
-        adapter.setChildClickListener(new OnCheckChildClickListener() {
-            @Override
-            public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
-                adapter.clearChoices();
-                group.checkChild(childIndex);
-                Expert expert = (Expert) group.getItems().get(childIndex);
-
-                tagLocPic = expert.getName();
-
-              }
-        });
+        initToolbar();
+        setupRecyclerView();
 
 
 
@@ -64,12 +69,11 @@ public class TagChooseActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-              //  showDialog();
-                if (!tagLocPic.equals("")){
-                    intent = new Intent();
-                    intent.putExtra(AddRule.KEY_CHOOSE_EXPERT, tagLocPic);
-
-                    setResult(Activity.RESULT_OK, intent);
+               //showDialog();
+                if (tagName != null && !tagName.equals("")){
+                    Intent intent = new Intent();
+                    intent.putExtra(ProvidersApp.KEY_CHOOSE_TAGS_FRG_ADD_LVL_ONE,tagName);
+                    setResult(Activity.RESULT_OK,intent);
                 }
 
 
@@ -79,6 +83,74 @@ public class TagChooseActivity extends AppCompatActivity {
 
 
     }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.activity_tag_choose_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
+    }
+
+    private void setupRecyclerView() {
+        recyclerView = findViewById(R.id.activity_tag_choose_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        ApiService apiService = new ApiService(TagChooseActivity.this);
+
+        apiService.getTags(new ApiService.OnTagsReceived() {
+            @Override
+            public void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent, List<Tags> tags, VolleyError error) {
+
+                if (makeSingleCheckParent != null && tags != null && error == null ){
+
+                    tagsList = new ArrayList<>();
+                    tagsList.addAll(tags);
+
+                    makeSingleCheckParentList = new ArrayList<>();
+                    makeSingleCheckParentList.addAll(makeSingleCheckParent);
+
+                    setupRecWithExpandable(makeSingleCheckParent);
+
+                }else  if (error != null){
+                    Toast.makeText(TagChooseActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            private void setupRecWithExpandable(List<SingleCheckItemsExp> makeSingleCheckParent) {
+
+
+                adapterSingleExp = new AdapterSingleExp(makeSingleCheckParent, TagChooseActivity.this);
+                recyclerView.setAdapter(adapterSingleExp);
+
+                adapterSingleExp.setChildClickListener(new OnCheckChildClickListener() {
+                    @Override
+                    public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
+                        adapterSingleExp.clearChoices();
+                        group.checkChild(childIndex);
+                        ChildExp childExp = (ChildExp) group.getItems().get(childIndex);
+                        // Toast.makeText(TagChooseActivity.this, childExp.getName(), Toast.LENGTH_SHORT).show();
+                         tagName = childExp.getName();
+
+                    }
+                });
+            }
+        });
+    }
+
+
 
 
     public void showDialog() {

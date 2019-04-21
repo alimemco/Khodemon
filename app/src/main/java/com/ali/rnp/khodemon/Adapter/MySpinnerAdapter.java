@@ -19,18 +19,18 @@ public class MySpinnerAdapter extends ArrayAdapter<String> {
 
     private View spinnerView;
 
-    MySpinnerAdapter(Context context, int resource, List<String> items) {
+    public MySpinnerAdapter(Context context, int resource, List<String> items) {
         super(context, resource, items);
     }
 
 
 
 
-    View getSpinnerView() {
+    public View getSpinnerView() {
         return spinnerView;
     }
 
-    void setSpinnerView(View spinnerView) {
+    public void setSpinnerView(View spinnerView) {
         this.spinnerView = spinnerView;
     }
 

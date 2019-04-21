@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +19,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.ali.rnp.khodemon.Adapter.MySpinnerAdapter;
 import com.ali.rnp.khodemon.Adapter.UriAdapter;
+import com.ali.rnp.khodemon.DataModel.DataGenerator;
 import com.ali.rnp.khodemon.GifSizeFilter;
 import com.ali.rnp.khodemon.Glide4Engine;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
@@ -94,6 +97,37 @@ public class FragmentAddLevelOne extends Fragment implements
 
     private void setupSpinner() {
 
+        ownerSeller.setVisibility(View.INVISIBLE);
+
+        MySpinnerAdapter adapter = new MySpinnerAdapter(
+                context,
+                android.R.layout.simple_spinner_dropdown_item,
+                DataGenerator.ownerSeller() );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setSpinnerView(spinnerOwner);
+
+        spinnerOwner.setAdapter(adapter);
+
+
+        spinnerOwner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
+                if (position > 0) {
+
+
+                   // Toast.makeText(context, adapter.getItem(position)+" -> "+adapter.getSpinnerView().getId(), Toast.LENGTH_SHORT).show();
+                    ownerSeller.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
+/*
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, chooseOwnerModel);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -114,7 +148,7 @@ public class FragmentAddLevelOne extends Fragment implements
             }
         });
 
-
+*/
     }
 
     private void initViews(View rootView) {
@@ -137,7 +171,7 @@ public class FragmentAddLevelOne extends Fragment implements
         recyclerViewImages.setAdapter(mAdapter = new UriAdapter(context));
 
 
-        Uri path = Uri.parse("android.resource://com.ali.rnp.khodemon/" + R.drawable.add_photo);
+        Uri path = Uri.parse("android.resource://com.ali.rnp.khodemon/" + R.drawable.add_photo_text);
         List<Uri> uriPath = new ArrayList<>();
         uriPath.add(path);
         mAdapter.setData(uriPath, true, this);
@@ -152,7 +186,7 @@ public class FragmentAddLevelOne extends Fragment implements
                 .capture(true)
                 .captureStrategy(
                         new CaptureStrategy(true, "com.ali.rnp.khodemon.fileprovider"))
-                .maxSelectable(10)
+                .maxSelectable(30)
                 .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                 .gridExpectedSize(
                         getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
@@ -169,16 +203,6 @@ public class FragmentAddLevelOne extends Fragment implements
 
                     }
                 })
-                /* .originalEnable(true)
-                 .maxOriginalSize(10)
-                 .autoHideToolbarOnSingleTap(true)
-                 .setOnCheckedListener(new OnCheckedListener() {
-                     @Override
-                     public void onCheck(boolean isChecked) {
-                         // DO SOMETHING IMMEDIATELY HERE
-                         Log.e(TAG, "onCheck: isChecked=" + isChecked);
-                     }
-                 })*/
                 .forResult(REQUEST_CODE_CHOOSE);
 
     }

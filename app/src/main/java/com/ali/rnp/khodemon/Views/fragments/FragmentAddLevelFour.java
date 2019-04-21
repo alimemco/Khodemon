@@ -10,12 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.R;
 
 
 public class FragmentAddLevelFour extends Fragment {
 
     private Context context;
+    public static MyEditText telegramEditText;
+    public static MyEditText instagramEditText;
+    public static MyEditText siteEditText;
+    public static MyEditText descriptionEditText;
 
     public FragmentAddLevelFour() {
     }
@@ -37,6 +42,11 @@ public class FragmentAddLevelFour extends Fragment {
     }
 
     private void initView(View rootView) {
+
+        telegramEditText = rootView.findViewById(R.id.fragment_add_level_four_EditText_telegram);
+        instagramEditText = rootView.findViewById(R.id.fragment_add_level_four_EditText_instagram);
+        siteEditText = rootView.findViewById(R.id.fragment_add_level_four_EditText_site);
+        descriptionEditText = rootView.findViewById(R.id.fragment_add_level_four_EditText_description);
 
     }
 

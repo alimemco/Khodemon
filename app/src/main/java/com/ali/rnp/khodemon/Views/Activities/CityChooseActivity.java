@@ -101,6 +101,13 @@ public class CityChooseActivity extends AppCompatActivity implements
 
 
     public void sendCityData() {
+        Intent intent = new Intent();
+        //  intent.putExtra(CityChooseActivity.INTENT_CITY_ID, city.getId());
+        intent.putExtra(ProvidersApp.KEY_CITY_NAME, cityName);
+        intent.putExtra(ProvidersApp.KEY_PROVINCE_NAME, provinceName);
+        // intent.putExtra(CityChooseActivity.INTENT_CITY_PROVINCE_NAME, city.getProvince());
+        setResult(RESULT_OK, intent);
+        /*
 
         if (isFromFragmentAddTwo){
 
@@ -117,7 +124,7 @@ public class CityChooseActivity extends AppCompatActivity implements
             // intent.putExtra(CityChooseActivity.INTENT_CITY_PROVINCE_NAME, city.getProvince());
             setResult(RESULT_OK, intent);
         }
-
+*/
 
         finish();
 

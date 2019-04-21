@@ -1,8 +1,10 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.UriAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.Dialogs.SuccessAddDialog;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -25,6 +28,7 @@ import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelOne;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelThree;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelTwo;
 import com.android.volley.VolleyError;
+import com.google.android.gms.maps.model.LatLng;
 import com.shuhart.stepview.StepView;
 import com.zhihu.matisse.Matisse;
 
@@ -90,10 +94,10 @@ public class AddRule extends AppCompatActivity implements
     private static final String TAG = "AddRuleApp";
 
     private static final int REQUEST_CODE_CHOOSE = 23;
-    private static final int REQUEST_CODE_CHOOSE_EXPERT = 6363;
+    //private static final int REQUEST_CODE_CHOOSE_EXPERT = 6363;
     // private static final int REQUEST_CODE_CHOOSE_LOCATION_MAP = 7259;
 
-    public static final String KEY_CHOOSE_EXPERT = "Expert";
+    // public static final String KEY_CHOOSE_TAGS_FRG_ADD_LVL_ONE = "Expert";
     private int STEP_LEVEL_ONE = 0;
     private int STEP_LEVEL_TWO = 1;
     private int STEP_LEVEL_THREE = 2;
@@ -115,9 +119,6 @@ public class AddRule extends AppCompatActivity implements
         initStepView();
 
         setupFragments();
-
-
-
 
 
     }
@@ -162,7 +163,6 @@ public class AddRule extends AppCompatActivity implements
         jsonObjectLocation = new JSONObject();
 
 
-
         groupName = getIntent().getStringExtra(ProvidersApp.GROUP_NAME_KEY);
         try {
             jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_GROUP_NAME, groupName);
@@ -182,8 +182,8 @@ public class AddRule extends AppCompatActivity implements
         fragmentAddLevelThree = new FragmentAddLevelThree();
         fragmentAddLevelFour = new FragmentAddLevelFour();
 
-
         replaceNewFragment(fragmentAddLevelOne);
+
     }
 
     private void replaceNewFragment(Fragment fragment) {
@@ -240,7 +240,7 @@ public class AddRule extends AppCompatActivity implements
 
                                 String urlCheck = isOriginalImage(imageUrl, finalOriginalImageName);
                                 if (!urlCheck.equals("")) {
-                                     originalPhotoUrl = imageUrl;
+                                    originalPhotoUrl = imageUrl;
 
                                 }
 
@@ -266,7 +266,7 @@ public class AddRule extends AppCompatActivity implements
                                         isUploadPhotosSuccess = true;
 
                                         try {
-                                            jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_ORIGINAL_IMAGE,originalPhotoUrl);
+                                            jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_ORIGINAL_IMAGE, originalPhotoUrl);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -364,7 +364,7 @@ public class AddRule extends AppCompatActivity implements
         return null;
     }
 
-    private void fragmentAddLevelManager() {
+    private void fragmentAddLevelManager() throws JSONException {
 
 
         if (getVisibleFragment() != null) {
@@ -383,38 +383,101 @@ public class AddRule extends AppCompatActivity implements
                 }
 
 
+                if (FragmentAddLevelOne.ownerSeller.getText() != null &&
+                        !FragmentAddLevelOne.ownerSeller.getText().toString().equals("")) {
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_OWNER_SELLER_NAME, FragmentAddLevelOne.ownerSeller.getText().toString());
+
+                }
+
 
 
             } else if (fragment instanceof FragmentAddLevelTwo) {
                 replaceNewFragment(fragmentAddLevelThree);
 
                 stepView.go(STEP_LEVEL_THREE, true);
+
+
+                if (FragmentAddLevelTwo.addressEdiText.getText() != null &&
+                        !FragmentAddLevelTwo.addressEdiText.getText().toString().equals("")) {
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_ADDRESS, FragmentAddLevelTwo.addressEdiText.getText().toString());
+
+                }
+
+
             } else if (fragment instanceof FragmentAddLevelThree) {
                 replaceNewFragment(fragmentAddLevelFour);
 
                 stepView.go(STEP_LEVEL_FOUR, true);
 
-                try {
-                    if (FragmentAddLevelOne.nameLocation.getText() != null &&
-                            FragmentAddLevelOne.ownerSeller.getText() != null) {
-                        jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_NAME, FragmentAddLevelOne.nameLocation.getText().toString());
-                        jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_OWNER_SELLER, FragmentAddLevelOne.ownerSeller.getText().toString());
-                        jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_TAG, FragmentAddLevelOne.chooseTagTextView.getText().toString());
 
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (FragmentAddLevelOne.nameLocation.getText() != null &&
+                        FragmentAddLevelOne.ownerSeller.getText() != null) {
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_NAME, FragmentAddLevelOne.nameLocation.getText().toString());
+                    //jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_OWNER_SELLER, FragmentAddLevelOne.ownerSeller.getText().toString());
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_TAG, FragmentAddLevelOne.chooseTagTextView.getText().toString());
+
                 }
 
-                if (jsonObjectLocation != null){
+                if (FragmentAddLevelThree.dimenEditText.getText() != null &&
+                        !FragmentAddLevelThree.dimenEditText.getText().toString().equals("")) {
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_DIMEN, FragmentAddLevelThree.dimenEditText.getText() .toString());
+                }
+
+                if (FragmentAddLevelThree.phoneEditText.getText() != null &&
+                        !FragmentAddLevelThree.phoneEditText.getText().toString().equals("")) {
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_PHONE, FragmentAddLevelThree.phoneEditText.getText() .toString());
+                }
+
+                if (FragmentAddLevelThree.sinceEditText.getText() != null &&
+                        !FragmentAddLevelThree.sinceEditText.getText().toString().equals("")) {
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_SINCE, FragmentAddLevelThree.sinceEditText.getText() .toString());
+                }
+
+
+               /* if (jsonObjectLocation != null) {
                     ApiService apiService = new ApiService(AddRule.this);
                     apiService.addLocation(jsonObjectLocation, new ApiService.OnAddLocationPeople() {
                         @Override
                         public void OnAdded(String result, VolleyError error) {
                             if (result != null && error == null) {
                                 Toast.makeText(AddRule.this, result, Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(AddRule.this,MainActivity.class));
+                                startActivity(new Intent(AddRule.this, MainActivity.class));
                                 finish();
+                            } else {
+                                Toast.makeText(AddRule.this, "" + error.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }*/
+
+
+            } else if (fragment instanceof FragmentAddLevelFour) {
+               // replaceNewFragment(fragmentAddLevelFour);
+
+                //stepView.go(STEP_LEVEL_FOUR, true);
+
+
+
+
+
+
+                if (jsonObjectLocation != null) {
+                    ApiService apiService = new ApiService(AddRule.this);
+                    apiService.addLocation(jsonObjectLocation, new ApiService.OnAddLocationPeople() {
+                        @Override
+                        public void OnAdded(String result, VolleyError error) {
+                            if (result != null && error == null) {
+
+                                Toast.makeText(AddRule.this, result, Toast.LENGTH_LONG).show();
+                               /*
+                                startActivity(new Intent(AddRule.this, MainActivity.class));
+                                finish();
+                                */
+
+                                SuccessAddDialog dialog = new SuccessAddDialog();
+                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                dialog.show(ft, SuccessAddDialog.TAG);
+
                             } else {
                                 Toast.makeText(AddRule.this, "" + error.toString(), Toast.LENGTH_SHORT).show();
                             }
@@ -460,7 +523,11 @@ public class AddRule extends AppCompatActivity implements
 
             case R.id.activity_add_rule_nextButton:
 
-                fragmentAddLevelManager();
+                try {
+                    fragmentAddLevelManager();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 break;
 
@@ -471,6 +538,7 @@ public class AddRule extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "onActivityResult: AFTER " + requestCode + " " + resultCode);
 
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
 
@@ -483,19 +551,63 @@ public class AddRule extends AppCompatActivity implements
             dataFromMatisse = data;
 
 
-        } else if (requestCode == REQUEST_CODE_CHOOSE_EXPERT && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(KEY_CHOOSE_EXPERT);
+        } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_TAGS_FRG_ADD_LVL_ONE && resultCode == RESULT_OK) {
+            String title = data.getStringExtra(ProvidersApp.KEY_CHOOSE_TAGS_FRG_ADD_LVL_ONE);
             FragmentAddLevelOne.chooseTagTextView.setText(title);
 
         } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE) {
             Toast.makeText(this, "req: " + requestCode + " resOk" + resultCode, Toast.LENGTH_SHORT).show();
+        } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+
+
+                double lat = extras.getDouble(ProvidersApp.KEY_CHOOSE_MAP_LATITUDE, 0.0);
+                double lng = extras.getDouble(ProvidersApp.KEY_CHOOSE_MAP_LONGITUDE, 0.0);
+                // Toast.makeText(this, "LOCATION -> "+lat+"\n"+lng, Toast.LENGTH_LONG).show();
+                FragmentAddLevelTwo.selectedLatLong = new LatLng(lat, lng);
+
+                String latLongCu = lat + "," + lng;
+
+                try {
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_MAP, latLongCu);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+
+        } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO && resultCode == Activity.RESULT_OK) {
+
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                String cityName = extras.getString(ProvidersApp.KEY_CITY_NAME);
+                String provinceName = extras.getString(ProvidersApp.KEY_PROVINCE_NAME);
+                String name = provinceName + " ، " + cityName;
+                FragmentAddLevelTwo.chooseCityTextView.setText(name);
+
+
+                try {
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_PROVINCE, provinceName);
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_CITY, cityName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
         }
 
     }
 
     @Override
     public void viewClickedFrgOne() {
-        startActivityForResult(new Intent(AddRule.this, TagChooseActivity.class), REQUEST_CODE_CHOOSE_EXPERT);
+        startActivityForResult(new Intent(AddRule.this, TagChooseActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_TAGS_FRG_ADD_LVL_ONE);
+
     }
 
 

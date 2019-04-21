@@ -45,7 +45,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout15234745671">
 
             <com.ali.rnp.khodemon.MyLibrary.MyEditText
-                android:id="@+id/fragment_add_level_three_EditText_telegram"
+                android:id="@+id/fragment_add_level_four_EditText_telegram"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -99,7 +99,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout152347445671">
 
             <com.ali.rnp.khodemon.MyLibrary.MyEditText
-                android:id="@+id/fragment_add_level_three_EditText_instagram"
+                android:id="@+id/fragment_add_level_four_EditText_instagram"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -154,7 +154,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout1545671">
 
             <com.ali.rnp.khodemon.MyLibrary.MyEditText
-                android:id="@+id/fragment_add_level_three_EditText_site"
+                android:id="@+id/fragment_add_level_four_EditText_site"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -210,7 +210,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout15451671">
 
             <com.ali.rnp.khodemon.MyLibrary.MyEditText
-                android:id="@+id/fragment_add_level_three_EditText_description"
+                android:id="@+id/fragment_add_level_four_EditText_description"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"

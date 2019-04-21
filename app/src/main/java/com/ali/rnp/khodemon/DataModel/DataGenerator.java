@@ -163,6 +163,66 @@ public class DataGenerator {
 
     }
 
+    public static List<HourDays> hourDaysList() {
+
+        List<HourDays> hourDaysList = new ArrayList<>();
+        /*
+        HourDays hourDays = new HourDays();
+        hourDays.setDayName("شنبه");
+        hourDays.setDayName("یک شنبه");
+        hourDays.setDayName("دو شنبه");
+        hourDays.setDayName("سه شنبه");
+        hourDays.setDayName("چهار شنبه");
+        hourDays.setDayName("پنج شنبه");
+        hourDays.setDayName("جمعه");
+
+        hourDaysList.add(hourDays);
+        */
+        for (int i = 0; i < 7 ; i++) {
+            HourDays hourDays = new HourDays();
+            switch (i){
+                case 0:
+                    hourDays.setDayName("شنبه");
+                    hourDays.setOpen(false);
+                    break;
+                case 1:
+                    hourDays.setDayName("یک شنبه");
+                    hourDays.setOpen(false);
+                    break;
+
+                case 2:
+                    hourDays.setDayName("دو شنبه");
+                    hourDays.setOpen(false);
+                    break;
+
+                case 3:
+                    hourDays.setDayName("سه شنبه");
+                    hourDays.setOpen(false);
+                    break;
+
+                case 4:
+                    hourDays.setDayName("چهارشنبه");
+                    hourDays.setOpen(false);
+                    break;
+
+                case 5:
+                    hourDays.setDayName("پنجشنبه");
+                    hourDays.setOpen(false);
+                    break;
+
+                case 6:
+                    hourDays.setDayName("جمعه");
+                    hourDays.setOpen(false);
+                    break;
+            }
+            hourDaysList.add(hourDays);
+
+        }
+
+        return hourDaysList;
+
+    }
+
     public static List<String> hoursFrom() {
 
         List<String> hours = new ArrayList<>();
@@ -212,6 +272,21 @@ public class DataGenerator {
         hours.add("08:30");
 
         return hours;
+
+    }
+
+    public static List<String> ownerSeller() {
+
+        List<String> owner = new ArrayList<>();
+        owner.add("نوع مالکیت");
+        owner.add("مالک اصلی");
+        owner.add("فروشنده");
+        owner.add("سازنده");
+        owner.add("بنیانگذار");
+        owner.add("تاسیس کننده");
+
+
+        return owner;
 
     }
 

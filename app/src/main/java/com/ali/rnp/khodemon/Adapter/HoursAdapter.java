@@ -28,43 +28,29 @@ import androidx.recyclerview.widget.RecyclerView;
 public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHolder> {
 
     private Context context;
-    private List<String> dayList;
     private List<HourDays> hourDaysList;
+    private HourDays hourDays;
+    private int dayPosition = -1 ;
 
     private static final String TAG = "HoursAdapter";
 
-    private String KEY_POSITION = "KEY_POSITION";
-    private String KEY_IS_OPEN = "KEY_IS_OPEN";
-
-
-    private List<IsSelected> isSelectedList;
 
     public HoursAdapter(Context context) {
         this.context = context;
     }
 
-    public void setData(List<String> dayList) {
-        this.dayList = dayList;
-    }
+public void setData(List<HourDays> hourDaysList) {
+    this.hourDaysList = hourDaysList;
+}
 
+    public List<HourDays> getData() {
+        return this.hourDaysList;
+    }
 
     @NonNull
     @Override
     public HoursViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.recycler_view_item_hours, parent, false);
-
-        isSelectedList = new ArrayList<>();
-        hourDaysList = new ArrayList<>();
-
-        for (int i = 0; i < dayList.size(); i++) {
-
-            IsSelected isSelected = new IsSelected();
-
-            isSelected.setOpened(false);
-
-            isSelectedList.add(isSelected);
-
-        }
 
         return new HoursViewHolder(view);
     }
@@ -72,17 +58,21 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
     @Override
     public void onBindViewHolder(@NonNull HoursViewHolder holder, int position) {
 
-        holder.dayTextView.setText(dayList.get(position));
+
+        holder.dayTextView.setText(hourDaysList.get(position).getDayName());
+       // hourDays.setPositionAdapter(position);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (!isSelectedList.get(position).isOpened()) {
+                if (!hourDaysList.get(position).isOpen()) {
+                    hourDays = new HourDays();
+                    dayPosition = position;
                     holder.dayCheckBox.setChecked(true);
                     holder.hoursSpinnerFrom.setVisibility(View.VISIBLE);
                     holder.hour24CheckBox.setVisibility(View.VISIBLE);
-                    isSelectedList.get(position).setOpened(true);
+                    hourDaysList.get(position).setOpen(true);
                     holder.closeTextView.setText(R.string.day_open);
                     holder.closeTextView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
 
@@ -90,7 +80,7 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
                     holder.dayCheckBox.setChecked(false);
                     holder.hoursSpinnerFrom.setVisibility(View.GONE);
                     holder.hour24CheckBox.setVisibility(View.GONE);
-                    isSelectedList.get(position).setOpened(false);
+                    hourDaysList.get(position).setOpen(false);
                     holder.closeTextView.setText(R.string.day_close);
                     holder.closeTextView.setTextColor(ContextCompat.getColor(context, R.color.red300));
                 }
@@ -98,6 +88,7 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
 
             }
         });
+
 
 
 
@@ -116,13 +107,16 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
+                    dayPosition = position;
+                    hourDays = new HourDays();
+
                     holder.hoursSpinnerFrom.setVisibility(View.VISIBLE);
                     holder.hoursSpinnerTo.setVisibility(View.VISIBLE);
                     holder.shiftSwitch.setVisibility(View.VISIBLE);
                     holder.hour24CheckBox.setVisibility(View.VISIBLE);
                     holder.dashFirst.setVisibility(View.VISIBLE);
 
-                    isSelectedList.get(position).setOpened(true);
+                    hourDaysList.get(position).setOpen(true);
                     holder.closeTextView.setText(R.string.day_open);
                     holder.closeTextView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
 
@@ -134,7 +128,7 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
                     holder.hour24CheckBox.setVisibility(View.GONE);
                     holder.hour24CheckBox.setChecked(false);
 
-                    isSelectedList.get(position).setOpened(false);
+                    hourDaysList.get(position).setOpen(false);
                     holder.closeTextView.setText(R.string.day_close);
                     holder.closeTextView.setTextColor(ContextCompat.getColor(context, R.color.red300));
                 }
@@ -174,7 +168,7 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
 
     @Override
     public int getItemCount() {
-        return dayList.size();
+        return hourDaysList.size();
     }
 
 
@@ -220,6 +214,7 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
             hour24CheckBox.setTypeface(MyApplication.getShpIranSansMoblie(context));
             shiftSwitch.setTypeface(MyApplication.getShpIranSansMoblie(context));
 
+
             setupSpinners(hoursSpinnerFrom, DataGenerator.hoursFrom());
             setupSpinners(hoursSpinnerTo, DataGenerator.hoursTo());
 
@@ -251,27 +246,39 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
             public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
                 if (position > 0) {
 
+
+
                     Toast.makeText(context, adapter.getItem(position)+" -> "+adapter.getSpinnerView().getId(), Toast.LENGTH_SHORT).show();
                    // Toast.makeText(context, "U Choose : " + adapter.getItem(position), Toast.LENGTH_SHORT).show();
 
                     switch (adapter.getSpinnerView().getId()){
                         case R.id.recyclerView_item_hours_spinner_hours_from:
                             Toast.makeText(context, "from One "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
+
+
+                            hourDays.setHourFromOne(adapter.getItem(position));
+
                             break;
 
                         case R.id.recyclerView_item_hours_spinner_hours_to:
                             Toast.makeText(context, "to One "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
+                            hourDays.setHourToOne(adapter.getItem(position));
+
                             break;
 
                         case R.id.recyclerView_item_hours_spinner_hours_second_from:
                             Toast.makeText(context, "from two "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
+                            hourDays.setHourFromSec(adapter.getItem(position));
                             break;
 
 
                         case R.id.recyclerView_item_hours_spinner_hours_second_to:
                             Toast.makeText(context, "to two "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
+                            hourDays.setHourToSec(adapter.getItem(position));
                             break;
                     }
+
+                    hourDaysList.set(dayPosition, hourDays);
                 }
             }
 

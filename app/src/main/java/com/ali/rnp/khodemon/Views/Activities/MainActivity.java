@@ -7,6 +7,7 @@ This Project Started for Achieve our dreams
 managers : ali , raana
  */
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -22,13 +23,17 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationCity;
+import com.ali.rnp.khodemon.Dialogs.MyDialogFragment;
+import com.ali.rnp.khodemon.Dialogs.SuccessAddDialog;
 import com.ali.rnp.khodemon.ExpandableRecActivity;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.SharedPrefManager;
 import com.ali.rnp.khodemon.TestActivity;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAdd;
+import com.ali.rnp.khodemon.Views.fragments.FragmentDialog;
 import com.ali.rnp.khodemon.Views.fragments.FragmentFavorite;
 import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
 import com.ali.rnp.khodemon.Views.fragments.FragmentLogin;
@@ -135,8 +140,16 @@ public class MainActivity extends AppCompatActivity implements
                         break;
 
                     case R.id.navigation_menu_bottomNav:
-                        startActivity(new Intent(MainActivity.this,TestActivity.class));
+                        //startActivity(new Intent(MainActivity.this,TestActivity.class));
+                        /*
+                        SuccessAddDialog dialog = new SuccessAddDialog();
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        dialog.show(ft, SuccessAddDialog.TAG);
+*/
 
+                        MyDialogFragment myDialogFragment = new MyDialogFragment();
+
+                        myDialogFragment.show(fragmentManager, "DialogFragment");
                         break;
 
                         case R.id.navigation_menu_hour_picker:
@@ -157,14 +170,44 @@ public class MainActivity extends AppCompatActivity implements
                         break;
 
                         case R.id.navigation_menu_chooseCity:
-                        startActivity(new Intent(MainActivity.this, CityChooseActivityNew.class));
 
+                        //startActivity(new Intent(MainActivity.this, CityChooseActivityNew.class));
+                        showDialog();
                         break;
                 }
 
                 return false;
             }
         });
+    }
+
+    public void showDialog() {
+        boolean isLargeLayout = false ;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentDialog fragmentDialog = new FragmentDialog();
+
+
+
+        if (isLargeLayout) {
+            // The device is using a large layout, so show the fragment as a dialog
+            fragmentDialog.show(fragmentManager, "dialog");
+        } else {
+            // The device is smaller, so show the fragment fullscreen
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            // For a little polish, specify a transition animation
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            // To make it fullscreen, use the 'content' root view as the container
+            // for the fragment, which is always the root view for the activity
+            transaction.add(android.R.id.content, fragmentDialog)
+                    .addToBackStack(null).commit();
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fragmentDialog.dismiss();
+            }
+        },3000);
     }
 
     private void SetupFragments() {
@@ -402,31 +445,32 @@ public class MainActivity extends AppCompatActivity implements
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == Activity.RESULT_OK){
 
-        switch (requestCode) {
+            switch (requestCode) {
 
-            case REQUEST_CODE_GET_CITY:
+                case REQUEST_CODE_GET_CITY:
 
-                if (resultCode == RESULT_OK && data != null) {
-                   // final int cityId = data.getIntExtra(CityChooseActivity.INTENT_CITY_ID, 1);
-                    final String cityNameString = data.getStringExtra(CityChooseActivity.INTENT_CITY_NAME);
-                   // final String cityProvinceNameString = data.getStringExtra(CityChooseActivity.INTENT_CITY_PROVINCE_NAME);
+                    if (data != null) {
+                        final String cityNameString = data.getStringExtra(ProvidersApp.KEY_CITY_NAME);
 
-                    cityName.setText(cityNameString);
+                        cityName.setText(cityNameString);
 
 
-                    runOnUiThread(() -> {
-                        LocationCity locationCity = new LocationCity();
-                       // locationCity.setCityId(cityId);
-                        locationCity.setCityName(cityNameString);
-                       // locationCity.setCityProvinceName(cityProvinceNameString);
-                        sharedPrefManager.setSharedCity(locationCity);
-                    });
+                        runOnUiThread(() -> {
+                            LocationCity locationCity = new LocationCity();
+                            // locationCity.setCityId(cityId);
+                            locationCity.setCityName(cityNameString);
+                            // locationCity.setCityProvinceName(cityProvinceNameString);
+                            sharedPrefManager.setSharedCity(locationCity);
+                        });
 
-                }
+                    }
 
-                break;
+                    break;
+            }
         }
+
     }
 
     private void DetectFragment(){

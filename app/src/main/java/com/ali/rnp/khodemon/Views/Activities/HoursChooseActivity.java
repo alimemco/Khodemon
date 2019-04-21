@@ -56,7 +56,8 @@ public class HoursChooseActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         hoursAdapter = new HoursAdapter(this);
-        hoursAdapter.setData(DataGenerator.dayList());
+        //hoursAdapter.setData(DataGenerator.dayList());
+        hoursAdapter.setData(DataGenerator.hourDaysList());
         recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         recyclerView.setAdapter(hoursAdapter);
 
@@ -73,6 +74,8 @@ public class HoursChooseActivity extends AppCompatActivity {
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Toast.makeText(HoursChooseActivity.this, ""+hoursAdapter.getData().get(0).getHourFromOne(), Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

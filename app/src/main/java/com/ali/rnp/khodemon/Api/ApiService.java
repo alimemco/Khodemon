@@ -8,6 +8,7 @@ import android.util.Log;
 import com.ali.rnp.khodemon.DataModel.City;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.DataModel.Tags;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.ExpandableSingleItems.SingleCheckItemsExp;
 import com.ali.rnp.khodemon.R;
@@ -19,7 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,8 +39,9 @@ public class ApiService {
     private final static String API_GET_HOME_ITEMS = "http://khodemon.ir/getHomeItems.php";
     private final static String API_GET_GROUP_ITEMS = "http://khodemon.ir/getGroupItems.php";
     private final static String API_GET_HOME_LIST_ITEMS = "http://khodemon.ir/getHomeItemsList.php";
-    private final static String API_ADD_LOATION_PEOPLE = "http://khodemon.ir/addLocationPeople.php";
+    private final static String API_ADD_LOCATION_PEOPLE = "http://khodemon.ir/addLocationPeople.php";
     private final static String API_GET_PROVINCE = "http://khodemon.ir/json/Province.json";
+    private final static String API_GET_TAGS = "http://khodemon.ir/json/Tags.json";
 
     private final static String API_UPLOAD_PHOTOS = "http://khodemon.ir/upload_images.php";
 
@@ -189,6 +190,29 @@ public class ApiService {
         requestQueue.add(request);
     }
 
+    public void getTags(OnTagsReceived onTagsReceived) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API_GET_TAGS, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                parseJsonTags(response, onTagsReceived);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                onTagsReceived.onReceived(null,null, error);
+
+            }
+        });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        // Volley.newRequestQueue(context).add(request);
+        requestQueue.add(request);
+    }
+
     public void uploadImage(Bitmap bitmap,String ImageName,String groupName, final int currentPhoto, int allPhoto, OnUploadedPhoto onUploadedPhoto) {
 
 
@@ -246,7 +270,7 @@ public class ApiService {
     }
 
     public void addLocation(JSONObject jsonObject,OnAddLocationPeople onAddLocationPeople){
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_ADD_LOATION_PEOPLE, jsonObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_ADD_LOCATION_PEOPLE, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -445,6 +469,53 @@ public class ApiService {
 
     }
 
+
+    private void parseJsonTags(JSONArray response, OnTagsReceived onTagsReceived) {
+
+        List<Tags> tagsList = new ArrayList<>();
+        List<SingleCheckItemsExp> makeSingleCheckParent = new ArrayList<>();
+
+
+        for (int i = 0; i < response.length(); i++) {
+
+            try {
+                JSONObject jsonObject = response.getJSONObject(i);
+                String parentName = jsonObject.getString("name");
+                String imgUrl = jsonObject.getString("img");
+                JSONArray jsonArrayChild = jsonObject.getJSONArray("child");
+
+                List<ChildExp> makeChild = new ArrayList<>();
+                for (int j = 0; j < jsonArrayChild.length(); j++) {
+                    JSONObject jsonObjectChild = jsonArrayChild.getJSONObject(j);
+                    String childName = jsonObjectChild.getString("name");
+
+                    Tags tags = new Tags();
+                    tags.setParentName(parentName);
+                    tags.setChildName(childName);
+                    tags.setImgUrl(imgUrl);
+
+                    tagsList.add(tags);
+
+
+                    ChildExp childExp = new ChildExp();
+                    childExp.setData(childName, true);
+                    makeChild.add(childExp);
+                }
+
+
+                SingleCheckItemsExp makeSingleCheckChild = new SingleCheckItemsExp(parentName, makeChild, R.drawable.ic_province);
+                makeSingleCheckParent.add(makeSingleCheckChild);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        onTagsReceived.onReceived(makeSingleCheckParent,tagsList, null);
+
+    }
     private void parseJsonRegisterUser(JSONObject response, OnRegisterCompleted onRegisterCompleted) {
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -496,6 +567,10 @@ public class ApiService {
 
     public interface OnProvinceReceived {
         void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent,List<City> cities, VolleyError error);
+    }
+
+    public interface OnTagsReceived {
+        void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent, List<Tags> tags, VolleyError error);
     }
 
     public interface OnUploadedPhoto {

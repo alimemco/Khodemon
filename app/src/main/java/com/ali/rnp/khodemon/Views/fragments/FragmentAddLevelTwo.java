@@ -254,9 +254,15 @@ OnMapReadyCallback{
     private void goToMapForChoose() {
 
         Intent intent = new Intent(getContext(), GoogleMapsActivity.class);
-        intent.putExtra(GoogleMapsActivity.KEY_REQUEST_CHOOSE_LOCATION_ON_MAP,GoogleMapsActivity.REQUEST_FROM_FRAGMENT_ADD_LEVEL_TWO);
 
-        startActivityForResult(intent,REQUEST_CODE_LOCATION_CHOOSE);
+        //intent.putExtra(GoogleMapsActivity.KEY_REQUEST_CHOOSE_LOCATION_ON_MAP, GoogleMapsActivity.REQUEST_FROM_FRAGMENT_ADD_LEVEL_TWO);
+        /*intent.putExtra(ProvidersApp.KEY_CHOOSE_MAP_FRG_ADD_LVL_TWO,
+                ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO);
+*/
+        if (getActivity() != null){
+            getActivity().startActivityForResult(intent,ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO);
+
+        }
 
     }
 
@@ -319,7 +325,9 @@ OnMapReadyCallback{
                 //startActivityForResult(new Intent(context,CityChooseActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
                 Intent intent = new Intent(context,CityChooseActivity.class);
                 intent.putExtra(ProvidersApp.KEY_CHOOSE_CITY_FRG_ADD_LVL_TWO,ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
-                startActivityForResult(intent, ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
+                if (getActivity()!= null){
+                    getActivity().startActivityForResult(intent, ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
+                }
 
                 break;
         }

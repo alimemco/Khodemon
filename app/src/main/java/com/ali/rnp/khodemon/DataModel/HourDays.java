@@ -3,6 +3,8 @@ package com.ali.rnp.khodemon.DataModel;
 public class HourDays {
 
     private String dayName;
+    private boolean isOpen;
+    private int positionAdapter;
     private String hourFromOne;
     private String hourToOne;
     private String hourFromSec;
@@ -46,5 +48,21 @@ public class HourDays {
 
     public void setHourToSec(String hourToSec) {
         this.hourToSec = hourToSec;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+    public int getPositionAdapter() {
+        return positionAdapter;
+    }
+
+    public void setPositionAdapter(int positionAdapter) {
+        this.positionAdapter = positionAdapter;
     }
 }
