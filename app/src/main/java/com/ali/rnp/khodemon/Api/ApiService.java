@@ -503,7 +503,7 @@ public class ApiService {
                 }
 
 
-                SingleCheckItemsExp makeSingleCheckChild = new SingleCheckItemsExp(parentName, makeChild, R.drawable.ic_province);
+                SingleCheckItemsExp makeSingleCheckChild = new SingleCheckItemsExp(parentName, makeChild, R.drawable.ic_tyre_expert);
                 makeSingleCheckParent.add(makeSingleCheckChild);
 
 

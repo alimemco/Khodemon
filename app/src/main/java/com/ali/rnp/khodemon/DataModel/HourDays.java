@@ -1,6 +1,9 @@
 package com.ali.rnp.khodemon.DataModel;
 
-public class HourDays {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class HourDays implements Parcelable {
 
     private String dayName;
     private boolean isOpen;
@@ -65,4 +68,46 @@ public class HourDays {
     public void setPositionAdapter(int positionAdapter) {
         this.positionAdapter = positionAdapter;
     }
+
+    public HourDays(){
+
+    }
+    protected HourDays(Parcel in) {
+        dayName = in.readString();
+        isOpen = in.readByte() != 0x00;
+        positionAdapter = in.readInt();
+        hourFromOne = in.readString();
+        hourToOne = in.readString();
+        hourFromSec = in.readString();
+        hourToSec = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(dayName);
+        dest.writeByte((byte) (isOpen ? 0x01 : 0x00));
+        dest.writeInt(positionAdapter);
+        dest.writeString(hourFromOne);
+        dest.writeString(hourToOne);
+        dest.writeString(hourFromSec);
+        dest.writeString(hourToSec);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<HourDays> CREATOR = new Parcelable.Creator<HourDays>() {
+        @Override
+        public HourDays createFromParcel(Parcel in) {
+            return new HourDays(in);
+        }
+
+        @Override
+        public HourDays[] newArray(int size) {
+            return new HourDays[size];
+        }
+    };
 }

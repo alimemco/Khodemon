@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.Activities.GoogleMapsActivity" >
+    android:layoutDirection="rtl"
+    tools:context=".Views.Activities.GoogleMapsActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,6 +24,11 @@
             android:background="@color/white"
             map:titleTextColor="@color/colorPrimary">
 
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="انتخاب از روی نقشه"/>
+
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,8 +38,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintBottom_toTopOf="@+id/activity_google_maps_button_choose"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
@@ -41,17 +46,14 @@
 
     <com.ali.rnp.khodemon.MyLibrary.MyButton
         android:id="@+id/activity_google_maps_button_choose"
+        style="@style/buttonPrimaryChoose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="24dp"
-        android:text="Choose"
+        android:text="انتخاب"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toStartOf="parent" />
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/map" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

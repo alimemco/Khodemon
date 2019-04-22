@@ -154,7 +154,7 @@ public class TagChooseActivity extends AppCompatActivity {
 
 
     public void showDialog() {
-        boolean isLargeLayout = false ;
+        boolean isLargeLayout = true ;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentDialog fragmentDialog = new FragmentDialog();
 

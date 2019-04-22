@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,7 +16,8 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.UriAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
-import com.ali.rnp.khodemon.Dialogs.SuccessAddDialog;
+import com.ali.rnp.khodemon.DataModel.HourDays;
+import com.ali.rnp.khodemon.Dialogs.DialogCompleteAdd;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -434,31 +434,10 @@ public class AddRule extends AppCompatActivity implements
                 }
 
 
-               /* if (jsonObjectLocation != null) {
-                    ApiService apiService = new ApiService(AddRule.this);
-                    apiService.addLocation(jsonObjectLocation, new ApiService.OnAddLocationPeople() {
-                        @Override
-                        public void OnAdded(String result, VolleyError error) {
-                            if (result != null && error == null) {
-                                Toast.makeText(AddRule.this, result, Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(AddRule.this, MainActivity.class));
-                                finish();
-                            } else {
-                                Toast.makeText(AddRule.this, "" + error.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }*/
+
 
 
             } else if (fragment instanceof FragmentAddLevelFour) {
-               // replaceNewFragment(fragmentAddLevelFour);
-
-                //stepView.go(STEP_LEVEL_FOUR, true);
-
-
-
-
 
 
                 if (jsonObjectLocation != null) {
@@ -468,15 +447,8 @@ public class AddRule extends AppCompatActivity implements
                         public void OnAdded(String result, VolleyError error) {
                             if (result != null && error == null) {
 
-                                Toast.makeText(AddRule.this, result, Toast.LENGTH_LONG).show();
-                               /*
-                                startActivity(new Intent(AddRule.this, MainActivity.class));
-                                finish();
-                                */
-
-                                SuccessAddDialog dialog = new SuccessAddDialog();
-                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                dialog.show(ft, SuccessAddDialog.TAG);
+                                DialogCompleteAdd dialog = new DialogCompleteAdd();
+                                dialog.show(fragmentManager,"AddRule");
 
                             } else {
                                 Toast.makeText(AddRule.this, "" + error.toString(), Toast.LENGTH_SHORT).show();
@@ -538,7 +510,7 @@ public class AddRule extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i(TAG, "onActivityResult: AFTER " + requestCode + " " + resultCode);
+
 
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
 
@@ -556,7 +528,9 @@ public class AddRule extends AppCompatActivity implements
             FragmentAddLevelOne.chooseTagTextView.setText(title);
 
         } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE) {
-            Toast.makeText(this, "req: " + requestCode + " resOk" + resultCode, Toast.LENGTH_SHORT).show();
+
+
+
         } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             if (extras != null) {
@@ -593,6 +567,7 @@ public class AddRule extends AppCompatActivity implements
                 try {
                     jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_PROVINCE, provinceName);
                     jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_CITY, cityName);
+                    Toast.makeText(this, provinceName+" "+cityName, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

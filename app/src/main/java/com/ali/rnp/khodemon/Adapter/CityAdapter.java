@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ali.rnp.khodemon.DataModel.City;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.Views.Activities.CityChooseActivity;
 import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 import com.ali.rnp.khodemon.R;
@@ -106,6 +107,13 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
 
     private void sendCityData(City city) {
 
+        Intent intent = new Intent();
+        intent.putExtra(ProvidersApp.KEY_CITY_NAME, city.getCityName());
+        intent.putExtra(ProvidersApp.KEY_PROVINCE_NAME, city.getProvince());
+
+        ((Activity) context).setResult(RESULT_OK,intent);
+        ((Activity) context).finish();
+/*
         if (isFromFragmentAddTwo){
             String name = city.getProvince()+" ، "+city.getCityName();
             FragmentAddLevelTwo.chooseCityTextView.setText(name);
@@ -123,6 +131,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
         }
 
         ((Activity) context).finish();
+        */
 
     }
 

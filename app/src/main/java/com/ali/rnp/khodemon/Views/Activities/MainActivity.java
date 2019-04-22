@@ -23,8 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationCity;
-import com.ali.rnp.khodemon.Dialogs.MyDialogFragment;
-import com.ali.rnp.khodemon.Dialogs.SuccessAddDialog;
+import com.ali.rnp.khodemon.Dialogs.DialogCompleteAdd;
 import com.ali.rnp.khodemon.ExpandableRecActivity;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -147,9 +146,9 @@ public class MainActivity extends AppCompatActivity implements
                         dialog.show(ft, SuccessAddDialog.TAG);
 */
 
-                        MyDialogFragment myDialogFragment = new MyDialogFragment();
+                        DialogCompleteAdd dialogCompleteAdd = new DialogCompleteAdd();
 
-                        myDialogFragment.show(fragmentManager, "DialogFragment");
+                        dialogCompleteAdd.show(fragmentManager, "DialogFragment");
                         break;
 
                         case R.id.navigation_menu_hour_picker:
@@ -444,6 +443,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        Log.i(TAG, "onActivityResult: "+requestCode+" "+resultCode);
 
         if (resultCode == Activity.RESULT_OK){
 

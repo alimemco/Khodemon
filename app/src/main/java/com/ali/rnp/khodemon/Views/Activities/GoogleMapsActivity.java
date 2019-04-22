@@ -87,13 +87,13 @@ public class GoogleMapsActivity extends AppCompatActivity implements
         Toolbar toolbar = findViewById(R.id.activity_google_maps_Toolbar);
 
         setSupportActionBar(toolbar);
-        setTitle("انتخاب مکان");
 
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
 
 
         }

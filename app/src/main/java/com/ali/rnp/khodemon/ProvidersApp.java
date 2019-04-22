@@ -28,6 +28,8 @@ public class ProvidersApp {
 
     public static final int REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE = 752;
 
+    public static final String KEY_LIST_DAY_HOURS_CHOOSE_HOURS = "day_hour";
+
 
 
     public static final String KEY_JSON_OBJECT_GROUP_NAME= "group_name";

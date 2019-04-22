@@ -49,6 +49,7 @@
     <color name="blue_level">#29B6F6</color>
     <color name="green_light_level">#8BC34A</color>
     <color name="green_dark_level">#00C853</color>
+    <color name="success">#addb31</color>
 
     <color name="homeBlueIcon">#1bb8cb</color>
 

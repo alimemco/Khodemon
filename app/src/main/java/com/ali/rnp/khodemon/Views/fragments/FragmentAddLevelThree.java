@@ -32,7 +32,7 @@ implements TextWatcher, View.OnClickListener {
     public static MyEditText phoneEditText;
     public static MyEditText sinceEditText;
     private CardView chooseHoursCardView;
-    private MyTextView chooseHoursTextView;
+    public static MyTextView chooseHoursTextView;
 
     private Context context;
 

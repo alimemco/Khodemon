@@ -13,12 +13,10 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.DataGenerator;
 import com.ali.rnp.khodemon.DataModel.HourDays;
-import com.ali.rnp.khodemon.DataModel.IsSelected;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -57,6 +55,8 @@ public void setData(List<HourDays> hourDaysList) {
 
     @Override
     public void onBindViewHolder(@NonNull HoursViewHolder holder, int position) {
+
+
 
 
         holder.dayTextView.setText(hourDaysList.get(position).getDayName());
