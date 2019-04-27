@@ -7,7 +7,7 @@ public class HourDays implements Parcelable {
 
     private String dayName;
     private boolean isOpen;
-    private int positionAdapter;
+
     private String hourFromOne;
     private String hourToOne;
     private String hourFromSec;
@@ -61,21 +61,12 @@ public class HourDays implements Parcelable {
         isOpen = open;
     }
 
-    public int getPositionAdapter() {
-        return positionAdapter;
-    }
-
-    public void setPositionAdapter(int positionAdapter) {
-        this.positionAdapter = positionAdapter;
-    }
-
     public HourDays(){
 
     }
     protected HourDays(Parcel in) {
         dayName = in.readString();
         isOpen = in.readByte() != 0x00;
-        positionAdapter = in.readInt();
         hourFromOne = in.readString();
         hourToOne = in.readString();
         hourFromSec = in.readString();
@@ -91,7 +82,6 @@ public class HourDays implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(dayName);
         dest.writeByte((byte) (isOpen ? 0x01 : 0x00));
-        dest.writeInt(positionAdapter);
         dest.writeString(hourFromOne);
         dest.writeString(hourToOne);
         dest.writeString(hourFromSec);

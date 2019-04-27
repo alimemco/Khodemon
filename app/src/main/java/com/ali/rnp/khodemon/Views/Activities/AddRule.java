@@ -567,7 +567,6 @@ public class AddRule extends AppCompatActivity implements
                 try {
                     jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_PROVINCE, provinceName);
                     jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_CITY, cityName);
-                    Toast.makeText(this, provinceName+" "+cityName, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

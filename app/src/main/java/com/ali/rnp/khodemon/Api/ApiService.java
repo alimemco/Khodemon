@@ -455,7 +455,7 @@ public class ApiService {
                 }
 
 
-                SingleCheckItemsExp makeSingleCheckChild = new SingleCheckItemsExp(provinceName, makeChild, R.drawable.ic_province);
+                SingleCheckItemsExp makeSingleCheckChild = new SingleCheckItemsExp(provinceName, makeChild, R.drawable.ic_placeholder);
                 makeSingleCheckParent.add(makeSingleCheckChild);
 
 
