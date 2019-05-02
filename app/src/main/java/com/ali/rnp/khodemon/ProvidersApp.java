@@ -31,6 +31,12 @@ public class ProvidersApp {
     public static final String KEY_LIST_DAY_HOURS_CHOOSE_HOURS = "day_hour";
 
 
+    public static final String KEY_PICTURE_UPLOAD_POST_ID = "Post_ID";
+    public static final String KEY_PICTURE_UPLOAD_IS_ORIGINAL = "is_original";
+    public static final String KEY_PICTURE_UPLOAD_PIC_ID = "pic_id";
+    public static final String KEY_PICTURE_UPLOAD_PIC_ADDRESS = "pic_address";
+
+
 
     public static final String KEY_JSON_OBJECT_GROUP_NAME= "group_name";
     public static final String KEY_JSON_OBJECT_LOCATION_NAME= "nameLocPeo";

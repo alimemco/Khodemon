@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.ali.rnp.khodemon.Adapter.UriAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.HourDays;
+import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.Dialogs.DialogCompleteAdd;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -51,7 +52,8 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class AddRule extends AppCompatActivity implements
         View.OnClickListener,
-        FragmentAddLevelOne.OnViewClickListener {
+        FragmentAddLevelOne.OnViewClickListener,
+ApiService.OnAddPictures{
 
     private RecyclerView recyclerView;
     private UriAdapter mAdapter;
@@ -88,6 +90,7 @@ public class AddRule extends AppCompatActivity implements
     private boolean inProgressUpload = false;
 
     private List<String> imageUrlList;
+    private List<PictureUpload> pictureUploadList;
 
     private String originalPhotoUrl;
 
@@ -199,6 +202,7 @@ public class AddRule extends AppCompatActivity implements
     private void uploadImage() {
 
         imageUrlList = new ArrayList<>();
+        pictureUploadList = new ArrayList<>();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -218,35 +222,42 @@ public class AddRule extends AppCompatActivity implements
                 percentageToolbarTextView.setText("0%");
 
                 try {
-
+                    //int pic_id = -2 ;
                     for (int i = 0; i < contentURIs.size(); i++) {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), contentURIs.get(i));
-                        String imageName = getFileName(contentURIs.get(i));
+
+
+                        PictureUpload pictureUpload = new PictureUpload();
+                        pictureUpload.setPic_id(i);
+                        pictureUpload.setPic_name(getFileName(contentURIs.get(i)));
+                        pictureUpload.setIs_original(i == 0 ? 1 : 0);
+
+                        pictureUploadList.add(pictureUpload);
+/*
                         String originalImageName = "";
+
                         if (i == 0) {
                             originalImageName = imageName;
                         }
-
+*/
 
                         ApiService apiService = new ApiService(AddRule.this);
-                        String finalOriginalImageName = originalImageName;
-                        apiService.uploadImage(bitmap, imageName, groupName, currentPhoto, allPhoto, new ApiService.OnUploadedPhoto() {
+                       // String finalOriginalImageName = originalImageName;
+                        apiService.uploadImage(bitmap, pictureUploadList.get(i).getPic_name(),pictureUploadList.get(i).getPic_id(), groupName,currentPhoto, allPhoto, new ApiService.OnUploadedPhoto() {
                             @Override
-                            public void OnUploadPhoto(String imageUrl, int currentPhotoNum, VolleyError error) {
+                            public void OnUploadPhoto(String imageUrl,int pic_id,int success, int currentPhotoNum, VolleyError error) {
 
                                 inProgressUpload = false;
                                 imageUrlList.add(imageUrl);
 
 
-                                String urlCheck = isOriginalImage(imageUrl, finalOriginalImageName);
-                                if (!urlCheck.equals("")) {
-                                    originalPhotoUrl = imageUrl;
+                                if (currentPhotoNum != -1 && success == 1 && error == null) {
 
-                                }
+                                    String urlCheck = isOriginalImage(imageUrl, pictureUploadList.get(0).getPic_name());
+                                    if (!urlCheck.equals("")) {
+                                        originalPhotoUrl = imageUrl;
 
-
-                                if (currentPhotoNum != -1 && error == null) {
-
+                                    }
                                     int progress = ((currentPhoto * 100) / allPhoto);
 
                                     String imagesCount = currentPhoto + "/" + allPhoto;
@@ -254,6 +265,12 @@ public class AddRule extends AppCompatActivity implements
                                     String percentage = progress + "%";
                                     levelToolbarTextView.setText(imagesCount);
                                     percentageToolbarTextView.setText(percentage);
+
+
+                                    pictureUpload.setPic_address(imageUrl);
+
+                                    pictureUploadList.set(pic_id,pictureUpload);
+
 
                                     if (currentPhoto == allPhoto) {
                                         levelToolbarTextView.setText(String.valueOf(allPhoto));
@@ -266,7 +283,14 @@ public class AddRule extends AppCompatActivity implements
                                         isUploadPhotosSuccess = true;
 
                                         try {
+
+
+
                                             jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_ORIGINAL_IMAGE, originalPhotoUrl);
+
+
+
+
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -276,7 +300,7 @@ public class AddRule extends AppCompatActivity implements
 
                                     currentPhoto++;
                                 } else if (error != null) {
-                                    Toast.makeText(AddRule.this, error.toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AddRule.this, success+" "+error.toString(), Toast.LENGTH_LONG).show();
                                 }
 
                             }
@@ -447,11 +471,33 @@ public class AddRule extends AppCompatActivity implements
                         public void OnAdded(String result, VolleyError error) {
                             if (result != null && error == null) {
 
+                                Toast.makeText(AddRule.this, result, Toast.LENGTH_LONG).show();
+                                Log.i(TAG, "OnAdded: RES "+result);
+
+                                for (int i = 0; i < pictureUploadList.size(); i++) {
+
+                                    try {
+                                        JSONObject jsonObjectPic = new JSONObject();
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_POST_ID,Integer.parseInt(result));
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_IS_ORIGINAL,pictureUploadList.get(i).getIs_original());
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_PIC_ID, pictureUploadList.get(i).getPic_id());
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_PIC_ADDRESS,pictureUploadList.get(i).getPic_address());
+
+                                        apiService.addPicture(jsonObjectPic,AddRule.this);
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+
+
                                 DialogCompleteAdd dialog = new DialogCompleteAdd();
                                 dialog.show(fragmentManager,"AddRule");
 
                             } else {
-                                Toast.makeText(AddRule.this, "" + error.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddRule.this,  error.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -585,4 +631,10 @@ public class AddRule extends AppCompatActivity implements
     }
 
 
+    @Override
+    public void OnAddPicture(String result, VolleyError error) {
+        if (result != null && error == null){
+            Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        }
+    }
 }

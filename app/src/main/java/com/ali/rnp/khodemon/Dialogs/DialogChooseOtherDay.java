@@ -24,14 +24,17 @@ public class DialogChooseOtherDay extends FragmentDialog {
     private CheckBox checkBox;
     private Context context;
 
-    private List<HourDays> hourDaysList;
+    private OnSelectCheckBoxDialog onSelectCheckBoxDialog;
+
+
 
     public DialogChooseOtherDay() {
         // Required empty public constructor
     }
 
-    public void setData(List<HourDays> hourDaysList){
-        this.hourDaysList = hourDaysList;
+
+    public void setOnSelectCheckBoxDialog(OnSelectCheckBoxDialog onSelectCheckBoxDialog){
+        this.onSelectCheckBoxDialog = onSelectCheckBoxDialog;
     }
 
 
@@ -49,6 +52,12 @@ public class DialogChooseOtherDay extends FragmentDialog {
         View rootView = inflater.inflate(R.layout.dialog_choose_other_day, container, false);
 
         initView(rootView);
+
+        if (getDialog() != null){
+            if (getDialog().getWindow()!=null){
+                getDialog().getWindow().setBackgroundDrawableResource(R.drawable.shape_background_dialog_fragment);
+            }
+        }
         return rootView;
     }
 
@@ -58,10 +67,11 @@ public class DialogChooseOtherDay extends FragmentDialog {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                HoursAdapter hoursAdapter = new HoursAdapter(context);
-                hoursAdapter.setData(hourDaysList);
 
-                hoursAdapter.setDaysSelected(checkBox.isChecked());
+
+                if (onSelectCheckBoxDialog != null){
+                    onSelectCheckBoxDialog.OnSelected();
+                }
                 dismiss();
             }
         });
@@ -74,5 +84,9 @@ public class DialogChooseOtherDay extends FragmentDialog {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+    public interface OnSelectCheckBoxDialog{
+        void OnSelected();
     }
 }

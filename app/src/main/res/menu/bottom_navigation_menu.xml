@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="ارتباط با تیم توسعه دهنده"
-        android:id="@+id/bottom_navigation_userManagement"
+        android:id="@+id/navigation_menu_userManagement"
         android:icon="@drawable/ic_house" />
 
     <item
@@ -43,5 +43,10 @@
     <item
         android:title="آزمایشگاه chooseCity"
         android:id="@+id/navigation_menu_chooseCity"
+        android:icon="@drawable/ic_padlock" />
+
+    <item
+        android:title="آزمایشگاه Bottom Navigation"
+        android:id="@+id/navigation_menu_btv"
         android:icon="@drawable/ic_padlock" />
 </menu>

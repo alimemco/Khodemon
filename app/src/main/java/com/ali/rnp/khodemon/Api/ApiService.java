@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.City;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
@@ -44,6 +45,7 @@ public class ApiService {
     private final static String API_GET_TAGS = "http://khodemon.ir/json/Tags.json";
 
     private final static String API_UPLOAD_PHOTOS = "http://khodemon.ir/upload_images.php";
+    private final static String API_ADD_PICTURE = "http://khodemon.ir/addPictures.php";
 
     private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
 
@@ -213,7 +215,7 @@ public class ApiService {
         requestQueue.add(request);
     }
 
-    public void uploadImage(Bitmap bitmap,String ImageName,String groupName, final int currentPhoto, int allPhoto, OnUploadedPhoto onUploadedPhoto) {
+    public void uploadImage(Bitmap bitmap,String ImageName,int pic_id,String groupName, final int currentPhoto, int allPhoto, OnUploadedPhoto onUploadedPhoto) {
 
 
         try {
@@ -223,6 +225,7 @@ public class ApiService {
             //jsonObject.put("id",currentPhoto);
             jsonObjectPhoto.put("name", ImageName);
             jsonObjectPhoto.put("group", groupName);
+            jsonObjectPhoto.put("pic_id", pic_id);
             jsonObjectPhoto.put("image", bitmapToString(bitmap));
 
         } catch (JSONException e) {
@@ -232,16 +235,18 @@ public class ApiService {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        //  rQueue.getCache().clear();
 
-                        // int cu = jsonObject.getInt("currentPhoto");
-
-
+                        Log.i(TAG, "onResponse: "+jsonObject.toString());
                         try {
                             JSONObject jsonObjectPhoto = new JSONObject(jsonObject.toString());
-                            String imageUrl = jsonObjectPhoto.getString("url");
+                            if (jsonObjectPhoto.getInt("success") == 1){
+                                String imageUrl = jsonObjectPhoto.getString("url");
+                                int pic_id_get = jsonObjectPhoto.getInt("pic_id");
+                                int success = jsonObjectPhoto.getInt("success");
 
-                            onUploadedPhoto.OnUploadPhoto(imageUrl,currentPhoto, null);
+                                onUploadedPhoto.OnUploadPhoto(imageUrl,pic_id_get,success,currentPhoto, null);
+                            }
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -256,8 +261,8 @@ public class ApiService {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e(TAG, volleyError.toString());
-                onUploadedPhoto.OnUploadPhoto(null,-1, volleyError);
+                Log.i(TAG, volleyError.toString());
+                onUploadedPhoto.OnUploadPhoto(null,-1,0,-1, volleyError);
 
             }
         });
@@ -291,6 +296,25 @@ public class ApiService {
                 onAddLocationPeople.OnAdded(null,error);
             }
         });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(context).add(request);
+    }
+
+    public void addPicture(JSONObject jsonObject,OnAddPictures onAddPictures){
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_ADD_PICTURE, jsonObject, response -> {
+
+            try {
+                JSONObject jsonObjectResponse = new JSONObject(response.toString());
+                String res = jsonObjectResponse.getString("result");
+                onAddPictures.OnAddPicture(res,null);
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+
+            }
+
+        }, error -> onAddPictures.OnAddPicture(null,error));
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
@@ -574,11 +598,15 @@ public class ApiService {
     }
 
     public interface OnUploadedPhoto {
-        void OnUploadPhoto(String imageUrl,int currentPhotoNum, VolleyError error);
+        void OnUploadPhoto(String imageUrl,int pic_id,int success,int currentPhotoNum, VolleyError error);
     }
 
     public interface OnAddLocationPeople {
         void OnAdded(String result, VolleyError error);
+    }
+
+    public interface OnAddPictures {
+        void OnAddPicture(String result, VolleyError error);
     }
 
 

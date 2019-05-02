@@ -24,7 +24,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.ali.rnp.khodemon"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -85,5 +85,10 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha03'
 
     implementation 'com.shuhart.stepview:stepview:1.4.0'
+
+    implementation 'com.etebarian:meow-bottom-navigation:1.0.1'
+    implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.4'
+
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
 
 }

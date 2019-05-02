@@ -14,18 +14,15 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.DataGenerator;
 import com.ali.rnp.khodemon.DataModel.HourDays;
-import com.ali.rnp.khodemon.Dialogs.DialogChooseOtherDay;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activities.HoursChooseActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHolder> {
@@ -45,6 +42,7 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
     }
 
     public void setData(List<HourDays> hourDaysList) {
+        this.hourDaysList = new ArrayList<>();
         this.hourDaysList = hourDaysList;
         notifyDataSetChanged();
     }
@@ -72,23 +70,37 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
 
         holder.dayTextView.setText(hourDaysList.get(position).getDayName());
 
+        holder.dayCheckBox.setOnCheckedChangeListener(null);
+        setupDayCheckBox(holder, position);
+        if (!holder.dayCheckBox.isChecked()) {
+            holder.dayCheckBox.setChecked(hourDaysList.get(position).isOpen());
+            Log.i(TAG, "onBindViewHolder: OK "+position);
+        }else {
+            Log.i(TAG, "onBindViewHolder: NO "+position);
+
+        }
+
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
                 if (!hourDaysList.get(position).isOpen()) {
                     holder.dayCheckBox.setChecked(true);
+
                 } else {
                     holder.dayCheckBox.setChecked(false);
                 }
 
-
             }
         });
 
+
         setupShiftSwitch(holder);
         setup24hourCheckBox(holder);
-        setupDayCheckBox(holder, position);
+
 
         setupClick(position, holder.hoursSpinnerFrom,
                 holder.hoursSpinnerTo,
@@ -99,13 +111,47 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
     }
 
     private void setupClick(int positionRec, Spinner... spinners) {
+        int index = 0 ;
         for (Spinner spin : spinners) {
+
+            switch (spin.getId()){
+
+                case R.id.recyclerView_item_hours_spinner_hours_from:
+                    index = DataGenerator.hoursFrom().indexOf(hourDaysList.get(positionRec).getHourFromOne());
+                    spin.setSelection(index == -1 ? 0 : index );
+
+                    break;
+
+                case R.id.recyclerView_item_hours_spinner_hours_to:
+                    index = DataGenerator.hoursFrom().indexOf(hourDaysList.get(positionRec).getHourToOne());
+                    spin.setSelection(index == -1 ? 0 : index );
+                    break;
+
+
+                case R.id.recyclerView_item_hours_spinner_hours_second_from:
+                    index = DataGenerator.hoursFrom().indexOf(hourDaysList.get(positionRec).getHourFromSec());
+                    spin.setSelection(index == -1 ? 0 : index );
+
+                    break;
+
+                case R.id.recyclerView_item_hours_spinner_hours_second_to:
+                    index = DataGenerator.hoursFrom().indexOf(hourDaysList.get(positionRec).getHourToSec());
+                    spin.setSelection(index == -1 ? 0 : index );
+
+                    break;
+
+
+            }
+
+
+
+
             spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                 @Override
                 public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
                     if (position > 0) {
-                        hourDays = new HourDays();
+                       // hourDays = new HourDays();
 
 
                         switch (spin.getId()) {
@@ -114,16 +160,47 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
                                 Toast.makeText(context, "FromOne -> positionRec:(" + positionRec + ") \n" +
                                         "selected:(" + adapter.getItem(position) + ")", Toast.LENGTH_LONG).show();
 
-                                hourDays.setHourFromOne(adapter.getItem(position));
+                                //hourDays.setHourFromOne(adapter.getItem(position));
+                                hourDaysList.get(positionRec).setHourFromOne(adapter.getItem(position));
+                                //setDaysSelected();
+
+                                /*
+                                DialogChooseOtherDay dialog = new DialogChooseOtherDay();
+                                FragmentManager fragmentManager = ((HoursChooseActivity)context).getSupportFragmentManager();
+
+                                dialog.setOnSelectCheckBoxDialog(new DialogChooseOtherDay.OnSelectCheckBoxDialog() {
+                                    @Override
+                                    public void OnSelected() {
+                                   // setDaysSelected(true);
 
 
+                                        hourDays.setOpen(true);
+                                        hourDays.setDayName("یکشنبه تغییر یافت");
+
+
+                                       // hourDaysList.get(1).setDayName("یکشنبه تغییر یافت");
+                                        hourDaysList.get(1).setOpen(true);
+                                        hourDaysList.get(1).setDayName("یکشنبه تغییر یافت");
+
+
+                                    notifyDataSetChanged();
+                                     }
+                                });
+
+                                dialog.show(fragmentManager,"test" );
+
+*/
                                 break;
 
                             case R.id.recyclerView_item_hours_spinner_hours_to:
 
                                 Toast.makeText(context, "ToOne -> positionRec:(" + positionRec + ") \n" +
                                         "selected:(" + adapter.getItem(position) + ")", Toast.LENGTH_LONG).show();
-                                hourDays.setHourToOne(adapter.getItem(position));
+                               // hourDays.setHourToOne(adapter.getItem(position));
+                                hourDaysList.get(positionRec).setHourToOne(adapter.getItem(position));
+
+
+                                //setDaysSelected(true);
 
                                 break;
 
@@ -131,7 +208,9 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
 
                                 Toast.makeText(context, "FromSec -> positionRec:(" + positionRec + ") \n" +
                                         "selected:(" + adapter.getItem(position) + ")", Toast.LENGTH_LONG).show();
-                                hourDays.setHourFromSec(adapter.getItem(position));
+                               // hourDays.setHourFromSec(adapter.getItem(position));
+                                hourDaysList.get(positionRec).setHourFromSec(adapter.getItem(position));
+
                                 break;
 
 
@@ -139,20 +218,16 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
 
                                 Toast.makeText(context, "ToSec -> positionRec:(" + positionRec + ") \n" +
                                         "selected:(" + adapter.getItem(position) + ")", Toast.LENGTH_LONG).show();
-                                hourDays.setHourToSec(adapter.getItem(position));
+                                //hourDays.setHourToSec(adapter.getItem(position));
+                                hourDaysList.get(positionRec).setHourToSec(adapter.getItem(position));
 
-
-                                DialogChooseOtherDay dialog = new DialogChooseOtherDay();
-                                dialog.setData(hourDaysList);
-                                FragmentManager fragmentManager = ((HoursChooseActivity)context).getSupportFragmentManager();
-                                dialog.show(fragmentManager,"test" );
 
 
                                 break;
                         }
 
 
-                        hourDaysList.set(positionRec, hourDays);
+                       // hourDaysList.set(positionRec, hourDays);
                     }
                 }
 
@@ -166,6 +241,8 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
 
 
     private void setupDayCheckBox(HoursViewHolder holder, int position) {
+
+
         holder.dayCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -193,6 +270,8 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
                     holder.closeTextView.setText(R.string.day_close);
                     holder.closeTextView.setTextColor(ContextCompat.getColor(context, R.color.red300));
                 }
+
+
 
                 if (onItemSelected != null) {
                     onItemSelected.OnSelected(
@@ -292,12 +371,7 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
             setupSpinners(hoursSpinnerSecTo, DataGenerator.hoursTo());
 
 
-
-
         }
-
-
-
 
 
     }
@@ -313,55 +387,6 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
         adapter.setSpinnerView(hoursSpinner);
 
         hoursSpinner.setAdapter(adapter);
-
-/*
-        hoursSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
-                if (position > 0) {
-
-
-
-                   // Toast.makeText(context, adapter.getItem(position)+" -> "+adapter.getSpinnerView().getId(), Toast.LENGTH_SHORT).show();
-
-                    switch (adapter.getSpinnerView().getId()){
-                        case R.id.recyclerView_item_hours_spinner_hours_from:
-                            Toast.makeText(context, "from One "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
-
-
-                            hourDays.setHourFromOne(adapter.getItem(position));
-
-                            break;
-
-                        case R.id.recyclerView_item_hours_spinner_hours_to:
-                            Toast.makeText(context, "to One "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
-                            hourDays.setHourToOne(adapter.getItem(position));
-
-                            break;
-
-                        case R.id.recyclerView_item_hours_spinner_hours_second_from:
-                            Toast.makeText(context, "from two "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
-                            hourDays.setHourFromSec(adapter.getItem(position));
-                            break;
-
-
-                        case R.id.recyclerView_item_hours_spinner_hours_second_to:
-                            Toast.makeText(context, "to two "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
-                            hourDays.setHourToSec(adapter.getItem(position));
-                            break;
-                    }
-
-                    hourDaysList.set(dayPosition, hourDays);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-
-            }
-        });
-*/
 
     }
 
@@ -380,17 +405,32 @@ public class HoursAdapter extends RecyclerView.Adapter<HoursAdapter.HoursViewHol
     }
 
 
-    public void setDaysSelected(boolean isChecked){
-        if (hourDaysList != null){
-            hourDaysList.get(0).setOpen(isChecked);
-            hourDaysList.get(0).setDayName("test");
-            notifyItemChanged(0);
+    public void setDaysSelected() {
+        if (hourDaysList != null) {
+
+
+           // hourDaysList.get(1).setOpen(true);
+            hourDaysList.get(1).setDayName("یکشنبه تغییر یافت");
+
         }
+        notifyDataSetChanged();
 
 
     }
 
-
+    public void showDataList() {
+      /*
+        for (int i = 0; i < hourDaysList.size(); i++) {
+            Log.i(TAG,
+                    "\n DAY: " + hourDaysList.get(i).getDayName() +
+                    "\n FROM ONE: " + hourDaysList.get(i).getHourFromOne() +
+                    "\n TO ONE: " + hourDaysList.get(i).getHourToOne() +
+                    "\n FROM SEC: " + hourDaysList.get(i).getHourFromSec() +
+                    "\n TO SEC: " + hourDaysList.get(i).getHourToSec());
+        }
+        */
+      notifyDataSetChanged();
+    }
 
     public interface OnItemSelected {
         void OnSelected(boolean isChecked, String day);

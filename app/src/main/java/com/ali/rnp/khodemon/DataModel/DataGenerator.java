@@ -166,18 +166,7 @@ public class DataGenerator {
     public static List<HourDays> hourDaysList() {
 
         List<HourDays> hourDaysList = new ArrayList<>();
-        /*
-        HourDays hourDays = new HourDays();
-        hourDays.setDayName("شنبه");
-        hourDays.setDayName("یک شنبه");
-        hourDays.setDayName("دو شنبه");
-        hourDays.setDayName("سه شنبه");
-        hourDays.setDayName("چهار شنبه");
-        hourDays.setDayName("پنج شنبه");
-        hourDays.setDayName("جمعه");
 
-        hourDaysList.add(hourDays);
-        */
         for (int i = 0; i < 7 ; i++) {
             HourDays hourDays = new HourDays();
             switch (i){

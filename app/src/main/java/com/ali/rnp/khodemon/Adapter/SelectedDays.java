@@ -31,8 +31,12 @@ public class SelectedDays extends RecyclerView.Adapter<SelectedDays.SelectedDays
     }
 
     public void addItem (String item){
-        daysSelectedList.add(0,item);
-        notifyItemInserted(0);
+
+                daysSelectedList.add(0,item);
+                notifyItemInserted(0);
+
+
+
     }
 
     public int removeItem(String item){

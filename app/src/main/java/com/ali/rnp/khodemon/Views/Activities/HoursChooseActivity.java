@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.HoursAdapter;
 import com.ali.rnp.khodemon.Adapter.SelectedDays;
@@ -89,9 +90,11 @@ public class HoursChooseActivity extends AppCompatActivity {
 
         hoursAdapter.setOnItemSelected((isChecked, day) -> {
 
+
             if (isChecked){
                 selectedDaysAdapter.addItem(day);
                 recyclerViewSelectedDays.scrollToPosition(0);
+
 
             }else {
                 int index = selectedDaysAdapter.removeItem(day);
@@ -137,7 +140,7 @@ public class HoursChooseActivity extends AppCompatActivity {
                 }
 
 
-                FragmentAddLevelThree.chooseHoursTextView.setText(names.toString());
+                 FragmentAddLevelThree.chooseHoursTextView.setText(names.toString());
                 /*
                 Toast.makeText(HoursChooseActivity.this, ""+hoursAdapter.getData().get(0).getHourFromOne(), Toast.LENGTH_SHORT).show();
 
@@ -150,6 +153,10 @@ public class HoursChooseActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK,intent);*/
 
                 finish();
+
+                //hoursAdapter.setDaysSelected(true);
+                //hoursAdapter.showDataList();
+
             }
         });
 

@@ -44,6 +44,8 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
@@ -108,8 +110,6 @@ public class MainActivity extends AppCompatActivity implements
         SetupCityFromSharedPref();
         SetupNavigationView();
 
-
-
         Fabric.with(this, new Crashlytics());
 
         FcmSetup();
@@ -129,8 +129,17 @@ public class MainActivity extends AppCompatActivity implements
 
                 switch (item.getItemId()){
 
-                    case R.id.navigation_menu_about:
+                    case R.id.navigation_menu_userManagement:
+                        startActivity(new Intent(MainActivity.this,TestActivity.class));
                         Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.navigation_menu_about:
+                       // Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, DetailActivity.class));
+
+
+
                         break;
 
                     case R.id.navigation_menu_places:
@@ -139,18 +148,14 @@ public class MainActivity extends AppCompatActivity implements
                         break;
 
                     case R.id.navigation_menu_bottomNav:
-                        //startActivity(new Intent(MainActivity.this,TestActivity.class));
-                        /*
-                        SuccessAddDialog dialog = new SuccessAddDialog();
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        dialog.show(ft, SuccessAddDialog.TAG);
-*/
+                        startActivity(new Intent(MainActivity.this,TestActivity.class));
 
+/*
                         DialogCompleteAdd dialogCompleteAdd = new DialogCompleteAdd();
 
                         dialogCompleteAdd.show(fragmentManager, "DialogFragment");
                         break;
-
+*/
                         case R.id.navigation_menu_hour_picker:
                         startActivity(new Intent(MainActivity.this,HoursChooseActivity.class));
 
@@ -171,8 +176,19 @@ public class MainActivity extends AppCompatActivity implements
                         case R.id.navigation_menu_chooseCity:
 
                         //startActivity(new Intent(MainActivity.this, CityChooseActivityNew.class));
-                        showDialog();
+                       // showDialog();
+                            DialogCompleteAdd dialogCompleteAdd = new DialogCompleteAdd();
+
+                            dialogCompleteAdd.show(fragmentManager, "DialogFragment");
                         break;
+
+                        case R.id.navigation_menu_btv:
+
+                        startActivity(new Intent(MainActivity.this, BottomNavActivity.class));
+
+                        break;
+
+
                 }
 
                 return false;
@@ -258,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements
                         //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
-/*
+
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -274,11 +290,11 @@ public class MainActivity extends AppCompatActivity implements
                         // Log and toast
                         String msg = getString(R.string.msg_token_fmt, token);
                         Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
 
-        */
+
     }
 
     private void SetupCityFromSharedPref() {
