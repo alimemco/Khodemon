@@ -1,6 +1,9 @@
 package com.ali.rnp.khodemon.DataModel;
 
-public class LocationPeople {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class LocationPeople implements Parcelable {
 
     private int id;
     private String name;
@@ -105,4 +108,51 @@ public class LocationPeople {
     public void setProvince(String province) {
         this.province = province;
     }
+
+    protected LocationPeople(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        group = in.readString();
+        city = in.readString();
+        province = in.readString();
+        tag = in.readString();
+        work_experience = in.readInt();
+        experts = in.readString();
+        ownerSeller = in.readString();
+        address = in.readString();
+        originalPic = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(group);
+        dest.writeString(city);
+        dest.writeString(province);
+        dest.writeString(tag);
+        dest.writeInt(work_experience);
+        dest.writeString(experts);
+        dest.writeString(ownerSeller);
+        dest.writeString(address);
+        dest.writeString(originalPic);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<LocationPeople> CREATOR = new Parcelable.Creator<LocationPeople>() {
+        @Override
+        public LocationPeople createFromParcel(Parcel in) {
+            return new LocationPeople(in);
+        }
+
+        @Override
+        public LocationPeople[] newArray(int size) {
+            return new LocationPeople[size];
+        }
+    };
 }

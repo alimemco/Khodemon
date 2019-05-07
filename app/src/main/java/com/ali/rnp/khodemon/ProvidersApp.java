@@ -37,6 +37,15 @@ public class ProvidersApp {
     public static final String KEY_PICTURE_UPLOAD_PIC_ADDRESS = "pic_address";
 
 
+    public static final String KEY_POST_ID = "Post_ID";
+
+    public static final String KEY_ITEM_LOCATION_PEOPLE = "LOCATION_PEOPLE";
+    public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";
+
+    public static final String KEY_BUNDLE_IMG = "IMAGE";
+    public static final String KEY_BUNDLE_POSITION = "POSITION";
+    public static final String KEY_BUNDLE_IMG_LIST = "IMAGE_LIST";
+
 
     public static final String KEY_JSON_OBJECT_GROUP_NAME= "group_name";
     public static final String KEY_JSON_OBJECT_LOCATION_NAME= "nameLocPeo";

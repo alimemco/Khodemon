@@ -58,7 +58,7 @@ public class MultiTypeCheckGenreAdapter
         View view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.list_item_singlecheck_arist, parent, false);
         SingleCheckArtistViewHolder holder = new SingleCheckArtistViewHolder(view);
-        //Todo change constrator
+
         holder.setOnChildCheckedListener(this);
         return holder;
       default:

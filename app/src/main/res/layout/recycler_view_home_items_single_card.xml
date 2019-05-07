@@ -19,7 +19,8 @@
             android:layout_height="match_parent"
             android:src="@drawable/holder_banner"
             android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            tools:targetApi="lollipop" />
 
 
     </androidx.cardview.widget.CardView>

@@ -3,6 +3,7 @@ package com.ali.rnp.khodemon.Views.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.LinearSingleAdapter;
-import com.ali.rnp.khodemon.Adapter.LocationPeopleAdapter;
 import com.ali.rnp.khodemon.Adapter.SingleItemAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
@@ -23,16 +22,15 @@ import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Views.Activities.DetailActivity;
 import com.ali.rnp.khodemon.Views.Activities.MainActivity;
-import com.android.volley.VolleyError;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -47,7 +45,6 @@ import ss.com.bannerslider.Slider;
 
 public class FragmentHome extends Fragment implements
         View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener,
         LinearSingleAdapter.ItemClickListenerRecyclerList
 {
 
@@ -58,7 +55,6 @@ public class FragmentHome extends Fragment implements
     private RecyclerView recyclerView;
     private ImageView locationImageView;
     private AHBottomNavigation bottomNavigation;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private CardView peopleCardView;
     private CardView locationCardView;
 
@@ -128,7 +124,10 @@ public class FragmentHome extends Fragment implements
 
     private void SetupFragments() {
 
-        fragmentManager = getActivity().getSupportFragmentManager();
+        if (getActivity() != null ){
+            fragmentManager = getActivity().getSupportFragmentManager();
+        }
+
         fragmentGroup = FragmentGroup.newInstance();
 
     }
@@ -137,18 +136,6 @@ public class FragmentHome extends Fragment implements
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context,RecyclerView.VERTICAL,false));
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Log.i(TAG, "\n dx "+dx+"\n dy" +dy);
-            }
-        });
 
 
         ApiService apiService = new ApiService(context);
@@ -164,8 +151,9 @@ public class FragmentHome extends Fragment implements
                 Activity activity = getActivity();
 
                 if (activity != null && homeLists != null && locationPeopleList != null){
-                    singleItemAdapter.setListDataForAdapter(locationPeopleList);
+                   // singleItemAdapter.setListDataForAdapter(locationPeopleList);
                     linearSingleAdapter.setListDataForAdapter(homeLists);
+
                     recyclerView.setAdapter(linearSingleAdapter);
 
 
@@ -195,7 +183,7 @@ public class FragmentHome extends Fragment implements
     private void initViews(View rootView) {
 
         recyclerView = rootView.findViewById(R.id.fragment_home_recyclerView_homeItems);
-        swipeRefreshLayout = rootView.findViewById(R.id.fragment_home_swipeRefreshLayout);
+       // swipeRefreshLayout = rootView.findViewById(R.id.fragment_home_swipeRefreshLayout);
         searchEditText = rootView.findViewById(R.id.fragment_home_editText_search);
         progressBar = rootView.findViewById(R.id.fragment_home_progress_bar);
         locationCardView = rootView.findViewById(R.id.fragment_home_location_cardView);
@@ -206,13 +194,7 @@ public class FragmentHome extends Fragment implements
 
         bottomNavigation = getActivity().findViewById(R.id.bottom_navigation);
 
-        swipeRefreshLayout.setColorSchemeColors(
-                ResourcesCompat.getColor(getResources(),R.color.colorPrimary,null),
-                ResourcesCompat.getColor(getResources(),R.color.price_red,null),
-                ResourcesCompat.getColor(getResources(),R.color.price_green,null));
 
-
-        swipeRefreshLayout.setOnRefreshListener(this);
 
         searchEditText.setOnClickListener(this);
 
@@ -246,34 +228,7 @@ public class FragmentHome extends Fragment implements
 
 
 
-    @Override
-    public void onRefresh() {
 
-
-        ApiService apiService = new ApiService(context);
-        apiService.getHomeItems(new ApiService.OnHomeItemReceived() {
-            @Override
-            public void onItemReceived(List<LocationPeople> locationPeopleList,VolleyError error) {
-
-                // TODO add if activity != null
-
-                swipeRefreshLayout.setRefreshing(false);
-
-                if (locationPeopleList != null ){
-                    LocationPeopleAdapter locationPeopleAdapter = new LocationPeopleAdapter(context);
-                    locationPeopleAdapter.setListDataForAdapter(locationPeopleList);
-                    recyclerView.setAdapter(locationPeopleAdapter);
-                }else {
-                    Toast.makeText(context, "Error Connection", Toast.LENGTH_SHORT).show();
-
-                }
-
-
-
-            }
-        });
-
-    }
 
     @Override
     public void onClick(View v) {

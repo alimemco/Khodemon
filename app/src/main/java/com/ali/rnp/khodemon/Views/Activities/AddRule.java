@@ -230,7 +230,7 @@ ApiService.OnAddPictures{
                         PictureUpload pictureUpload = new PictureUpload();
                         pictureUpload.setPic_id(i);
                         pictureUpload.setPic_name(getFileName(contentURIs.get(i)));
-                        pictureUpload.setIs_original(i == 0 ? 1 : 0);
+                        pictureUpload.setIs_original(i == 0);
 
                         pictureUploadList.add(pictureUpload);
 /*
@@ -262,7 +262,10 @@ ApiService.OnAddPictures{
 
                                     String imagesCount = currentPhoto + "/" + allPhoto;
 
-                                    String percentage = progress + "%";
+                                  //  String percentage = progress + "%";
+                                    StringBuilder percentage = new StringBuilder();
+                                    percentage.append(progress);
+                                    percentage.append("%");
                                     levelToolbarTextView.setText(imagesCount);
                                     percentageToolbarTextView.setText(percentage);
 

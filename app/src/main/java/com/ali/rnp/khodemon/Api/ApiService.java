@@ -12,6 +12,7 @@ import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.Tags;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.ExpandableSingleItems.SingleCheckItemsExp;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -21,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +48,7 @@ public class ApiService {
 
     private final static String API_UPLOAD_PHOTOS = "http://khodemon.ir/upload_images.php";
     private final static String API_ADD_PICTURE = "http://khodemon.ir/addPictures.php";
+    private final static String API_GET_PICTURE = "http://khodemon.ir/getPictures.php";
 
     private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
 
@@ -320,6 +323,39 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
+    public void getPicture(int Post_id,OnGetPictures onGetPictures){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ProvidersApp.KEY_POST_ID,Post_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_PICTURE, jsonObject, response -> {
+
+            try {
+                JSONObject jsonObjectResponse = new JSONObject(response.toString());
+                //String res = jsonObjectResponse.getString("result");
+                JSONArray jsonArrayRes = jsonObjectResponse.getJSONArray("result");
+
+                ArrayList<String> imgAddressList = new ArrayList<>();
+                for (int i = 0; i < jsonArrayRes.length(); i++) {
+                    JSONObject jsObject = jsonArrayRes.getJSONObject(i);
+                    imgAddressList.add(jsObject.getString("pic_address"));
+                }
+                onGetPictures.OnGetPicture(imgAddressList,null);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+
+            }
+
+        }, error -> onGetPictures.OnGetPicture(null,error));
+
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(context).add(request);
+    }
+
     private void parseJsonGroupItems(JSONObject response, int groupKey, OnGroupItemReceived onGroupItemReceived) {
 
         try {
@@ -423,6 +459,7 @@ public class ApiService {
                     locationPeople.setName(jsonObjectGroup.getString("name"));
                     locationPeople.setTag(jsonObjectGroup.getString("tag"));
                     locationPeople.setOriginalPic(jsonObjectGroup.getString("original_pic"));
+                    Log.i(TAG, "PARSE : "+jsonObjectGroup.getString("original_pic"));
 
                     locationPeoplePerItem.add(locationPeople);
 
@@ -607,6 +644,10 @@ public class ApiService {
 
     public interface OnAddPictures {
         void OnAddPicture(String result, VolleyError error);
+    }
+
+    public interface OnGetPictures {
+        void OnGetPicture(ArrayList<String> imgAddressList, VolleyError error);
     }
 
 
