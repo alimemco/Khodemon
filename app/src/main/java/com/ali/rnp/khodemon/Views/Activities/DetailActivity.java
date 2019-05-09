@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.ScreenSlidePagerAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
@@ -41,7 +42,8 @@ public class DetailActivity extends AppCompatActivity implements
 
     WormDotsIndicator wormDotsIndicator;
     DotsIndicator dotsIndicator;
-    ArrayList<String> imgAddressList;
+    //ArrayList<String> imgAddressList;
+    private ArrayList<PictureUpload> pictureUploadList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class DetailActivity extends AppCompatActivity implements
         initViews();
         initBundle();
         initToolbar();
-        initViewPager();
+        //initViewPager();
 /*
         Bundle extras = getIntent().getExtras();
 
@@ -110,12 +112,14 @@ public class DetailActivity extends AppCompatActivity implements
         if (extras != null) {
 
 
-            imgAddressList = new ArrayList<>();
+            pictureUploadList = new ArrayList<>();
+            PictureUpload pictureUpload = new PictureUpload();
+            pictureUpload.setPic_address("R.drawable.holder_banner");
+            pictureUploadList.add(pictureUpload);
 
-            imgAddressList.add("R.drawable.holder_banner");
             mPager = findViewById(R.id.pager);
 
-            pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), imgAddressList);
+            pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), pictureUploadList);
             mPager.setAdapter(pagerAdapter);
 
             wormDotsIndicator = findViewById(R.id.worm_dots_indicator);
@@ -129,16 +133,13 @@ public class DetailActivity extends AppCompatActivity implements
 
             ApiService apiService = new ApiService(this);
 
-            apiService.getPicture(post_id, (imgAddressList, error) -> {
-                DetailActivity.this.imgAddressList = imgAddressList;
+            apiService.getPicture(post_id,(pictureUploadList, error) -> {
 
-                if (imgAddressList != null && error == null) {
-                    initViewPagerOnline();
+                if (pictureUploadList != null && error == null) {
+                    initViewPagerOnline(pictureUploadList);
                 } else {
                     Toast.makeText(DetailActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
-
-
             });
 
         }
@@ -177,7 +178,7 @@ public class DetailActivity extends AppCompatActivity implements
         threeLineImageView.setOnClickListener(this);
 
     }
-
+/*
     private void initViewPager() {
         imgAddressList = new ArrayList<>();
 
@@ -194,11 +195,11 @@ public class DetailActivity extends AppCompatActivity implements
         dotsIndicator = findViewById(R.id.dots_indicator);
         dotsIndicator.setViewPager(mPager);
     }
+*/
+    private void initViewPagerOnline(ArrayList<PictureUpload> pictureUploadList) {
 
-    private void initViewPagerOnline() {
 
-
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), imgAddressList);
+        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), pictureUploadList);
         mPager.setAdapter(pagerAdapter);
 
         wormDotsIndicator.setViewPager(mPager);

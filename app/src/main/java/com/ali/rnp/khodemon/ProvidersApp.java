@@ -36,6 +36,11 @@ public class ProvidersApp {
     public static final String KEY_PICTURE_UPLOAD_PIC_ID = "pic_id";
     public static final String KEY_PICTURE_UPLOAD_PIC_ADDRESS = "pic_address";
 
+    public static final String KEY_PICTURE_UPLOAD_WIDTH = "width";
+    public static final String KEY_PICTURE_UPLOAD_HEIGHT = "height";
+    public static final String KEY_PICTURE_UPLOAD_THUMB_150 = "thumb_150";
+    public static final String KEY_PICTURE_UPLOAD_THUMB_1000 = "thumb_1000";
+
 
     public static final String KEY_POST_ID = "Post_ID";
 
@@ -54,6 +59,7 @@ public class ProvidersApp {
     public static final String KEY_JSON_OBJECT_LOCATION_OWNER_SELLER_NAME= "owner_seller";
     public static final String KEY_JSON_OBJECT_LOCATION_MAP= "map";
     public static final String KEY_JSON_OBJECT_LOCATION_ORIGINAL_IMAGE = "original_pic";
+    public static final String KEY_JSON_OBJECT_LOCATION_THUMB_PIC = "thumb_pic";
     public static final String KEY_JSON_OBJECT_LOCATION_PROVINCE = "province";
     public static final String KEY_JSON_OBJECT_LOCATION_ADDRESS = "address";
     public static final String KEY_JSON_OBJECT_LOCATION_DIMEN = "dimensions";

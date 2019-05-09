@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.ali.rnp.khodemon.DataModel.City;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.DataModel.Tags;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.ExpandableSingleItems.SingleCheckItemsExp;
@@ -223,7 +224,7 @@ public class ApiService {
 
         try {
             jsonObjectPhoto = new JSONObject();
-            String imgName = String.valueOf(Calendar.getInstance().getTimeInMillis());
+          //  String imgName = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
             //jsonObject.put("id",currentPhoto);
             jsonObjectPhoto.put("name", ImageName);
@@ -243,11 +244,28 @@ public class ApiService {
                         try {
                             JSONObject jsonObjectPhoto = new JSONObject(jsonObject.toString());
                             if (jsonObjectPhoto.getInt("success") == 1){
+                                /*
+                                int success = jsonObjectPhoto.getInt("success");
                                 String imageUrl = jsonObjectPhoto.getString("url");
                                 int pic_id_get = jsonObjectPhoto.getInt("pic_id");
-                                int success = jsonObjectPhoto.getInt("success");
 
-                                onUploadedPhoto.OnUploadPhoto(imageUrl,pic_id_get,success,currentPhoto, null);
+                                int width = jsonObjectPhoto.getInt("width");
+                                int height = jsonObjectPhoto.getInt("height");
+                                String thumb_150 = jsonObjectPhoto.getString("thumb_150");
+                                String thumb_1000 = jsonObjectPhoto.getString("thumb_1000");
+*/
+                                PictureUpload pictureUploaded = new PictureUpload();
+                                pictureUploaded.setPic_address(jsonObjectPhoto.getString("url"));
+                                pictureUploaded.setPic_id(jsonObjectPhoto.getInt("pic_id"));
+                                pictureUploaded.setWidth(jsonObjectPhoto.getInt("width"));
+                                pictureUploaded.setHeight(jsonObjectPhoto.getInt("height"));
+                                pictureUploaded.setThumb_150(jsonObjectPhoto.getString("thumb_150"));
+                                pictureUploaded.setThumb_1000(jsonObjectPhoto.getString("thumb_1000"));
+                                Log.i(TAG, "onResponse: "+jsonObject.toString());
+                                Log.i(TAG, "onResponse: "+pictureUploaded.toString());
+                                onUploadedPhoto.OnUploadPhoto(pictureUploaded,currentPhoto, null);
+                            }else {
+                                Log.i(TAG, "onResponse: ERROR - Succees = 0");
                             }
 
 
@@ -265,7 +283,7 @@ public class ApiService {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.i(TAG, volleyError.toString());
-                onUploadedPhoto.OnUploadPhoto(null,-1,0,-1, volleyError);
+                onUploadedPhoto.OnUploadPhoto(null,-1, volleyError);
 
             }
         });
@@ -284,8 +302,16 @@ public class ApiService {
 
                 try {
                     JSONObject jsonObjectResponse = new JSONObject(response.toString());
-                    String res = jsonObjectResponse.getString("result");
-                    onAddLocationPeople.OnAdded(res,null);
+                    JSONObject jsonObjectResult = jsonObjectResponse.getJSONObject("result") ;
+                   // String res = jsonObjectResponse.getString("result");
+                    jsonObjectResult.getInt("success");
+                    if (jsonObjectResult.getInt("success") == 1) {
+                        onAddLocationPeople.OnAdded(jsonObjectResult.getInt("last_id"), null);
+                    }else {
+                        String msg = jsonObjectResult.getString("message");
+                        onAddLocationPeople.OnAdded(-1,"Error From Server "+msg);
+                        Log.i(TAG, "onResponse: "+msg);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
 
@@ -296,7 +322,7 @@ public class ApiService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onAddLocationPeople.OnAdded(null,error);
+                onAddLocationPeople.OnAdded(-1,error.toString());
             }
         });
 
@@ -338,11 +364,23 @@ public class ApiService {
                 JSONArray jsonArrayRes = jsonObjectResponse.getJSONArray("result");
 
                 ArrayList<String> imgAddressList = new ArrayList<>();
+                ArrayList<PictureUpload> pictureUploadsList = new ArrayList<>();
+
                 for (int i = 0; i < jsonArrayRes.length(); i++) {
                     JSONObject jsObject = jsonArrayRes.getJSONObject(i);
-                    imgAddressList.add(jsObject.getString("pic_address"));
+                    //imgAddressList.add(jsObject.getString("pic_address"));
+
+                    PictureUpload picUp = new PictureUpload();
+                    //picUp.setIs_original(jsObject.getBoolean("is_original"));
+                    picUp.setPic_address(jsObject.getString("pic_address"));
+                    picUp.setWidth(jsObject.getInt("width"));
+                    picUp.setHeight(jsObject.getInt("height"));
+                    picUp.setThumb_150(jsObject.getString("thumb_150"));
+                    picUp.setThumb_1000(jsObject.getString("thumb_1000"));
+
+                    pictureUploadsList.add(picUp);
                 }
-                onGetPictures.OnGetPicture(imgAddressList,null);
+                onGetPictures.OnGetPicture(pictureUploadsList,null);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -635,11 +673,11 @@ public class ApiService {
     }
 
     public interface OnUploadedPhoto {
-        void OnUploadPhoto(String imageUrl,int pic_id,int success,int currentPhotoNum, VolleyError error);
+        void OnUploadPhoto(PictureUpload pictureUploaded,int currentPhotoNum, VolleyError error);
     }
 
     public interface OnAddLocationPeople {
-        void OnAdded(String result, VolleyError error);
+        void OnAdded(int last_id, String error);
     }
 
     public interface OnAddPictures {
@@ -647,7 +685,7 @@ public class ApiService {
     }
 
     public interface OnGetPictures {
-        void OnGetPicture(ArrayList<String> imgAddressList, VolleyError error);
+        void OnGetPicture(ArrayList<PictureUpload> pictureUploadList, VolleyError error);
     }
 
 

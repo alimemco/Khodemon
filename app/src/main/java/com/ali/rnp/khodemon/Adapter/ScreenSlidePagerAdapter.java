@@ -1,5 +1,6 @@
 package com.ali.rnp.khodemon.Adapter;
 
+import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.Views.fragments.ScreenSlidePageFragment;
 
 import java.util.ArrayList;
@@ -13,22 +14,23 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
 
-    private ArrayList<String> imgAddressList;
+   // private ArrayList<String> imgAddressList;
+    private ArrayList<PictureUpload> pictureUploadList;
 
-    public ScreenSlidePagerAdapter(FragmentManager fm,ArrayList<String> imgAddressList) {
+    public ScreenSlidePagerAdapter(FragmentManager fm,ArrayList<PictureUpload> pictureUploadList) {
         super(fm);
-        this.imgAddressList = imgAddressList ;
+        this.pictureUploadList = pictureUploadList ;
     }
 
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return ScreenSlidePageFragment.newInstance(position,imgAddressList);
+        return ScreenSlidePageFragment.newInstance(position,pictureUploadList);
     }
 
     @Override
     public int getCount() {
-        return imgAddressList.size();
+        return pictureUploadList.size();
     }
 }

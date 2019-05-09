@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.UriAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
-import com.ali.rnp.khodemon.DataModel.HourDays;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.Dialogs.DialogCompleteAdd;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
@@ -53,7 +52,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 public class AddRule extends AppCompatActivity implements
         View.OnClickListener,
         FragmentAddLevelOne.OnViewClickListener,
-ApiService.OnAddPictures{
+        ApiService.OnAddPictures {
 
     private RecyclerView recyclerView;
     private UriAdapter mAdapter;
@@ -93,6 +92,7 @@ ApiService.OnAddPictures{
     private List<PictureUpload> pictureUploadList;
 
     private String originalPhotoUrl;
+    private String originalPhotoUrlThumb="LOCALE";
 
     private static final String TAG = "AddRuleApp";
 
@@ -242,27 +242,29 @@ ApiService.OnAddPictures{
 */
 
                         ApiService apiService = new ApiService(AddRule.this);
-                       // String finalOriginalImageName = originalImageName;
-                        apiService.uploadImage(bitmap, pictureUploadList.get(i).getPic_name(),pictureUploadList.get(i).getPic_id(), groupName,currentPhoto, allPhoto, new ApiService.OnUploadedPhoto() {
+                        // String finalOriginalImageName = originalImageName;
+                        apiService.uploadImage(bitmap, pictureUploadList.get(i).getPic_name(), pictureUploadList.get(i).getPic_id(), groupName, currentPhoto, allPhoto, new ApiService.OnUploadedPhoto() {
                             @Override
-                            public void OnUploadPhoto(String imageUrl,int pic_id,int success, int currentPhotoNum, VolleyError error) {
+                            public void OnUploadPhoto(PictureUpload pictureUploaded, int currentPhotoNum, VolleyError error) {
 
                                 inProgressUpload = false;
-                                imageUrlList.add(imageUrl);
+                                imageUrlList.add(pictureUploaded.getPic_address());
 
 
-                                if (currentPhotoNum != -1 && success == 1 && error == null) {
+                                if (currentPhotoNum != -1 && error == null) {
 
-                                    String urlCheck = isOriginalImage(imageUrl, pictureUploadList.get(0).getPic_name());
+                                    String urlCheck = isOriginalImage(pictureUploaded.getPic_address(), pictureUploadList.get(0).getPic_name());
                                     if (!urlCheck.equals("")) {
-                                        originalPhotoUrl = imageUrl;
+                                        originalPhotoUrl = pictureUploaded.getPic_address();
+                                        originalPhotoUrlThumb = pictureUploaded.getThumb_150();
+                                      //  Toast.makeText(AddRule.this, originalPhotoUrlThumb, Toast.LENGTH_SHORT).show();
 
                                     }
                                     int progress = ((currentPhoto * 100) / allPhoto);
 
                                     String imagesCount = currentPhoto + "/" + allPhoto;
 
-                                  //  String percentage = progress + "%";
+                                    //  String percentage = progress + "%";
                                     StringBuilder percentage = new StringBuilder();
                                     percentage.append(progress);
                                     percentage.append("%");
@@ -270,9 +272,13 @@ ApiService.OnAddPictures{
                                     percentageToolbarTextView.setText(percentage);
 
 
-                                    pictureUpload.setPic_address(imageUrl);
+                                    pictureUpload.setPic_address(pictureUploaded.getPic_address());
+                                    pictureUpload.setWidth(pictureUploaded.getWidth());
+                                    pictureUpload.setHeight(pictureUploaded.getHeight());
+                                    pictureUpload.setThumb_150(pictureUploaded.getThumb_150());
+                                    pictureUpload.setThumb_1000(pictureUploaded.getThumb_1000());
 
-                                    pictureUploadList.set(pic_id,pictureUpload);
+                                    pictureUploadList.set(pictureUploaded.getPic_id(), pictureUpload);
 
 
                                     if (currentPhoto == allPhoto) {
@@ -288,9 +294,10 @@ ApiService.OnAddPictures{
                                         try {
 
 
-
                                             jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_ORIGINAL_IMAGE, originalPhotoUrl);
+                                            jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_THUMB_PIC, originalPhotoUrlThumb);
 
+                                            Log.i(TAG, "jsonObjectLocation: "+jsonObjectLocation.toString());
 
 
 
@@ -303,7 +310,7 @@ ApiService.OnAddPictures{
 
                                     currentPhoto++;
                                 } else if (error != null) {
-                                    Toast.makeText(AddRule.this, success+" "+error.toString(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(AddRule.this, error.toString(), Toast.LENGTH_LONG).show();
                                 }
 
                             }
@@ -417,7 +424,6 @@ ApiService.OnAddPictures{
                 }
 
 
-
             } else if (fragment instanceof FragmentAddLevelTwo) {
                 replaceNewFragment(fragmentAddLevelThree);
 
@@ -447,21 +453,18 @@ ApiService.OnAddPictures{
 
                 if (FragmentAddLevelThree.dimenEditText.getText() != null &&
                         !FragmentAddLevelThree.dimenEditText.getText().toString().equals("")) {
-                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_DIMEN, FragmentAddLevelThree.dimenEditText.getText() .toString());
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_DIMEN, FragmentAddLevelThree.dimenEditText.getText().toString());
                 }
 
                 if (FragmentAddLevelThree.phoneEditText.getText() != null &&
                         !FragmentAddLevelThree.phoneEditText.getText().toString().equals("")) {
-                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_PHONE, FragmentAddLevelThree.phoneEditText.getText() .toString());
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_PHONE, FragmentAddLevelThree.phoneEditText.getText().toString());
                 }
 
                 if (FragmentAddLevelThree.sinceEditText.getText() != null &&
                         !FragmentAddLevelThree.sinceEditText.getText().toString().equals("")) {
-                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_SINCE, FragmentAddLevelThree.sinceEditText.getText() .toString());
+                    jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_SINCE, FragmentAddLevelThree.sinceEditText.getText().toString());
                 }
-
-
-
 
 
             } else if (fragment instanceof FragmentAddLevelFour) {
@@ -471,22 +474,28 @@ ApiService.OnAddPictures{
                     ApiService apiService = new ApiService(AddRule.this);
                     apiService.addLocation(jsonObjectLocation, new ApiService.OnAddLocationPeople() {
                         @Override
-                        public void OnAdded(String result, VolleyError error) {
-                            if (result != null && error == null) {
+                        public void OnAdded(int last_id, String error) {
+                            if (last_id >= 0 && error == null) {
 
-                                Toast.makeText(AddRule.this, result, Toast.LENGTH_LONG).show();
-                                Log.i(TAG, "OnAdded: RES "+result);
+                                // Toast.makeText(AddRule.this, result, Toast.LENGTH_LONG).show();
+                                // Log.i(TAG, "OnAdded: RES "+result);
 
                                 for (int i = 0; i < pictureUploadList.size(); i++) {
 
                                     try {
                                         JSONObject jsonObjectPic = new JSONObject();
-                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_POST_ID,Integer.parseInt(result));
-                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_IS_ORIGINAL,pictureUploadList.get(i).getIs_original());
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_POST_ID, last_id);
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_IS_ORIGINAL, pictureUploadList.get(i).getIs_original());
                                         jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_PIC_ID, pictureUploadList.get(i).getPic_id());
-                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_PIC_ADDRESS,pictureUploadList.get(i).getPic_address());
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_PIC_ADDRESS, pictureUploadList.get(i).getPic_address());
 
-                                        apiService.addPicture(jsonObjectPic,AddRule.this);
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_WIDTH, pictureUploadList.get(i).getWidth());
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_HEIGHT, pictureUploadList.get(i).getHeight());
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_THUMB_150, pictureUploadList.get(i).getThumb_150());
+                                        jsonObjectPic.put(ProvidersApp.KEY_PICTURE_UPLOAD_THUMB_1000, pictureUploadList.get(i).getThumb_1000());
+
+
+                                        apiService.addPicture(jsonObjectPic, AddRule.this);
 
 
                                     } catch (JSONException e) {
@@ -495,12 +504,11 @@ ApiService.OnAddPictures{
                                 }
 
 
-
                                 DialogCompleteAdd dialog = new DialogCompleteAdd();
-                                dialog.show(fragmentManager,"AddRule");
+                                dialog.show(fragmentManager, "AddRule");
 
                             } else {
-                                Toast.makeText(AddRule.this,  error.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddRule.this, error, Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -579,7 +587,6 @@ ApiService.OnAddPictures{
         } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE) {
 
 
-
         } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             if (extras != null) {
@@ -636,8 +643,8 @@ ApiService.OnAddPictures{
 
     @Override
     public void OnAddPicture(String result, VolleyError error) {
-        if (result != null && error == null){
-            Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        if (result != null && error == null) {
+            Log.i(TAG, "OnAddPicture: " + result);
         }
     }
 }

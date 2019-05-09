@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ali.rnp.khodemon.Adapter.ImageGalleryAdapter;
+import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.squareup.picasso.Picasso;
@@ -28,7 +29,8 @@ import java.util.List;
 public class FragmentImageGalleryDialog extends FragmentDialog {
 
 
-    private ArrayList<String> imgAddressList;
+   // private ArrayList<String> imgAddressList;
+    private ArrayList<PictureUpload> pictureUploadList;
     private int position;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
@@ -38,11 +40,11 @@ public class FragmentImageGalleryDialog extends FragmentDialog {
 
     }
 
-    public static FragmentImageGalleryDialog newInstance(int position, ArrayList<String> imgAddressList) {
+    public static FragmentImageGalleryDialog newInstance(int position, ArrayList<PictureUpload> pictureUploadList) {
 
         Bundle args = new Bundle();
         args.putInt(ProvidersApp.KEY_BUNDLE_POSITION,position);
-        args.putStringArrayList(ProvidersApp.KEY_BUNDLE_IMG_LIST,imgAddressList);
+        args.putParcelableArrayList(ProvidersApp.KEY_BUNDLE_IMG_LIST,pictureUploadList);
         FragmentImageGalleryDialog fragment = new FragmentImageGalleryDialog();
         fragment.setArguments(args);
         return fragment;
@@ -56,7 +58,7 @@ public class FragmentImageGalleryDialog extends FragmentDialog {
         if (getArguments() != null){
 
 
-            imgAddressList = getArguments().getStringArrayList(ProvidersApp.KEY_BUNDLE_IMG_LIST);
+            pictureUploadList = getArguments().getParcelableArrayList(ProvidersApp.KEY_BUNDLE_IMG_LIST);
             position = getArguments().getInt(ProvidersApp.KEY_BUNDLE_POSITION);
 
 
@@ -90,8 +92,8 @@ public class FragmentImageGalleryDialog extends FragmentDialog {
 
         mPager = rootView.findViewById(R.id.fragment_image_gallery_dialog_viewPager);
 
-        if (getActivity() != null && imgAddressList != null){
-            mPagerAdapter = new ImageGalleryAdapter(getChildFragmentManager(),imgAddressList);
+        if (getActivity() != null && pictureUploadList != null){
+            mPagerAdapter = new ImageGalleryAdapter(getChildFragmentManager(),pictureUploadList);
 
             mPager.setAdapter(mPagerAdapter);
             mPager.setCurrentItem(position);
