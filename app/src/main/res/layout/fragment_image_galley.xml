@@ -6,10 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".Views.fragments.FragmentImageGalley">
 
-    <ImageView
+
+    <it.sephiroth.android.library.imagezoom.ImageViewTouch
         android:id="@+id/fragment_image_gallery_imageView_show"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/app_name"
         tools:src="@drawable/add_photo" />
+
+
 </FrameLayout>

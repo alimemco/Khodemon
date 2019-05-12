@@ -53,30 +53,7 @@ public class DetailActivity extends AppCompatActivity implements
         initViews();
         initBundle();
         initToolbar();
-        //initViewPager();
-/*
-        Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
-            int post_id = extras.getInt(ProvidersApp.KEY_POST_ID);
-
-            ApiService apiService = new ApiService(this);
-
-            apiService.getPicture(post_id, (imgAddressList, error) -> {
-                DetailActivity.this.imgAddressList = imgAddressList;
-
-                if (imgAddressList != null && error == null){
-                    initViewPagerOnline();
-                }else {
-                    Toast.makeText(DetailActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
-            });
-
-        }*/
 
         appBarLayout = findViewById(R.id.activity_detail_appbar);
         textView = findViewById(R.id.activity_detail_textView);

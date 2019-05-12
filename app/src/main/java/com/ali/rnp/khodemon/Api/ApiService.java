@@ -164,7 +164,7 @@ public class ApiService {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onHomeListItemReceived.onItemReceived(null, null, error);
+                        onHomeListItemReceived.onItemReceived(null, null, "VolleyError | "+error.toString());
                     }
                 }
         );
@@ -497,13 +497,10 @@ public class ApiService {
                     locationPeople.setName(jsonObjectGroup.getString("name"));
                     locationPeople.setTag(jsonObjectGroup.getString("tag"));
                     locationPeople.setOriginalPic(jsonObjectGroup.getString("original_pic"));
-                    Log.i(TAG, "PARSE : "+jsonObjectGroup.getString("original_pic"));
 
                     locationPeoplePerItem.add(locationPeople);
 
                 }
-
-
                 ListLayout listLayout = new ListLayout();
 
                 listLayout.setId(i);
@@ -519,7 +516,7 @@ public class ApiService {
             onHomeListItemReceived.onItemReceived(locationPeopleListLayout, locationPeoplePerItem, null);
 
         } catch (JSONException e) {
-            Log.i(TAG, "parseJsonHomeItems: " + e);
+            onHomeListItemReceived.onItemReceived(null, null, "JSONException | "+e.toString());
 
         }
 
@@ -657,7 +654,7 @@ public class ApiService {
     }
 
     public interface OnHomeListItemReceived {
-        void onItemReceived(List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList, VolleyError error);
+        void onItemReceived(List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList, String error);
     }
 
     public interface OnGroupItemReceived {

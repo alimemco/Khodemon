@@ -1,14 +1,20 @@
 package com.ali.rnp.khodemon.Views.fragments;
 
 
+import android.annotation.SuppressLint;
+import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import it.sephiroth.android.library.imagezoom.ImageViewTouch;
+import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,18 +23,21 @@ import android.widget.Toast;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 
-public class FragmentImageGalley extends Fragment {
+public class FragmentImageGalley extends Fragment{
 
-    private ImageView imageView;
+    private ImageViewTouch imageView;
+   // private ImageView imageView;
    // private String IMG_ADDRESS = "";
     private ArrayList<PictureUpload> pictureUploadList;
     private int position ;
+
 
 
     public FragmentImageGalley() {
@@ -61,6 +70,8 @@ public class FragmentImageGalley extends Fragment {
 
         imageView = rootView.findViewById(R.id.fragment_image_gallery_imageView_show);
 
+
+
         if (!pictureUploadList.get(position).getPic_address().equals("")) {
 
             boolean isLarge;
@@ -76,12 +87,17 @@ public class FragmentImageGalley extends Fragment {
                     .load(pictureUploadList.get(position).getThumb_150())
                     .placeholder(R.drawable.holder_banner)
                     .into(imageView, new Callback() {
+
+
                         @Override
                         public void onSuccess() {
                             Picasso.get()
                                     .load(IMG_ADDRESS)
                                     .placeholder(imageView.getDrawable())
                                     .into(imageView);
+
+                            imageView.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+
                         }
 
                         @Override
@@ -96,5 +112,9 @@ public class FragmentImageGalley extends Fragment {
 
         return rootView;
     }
+
+
+
+
 
 }

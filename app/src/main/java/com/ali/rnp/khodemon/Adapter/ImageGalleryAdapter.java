@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class ImageGalleryAdapter extends FragmentStatePagerAdapter {
 
-    //private ArrayList<String> imgAddressList;
+
     private ArrayList<PictureUpload> pictureUploadList;
 
     public ImageGalleryAdapter(FragmentManager fm, ArrayList<PictureUpload> pictureUploadList) {

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.LinearSingleAdapter;
 import com.ali.rnp.khodemon.Adapter.SingleItemAdapter;
@@ -159,8 +160,8 @@ public class FragmentHome extends Fragment implements
 
 
 
-                }else {
-                    Log.i(TAG, "onItemReceived: Error");
+                }else if (error != null){
+                    Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show();
                 }
 
             });

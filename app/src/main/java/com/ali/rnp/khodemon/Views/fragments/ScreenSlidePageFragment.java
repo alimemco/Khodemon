@@ -44,8 +44,7 @@ public class ScreenSlidePageFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            // IMG_ADDRESS = getArguments().getString(ProvidersApp.KEY_BUNDLE_IMG);
-            //IMG_ADDRESS = getArguments().getString(ProvidersApp.KEY_BUNDLE_IMG);
+
             position = getArguments().getInt(ProvidersApp.KEY_BUNDLE_POSITION);
             pictureUploadList = getArguments().getParcelableArrayList(ProvidersApp.KEY_BUNDLE_IMG_LIST);
 
@@ -59,7 +58,8 @@ public class ScreenSlidePageFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
         imageView = rootView.findViewById(R.id.fragment_screen_slider_page_imageView);
 
-        if (!pictureUploadList.get(position).getPic_address().equals("")) {
+        if (!pictureUploadList.get(position).getPic_address().equals("")
+        ) {
 
             boolean isLarge;
             isLarge = pictureUploadList.get(position).getWidth() >= 1000;
@@ -68,6 +68,8 @@ public class ScreenSlidePageFragment extends Fragment {
             IMG_ADDRESS = (isLarge) ?
                     pictureUploadList.get(position).getThumb_1000()
                     : pictureUploadList.get(position).getPic_address();
+
+
 
 
             Picasso.get()

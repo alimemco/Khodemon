@@ -47,7 +47,10 @@ android {
 
     configurations {
         all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+
     }
+
+
 
 
 }
@@ -90,5 +93,9 @@ dependencies {
     implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.4'
 
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
+
+    implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
+
+
 
 }
