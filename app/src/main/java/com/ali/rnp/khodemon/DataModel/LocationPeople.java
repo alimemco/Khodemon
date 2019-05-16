@@ -15,6 +15,7 @@ public class LocationPeople implements Parcelable {
     private String experts;
     private String ownerSeller;
     private String address;
+    private String timeReg;
 
     private String originalPic;
 
@@ -109,6 +110,14 @@ public class LocationPeople implements Parcelable {
         this.province = province;
     }
 
+    public String getTimeReg() {
+        return timeReg;
+    }
+
+    public void setTimeReg(String timeReg) {
+        this.timeReg = timeReg;
+    }
+
     protected LocationPeople(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -121,6 +130,7 @@ public class LocationPeople implements Parcelable {
         ownerSeller = in.readString();
         address = in.readString();
         originalPic = in.readString();
+        timeReg = in.readString();
     }
 
     @Override
@@ -141,6 +151,7 @@ public class LocationPeople implements Parcelable {
         dest.writeString(ownerSeller);
         dest.writeString(address);
         dest.writeString(originalPic);
+        dest.writeString(timeReg);
     }
 
     @SuppressWarnings("unused")
@@ -155,4 +166,6 @@ public class LocationPeople implements Parcelable {
             return new LocationPeople[size];
         }
     };
+
+
 }

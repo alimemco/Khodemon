@@ -50,6 +50,7 @@ public class ApiService {
     private final static String API_UPLOAD_PHOTOS = "http://khodemon.ir/upload_images.php";
     private final static String API_ADD_PICTURE = "http://khodemon.ir/addPictures.php";
     private final static String API_GET_PICTURE = "http://khodemon.ir/getPictures.php";
+    private final static String API_GET_DETAIL = "http://khodemon.ir/getDetail.php";
 
     private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
 
@@ -116,7 +117,7 @@ public class ApiService {
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
-
+/*
     public void getHomeItems(final OnHomeItemReceived onHomeItemReceived) {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_ITEMS, null, new Response.Listener<JSONObject>() {
             @Override
@@ -135,7 +136,7 @@ public class ApiService {
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
-
+*/
     public void getGroupItems(JSONObject jsonObjectGroup, final int groupKey, final OnGroupItemReceived onGroupItemReceived) {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_GROUP_ITEMS, jsonObjectGroup, new Response.Listener<JSONObject>() {
@@ -394,6 +395,26 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
+    public void getDetail(int Post_id,OnGetDetails onGetDetails){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ProvidersApp.KEY_POST_ID,Post_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_DETAIL, jsonObject, response -> {
+
+            parseGetDetail(response,onGetDetails);
+
+
+        }, error -> onGetDetails.OnGetDetail(null,error));
+
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(context).add(request);
+    }
+
+
+
     private void parseJsonGroupItems(JSONObject response, int groupKey, OnGroupItemReceived onGroupItemReceived) {
 
         try {
@@ -438,7 +459,7 @@ public class ApiService {
         }
 
     }
-
+/*
     private void parseJsonHomeItems(JSONObject response, OnHomeItemReceived onHomeItemReceived) {
 
         try {
@@ -468,7 +489,7 @@ public class ApiService {
 
         }
     }
-
+*/
     private void parseJsonHomeRecyclerListItems(JSONObject response, OnHomeListItemReceived onHomeListItemReceived) {
 
         try {
@@ -565,7 +586,6 @@ public class ApiService {
 
     }
 
-
     private void parseJsonTags(JSONArray response, OnTagsReceived onTagsReceived) {
 
         List<Tags> tagsList = new ArrayList<>();
@@ -612,6 +632,7 @@ public class ApiService {
         onTagsReceived.onReceived(makeSingleCheckParent,tagsList, null);
 
     }
+
     private void parseJsonRegisterUser(JSONObject response, OnRegisterCompleted onRegisterCompleted) {
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -633,6 +654,31 @@ public class ApiService {
 
     }
 
+    private void parseGetDetail(JSONObject response, OnGetDetails onGetDetails) {
+        try {
+            JSONObject jsonObjectResponse = new JSONObject(response.toString());
+            JSONArray jsonArrayRes = jsonObjectResponse.getJSONArray("result");
+
+
+            JSONObject jsObject = jsonArrayRes.getJSONObject(0);
+
+
+            LocationPeople locPeo = new LocationPeople();
+
+            locPeo.setTimeReg(jsObject.getString("reg_date"));
+            locPeo.setOwnerSeller(jsObject.getString("owner_seller"));
+
+
+            onGetDetails.OnGetDetail(locPeo,null);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+
+        }
+    }
+
+
 
     private String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -640,6 +686,8 @@ public class ApiService {
         return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
 
     }
+
+
 
     public interface OnRegisterCompleted {
         void onRegisterStatusReceived(int status);
@@ -683,6 +731,10 @@ public class ApiService {
 
     public interface OnGetPictures {
         void OnGetPicture(ArrayList<PictureUpload> pictureUploadList, VolleyError error);
+    }
+
+    public interface OnGetDetails {
+        void OnGetDetail(LocationPeople locationPeople, VolleyError error);
     }
 
 

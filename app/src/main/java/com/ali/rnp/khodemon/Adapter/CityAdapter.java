@@ -60,6 +60,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
 
         View rootView = LayoutInflater.from(context).inflate(R.layout.item_rec_view_city_adapter, parent, false);
 
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        rootView.setLayoutParams(lp);
         return new CityAdapterHolder(rootView);
     }
 
@@ -114,28 +119,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterHol
 
         ((Activity) context).setResult(RESULT_OK,intent);
         ((Activity) context).finish();
-/*
-        if (isFromFragmentAddTwo){
-            String name = city.getProvince()+" ، "+city.getCityName();
-            FragmentAddLevelTwo.chooseCityTextView.setText(name);
-            FragmentAddLevelTwo.provinceName = city.getProvince();
-            FragmentAddLevelTwo.cityName = city.getCityName();
-
-
-        }else {
-
-            Intent intent = new Intent(context, MainActivity.class);
-            intent.putExtra(CityChooseActivity.INTENT_CITY_ID, city.getId());
-            intent.putExtra(CityChooseActivity.INTENT_CITY_NAME, city.getCityName());
-            intent.putExtra(CityChooseActivity.INTENT_CITY_PROVINCE_NAME, city.getProvince());
-            ((Activity) context).setResult(RESULT_OK, intent);
-        }
-
-        ((Activity) context).finish();
-        */
 
     }
-
 
 
 

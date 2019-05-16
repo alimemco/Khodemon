@@ -20,26 +20,36 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
-public class ImageGalleryRcvAdapter extends RecyclerView.Adapter<ImageGalleryRcvAdapter.ImageGalleryHolder> {
+public class ImageGalleryRcvAdapter extends RecyclerView.Adapter<ImageGalleryRcvAdapter.ImageGalleryHolder>
+     {
 
-    private Context context;
+   // private Context context;
     private ArrayList<PictureUpload> pictureUploadList;
+    private RecyclerView parentRecycler;
 
     private static final String TAG = "ImageGalleryRcvAdapter";
 
-    public ImageGalleryRcvAdapter(Context context) {
-        this.context = context;
+    public ImageGalleryRcvAdapter(ArrayList<PictureUpload> pictureUploadList) {
+       // this.context = context;
+        this.pictureUploadList = pictureUploadList;
     }
 
-    public void setImages(ArrayList<PictureUpload> pictureUploadList) {
-        this.pictureUploadList = pictureUploadList;
+    public void setImages() {
+
         notifyDataSetChanged();
     }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        parentRecycler = recyclerView;
+    }
+
 
     @NonNull
     @Override
     public ImageGalleryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recycler_view_image_gallery, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_image_gallery, parent, false);
 
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -56,13 +66,6 @@ public class ImageGalleryRcvAdapter extends RecyclerView.Adapter<ImageGalleryRcv
     public void onBindViewHolder(@NonNull ImageGalleryHolder holder, int position) {
         
 
-/*
-        if (!pictureUploadList.get(position).getPic_address().equals("")) {
-            Picasso.get()
-                    .load(pictureUploadList.get(position).getPic_address())
-                    .resize(500, 500)
-                    .into(holder.imageView);
-        }*/
 
         if (!pictureUploadList.get(position).getPic_address().equals("")) {
 
@@ -107,6 +110,8 @@ public class ImageGalleryRcvAdapter extends RecyclerView.Adapter<ImageGalleryRcv
         return pictureUploadList != null ? pictureUploadList.size() : 0;
     }
 
+
+
     class ImageGalleryHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
@@ -115,6 +120,8 @@ public class ImageGalleryRcvAdapter extends RecyclerView.Adapter<ImageGalleryRcv
         ImageGalleryHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.recycler_view_image_gallery_imageView);
+
+            itemView.setOnClickListener(v -> parentRecycler.smoothScrollToPosition(getAdapterPosition()));
 
         }
     }

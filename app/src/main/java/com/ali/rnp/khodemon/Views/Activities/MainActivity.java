@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationCity;
 import com.ali.rnp.khodemon.Dialogs.DialogCompleteAdd;
+import com.ali.rnp.khodemon.DiscreteScrollView.WeatherActivity;
 import com.ali.rnp.khodemon.ExpandableRecActivity;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -131,12 +132,11 @@ public class MainActivity extends AppCompatActivity implements
 
                     case R.id.navigation_menu_userManagement:
                         startActivity(new Intent(MainActivity.this,TestActivity.class));
-                        Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.navigation_menu_about:
                        // Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this, DetailActivity.class));
+                        startActivity(new Intent(MainActivity.this, WeatherActivity.class));
 
 
 
