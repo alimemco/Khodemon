@@ -66,17 +66,11 @@ public class SingleItemAdapter extends RecyclerView.Adapter<SingleItemAdapter.Si
             @Override
             public void onClick(View v) {
                 int  postId = locationPeopleList.get(position).getId();
-                //Toast.makeText(context, ""+postId, Toast.LENGTH_SHORT).show();
-
-/*
-                Intent intent = new Intent(context, DetailActivity.class);
-
-                context.startActivity(intent);
-
-*/
+                String  locPeoName = locationPeopleList.get(position).getName();
 
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra(ProvidersApp.KEY_POST_ID,postId);
+                intent.putExtra(ProvidersApp.KEY_LOC_PEO_NAME,locPeoName);
                 context.startActivity(intent);
 
 

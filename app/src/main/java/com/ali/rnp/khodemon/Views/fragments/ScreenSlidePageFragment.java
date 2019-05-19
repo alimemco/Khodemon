@@ -94,18 +94,20 @@ public class ScreenSlidePageFragment extends Fragment {
         }
 
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentImageGalleryDialog dialog = FragmentImageGalleryDialog.newInstance(position, pictureUploadList);
-                if (getActivity() != null) {
-                    FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                    dialog.show(ft, "full");
+        imageView.setOnClickListener(v -> {
+            FragmentImageGalleryDialog dialog = FragmentImageGalleryDialog.newInstance(position, pictureUploadList);
 
-                }
+            //for check show
+            Fragment fragment = getChildFragmentManager().findFragmentByTag("FragmentImageGalleryDialog");
 
+            if (getActivity() != null && fragment == null) {
+                FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                dialog.show(ft, "FragmentImageGalleryDialog");
 
             }
+
+
+
         });
 
         return rootView;

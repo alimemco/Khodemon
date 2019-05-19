@@ -43,6 +43,7 @@ public class ProvidersApp {
 
 
     public static final String KEY_POST_ID = "Post_ID";
+    public static final String KEY_LOC_PEO_NAME = "LOC_PEO_NAME";
 
     public static final String KEY_ITEM_LOCATION_PEOPLE = "LOCATION_PEOPLE";
     public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";

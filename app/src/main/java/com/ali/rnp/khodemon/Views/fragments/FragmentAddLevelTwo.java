@@ -8,12 +8,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,14 +19,15 @@ import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activities.AddRule;
 import com.ali.rnp.khodemon.Views.Activities.CityChooseActivity;
 import com.ali.rnp.khodemon.Views.Activities.GoogleMapsActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -42,10 +37,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 
 public class FragmentAddLevelTwo extends Fragment implements
         View.OnClickListener,
-OnMapReadyCallback{
+        OnMapReadyCallback {
 
 
     private MapView mMapView;
@@ -76,8 +76,6 @@ OnMapReadyCallback{
 
 
     }
-
-
 
 
     @Override
@@ -117,10 +115,13 @@ OnMapReadyCallback{
 
 
         mMapView.onCreate(savedInstanceState);
+        mMapView.onSaveInstanceState(savedInstanceState);
         mMapView.onResume();
+
 
         try {
             MapsInitializer.initialize(context);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,6 +130,15 @@ OnMapReadyCallback{
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                GoogleMapOptions options = new GoogleMapOptions();
+                options.compassEnabled(false)
+                        .rotateGesturesEnabled(false)
+                        .tiltGesturesEnabled(false)
+                        .liteMode(true);
+
+
+
+
                 mMapView.getMapAsync(FragmentAddLevelTwo.this);
             }
         }, 100);
@@ -140,20 +150,19 @@ OnMapReadyCallback{
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.context = context ;
+        this.context = context;
 
     }
-
-
 
 
     @Override
     public void onResume() {
         super.onResume();
+        mMapView.onResume();
 
-        if (selectedLatLong != null && mMap != null){
+        if (selectedLatLong != null && mMap != null) {
 
-            if (mMarker != null){
+            if (mMarker != null) {
                 mMarker.remove();
             }
 
@@ -162,11 +171,10 @@ OnMapReadyCallback{
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
             );
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLatLong,12.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLatLong, 12.0f));
 
 
-              //  getInfoLocation(selectedLatLong);
-
+            //  getInfoLocation(selectedLatLong);
 
 
         }
@@ -176,6 +184,7 @@ OnMapReadyCallback{
     @Override
     public void onPause() {
         super.onPause();
+        mMapView.onPause();
 
 
     }
@@ -183,6 +192,7 @@ OnMapReadyCallback{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mMapView.onDestroy();
 
 
     }
@@ -190,6 +200,7 @@ OnMapReadyCallback{
     @Override
     public void onLowMemory() {
         super.onLowMemory();
+        mMapView.onLowMemory();
 
 
     }
@@ -259,8 +270,8 @@ OnMapReadyCallback{
         /*intent.putExtra(ProvidersApp.KEY_CHOOSE_MAP_FRG_ADD_LVL_TWO,
                 ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO);
 */
-        if (getActivity() != null){
-            getActivity().startActivityForResult(intent,ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO);
+        if (getActivity() != null) {
+            getActivity().startActivityForResult(intent, ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO);
 
         }
 
@@ -284,21 +295,20 @@ OnMapReadyCallback{
 
 
                         String detailCity = "";
-                        if (!provinceName.equals("") && !cityName.equals("")){
+                        if (!provinceName.equals("") && !cityName.equals("")) {
 
-                            detailCity = provinceName+" ، "+cityName;
+                            detailCity = provinceName + " ، " + cityName;
 
-                        }else if (!provinceName.equals("") || !cityName.equals("")){
-                            if (!provinceName.equals("")){
+                        } else if (!provinceName.equals("") || !cityName.equals("")) {
+                            if (!provinceName.equals("")) {
                                 detailCity = provinceName;
                             }
-                            if (!cityName.equals("")){
+                            if (!cityName.equals("")) {
                                 detailCity = cityName;
                             }
-                        }else {
+                        } else {
                             detailCity = "دور از محدوده";
                         }
-
 
 
                         chooseMapTextView.setText(detailCity);
@@ -308,11 +318,10 @@ OnMapReadyCallback{
 
                 } catch (IOException e) {
                     //e.printStackTrace();
-                    Log.i(TAG, "getInfoLocation: "+e.toString());
+                    Log.i(TAG, "getInfoLocation: " + e.toString());
                 }
             }
         }, 100);
-
 
 
     }
@@ -320,12 +329,12 @@ OnMapReadyCallback{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.add_level_two_cardView_chooseCity:
                 //startActivityForResult(new Intent(context,CityChooseActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
-                Intent intent = new Intent(context,CityChooseActivity.class);
-                intent.putExtra(ProvidersApp.KEY_CHOOSE_CITY_FRG_ADD_LVL_TWO,ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
-                if (getActivity()!= null){
+                Intent intent = new Intent(context, CityChooseActivity.class);
+                intent.putExtra(ProvidersApp.KEY_CHOOSE_CITY_FRG_ADD_LVL_TWO, ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
+                if (getActivity() != null) {
                     getActivity().startActivityForResult(intent, ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO);
                 }
 
@@ -343,7 +352,7 @@ OnMapReadyCallback{
         //LatLng abadan = new LatLng(30.3473, 48.2934);
         LatLng iran = new LatLng(32.4279, 53.6880);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(iran,4.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(iran, 4.0f));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override

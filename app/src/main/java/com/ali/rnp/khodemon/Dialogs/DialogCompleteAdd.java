@@ -29,9 +29,7 @@ public class DialogCompleteAdd extends DialogFragment {
         if (getDialog() != null){
             if (getDialog().getWindow()!=null){
                 getDialog().getWindow().setBackgroundDrawableResource(R.drawable.shape_background_dialog_fragment);
-
             }
-
         }
 
 

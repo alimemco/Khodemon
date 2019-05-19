@@ -1,30 +1,29 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.ScreenSlidePagerAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
+import com.ali.rnp.khodemon.Dialogs.DialogNumber;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
+import com.ali.rnp.khodemon.UtilsApp.Utils;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.text.ParseException;
@@ -32,12 +31,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Callable;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewGroupCompat;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -50,8 +53,13 @@ public class DetailActivity extends AppCompatActivity implements
     private Toolbar toolbar;
 
     private AppBarLayout appBarLayout;
-    private MyTextView textView;
+    private MyTextView nameLocPeoTV;
     private ImageView threeLineImageView;
+
+    private RatingBar ratingBar;
+    private MyTextView ratingBarTextView;
+
+    ConstraintLayout constraintLayout;
 
 
    // WormDotsIndicator wormDotsIndicator;
@@ -66,10 +74,25 @@ public class DetailActivity extends AppCompatActivity implements
 
         initStatusBar();
         initViews();
+        initRatingBar();
         initToolbar();
+        initFloatActionButton();
 
 
+        constraintLayout = findViewById(R.id.constraintLayout4);
+       // constraintLayout.setVisibility(View.INVISIBLE);
+       //constraintLayout.setAlpha(0);
 
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //Utils.animMoveViewVisible(constraintLayout);
+                //constraintLayout.animate().y(25f);
+
+
+            }
+        },2000);
 
 
 
@@ -105,47 +128,61 @@ public class DetailActivity extends AppCompatActivity implements
 
     }
 
+    private void initFloatActionButton() {
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+
+        fab.setOnClickListener(v -> {
+            DialogNumber dialogNumber = new DialogNumber();
+            dialogNumber.show(getSupportFragmentManager(),"dialogNumber");
+        });
+    }
+
+    private void initRatingBar() {
+
+        ratingBar = findViewById(R.id.activity_detail_ratingBar);
+        ratingBarTextView = findViewById(R.id.activity_detail_ratingBar_textView);
+
+        float randomRating = Utils.randomFloat(0.0f,5.0f);
+
+        ratingBar.setRating(randomRating);
+        ratingBar.setIsIndicator(true);
+
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.valueOf(randomRating));
+        sb.append(" | ");
+        sb.append(String.valueOf(Utils.randomInteger(10,200)));
+        sb.append(" نفر");
+        ratingBarTextView.setText(sb);
+
+
+
+
+    }
 
 
     private void initViews() {
 
         appBarLayout = findViewById(R.id.activity_detail_appbar);
-        textView = findViewById(R.id.activity_detail_textView);
+        nameLocPeoTV = findViewById(R.id.activity_detail_locPeoName_textView);
 
         mPager = findViewById(R.id.pager);
         dotsIndicator = findViewById(R.id.dots_indicator);
+        dotsIndicator.setVisibility(View.INVISIBLE);
 
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
 
-/*
-            pictureUploadList = new ArrayList<>();
-            PictureUpload pictureUpload = new PictureUpload();
-            pictureUpload.setPic_address("R.drawable.holder_banner");
-            pictureUploadList.add(pictureUpload);
-*/
-
-
-           // pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), pictureUploadList);
-           // mPager.setAdapter(pagerAdapter);
-            //TODO change first init
-
-           // wormDotsIndicator = findViewById(R.id.worm_dots_indicator);
-           // wormDotsIndicator.setViewPager(mPager);
-
-
-           // dotsIndicator.setViewPager(mPager);
-
-
             int post_id = extras.getInt(ProvidersApp.KEY_POST_ID);
+            String locPeoName = extras.getString(ProvidersApp.KEY_LOC_PEO_NAME);
 
             ApiService apiService = new ApiService(this);
 
             apiService.getPicture(post_id,(pictureUploadList, error) -> {
 
                 if (pictureUploadList != null && error == null) {
-                    initViewPagerOnline(pictureUploadList);
+                    initViewPager(pictureUploadList);
                 } else {
                     Toast.makeText(DetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                 }
@@ -154,17 +191,17 @@ public class DetailActivity extends AppCompatActivity implements
 
             apiService.getDetail(post_id,(locationPeople, error) -> {
                 if (locationPeople != null && error == null) {
-                   // Toast.makeText(this, ""+convertFormat(locationPeople.getTimeReg()), Toast.LENGTH_LONG).show();
-               textView.setText(convertFormat(locationPeople.getTimeReg()));
+               //textView.setText(convertFormat(locationPeople.getTimeReg()));
 
                 } else {
                     Toast.makeText(DetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                 }
             });
 
+            nameLocPeoTV.setText(locPeoName);
+
+
         }
-
-
 
     }
 
@@ -202,13 +239,13 @@ public class DetailActivity extends AppCompatActivity implements
 
     }
 
-    private void initViewPagerOnline(ArrayList<PictureUpload> pictureUploadList) {
+    private void initViewPager(ArrayList<PictureUpload> pictureUploadList) {
 
 
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), pictureUploadList);
         mPager.setAdapter(pagerAdapter);
 
-       // wormDotsIndicator.setViewPager(mPager);
+        Utils.animMoveViewVisible(dotsIndicator);
 
         dotsIndicator.setViewPager(mPager);
 
@@ -224,14 +261,6 @@ public class DetailActivity extends AppCompatActivity implements
         }
     }
 
-   /* public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }*/
 
     private int getStatusBarHeight() {
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -261,13 +290,7 @@ public class DetailActivity extends AppCompatActivity implements
         return year+"   "+hour;
     }
 
-    public static void setMargins (View v, int l, int t, int r, int b) {
-        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            p.setMargins(l, t, r, b);
-            v.requestLayout();
-        }
-    }
+
 
 
 }
