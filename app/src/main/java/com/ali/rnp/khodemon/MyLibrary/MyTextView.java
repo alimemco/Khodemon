@@ -22,19 +22,12 @@ public class MyTextView extends AppCompatTextView {
     private static final int SHP_IRAN_SANS_MOBILE_LIGHT = 8;
     private static final int SHP_MATERIAL_DRAWER = 9;
 
-    private boolean isColored= false;
 
     public MyTextView(Context context) {
         super(context);
-        this.isColored = false ;
         setupFont(null);
     }
 
-    public MyTextView(Context context,boolean isColored) {
-        super(context);
-        this.isColored = isColored ;
-        setupFont(null);
-    }
 
     public MyTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -51,7 +44,7 @@ public class MyTextView extends AppCompatTextView {
             TypedArray attributes = getContext().obtainStyledAttributes(attrs, R.styleable.MyViewFont);
 
             try {
-                int Font = attributes.getInteger(R.styleable.MyViewFont_fontCustom, BYEKAN_FONT);
+                int Font = attributes.getInteger(R.styleable.MyViewFont_fontCustom, SHP_IRAN_SANS_MOBILE);
 
                 switch (Font) {
                     case BYEKAN_FONT:

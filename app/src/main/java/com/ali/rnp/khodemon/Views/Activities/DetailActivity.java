@@ -10,11 +10,14 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.ali.rnp.khodemon.Adapter.PersonnelAdapter;
 import com.ali.rnp.khodemon.Adapter.ScreenSlidePagerAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.Dialogs.DialogNumber;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -22,9 +25,13 @@ import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
 import com.ali.rnp.khodemon.UtilsApp.Utils;
+import com.android.volley.VolleyError;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,6 +48,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -54,12 +63,16 @@ public class DetailActivity extends AppCompatActivity implements
 
     private AppBarLayout appBarLayout;
     private MyTextView nameLocPeoTV;
+    private MyTextView tagTV;
     private ImageView threeLineImageView;
 
     private RatingBar ratingBar;
     private MyTextView ratingBarTextView;
 
+    private RecyclerView personnelRecyclerView;
+
     ConstraintLayout constraintLayout;
+
 
 
    // WormDotsIndicator wormDotsIndicator;
@@ -165,6 +178,7 @@ public class DetailActivity extends AppCompatActivity implements
 
         appBarLayout = findViewById(R.id.activity_detail_appbar);
         nameLocPeoTV = findViewById(R.id.activity_detail_locPeoName_textView);
+        tagTV = findViewById(R.id.activity_detail_tag_textView);
 
         mPager = findViewById(R.id.pager);
         dotsIndicator = findViewById(R.id.dots_indicator);
@@ -176,6 +190,7 @@ public class DetailActivity extends AppCompatActivity implements
 
             int post_id = extras.getInt(ProvidersApp.KEY_POST_ID);
             String locPeoName = extras.getString(ProvidersApp.KEY_LOC_PEO_NAME);
+            String locPeoTag = extras.getString(ProvidersApp.KEY_LOC_PEO_TAG);
 
             ApiService apiService = new ApiService(this);
 
@@ -189,6 +204,25 @@ public class DetailActivity extends AppCompatActivity implements
             });
 
 
+
+            personnelRecyclerView = findViewById(R.id.activity_detail_job_recyclerView);
+
+
+            apiService.getPersonnel(new ApiService.OnPersonnelReceived() {
+                @Override
+                public void onItemReceived(ArrayList<LocationPeople> locationPeopleList, VolleyError error) {
+                    if (locationPeopleList != null){
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this,RecyclerView.VERTICAL,false);
+                        personnelRecyclerView.setLayoutManager(linearLayoutManager);
+                        PersonnelAdapter personnelAdapter = new PersonnelAdapter(locationPeopleList);
+                        personnelRecyclerView.setAdapter(personnelAdapter);
+                    }
+                }
+            });
+
+
+
+/*
             apiService.getDetail(post_id,(locationPeople, error) -> {
                 if (locationPeople != null && error == null) {
                //textView.setText(convertFormat(locationPeople.getTimeReg()));
@@ -197,8 +231,11 @@ public class DetailActivity extends AppCompatActivity implements
                     Toast.makeText(DetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                 }
             });
+            */
+
 
             nameLocPeoTV.setText(locPeoName);
+            tagTV.setText(locPeoTag);
 
 
         }

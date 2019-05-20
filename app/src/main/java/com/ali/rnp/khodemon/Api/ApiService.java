@@ -51,6 +51,7 @@ public class ApiService {
     private final static String API_ADD_PICTURE = "http://khodemon.ir/addPictures.php";
     private final static String API_GET_PICTURE = "http://khodemon.ir/getPictures.php";
     private final static String API_GET_DETAIL = "http://khodemon.ir/getDetail.php";
+    private final static String API_GET_PERSONNEL = "http://khodemon.ir/getPersonnels.php";
 
     private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
 
@@ -148,6 +149,25 @@ public class ApiService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 onGroupItemReceived.onItemGroupReceived(null, error);
+            }
+        });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(context).add(request);
+    }
+
+
+    public void getPersonnel( OnPersonnelReceived onPersonnelReceived) {
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_PERSONNEL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                parseJsonPersonnel(response, onPersonnelReceived);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onPersonnelReceived.onItemReceived(null, error);
             }
         });
 
@@ -421,7 +441,7 @@ public class ApiService {
             JSONObject jsonObject = new JSONObject(response.toString());
             JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
 
-            List<LocationPeople> locationPeopleList = new ArrayList<>();
+            ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
 
             for (int i = 0; i < jsonArrayResult.length(); i++) {
 
@@ -459,15 +479,14 @@ public class ApiService {
         }
 
     }
-/*
-    private void parseJsonHomeItems(JSONObject response, OnHomeItemReceived onHomeItemReceived) {
+
+    private void parseJsonPersonnel(JSONObject response, OnPersonnelReceived onPersonnelReceived) {
 
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
             JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
 
-
-            List<LocationPeople> locationPeopleList = new ArrayList<>();
+            ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
 
             for (int i = 0; i < jsonArrayResult.length(); i++) {
 
@@ -475,21 +494,22 @@ public class ApiService {
 
                 LocationPeople locationPeople = new LocationPeople();
 
-                locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
-                locationPeople.setGroup(jsonObjectLocPeo.getString("group_name"));
-                locationPeople.setName(jsonObjectLocPeo.getString("name"));
-                locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
+                    locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
+                    locationPeople.setName(jsonObjectLocPeo.getString("name"));
+                    locationPeople.setTag(jsonObjectLocPeo.getString("tagLocPeo"));
+                    locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
 
                 locationPeopleList.add(locationPeople);
             }
-            onHomeItemReceived.onItemReceived(locationPeopleList, null);
+            onPersonnelReceived.onItemReceived(locationPeopleList, null);
 
         } catch (JSONException e) {
             Log.i(TAG, "parseJsonHomeItems: " + e);
 
         }
+
     }
-*/
+
     private void parseJsonHomeRecyclerListItems(JSONObject response, OnHomeListItemReceived onHomeListItemReceived) {
 
         try {
@@ -706,7 +726,11 @@ public class ApiService {
     }
 
     public interface OnGroupItemReceived {
-        void onItemGroupReceived(List<LocationPeople> locationPeopleList, VolleyError error);
+        void onItemGroupReceived(ArrayList<LocationPeople> locationPeopleList, VolleyError error);
+    }
+
+    public interface OnPersonnelReceived {
+        void onItemReceived(ArrayList<LocationPeople> locationPeopleList, VolleyError error);
     }
 
     public interface OnProvinceReceived {

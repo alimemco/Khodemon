@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#509AF7</color>
-    <color name="colorPrimaryDark">#1e86dd</color>
+    <color name="colorPrimaryDark">#006cc4</color>
+    <color name="colorPrimaryDarkOrg">#1e86dd</color>
     <color name="colorAccent">#1bb8cb</color>
     <color name="blue_600">#039BE5</color>
     <color name="blue_light">#32cbf4</color>
@@ -56,6 +57,11 @@
 
 
     <color name="item_pressed">#8f8f8f</color>
+
+    <color name="colorPrimary50">#50509AF7</color>
+    <color name="colorPrimary70">#70509AF7</color>
+    <color name="blueH50">#e3f2fd</color>
+    <color name="yellowH50">#FFFDE7</color>
 
 
 

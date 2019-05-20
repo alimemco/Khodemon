@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
@@ -91,7 +92,7 @@ public class FragmentGroup extends Fragment {
                 }
                 apiService.getGroupItems(jsonObjectGroup,groupInt ,new ApiService.OnGroupItemReceived() {
                     @Override
-                    public void onItemGroupReceived(List<LocationPeople> locationPeopleList, VolleyError error) {
+                    public void onItemGroupReceived(ArrayList<LocationPeople> locationPeopleList, VolleyError error) {
 
 
                         progressBar.setVisibility(View.INVISIBLE);
