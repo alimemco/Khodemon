@@ -8,26 +8,23 @@
     android:id="@+id/recycler_view_personnel_constraintLayout"
 >
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        app:cardCornerRadius="25dp"
-        app:cardPreventCornerOverlap="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="@id/recycler_view_personnel_constraintLayout"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <com.ali.rnp.khodemon.Library.CircularImageView
             android:id="@+id/recycler_view_personnel_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:adjustViewBounds="true"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/logo_nafis_draw" />
-    </androidx.cardview.widget.CardView>
+            app:civ_border_color="@color/black_80_a_alpha"
+            app:civ_border_width="1dp"
+            app:civ_shadow="true"
+            app:civ_shadow_radius="10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="@id/recycler_view_personnel_constraintLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/logo_nafis_draw" />
+
 
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
@@ -40,7 +37,7 @@
         android:layout_marginBottom="8dp"
         app:fontCustom="shp_iranSansMobile"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cardView4"
+        app:layout_constraintEnd_toStartOf="@+id/recycler_view_personnel_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="نام پرسنل" />
 

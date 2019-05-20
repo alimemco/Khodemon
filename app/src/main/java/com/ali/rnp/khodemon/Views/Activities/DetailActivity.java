@@ -142,11 +142,12 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void initFloatActionButton() {
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        ImageView call = findViewById(R.id.activity_detail_call_imageView);
 
-        fab.setOnClickListener(v -> {
+        call.setOnClickListener(v -> {
             DialogNumber dialogNumber = new DialogNumber();
-            dialogNumber.show(getSupportFragmentManager(),"dialogNumber");
+          //  dialogNumber.show(getSupportFragmentManager(),"dialogNumber");
+            Toast.makeText(this, "CALL", Toast.LENGTH_SHORT).show();
         });
     }
 

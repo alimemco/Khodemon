@@ -62,6 +62,9 @@
     <color name="colorPrimary70">#70509AF7</color>
     <color name="blueH50">#e3f2fd</color>
     <color name="yellowH50">#FFFDE7</color>
+    <color name="yellowH200">#fff59d</color>
+    <color name="greenH100">#c8e6c9</color>
+    <color name="greenH200">#a5d6a7</color>
 
 
 

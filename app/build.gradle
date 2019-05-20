@@ -94,5 +94,7 @@ dependencies {
 
     implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
 
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
 
 }

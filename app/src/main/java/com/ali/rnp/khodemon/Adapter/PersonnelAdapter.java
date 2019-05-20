@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.Library.CircularImageView;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.squareup.picasso.Picasso;
@@ -51,7 +52,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<PersonnelAdapter.Pers
     }
 
     class PersonnelHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        CircularImageView imageView;
         MyTextView nameTv;
         MyTextView jobTv;
 
@@ -60,6 +61,8 @@ public class PersonnelAdapter extends RecyclerView.Adapter<PersonnelAdapter.Pers
             imageView = itemView.findViewById(R.id.recycler_view_personnel_image);
             nameTv = itemView.findViewById(R.id.recycler_view_personnel_name);
             jobTv = itemView.findViewById(R.id.recycler_view_personnel_job);
+
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
     }
 
@@ -68,14 +71,15 @@ public class PersonnelAdapter extends RecyclerView.Adapter<PersonnelAdapter.Pers
         if (!locationPeopleList.get(position).getOriginalPic().equals("")){
             Picasso.get().
                     load(locationPeopleList.get(position).getOriginalPic())
+                    //.placeholder(R.drawable.holder_banner)
                     .resize(400,400)
-                    .centerCrop()
                     .into(holder.imageView);
         }
 
 
         holder.nameTv.setText(locationPeopleList.get(position).getName());
         holder.jobTv.setText(locationPeopleList.get(position).getTag());
+
 
 
 
