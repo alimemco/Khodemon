@@ -6,16 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.PersonnelAdapter;
 import com.ali.rnp.khodemon.Adapter.ScreenSlidePagerAdapter;
+import com.ali.rnp.khodemon.Adapter.SimilarAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
@@ -27,11 +24,7 @@ import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
 import com.ali.rnp.khodemon.UtilsApp.Utils;
 import com.android.volley.VolleyError;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,16 +33,14 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Callable;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewGroupCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -70,6 +61,7 @@ public class DetailActivity extends AppCompatActivity implements
     private MyTextView ratingBarTextView;
 
     private RecyclerView personnelRecyclerView;
+    private RecyclerView similarRecyclerView;
 
     ConstraintLayout constraintLayout;
 
@@ -206,18 +198,30 @@ public class DetailActivity extends AppCompatActivity implements
 
 
 
-            personnelRecyclerView = findViewById(R.id.activity_detail_job_recyclerView);
+            personnelRecyclerView = findViewById(R.id.activity_detail_job_recyclerView_personnel);
+            similarRecyclerView = findViewById(R.id.activity_detail_recyclerView_similar);
 
 
-            apiService.getPersonnel(new ApiService.OnPersonnelReceived() {
-                @Override
-                public void onItemReceived(ArrayList<LocationPeople> locationPeopleList, VolleyError error) {
-                    if (locationPeopleList != null){
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this,RecyclerView.VERTICAL,false);
-                        personnelRecyclerView.setLayoutManager(linearLayoutManager);
-                        PersonnelAdapter personnelAdapter = new PersonnelAdapter(locationPeopleList);
-                        personnelRecyclerView.setAdapter(personnelAdapter);
-                    }
+            apiService.getPersonnel((locationPeopleList, error) -> {
+
+                if (locationPeopleList != null){
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this,RecyclerView.VERTICAL,false);
+                    personnelRecyclerView.setLayoutManager(linearLayoutManager);
+                    PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this , locationPeopleList);
+                    personnelRecyclerView.setAdapter(personnelAdapter);
+
+
+                    SimilarAdapter similarAdapter = new SimilarAdapter(DetailActivity.this,locationPeopleList);
+                    LinearLayoutManager linearLayoutManagerSim = new LinearLayoutManager(
+                            this,RecyclerView.HORIZONTAL,false);
+
+                    similarRecyclerView.setLayoutManager(linearLayoutManagerSim);
+                    similarRecyclerView.setAdapter(similarAdapter);
+
+
+                }else if (error != null){
+                    Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+
                 }
             });
 

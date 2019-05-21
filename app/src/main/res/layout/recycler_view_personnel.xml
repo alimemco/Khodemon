@@ -11,8 +11,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/recycler_view_personnel_image"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:contentDescription="@string/app_name"

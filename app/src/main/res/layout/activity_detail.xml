@@ -101,12 +101,11 @@
                 android:id="@+id/constraintLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                android:background="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.ali.rnp.khodemon.MyLibrary.MyTextView
                     android:id="@+id/activity_detail_locPeoName_textView"
@@ -124,17 +123,17 @@
 
                 <com.ali.rnp.khodemon.MyLibrary.MyTextView
                     android:id="@+id/activity_detail_tag_textView"
+                    style="@style/blueHoloTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="8dp"
-                    style="@style/blueHoloTextView"
+                    android:textSize="12sp"
+                    app:fontCustom="shp_iranSansMobile"
                     app:layout_constraintBottom_toBottomOf="@+id/activity_detail_locPeoName_textView"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/activity_detail_locPeoName_textView"
-                    app:fontCustom="shp_iranSansMobile"
-                    android:textSize="12sp"
                     tools:text="کلینیک پوست و مو" />
 
                 <RatingBar
@@ -167,17 +166,17 @@
                     android:id="@+id/activity_detail_call_imageView"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:adjustViewBounds="true"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="16dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/shape_background_holo_green_image"
                     android:clickable="true"
                     android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activity_detail_ratingBar"
-                    app:srcCompat="@android:drawable/ic_menu_call"
-                    android:background="@drawable/shape_background_holo_green_image"/>
+                    app:srcCompat="@android:drawable/ic_menu_call" />
 
                 <View
                     android:id="@+id/view7"
@@ -195,12 +194,12 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginLeft="24dp"
                     android:adjustViewBounds="true"
+                    android:background="@drawable/shape_background_holo_yellow_image"
                     android:contentDescription="@string/app_name"
                     app:layout_constraintBottom_toBottomOf="@+id/activity_detail_call_imageView"
                     app:layout_constraintStart_toEndOf="@+id/activity_detail_call_imageView"
                     app:layout_constraintTop_toTopOf="@+id/activity_detail_call_imageView"
-                    app:srcCompat="@drawable/ic_photo_camera_white_24dp"
-                    android:background="@drawable/shape_background_holo_yellow_image"/>
+                    app:srcCompat="@drawable/ic_photo_camera_white_24dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -228,7 +227,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activity_detail_job_recyclerView"
+                    android:id="@+id/activity_detail_job_recyclerView_personnel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -236,13 +235,15 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginBottom="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="12dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/view8"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/myTextView5" />
 
+
                 <View
+                    android:id="@+id/view8"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@drawable/shadow_blue"
@@ -250,7 +251,17 @@
                     app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_detail_recyclerView_similar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
