@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PersonnelAdapter extends RecyclerView.Adapter<PersonnelAdapter.PersonnelHolder> {
 
@@ -52,7 +53,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<PersonnelAdapter.Pers
     }
 
     class PersonnelHolder extends RecyclerView.ViewHolder {
-        CircularImageView imageView;
+        CircleImageView imageView;
         MyTextView nameTv;
         MyTextView jobTv;
 
@@ -71,8 +72,9 @@ public class PersonnelAdapter extends RecyclerView.Adapter<PersonnelAdapter.Pers
         if (!locationPeopleList.get(position).getOriginalPic().equals("")){
             Picasso.get().
                     load(locationPeopleList.get(position).getOriginalPic())
-                    //.placeholder(R.drawable.holder_banner)
-                    .resize(400,400)
+                    .placeholder(R.drawable.holder_banner)
+                   // .centerCrop()
+                  //  .resize(500,500)
                     .into(holder.imageView);
         }
 
