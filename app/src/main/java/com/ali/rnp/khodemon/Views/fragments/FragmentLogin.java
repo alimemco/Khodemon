@@ -140,47 +140,37 @@ public class FragmentLogin extends Fragment {
 
                 apiService.loginUser(jsonObjectLogin, new ApiService.OnLoginCompleted() {
                     @Override
-                    public void onLoginStatusReceived(int status) {
+                    public void onLoginStatusReceived(boolean isSuccess, int code, String username, String error) {
                         materialProgressBar.setVisibility(View.INVISIBLE);
                         loginBtn.setText(getResources().getText(R.string.login));
                         progressBarLogin.setVisibility(View.INVISIBLE);
-                        switch (status) {
 
+                        if (isSuccess && code == 29 && onLoginListener != null){
 
-                            case ApiService.STATUS_Login_ERROR:
-                                Toast.makeText(getContext(),"Error Login",Toast.LENGTH_SHORT).show();
+                                onLoginListener.onLogin(username);
+                                Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
 
-                                break;
+                        }else {
+                            String status = "unknown";
+                            switch (code) {
+                                case ApiService.STATUS_Login_ERROR:
+                                    status = "Error Login";
+                                    break;
 
-                            case 1:
-                                //user Not Found.
-                                Toast.makeText(getContext(),"User Not Found",Toast.LENGTH_SHORT).show();
+                                case 1:
+                                    status = "User Not Found";
+                                    break;
 
-                                break;
+                                case 2:
+                                    status = "wrong pass";
+                                    break;
+                                    }
 
-
-                            case 2:
-                                Toast.makeText(getContext(),"wrong pass",Toast.LENGTH_SHORT).show();
-
-                                //wrong pass
-                                break;
-
-                            case 29:
-
-                                //success
-
-
-                               // FragmentUserInfo fragmentUserInfo = FragmentUserInfo.newInstance("testUser");
-
-                                if (onLoginListener != null){
-                                    onLoginListener.onLogin("testUserName");
-                                    Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
-
-                                }
-
-                                //TODO change status
-                                break;
+                            Toast.makeText(getContext(), status, Toast.LENGTH_LONG).show();
                         }
+
+
+
                     }
                 });
 

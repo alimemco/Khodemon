@@ -22,7 +22,6 @@ import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
 import com.ali.rnp.khodemon.UtilsApp.Utils;
-import com.android.volley.VolleyError;
 import com.google.android.material.appbar.AppBarLayout;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
@@ -40,7 +39,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -70,7 +68,7 @@ public class DetailActivity extends AppCompatActivity implements
    // WormDotsIndicator wormDotsIndicator;
     DotsIndicator dotsIndicator;
     //ArrayList<String> imgAddressList;
-    private ArrayList<PictureUpload> pictureUploadList;
+   // private ArrayList<PictureUpload> pictureUploadList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,26 +200,24 @@ public class DetailActivity extends AppCompatActivity implements
             similarRecyclerView = findViewById(R.id.activity_detail_recyclerView_similar);
 
 
-            apiService.getPersonnel((locationPeopleList, error) -> {
 
-                if (locationPeopleList != null){
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this,RecyclerView.VERTICAL,false);
+            apiService.getPersonnel(post_id,(locationPeopleList, pictureUploadList, error) -> {
+
+                if (locationPeopleList != null && pictureUploadList != null) {
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
                     personnelRecyclerView.setLayoutManager(linearLayoutManager);
-                    PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this , locationPeopleList);
+                    PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this, locationPeopleList, pictureUploadList);
                     personnelRecyclerView.setAdapter(personnelAdapter);
 
 
-                    SimilarAdapter similarAdapter = new SimilarAdapter(DetailActivity.this,locationPeopleList);
+                    SimilarAdapter similarAdapter = new SimilarAdapter(DetailActivity.this, locationPeopleList);
                     LinearLayoutManager linearLayoutManagerSim = new LinearLayoutManager(
-                            this,RecyclerView.HORIZONTAL,false);
+                            this, RecyclerView.HORIZONTAL, false);
 
                     similarRecyclerView.setLayoutManager(linearLayoutManagerSim);
                     similarRecyclerView.setAdapter(similarAdapter);
-
-
-                }else if (error != null){
-                    Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-
+                }else {
+                    Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
                 }
             });
 

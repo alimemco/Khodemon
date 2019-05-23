@@ -9,9 +9,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,10 +21,12 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
 public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<LocationPeople> locationPeopleList;
+    private ArrayList<PictureUpload> pictureUploadList;
 
     private static final int VIEW_TYPE_PERSONNEL = 0;
     private static final int VIEW_TYPE_ADD_PERSONNEL = 1;
@@ -32,9 +36,10 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final String TAG = "PersonnelAdapter";
 
 
-    public PersonnelAdapter(Context context , ArrayList<LocationPeople> locationPeopleList){
+    public PersonnelAdapter(Context context, ArrayList<LocationPeople> locationPeopleList, ArrayList<PictureUpload> pictureUploadList){
         this.context = context;
         this.locationPeopleList = locationPeopleList;
+        this.pictureUploadList = pictureUploadList;
     }
 
     @Override
@@ -75,7 +80,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         if (holder instanceof PersonnelHolder){
             PersonnelHolder mHolder = (PersonnelHolder) holder;
-            bindPersonnelView(mHolder,locationPeopleList.get(position));
+            bindPersonnelView(mHolder,locationPeopleList.get(position),pictureUploadList.get(position));
 
         }else if (holder instanceof  PersonnelAddHolder){
 
@@ -137,16 +142,17 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    private void bindPersonnelView(PersonnelHolder holder, LocationPeople locationPeople) {
+    private void bindPersonnelView(PersonnelHolder holder, LocationPeople locationPeople, PictureUpload pictureUpload) {
 
 
+        loadImage(holder,pictureUpload);
 
-        if (!locationPeople.getOriginalPic().equals("")){
+        /*if (!locationPeople.getOriginalPic().equals("")){
             Picasso.get().
                     load(locationPeople.getOriginalPic())
                     .placeholder(R.drawable.holder_banner)
                     .into(holder.imageView);
-        }
+        }*/
 
         holder.nameTv.setText(locationPeople.getName());
         holder.jobTv.setText(locationPeople.getTag());
@@ -160,6 +166,45 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         });
 
+    }
+
+    private void loadImage(PersonnelHolder holder, PictureUpload pictureUpload){
+        if (!pictureUpload.getPic_address().equals("")) {
+
+            boolean isLarge;
+            isLarge = pictureUpload.getWidth() >= 1000;
+            String IMG_ADDRESS ;
+
+            IMG_ADDRESS = (isLarge) ?
+                    pictureUpload.getThumb_1000()
+                    : pictureUpload.getPic_address();
+
+
+            Picasso.get()
+                    .load(pictureUpload.getThumb_150())
+                    .placeholder(R.drawable.holder_banner)
+                    .into(holder.imageView, new Callback() {
+
+
+                        @Override
+                        public void onSuccess() {
+                            Picasso.get()
+                                    .load(IMG_ADDRESS)
+                                    .placeholder(holder.imageView.getDrawable())
+                                    .into(holder.imageView);
+
+                            //imageView.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+
+                    });
+
+        }
     }
 
 }

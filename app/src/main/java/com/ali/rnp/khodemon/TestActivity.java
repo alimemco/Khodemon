@@ -51,7 +51,7 @@ public class TestActivity extends AppCompatActivity {
                        // String url = "https://camo.githubusercontent.com/6cabd61bb7aef8d806561450f035509eae8710e0/687474703a2f2f6936372e74696e797069632e636f6d2f32696a316432722e6a7067";
 
                         ApiService apiService = new ApiService(TestActivity.this);
-
+/*
                         apiService.getPersonnel(new ApiService.OnPersonnelReceived() {
                             @Override
                             public void onItemReceived(ArrayList<LocationPeople> locationPeopleList, VolleyError error) {
@@ -78,7 +78,7 @@ public class TestActivity extends AppCompatActivity {
                             }
                         });
 
-
+*/
 
 
                     }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.City;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
@@ -31,7 +30,6 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class ApiService {
@@ -51,7 +49,7 @@ public class ApiService {
     private final static String API_ADD_PICTURE = "http://khodemon.ir/addPictures.php";
     private final static String API_GET_PICTURE = "http://khodemon.ir/getPictures.php";
     private final static String API_GET_DETAIL = "http://khodemon.ir/getDetail.php";
-    private final static String API_GET_PERSONNEL = "http://khodemon.ir/getPersonnels.php";
+    private final static String API_GET_PERSONNEL = "http://khodemon.ir/getPersonnel.php";
 
     private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
 
@@ -111,33 +109,34 @@ public class ApiService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onLoginCompleted.onLoginStatusReceived(STATUS_Login_ERROR);
+                onLoginCompleted.onLoginStatusReceived(false, 0, null, error.toString());
             }
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
-/*
-    public void getHomeItems(final OnHomeItemReceived onHomeItemReceived) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_ITEMS, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                parseJsonHomeItems(response, onHomeItemReceived);
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onHomeItemReceived.onItemReceived(null, error);
-                    }
-                }
-        );
 
-        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(context).add(request);
-    }
-*/
+    /*
+        public void getHomeItems(final OnHomeItemReceived onHomeItemReceived) {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_ITEMS, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    parseJsonHomeItems(response, onHomeItemReceived);
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            onHomeItemReceived.onItemReceived(null, error);
+                        }
+                    }
+            );
+
+            request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Volley.newRequestQueue(context).add(request);
+        }
+    */
     public void getGroupItems(JSONObject jsonObjectGroup, final int groupKey, final OnGroupItemReceived onGroupItemReceived) {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_GROUP_ITEMS, jsonObjectGroup, new Response.Listener<JSONObject>() {
@@ -157,9 +156,16 @@ public class ApiService {
     }
 
 
-    public void getPersonnel( OnPersonnelReceived onPersonnelReceived) {
+    public void getPersonnel(int LOCATION_ID , OnPersonnelReceived onPersonnelReceived) {
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_PERSONNEL, null, new Response.Listener<JSONObject>() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ProvidersApp.KEY_LOCATION_ID,LOCATION_ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_PERSONNEL, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 parseJsonPersonnel(response, onPersonnelReceived);
@@ -167,13 +173,15 @@ public class ApiService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onPersonnelReceived.onItemReceived(null, error);
+                onPersonnelReceived.onItemReceived(null, null, error.toString());
             }
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
+
+
 
     public void getHomeRecyclerListItems(final OnHomeListItemReceived onHomeListItemReceived) {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_LIST_ITEMS, null, new Response.Listener<JSONObject>() {
@@ -185,7 +193,7 @@ public class ApiService {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onHomeListItemReceived.onItemReceived(null, null, "VolleyError | "+error.toString());
+                        onHomeListItemReceived.onItemReceived(null, null, "VolleyError | " + error.toString());
                     }
                 }
         );
@@ -207,7 +215,7 @@ public class ApiService {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                onProvinceReceived.onReceived(null,null, error);
+                onProvinceReceived.onReceived(null, null, error);
 
             }
         });
@@ -230,7 +238,7 @@ public class ApiService {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                onTagsReceived.onReceived(null,null, error);
+                onTagsReceived.onReceived(null, null, error);
 
             }
         });
@@ -240,12 +248,12 @@ public class ApiService {
         requestQueue.add(request);
     }
 
-    public void uploadImage(Bitmap bitmap,String ImageName,int pic_id,String groupName, final int currentPhoto, int allPhoto, OnUploadedPhoto onUploadedPhoto) {
+    public void uploadImage(Bitmap bitmap, String ImageName, int pic_id, String groupName, final int currentPhoto, int allPhoto, OnUploadedPhoto onUploadedPhoto) {
 
 
         try {
             jsonObjectPhoto = new JSONObject();
-          //  String imgName = String.valueOf(Calendar.getInstance().getTimeInMillis());
+            //  String imgName = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
             //jsonObject.put("id",currentPhoto);
             jsonObjectPhoto.put("name", ImageName);
@@ -261,10 +269,10 @@ public class ApiService {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
 
-                        Log.i(TAG, "onResponse: "+jsonObject.toString());
+                        Log.i(TAG, "onResponse: " + jsonObject.toString());
                         try {
                             JSONObject jsonObjectPhoto = new JSONObject(jsonObject.toString());
-                            if (jsonObjectPhoto.getInt("success") == 1){
+                            if (jsonObjectPhoto.getInt("success") == 1) {
                                 /*
                                 int success = jsonObjectPhoto.getInt("success");
                                 String imageUrl = jsonObjectPhoto.getString("url");
@@ -282,10 +290,10 @@ public class ApiService {
                                 pictureUploaded.setHeight(jsonObjectPhoto.getInt("height"));
                                 pictureUploaded.setThumb_150(jsonObjectPhoto.getString("thumb_150"));
                                 pictureUploaded.setThumb_1000(jsonObjectPhoto.getString("thumb_1000"));
-                                Log.i(TAG, "onResponse: "+jsonObject.toString());
-                                Log.i(TAG, "onResponse: "+pictureUploaded.toString());
-                                onUploadedPhoto.OnUploadPhoto(pictureUploaded,currentPhoto, null);
-                            }else {
+                                Log.i(TAG, "onResponse: " + jsonObject.toString());
+                                Log.i(TAG, "onResponse: " + pictureUploaded.toString());
+                                onUploadedPhoto.OnUploadPhoto(pictureUploaded, currentPhoto, null);
+                            } else {
                                 Log.i(TAG, "onResponse: ERROR - Succees = 0");
                             }
 
@@ -295,16 +303,12 @@ public class ApiService {
                         }
 
 
-
-
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.i(TAG, volleyError.toString());
-                onUploadedPhoto.OnUploadPhoto(null,-1, volleyError);
+                onUploadedPhoto.OnUploadPhoto(null, -1, volleyError);
 
             }
         });
@@ -316,22 +320,22 @@ public class ApiService {
 
     }
 
-    public void addLocation(JSONObject jsonObject,OnAddLocationPeople onAddLocationPeople){
+    public void addLocation(JSONObject jsonObject, OnAddLocationPeople onAddLocationPeople) {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_ADD_LOCATION_PEOPLE, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                 try {
                     JSONObject jsonObjectResponse = new JSONObject(response.toString());
-                    JSONObject jsonObjectResult = jsonObjectResponse.getJSONObject("result") ;
-                   // String res = jsonObjectResponse.getString("result");
+                    JSONObject jsonObjectResult = jsonObjectResponse.getJSONObject("result");
+                    // String res = jsonObjectResponse.getString("result");
                     jsonObjectResult.getInt("success");
                     if (jsonObjectResult.getInt("success") == 1) {
                         onAddLocationPeople.OnAdded(jsonObjectResult.getInt("last_id"), null);
-                    }else {
+                    } else {
                         String msg = jsonObjectResult.getString("message");
-                        onAddLocationPeople.OnAdded(-1,"Error From Server "+msg);
-                        Log.i(TAG, "onResponse: "+msg);
+                        onAddLocationPeople.OnAdded(-1, "Error From Server " + msg);
+                        Log.i(TAG, "onResponse: " + msg);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -343,37 +347,37 @@ public class ApiService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onAddLocationPeople.OnAdded(-1,error.toString());
+                onAddLocationPeople.OnAdded(-1, error.toString());
             }
         });
 
-        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void addPicture(JSONObject jsonObject,OnAddPictures onAddPictures){
+    public void addPicture(JSONObject jsonObject, OnAddPictures onAddPictures) {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_ADD_PICTURE, jsonObject, response -> {
 
             try {
                 JSONObject jsonObjectResponse = new JSONObject(response.toString());
                 String res = jsonObjectResponse.getString("result");
-                onAddPictures.OnAddPicture(res,null);
+                onAddPictures.OnAddPicture(res, null);
             } catch (JSONException e) {
                 e.printStackTrace();
 
 
             }
 
-        }, error -> onAddPictures.OnAddPicture(null,error));
+        }, error -> onAddPictures.OnAddPicture(null, error));
 
-        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void getPicture(int Post_id,OnGetPictures onGetPictures){
+    public void getPicture(int Post_id, OnGetPictures onGetPictures) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ProvidersApp.KEY_POST_ID,Post_id);
+            jsonObject.put(ProvidersApp.KEY_POST_ID, Post_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -401,7 +405,7 @@ public class ApiService {
 
                     pictureUploadsList.add(picUp);
                 }
-                onGetPictures.OnGetPicture(pictureUploadsList,null);
+                onGetPictures.OnGetPicture(pictureUploadsList, null);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -409,30 +413,29 @@ public class ApiService {
 
             }
 
-        }, error -> onGetPictures.OnGetPicture(null,error));
+        }, error -> onGetPictures.OnGetPicture(null, error));
 
-        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void getDetail(int Post_id,OnGetDetails onGetDetails){
+    public void getDetail(int Post_id, OnGetDetails onGetDetails) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ProvidersApp.KEY_POST_ID,Post_id);
+            jsonObject.put(ProvidersApp.KEY_POST_ID, Post_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_DETAIL, jsonObject, response -> {
 
-            parseGetDetail(response,onGetDetails);
+            parseGetDetail(response, onGetDetails);
 
 
-        }, error -> onGetDetails.OnGetDetail(null,error));
+        }, error -> onGetDetails.OnGetDetail(null, error));
 
-        request.setRetryPolicy(new DefaultRetryPolicy(retryTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
-
 
 
     private void parseJsonGroupItems(JSONObject response, int groupKey, OnGroupItemReceived onGroupItemReceived) {
@@ -485,26 +488,45 @@ public class ApiService {
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
             JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
+            JSONObject jsonObjectRes = jsonArrayResult.getJSONObject(0);
+            boolean isSuccess = Boolean.parseBoolean(jsonObjectRes.getString("success"));
+            if (isSuccess){
+                JSONArray itemsArray = jsonObjectRes.getJSONArray("items");
 
-            ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
+                ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
+                ArrayList<PictureUpload> pictureUploadList = new ArrayList<>();
 
-            for (int i = 0; i < jsonArrayResult.length(); i++) {
+                for (int i = 0; i < itemsArray.length(); i++) {
 
-                JSONObject jsonObjectLocPeo = jsonArrayResult.getJSONObject(i);
+                    JSONObject jsonObjectLocPeo = itemsArray.getJSONObject(i);
 
-                LocationPeople locationPeople = new LocationPeople();
+                    LocationPeople locationPeople = new LocationPeople();
+                    PictureUpload pictureUpload = new PictureUpload();
 
                     locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
-                    locationPeople.setName(jsonObjectLocPeo.getString("name"));
-                    locationPeople.setTag(jsonObjectLocPeo.getString("tagLocPeo"));
-                    locationPeople.setOriginalPic(jsonObjectLocPeo.getString("original_pic"));
+                    locationPeople.setName(jsonObjectLocPeo.getString("personnelName"));
+                    locationPeople.setTag(jsonObjectLocPeo.getString("TagPeople"));
+                    locationPeople.setOriginalPic(jsonObjectLocPeo.getString("image"));
 
-                locationPeopleList.add(locationPeople);
+                    pictureUpload.setPic_address(jsonObjectLocPeo.getString("image"));
+                    pictureUpload.setWidth(jsonObjectLocPeo.getInt("width"));
+                    pictureUpload.setHeight(jsonObjectLocPeo.getInt("height"));
+                    pictureUpload.setThumb_150(jsonObjectLocPeo.getString("thumb_150"));
+                    pictureUpload.setThumb_1000(jsonObjectLocPeo.getString("thumb_1000"));
+
+                    locationPeopleList.add(locationPeople);
+                    pictureUploadList.add(pictureUpload);
+                }
+                onPersonnelReceived.onItemReceived(locationPeopleList,pictureUploadList, null);
+            }else {
+                String  msg = jsonObjectRes.getString("message");
+                onPersonnelReceived.onItemReceived(null, null, msg);
             }
-            onPersonnelReceived.onItemReceived(locationPeopleList, null);
+
+
 
         } catch (JSONException e) {
-            Log.i(TAG, "parseJsonHomeItems: " + e);
+            onPersonnelReceived.onItemReceived(null, null, e.toString());
 
         }
 
@@ -557,7 +579,7 @@ public class ApiService {
             onHomeListItemReceived.onItemReceived(locationPeopleListLayout, locationPeoplePerItem, null);
 
         } catch (JSONException e) {
-            onHomeListItemReceived.onItemReceived(null, null, "JSONException | "+e.toString());
+            onHomeListItemReceived.onItemReceived(null, null, "JSONException | " + e.toString());
 
         }
 
@@ -602,7 +624,7 @@ public class ApiService {
 
         }
 
-        onProvinceReceived.onReceived(makeSingleCheckParent,cities, null);
+        onProvinceReceived.onReceived(makeSingleCheckParent, cities, null);
 
     }
 
@@ -649,7 +671,7 @@ public class ApiService {
 
         }
 
-        onTagsReceived.onReceived(makeSingleCheckParent,tagsList, null);
+        onTagsReceived.onReceived(makeSingleCheckParent, tagsList, null);
 
     }
 
@@ -666,8 +688,15 @@ public class ApiService {
     private void parseJsonLoginUser(JSONObject response, OnLoginCompleted onLoginCompleted) {
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
-            String status = jsonObject.getString("result");
-            onLoginCompleted.onLoginStatusReceived(Integer.parseInt(status));
+            JSONArray result = jsonObject.getJSONArray("result");
+            JSONObject res = result.getJSONObject(0);
+            boolean isSuccess = Boolean.parseBoolean(res.getString("success"));
+            int code = res.getInt("code");
+            String username = res.getString("username");
+
+            onLoginCompleted.onLoginStatusReceived(isSuccess, code, username, null);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -689,7 +718,7 @@ public class ApiService {
             locPeo.setOwnerSeller(jsObject.getString("owner_seller"));
 
 
-            onGetDetails.OnGetDetail(locPeo,null);
+            onGetDetails.OnGetDetail(locPeo, null);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -697,7 +726,6 @@ public class ApiService {
 
         }
     }
-
 
 
     private String bitmapToString(Bitmap bitmap) {
@@ -708,13 +736,12 @@ public class ApiService {
     }
 
 
-
     public interface OnRegisterCompleted {
         void onRegisterStatusReceived(int status);
     }
 
     public interface OnLoginCompleted {
-        void onLoginStatusReceived(int status);
+        void onLoginStatusReceived(boolean isSuccess, int code, String username, String error);
     }
 
     public interface OnHomeItemReceived {
@@ -730,11 +757,11 @@ public class ApiService {
     }
 
     public interface OnPersonnelReceived {
-        void onItemReceived(ArrayList<LocationPeople> locationPeopleList, VolleyError error);
+        void onItemReceived(ArrayList<LocationPeople> locationPeopleList, ArrayList<PictureUpload> pictureUploadList, String error);
     }
 
     public interface OnProvinceReceived {
-        void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent,List<City> cities, VolleyError error);
+        void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent, List<City> cities, VolleyError error);
     }
 
     public interface OnTagsReceived {
@@ -742,7 +769,7 @@ public class ApiService {
     }
 
     public interface OnUploadedPhoto {
-        void OnUploadPhoto(PictureUpload pictureUploaded,int currentPhotoNum, VolleyError error);
+        void OnUploadPhoto(PictureUpload pictureUploaded, int currentPhotoNum, VolleyError error);
     }
 
     public interface OnAddLocationPeople {
@@ -760,8 +787,6 @@ public class ApiService {
     public interface OnGetDetails {
         void OnGetDetail(LocationPeople locationPeople, VolleyError error);
     }
-
-
 
 
 }
