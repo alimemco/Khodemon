@@ -46,6 +46,9 @@ public class ProvidersApp {
     public static final String KEY_LOC_PEO_NAME = "LOC_PEO_NAME";
     public static final String KEY_LOC_PEO_TAG = "LOC_PEO_TAG";
 
+    public static final String KEY_ID = "USER_NAME";
+    public static final String KEY_USERNAME = "USER_NAME";
+
     public static final String KEY_ITEM_LOCATION_PEOPLE = "LOCATION_PEOPLE";
     public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";
 

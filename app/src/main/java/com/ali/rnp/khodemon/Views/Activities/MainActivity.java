@@ -23,9 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationCity;
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Dialogs.DialogCompleteAdd;
 import com.ali.rnp.khodemon.DiscreteScrollView.WeatherActivity;
 import com.ali.rnp.khodemon.ExpandableRecActivity;
+import com.ali.rnp.khodemon.Interface.OnLoginListener;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -39,6 +41,7 @@ import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
 import com.ali.rnp.khodemon.Views.fragments.FragmentLogin;
 import com.ali.rnp.khodemon.Views.fragments.FragmentSearch;
 import com.ali.rnp.khodemon.Views.fragments.FragmentUser;
+import com.ali.rnp.khodemon.Views.fragments.FragmentUserInfo;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.crashlytics.android.Crashlytics;
@@ -65,10 +68,10 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements
         View.OnClickListener,
-        FragmentUser.OnFragmentInteractionListener,
         FragmentSearch.OnFragmentInteractionListener,
         FragmentFavorite.OnFragmentInteractionListener,
-        FragmentLogin.OnFragmentInteractionListener {
+        OnLoginListener,
+FragmentUserInfo.OnLogOut{
 
 
     private AHBottomNavigation bottomNavigation;
@@ -300,9 +303,9 @@ public class MainActivity extends AppCompatActivity implements
     private void SetupCityFromSharedPref() {
 
         SharedPrefManager sharedPrefManager = new SharedPrefManager(this);
-        LocationCity locationCity = sharedPrefManager.getSharedCity();
+        LocationPeople locationPeople = sharedPrefManager.getSharedCity();
 
-        cityName.setText(locationCity.getCityName());
+        cityName.setText(locationPeople.getCity());
     }
 
 
@@ -388,7 +391,22 @@ public class MainActivity extends AppCompatActivity implements
                         break;
 
                     case BOTTOM_NAV_ITEM_USER:
-                        fragmentReplace(fragmentUser);
+                        String userName = sharedPrefManager.getUser().getUserName();
+                        if (userName.equals("")){
+                            fragmentReplace(fragmentUser);
+
+                            fragmentUser.setOnLoginListener(MainActivity.this);
+
+
+
+
+                        }else {
+                            FragmentUserInfo fragmentUserInfo = FragmentUserInfo.newInstance(userName);
+                            fragmentReplace(fragmentUserInfo);
+                            // TODO: 5/22/2019 
+                             
+                        }
+
                         break;
 
                     case BOTTOM_NAV_ITEM_ADD:
@@ -475,11 +493,11 @@ public class MainActivity extends AppCompatActivity implements
 
 
                         runOnUiThread(() -> {
-                            LocationCity locationCity = new LocationCity();
+                            LocationPeople locationPeople = new LocationPeople();
                             // locationCity.setCityId(cityId);
-                            locationCity.setCityName(cityNameString);
+                            locationPeople.setCity(cityNameString);
                             // locationCity.setCityProvinceName(cityProvinceNameString);
-                            sharedPrefManager.setSharedCity(locationCity);
+                            sharedPrefManager.setSharedCity(locationPeople);
                         });
 
                     }
@@ -505,6 +523,9 @@ public class MainActivity extends AppCompatActivity implements
        // transactionFragment.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
         transactionFragment.replace(R.id.mainActivity_fragment_container, fragment);
         // transactionFragment.addToBackStack("HomeFragmentStack");
+        if (fragment instanceof FragmentUserInfo){
+            ((FragmentUserInfo) fragment).setOnLogOutListener(MainActivity.this);
+        }
         transactionFragment.commit();
     }
 
@@ -561,4 +582,18 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+    @Override
+    public void onLogin(String userName) {
+        FragmentUserInfo fragmentUserInfo = FragmentUserInfo.newInstance(userName);
+        fragmentReplace(fragmentUserInfo);
+        Toast.makeText(this, "us "+userName, Toast.LENGTH_SHORT).show();
+
+        fragmentUserInfo.setOnLogOutListener(this);
+    }
+
+    @Override
+    public void OnLoginOut() {
+        fragmentReplace(fragmentUser);
+        Toast.makeText(this, "Log Out User :D ", Toast.LENGTH_SHORT).show();
+    }
 }

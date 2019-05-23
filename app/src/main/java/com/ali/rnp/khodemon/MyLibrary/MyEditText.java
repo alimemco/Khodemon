@@ -43,7 +43,7 @@ public class MyEditText extends AppCompatEditText {
             TypedArray attributes = getContext().obtainStyledAttributes(attrs, R.styleable.MyViewFont);
 
             try {
-                int Font = attributes.getInteger(R.styleable.MyViewFont_fontCustom, Default_FONT);
+                int Font = attributes.getInteger(R.styleable.MyViewFont_fontCustom, SHP_IRAN_SANS_MOBILE);
 
                 switch (Font) {
                     case BYEKAN_FONT:

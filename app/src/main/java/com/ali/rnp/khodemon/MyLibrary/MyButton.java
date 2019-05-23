@@ -45,7 +45,7 @@ public class MyButton extends AppCompatButton {
             TypedArray attributes = getContext().obtainStyledAttributes(attrs, R.styleable.MyViewFont);
 
             try {
-                int Font = attributes.getInteger(R.styleable.MyViewFont_fontCustom, BYEKAN_FONT);
+                int Font = attributes.getInteger(R.styleable.MyViewFont_fontCustom, SHP_IRAN_SANS_MOBILE);
 
                 switch (Font) {
                     case BYEKAN_FONT:

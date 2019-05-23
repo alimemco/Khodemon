@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ali.rnp.khodemon.Interface.OnLoginListener;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.Utils;
@@ -21,19 +22,24 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class FragmentUser extends Fragment implements View.OnClickListener {
+public class FragmentUser extends Fragment implements
+        View.OnClickListener,
+        OnLoginListener {
 
-    private OnFragmentInteractionListener mListener;
+
     
     private MainActivity myContext;
     private FragmentManager fragmentManager;
 
     private FragmentLogin fragmentLogin;
     private FragmentRegister fragmentRegister;
+    private FragmentUserInfo fragmentUserInfo;
 
     private CardView cardLogReg;
 
     private ConstraintLayout rootLayout;
+
+    private OnLoginListener onLoginListener;
 
 
     private static final String TAG = "FragmentUser";
@@ -44,9 +50,8 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
 
     }
 
-    public static FragmentUser newInstance(String param1, String param2) {
-        FragmentUser fragment = new FragmentUser();
-        return fragment;
+    public void setOnLoginListener(OnLoginListener onLoginListener) {
+        this.onLoginListener = onLoginListener;
     }
 
     @Override
@@ -55,10 +60,15 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
 
         fragmentLogin = new FragmentLogin();
         fragmentRegister = FragmentRegister.newInstance();
+        //fragmentUserInfo = FragmentUserInfo.newInstance("testUserFra");
+
+        fragmentLogin.setOnLoginListener(this);
 
         fragmentManager = myContext.getSupportFragmentManager();
 
         replaceFragment(fragmentLogin);
+
+
     }
 
 
@@ -136,19 +146,9 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
 
         myContext = (MainActivity) context;
         
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     @Override
     public void onClick(View v) {
@@ -165,9 +165,20 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onLogin(String userName) {
+      //  FragmentUserInfo fragmentUserInfo = FragmentUserInfo.newInstance(userName);
+      //  replaceFragment(fragmentUserInfo);
+
+        if (onLoginListener != null)
+            onLoginListener.onLogin(userName);
 
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+
     }
+
+
+
+
+
 }

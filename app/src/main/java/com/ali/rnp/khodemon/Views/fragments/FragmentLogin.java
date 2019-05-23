@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.Interface.OnLoginListener;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -27,7 +28,6 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class FragmentLogin extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
 
     private MyTextView usernameTxt;
     private MyTextView passwordTxt;
@@ -49,8 +49,16 @@ public class FragmentLogin extends Fragment {
     private static final String USER_NAME_LOGIN = "user_name";
     private static final String USER_PASS_LOGIN = "user_pass";
 
+    private OnLoginListener onLoginListener;
+
     public FragmentLogin() {
 
+    }
+
+
+
+    public void setOnLoginListener(OnLoginListener onLoginListener){
+        this.onLoginListener = onLoginListener;
     }
 
 
@@ -158,9 +166,19 @@ public class FragmentLogin extends Fragment {
                                 break;
 
                             case 29:
-                                Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
 
                                 //success
+
+
+                               // FragmentUserInfo fragmentUserInfo = FragmentUserInfo.newInstance("testUser");
+
+                                if (onLoginListener != null){
+                                    onLoginListener.onLogin("testUserName");
+                                    Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                //TODO change status
                                 break;
                         }
                     }
@@ -198,28 +216,9 @@ public class FragmentLogin extends Fragment {
 
         rootLayout = rootView.findViewById(R.id.fragment_login_constraintLayout);
 
+
+
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
 }
