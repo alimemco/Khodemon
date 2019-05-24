@@ -18,6 +18,10 @@ public class LocationPeople implements Parcelable {
     private String timeReg;
 
     private String originalPic;
+    private int imageWidth;
+    private int imageHeight;
+    private String imageThumb150;
+    private String imageThumb1000;
 
     public LocationPeople() {
     }
@@ -118,6 +122,39 @@ public class LocationPeople implements Parcelable {
         this.timeReg = timeReg;
     }
 
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
+    }
+
+    public String getImageThumb150() {
+        return imageThumb150;
+    }
+
+    public void setImageThumb150(String imageThumb150) {
+        this.imageThumb150 = imageThumb150;
+    }
+
+    public String getImageThumb1000() {
+        return imageThumb1000;
+    }
+
+    public void setImageThumb1000(String imageThumb1000) {
+        this.imageThumb1000 = imageThumb1000;
+    }
+
     protected LocationPeople(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -131,6 +168,10 @@ public class LocationPeople implements Parcelable {
         address = in.readString();
         originalPic = in.readString();
         timeReg = in.readString();
+        imageWidth = in.readInt();
+        imageHeight = in.readInt();
+        imageThumb150 = in.readString();
+        imageThumb1000 = in.readString();
     }
 
     @Override
@@ -152,6 +193,10 @@ public class LocationPeople implements Parcelable {
         dest.writeString(address);
         dest.writeString(originalPic);
         dest.writeString(timeReg);
+        dest.writeInt(imageWidth);
+        dest.writeInt(imageHeight);
+        dest.writeString(imageThumb150);
+        dest.writeString(imageThumb1000);
     }
 
     @SuppressWarnings("unused")

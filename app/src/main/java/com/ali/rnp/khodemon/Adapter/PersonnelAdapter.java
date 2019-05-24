@@ -26,51 +26,62 @@ import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<LocationPeople> locationPeopleList;
-    private ArrayList<PictureUpload> pictureUploadList;
+    //private ArrayList<PictureUpload> pictureUploadList;
 
     private static final int VIEW_TYPE_PERSONNEL = 0;
     private static final int VIEW_TYPE_ADD_PERSONNEL = 1;
-    
+
+    private OnItemClickListener onItemClickListener;
     private Context context;
+    private boolean isEmptyPersonnel;
 
     private static final String TAG = "PersonnelAdapter";
 
 
-    public PersonnelAdapter(Context context, ArrayList<LocationPeople> locationPeopleList, ArrayList<PictureUpload> pictureUploadList){
+    public PersonnelAdapter(Context context, ArrayList<LocationPeople> locationPeopleList) {
         this.context = context;
         this.locationPeopleList = locationPeopleList;
-        this.pictureUploadList = pictureUploadList;
+        this.isEmptyPersonnel = false;
+    }
+
+    public PersonnelAdapter(Context context, boolean isEmptyPersonnel) {
+        this.context = context;
+        this.isEmptyPersonnel = true;
     }
 
     @Override
     public int getItemViewType(int position) {
-
-        if (position == locationPeopleList.size()){
+        if (isEmptyPersonnel) {
             return VIEW_TYPE_ADD_PERSONNEL;
-        }else {
-            return VIEW_TYPE_PERSONNEL;
+        } else {
+
+            if (position == locationPeopleList.size()) {
+                return VIEW_TYPE_ADD_PERSONNEL;
+            } else {
+                return VIEW_TYPE_PERSONNEL;
+            }
         }
+
+
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if (viewType == VIEW_TYPE_PERSONNEL){
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_personnel,parent,false);
-            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(12,0,0,12);
+        if (viewType == VIEW_TYPE_PERSONNEL) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_personnel, parent, false);
+            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(12, 0, 0, 12);
             view.setLayoutParams(lp);
             return new PersonnelHolder(view);
-        }else {
-            View viewAdd = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_add_personnel,parent,false);
-            RecyclerView.LayoutParams lpAdd = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-            lpAdd.setMargins(12,0,0,12);
+        } else {
+            View viewAdd = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_add_personnel, parent, false);
+            RecyclerView.LayoutParams lpAdd = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lpAdd.setMargins(12, 0, 0, 12);
             viewAdd.setLayoutParams(lpAdd);
             return new PersonnelAddHolder(viewAdd);
         }
-
-
 
 
     }
@@ -78,24 +89,26 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        if (holder instanceof PersonnelHolder){
-            PersonnelHolder mHolder = (PersonnelHolder) holder;
-            bindPersonnelView(mHolder,locationPeopleList.get(position),pictureUploadList.get(position));
 
-        }else if (holder instanceof  PersonnelAddHolder){
+        if (holder instanceof PersonnelHolder) {
+            PersonnelHolder mHolder = (PersonnelHolder) holder;
+            mHolder.bindPersonnelView(mHolder, locationPeopleList.get(position));
+
+        } else if (holder instanceof PersonnelAddHolder) {
 
             PersonnelAddHolder mHolder = (PersonnelAddHolder) holder;
-            mHolder.bindAddPersonnel(holder);
+            mHolder.bindAddPersonnel(mHolder);
+
+
         }
 
 
     }
 
 
-
     @Override
     public int getItemCount() {
-        return locationPeopleList.size()+1;
+        return isEmptyPersonnel ? 1 : locationPeopleList.size() + 1;
     }
 
     class PersonnelHolder extends RecyclerView.ViewHolder {
@@ -112,40 +125,11 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         }
-    }
+
+        void bindPersonnelView(PersonnelHolder holder, LocationPeople locationPeople) {
 
 
-    class PersonnelAddHolder extends RecyclerView.ViewHolder {
-        MyButton addBtn;
-        public PersonnelAddHolder(@NonNull View itemView) {
-            super(itemView);
-            addBtn = itemView.findViewById(R.id.recycler_view_personnel_add_btn);
-
-            addBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "ADD", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-        public void bindAddPersonnel(RecyclerView.ViewHolder holder){
-            /*
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "Add", Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "onClick: ");
-                }
-            });*/
-
-        }
-    }
-
-    private void bindPersonnelView(PersonnelHolder holder, LocationPeople locationPeople, PictureUpload pictureUpload) {
-
-
-        loadImage(holder,pictureUpload);
+            loadImage(holder, locationPeople);
 
         /*if (!locationPeople.getOriginalPic().equals("")){
             Picasso.get().
@@ -154,34 +138,60 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .into(holder.imageView);
         }*/
 
-        holder.nameTv.setText(locationPeople.getName());
-        holder.jobTv.setText(locationPeople.getTag());
+            holder.nameTv.setText(locationPeople.getName());
+            holder.jobTv.setText(locationPeople.getTag());
 
 
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, locationPeople.getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, locationPeople.getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        }
 
     }
 
-    private void loadImage(PersonnelHolder holder, PictureUpload pictureUpload){
-        if (!pictureUpload.getPic_address().equals("")) {
+
+    class PersonnelAddHolder extends RecyclerView.ViewHolder {
+        MyButton addBtn;
+
+        public PersonnelAddHolder(@NonNull View itemView) {
+            super(itemView);
+            addBtn = itemView.findViewById(R.id.recycler_view_personnel_add_btn);
+
+
+        }
+
+        public void bindAddPersonnel(PersonnelAddHolder mHolder) {
+            mHolder.addBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null)
+                        onItemClickListener.onItemClick(v);
+                }
+            });
+        }
+
+
+    }
+
+
+    private void loadImage(PersonnelHolder holder, LocationPeople locationPeople) {
+        if (!locationPeople.getOriginalPic().equals("")) {
 
             boolean isLarge;
-            isLarge = pictureUpload.getWidth() >= 1000;
-            String IMG_ADDRESS ;
+            isLarge = locationPeople.getImageWidth() >= 1000;
+            String IMG_ADDRESS;
 
             IMG_ADDRESS = (isLarge) ?
-                    pictureUpload.getThumb_1000()
-                    : pictureUpload.getPic_address();
+                    locationPeople.getImageThumb1000()
+                    : locationPeople.getOriginalPic();
 
 
             Picasso.get()
-                    .load(pictureUpload.getThumb_150())
+                    .load(locationPeople.getImageThumb150())
                     .placeholder(R.drawable.holder_banner)
                     .into(holder.imageView, new Callback() {
 
@@ -205,6 +215,14 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     });
 
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view);
     }
 
 }

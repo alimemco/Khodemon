@@ -22,7 +22,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -173,7 +172,7 @@ public class ApiService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onPersonnelReceived.onItemReceived(null, null, error.toString());
+                onPersonnelReceived.onItemReceived(ProvidersApp.KEY_VOLLEY_ERROR, null, error.toString());
             }
         });
 
@@ -494,39 +493,39 @@ public class ApiService {
                 JSONArray itemsArray = jsonObjectRes.getJSONArray("items");
 
                 ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
-                ArrayList<PictureUpload> pictureUploadList = new ArrayList<>();
+                //ArrayList<PictureUpload> pictureUploadList = new ArrayList<>();
 
                 for (int i = 0; i < itemsArray.length(); i++) {
 
                     JSONObject jsonObjectLocPeo = itemsArray.getJSONObject(i);
 
                     LocationPeople locationPeople = new LocationPeople();
-                    PictureUpload pictureUpload = new PictureUpload();
+                   // PictureUpload pictureUpload = new PictureUpload();
 
                     locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
                     locationPeople.setName(jsonObjectLocPeo.getString("personnelName"));
                     locationPeople.setTag(jsonObjectLocPeo.getString("TagPeople"));
                     locationPeople.setOriginalPic(jsonObjectLocPeo.getString("image"));
 
-                    pictureUpload.setPic_address(jsonObjectLocPeo.getString("image"));
-                    pictureUpload.setWidth(jsonObjectLocPeo.getInt("width"));
-                    pictureUpload.setHeight(jsonObjectLocPeo.getInt("height"));
-                    pictureUpload.setThumb_150(jsonObjectLocPeo.getString("thumb_150"));
-                    pictureUpload.setThumb_1000(jsonObjectLocPeo.getString("thumb_1000"));
+                    //pictureUpload.setPic_address(jsonObjectLocPeo.getString("image"));
+                    locationPeople.setImageWidth(jsonObjectLocPeo.getInt("width"));
+                    locationPeople.setImageHeight(jsonObjectLocPeo.getInt("height"));
+                    locationPeople.setImageThumb150(jsonObjectLocPeo.getString("thumb_150"));
+                    locationPeople.setImageThumb1000(jsonObjectLocPeo.getString("thumb_1000"));
 
                     locationPeopleList.add(locationPeople);
-                    pictureUploadList.add(pictureUpload);
+                    //pictureUploadList.add(pictureUpload);
                 }
-                onPersonnelReceived.onItemReceived(locationPeopleList,pictureUploadList, null);
+                onPersonnelReceived.onItemReceived(ProvidersApp.KEY_SUCCESS,locationPeopleList, null);
             }else {
                 String  msg = jsonObjectRes.getString("message");
-                onPersonnelReceived.onItemReceived(null, null, msg);
+                onPersonnelReceived.onItemReceived(ProvidersApp.KEY_EMPTY_DATA,null, msg);
             }
 
 
 
         } catch (JSONException e) {
-            onPersonnelReceived.onItemReceived(null, null, e.toString());
+            onPersonnelReceived.onItemReceived(ProvidersApp.KEY_JSON_EXCEPTION,null, e.toString());
 
         }
 
@@ -757,7 +756,7 @@ public class ApiService {
     }
 
     public interface OnPersonnelReceived {
-        void onItemReceived(ArrayList<LocationPeople> locationPeopleList, ArrayList<PictureUpload> pictureUploadList, String error);
+        void onItemReceived(int status ,ArrayList<LocationPeople> locationPeopleList, String error);
     }
 
     public interface OnProvinceReceived {

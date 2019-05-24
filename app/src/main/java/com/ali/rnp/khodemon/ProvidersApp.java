@@ -47,6 +47,12 @@ public class ProvidersApp {
     public static final String KEY_LOC_PEO_TAG = "LOC_PEO_TAG";
     public static final String KEY_LOCATION_ID = "LOCATION_ID";
 
+   //volley data
+    public static final int KEY_EMPTY_DATA = 0;
+    public static final int KEY_SUCCESS = 29;
+    public static final int KEY_JSON_EXCEPTION = 1;
+    public static final int KEY_VOLLEY_ERROR = 2;
+
     public static final String KEY_ID = "USER_NAME";
     public static final String KEY_USERNAME = "USER_NAME";
 

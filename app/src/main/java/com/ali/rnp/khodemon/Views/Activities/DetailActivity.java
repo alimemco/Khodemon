@@ -1,5 +1,6 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.ali.rnp.khodemon.Adapter.SimilarAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
+import com.ali.rnp.khodemon.Dialogs.DialogAddPersonnel;
 import com.ali.rnp.khodemon.Dialogs.DialogNumber;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -23,6 +25,7 @@ import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
 import com.ali.rnp.khodemon.UtilsApp.Utils;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.text.ParseException;
@@ -33,6 +36,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,7 +47,9 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 public class DetailActivity extends AppCompatActivity implements
-        View.OnClickListener {
+        View.OnClickListener,
+ApiService.OnPersonnelReceived,
+PersonnelAdapter.OnItemClickListener{
 
 
     private ViewPager mPager;
@@ -62,6 +68,7 @@ public class DetailActivity extends AppCompatActivity implements
     private RecyclerView similarRecyclerView;
 
     ConstraintLayout constraintLayout;
+    private int post_id;
 
 
 
@@ -179,7 +186,7 @@ public class DetailActivity extends AppCompatActivity implements
 
         if (extras != null) {
 
-            int post_id = extras.getInt(ProvidersApp.KEY_POST_ID);
+            post_id = extras.getInt(ProvidersApp.KEY_POST_ID);
             String locPeoName = extras.getString(ProvidersApp.KEY_LOC_PEO_NAME);
             String locPeoTag = extras.getString(ProvidersApp.KEY_LOC_PEO_TAG);
 
@@ -201,25 +208,7 @@ public class DetailActivity extends AppCompatActivity implements
 
 
 
-            apiService.getPersonnel(post_id,(locationPeopleList, pictureUploadList, error) -> {
-
-                if (locationPeopleList != null && pictureUploadList != null) {
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
-                    personnelRecyclerView.setLayoutManager(linearLayoutManager);
-                    PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this, locationPeopleList, pictureUploadList);
-                    personnelRecyclerView.setAdapter(personnelAdapter);
-
-
-                    SimilarAdapter similarAdapter = new SimilarAdapter(DetailActivity.this, locationPeopleList);
-                    LinearLayoutManager linearLayoutManagerSim = new LinearLayoutManager(
-                            this, RecyclerView.HORIZONTAL, false);
-
-                    similarRecyclerView.setLayoutManager(linearLayoutManagerSim);
-                    similarRecyclerView.setAdapter(similarAdapter);
-                }else {
-                    Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-                }
-            });
+            apiService.getPersonnel(post_id,this);
 
 
 
@@ -329,6 +318,78 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
 
+    @Override
+    public void onItemReceived(int status, ArrayList<LocationPeople> locationPeopleList, String error) {
+
+        String msg = "known";
+
+        switch (status){
+            case ProvidersApp.KEY_SUCCESS:
+
+                if (locationPeopleList != null ) {
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
+                    personnelRecyclerView.setLayoutManager(linearLayoutManager);
+                    PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this, locationPeopleList);
+                    personnelAdapter.setOnItemClickListener(this);
+                    personnelRecyclerView.setAdapter(personnelAdapter);
 
 
+
+
+                    SimilarAdapter similarAdapter = new SimilarAdapter(DetailActivity.this, locationPeopleList);
+                    LinearLayoutManager linearLayoutManagerSim = new LinearLayoutManager(
+                            this, RecyclerView.HORIZONTAL, false);
+
+                    similarRecyclerView.setLayoutManager(linearLayoutManagerSim);
+                    similarRecyclerView.setAdapter(similarAdapter);
+                }
+
+                break;
+
+            case ProvidersApp.KEY_EMPTY_DATA:
+
+                msg = "هیچ پرسنلی یافت نشد";
+
+
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
+                personnelRecyclerView.setLayoutManager(linearLayoutManager);
+                PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this, true);
+                personnelAdapter.setOnItemClickListener(this);
+                personnelRecyclerView.setAdapter(personnelAdapter);
+
+                break;
+
+            case ProvidersApp.KEY_JSON_EXCEPTION:
+                msg = error;
+
+                break;
+
+            case ProvidersApp.KEY_VOLLEY_ERROR:
+                msg = error;
+
+                break;
+        }
+
+        if (status != ProvidersApp.KEY_SUCCESS)
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+
+    }
+
+    //PersonnelAdapter
+    @Override
+    public void onItemClick(View view) {
+        switch (view.getId()){
+            case R.id.recycler_view_personnel_add_btn:
+                DialogAddPersonnel dialogAddPersonnel = DialogAddPersonnel.newInstance(post_id);
+                dialogAddPersonnel.show(getSupportFragmentManager(),"dialogAddPersonnel");
+
+                break;
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
