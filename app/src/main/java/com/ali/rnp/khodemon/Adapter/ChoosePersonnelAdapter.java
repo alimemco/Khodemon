@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.UtilsApp.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -48,7 +49,7 @@ public class ChoosePersonnelAdapter extends RecyclerView.Adapter<ChoosePersonnel
         CircleImageView imageView;
         MyTextView nameTv;
         MyTextView jobTv;
-        public ChoosePersonnelHolder(@NonNull View itemView) {
+         ChoosePersonnelHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.recycler_view_choose_personnel_image);
             nameTv = itemView.findViewById(R.id.recycler_view_choose_personnel_name);
@@ -64,13 +65,15 @@ public class ChoosePersonnelAdapter extends RecyclerView.Adapter<ChoosePersonnel
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        onItemClickListener.onItemClick(locationPeople.getId());
+                        onItemClickListener.onItemClick(locationPeople);
                     }
                 });
             }
 
 
-            if (!locationPeople.getOriginalPic().equals("")) {
+            Utils.getImage(locationPeople, holder.imageView);
+
+           /* if (!locationPeople.getOriginalPic().equals("")) {
                 boolean isLarge;
                 isLarge = locationPeople.getImageWidth() >= 1000;
                 String IMG_ADDRESS ;
@@ -90,6 +93,8 @@ public class ChoosePersonnelAdapter extends RecyclerView.Adapter<ChoosePersonnel
                             public void onSuccess() {
                                 Picasso.get()
                                         .load(IMG_ADDRESS)
+                                        .resize(500,500)
+                                        .centerCrop()
                                         .placeholder(holder.imageView.getDrawable())
                                         .into(holder.imageView);
 
@@ -104,7 +109,7 @@ public class ChoosePersonnelAdapter extends RecyclerView.Adapter<ChoosePersonnel
 
                         });
 
-            }
+            }*/
 
         }
     }
@@ -115,6 +120,6 @@ public class ChoosePersonnelAdapter extends RecyclerView.Adapter<ChoosePersonnel
     }
 
     public interface OnItemClickListener{
-        void onItemClick(int PEOPLE_ID);
+        void onItemClick(LocationPeople locationPeople);
     }
 }

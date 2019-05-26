@@ -1,5 +1,6 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -69,6 +70,8 @@ PersonnelAdapter.OnItemClickListener{
 
     ConstraintLayout constraintLayout;
     private int post_id;
+
+    ApiService apiService;
 
 
 
@@ -177,6 +180,9 @@ PersonnelAdapter.OnItemClickListener{
         appBarLayout = findViewById(R.id.activity_detail_appbar);
         nameLocPeoTV = findViewById(R.id.activity_detail_locPeoName_textView);
         tagTV = findViewById(R.id.activity_detail_tag_textView);
+        similarRecyclerView = findViewById(R.id.activity_detail_recyclerView_similar);
+        personnelRecyclerView = findViewById(R.id.activity_detail_job_recyclerView_personnel);
+
 
         mPager = findViewById(R.id.pager);
         dotsIndicator = findViewById(R.id.dots_indicator);
@@ -203,12 +209,13 @@ PersonnelAdapter.OnItemClickListener{
 
 
 
-            personnelRecyclerView = findViewById(R.id.activity_detail_job_recyclerView_personnel);
-            similarRecyclerView = findViewById(R.id.activity_detail_recyclerView_similar);
+
+
 
 
 
             apiService.getPersonnel(post_id,this);
+
 
 
 
@@ -391,5 +398,25 @@ PersonnelAdapter.OnItemClickListener{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_PERSONNEL && data != null){
+
+                if (data.getExtras() != null){
+                   int LOCATION_ID = data.getExtras().getInt(ProvidersApp.KEY_LOCATION_ID);
+                   ApiService apiService = new ApiService(DetailActivity.this);
+                    apiService.getPersonnel(LOCATION_ID,DetailActivity.this);
+                }
+
+
+            }
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
     }
 }

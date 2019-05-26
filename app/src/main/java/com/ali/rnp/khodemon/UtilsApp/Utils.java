@@ -9,6 +9,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -127,6 +133,80 @@ public class Utils {
         DecimalFormat decimalFormat = new DecimalFormat("#,#");
         return Float.valueOf(decimalFormat.format(random));
 
+    }
+/*
+    public static void getImage(String url, ImageView imgV,String imgTmbSmall, String imgTmbLarge, int imgWidth){
+        if (!url.equals("")) {
+            boolean isLarge;
+            isLarge = imgWidth >= 1000;
+            String IMG_ADDRESS ;
+
+            IMG_ADDRESS = (isLarge) ? imgTmbLarge : url;
+
+
+            Picasso.get()
+                    .load(imgTmbSmall)
+                    .placeholder(R.drawable.holder_banner)
+                    .into(imgV, new Callback() {
+
+
+                        @Override
+                        public void onSuccess() {
+                            Picasso.get()
+                                    .load(IMG_ADDRESS)
+                                    .placeholder(imgV.getDrawable())
+                                    .into(imgV);
+
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+
+                    });
+
+        }
+    }
+    */
+    public static void getImage(LocationPeople locationPeople, ImageView imgV){
+        if (!locationPeople.getOriginalPic().equals("")) {
+            boolean isLarge;
+            isLarge = locationPeople.getImageWidth() >= 1000;
+            String IMG_ADDRESS ;
+
+            IMG_ADDRESS = (isLarge) ?
+                    locationPeople.getImageThumb1000()
+                    : locationPeople.getOriginalPic();
+
+
+            Picasso.get()
+                    .load(locationPeople.getImageThumb150())
+                    .placeholder(R.drawable.holder_banner)
+                    .into(imgV, new Callback() {
+
+
+                        @Override
+                        public void onSuccess() {
+                            Picasso.get()
+                                    .load(IMG_ADDRESS)
+                                    .resize(500,500)
+                                    .centerCrop()
+                                    .placeholder(imgV.getDrawable())
+                                    .into(imgV);
+
+                            //imageView.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+
+                    });
+
+        }
     }
 
 }

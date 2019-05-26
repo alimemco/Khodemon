@@ -48,9 +48,9 @@ public class ApiService {
     private final static String API_ADD_PICTURE = "http://khodemon.ir/addPictures.php";
     private final static String API_GET_PICTURE = "http://khodemon.ir/getPictures.php";
     private final static String API_GET_DETAIL = "http://khodemon.ir/getDetail.php";
+    private final static String API_ADD_PERSONNEL = "http://khodemon.ir/addPersonnel.php";
     private final static String API_GET_PERSONNEL = "http://khodemon.ir/getPersonnel.php";
-
-    private final static String API_TEST = "http://amirabbaszareii.ir/php/phpslider.json";
+    private final static String API_GET_PERSON_LIST = "http://khodemon.ir/getPersonList.php";
 
 
     public static final int STATUS_REGISTER_ERROR = 616;
@@ -155,11 +155,11 @@ public class ApiService {
     }
 
 
-    public void getPersonnel(int LOCATION_ID , OnPersonnelReceived onPersonnelReceived) {
+    public void getPersonnel(int LOCATION_ID, OnPersonnelReceived onPersonnelReceived) {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ProvidersApp.KEY_LOCATION_ID,LOCATION_ID);
+            jsonObject.put(ProvidersApp.KEY_LOCATION_ID, LOCATION_ID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -179,7 +179,6 @@ public class ApiService {
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
-
 
 
     public void getHomeRecyclerListItems(final OnHomeListItemReceived onHomeListItemReceived) {
@@ -436,6 +435,71 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
+    public void getPersonList(OnGetPersonList onGetPersonList) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API_GET_PERSON_LIST, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                parseJsonPersonList(response, onGetPersonList);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onGetPersonList.onReceived(ProvidersApp.SUCCESS_CODE_VOLLEY_ERROR, null, error.toString());
+            }
+        });
+
+        request.setRetryPolicy(new DefaultRetryPolicy());
+        Volley.newRequestQueue(context).add(request);
+
+    }
+
+    public void addPersonnel(int LOCATION_ID, int PEOPLE_ID, OnAddPersonnel onAddPersonnel) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ProvidersApp.KEY_JSON_OBJECT_LOCATION_ID, Integer.valueOf(LOCATION_ID));
+            jsonObject.put(ProvidersApp.KEY_JSON_OBJECT_PEOPLE_ID, Integer.valueOf(PEOPLE_ID));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_ADD_PERSONNEL, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    JSONObject jsonObjectResponse = new JSONObject(response.toString());
+                    JSONArray jsonArrayResult = jsonObjectResponse.getJSONArray("result");
+                    JSONObject jsonObjectResult = jsonArrayResult.getJSONObject(0);
+                    boolean isSuccess = Boolean.valueOf(jsonObjectResult.getString("success"));
+                    if (isSuccess) {
+                        onAddPersonnel.onAdded(ProvidersApp.SUCCESS_CODE_SUCCESSFULLY, null);
+                    } else {
+                        String msg = jsonObjectResult.getString("message");
+                        onAddPersonnel.onAdded(ProvidersApp.SUCCESS_CODE_SERVER_ERROR, msg);
+
+                    }
+                } catch (JSONException e) {
+                    onAddPersonnel.onAdded(ProvidersApp.SUCCESS_CODE_JSON_EXCEPTION_ERROR, e.toString());
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onAddPersonnel.onAdded(ProvidersApp.SUCCESS_CODE_VOLLEY_ERROR, error.toString());
+
+            }
+        });
+
+        request.setRetryPolicy(new DefaultRetryPolicy());
+        Volley.newRequestQueue(context).add(request);
+
+    }
+
 
     private void parseJsonGroupItems(JSONObject response, int groupKey, OnGroupItemReceived onGroupItemReceived) {
 
@@ -489,7 +553,7 @@ public class ApiService {
             JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
             JSONObject jsonObjectRes = jsonArrayResult.getJSONObject(0);
             boolean isSuccess = Boolean.parseBoolean(jsonObjectRes.getString("success"));
-            if (isSuccess){
+            if (isSuccess) {
                 JSONArray itemsArray = jsonObjectRes.getJSONArray("items");
 
                 ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
@@ -500,7 +564,7 @@ public class ApiService {
                     JSONObject jsonObjectLocPeo = itemsArray.getJSONObject(i);
 
                     LocationPeople locationPeople = new LocationPeople();
-                   // PictureUpload pictureUpload = new PictureUpload();
+                    // PictureUpload pictureUpload = new PictureUpload();
 
                     locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
                     locationPeople.setName(jsonObjectLocPeo.getString("personnelName"));
@@ -516,16 +580,15 @@ public class ApiService {
                     locationPeopleList.add(locationPeople);
                     //pictureUploadList.add(pictureUpload);
                 }
-                onPersonnelReceived.onItemReceived(ProvidersApp.KEY_SUCCESS,locationPeopleList, null);
-            }else {
-                String  msg = jsonObjectRes.getString("message");
-                onPersonnelReceived.onItemReceived(ProvidersApp.KEY_EMPTY_DATA,null, msg);
+                onPersonnelReceived.onItemReceived(ProvidersApp.KEY_SUCCESS, locationPeopleList, null);
+            } else {
+                String msg = jsonObjectRes.getString("message");
+                onPersonnelReceived.onItemReceived(ProvidersApp.KEY_EMPTY_DATA, null, msg);
             }
 
 
-
         } catch (JSONException e) {
-            onPersonnelReceived.onItemReceived(ProvidersApp.KEY_JSON_EXCEPTION,null, e.toString());
+            onPersonnelReceived.onItemReceived(ProvidersApp.KEY_JSON_EXCEPTION, null, e.toString());
 
         }
 
@@ -726,6 +789,44 @@ public class ApiService {
         }
     }
 
+    private void parseJsonPersonList(JSONObject response, OnGetPersonList onGetPersonList) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(response.toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("result");
+            JSONObject jsonObjectRes = jsonArray.getJSONObject(0);
+            boolean isSuccess = Boolean.valueOf(jsonObjectRes.getString("success"));
+
+            if (isSuccess) {
+                JSONArray jsonArrayItems = jsonObjectRes.getJSONArray("items");
+
+                ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
+
+                for (int i = 0; i < jsonArrayItems.length(); i++) {
+
+                    JSONObject jsonObjectItems = jsonArrayItems.getJSONObject(i);
+                    LocationPeople locationPeople = new LocationPeople();
+                    locationPeople.setId(jsonObjectItems.getInt("ID"));
+                    locationPeople.setName(jsonObjectItems.getString("nameLocPeo"));
+                    locationPeople.setTag(jsonObjectItems.getString("tagLocPeo"));
+                    locationPeople.setOriginalPic(jsonObjectItems.getString("original_pic"));
+                    locationPeople.setImageThumb150(jsonObjectItems.getString("thumb_pic"));
+
+                    locationPeopleList.add(locationPeople);
+                }
+
+                onGetPersonList.onReceived(ProvidersApp.SUCCESS_CODE_SUCCESSFULLY, locationPeopleList, null);
+
+            } else {
+                String msg = jsonObjectRes.getString("message");
+                onGetPersonList.onReceived(ProvidersApp.SUCCESS_CODE_SERVER_ERROR, null, msg);
+            }
+        } catch (JSONException e) {
+            //e.printStackTrace();
+            onGetPersonList.onReceived(ProvidersApp.SUCCESS_CODE_JSON_EXCEPTION_ERROR, null, e.toString());
+
+        }
+    }
 
     private String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -755,9 +856,6 @@ public class ApiService {
         void onItemGroupReceived(ArrayList<LocationPeople> locationPeopleList, VolleyError error);
     }
 
-    public interface OnPersonnelReceived {
-        void onItemReceived(int status ,ArrayList<LocationPeople> locationPeopleList, String error);
-    }
 
     public interface OnProvinceReceived {
         void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent, List<City> cities, VolleyError error);
@@ -785,6 +883,18 @@ public class ApiService {
 
     public interface OnGetDetails {
         void OnGetDetail(LocationPeople locationPeople, VolleyError error);
+    }
+
+    public interface OnGetPersonList {
+        void onReceived(int successCode, ArrayList<LocationPeople> locationPeopleList, String error);
+    }
+
+    public interface OnPersonnelReceived {
+        void onItemReceived(int status, ArrayList<LocationPeople> locationPeopleList, String error);
+    }
+
+    public interface OnAddPersonnel {
+        void onAdded(int successCode, String error);
     }
 
 

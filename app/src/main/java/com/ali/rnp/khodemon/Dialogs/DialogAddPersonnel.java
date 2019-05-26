@@ -85,7 +85,8 @@ public class DialogAddPersonnel extends DialogFragment implements
             case R.id.dialog_add_personnel_choose:
                 Intent i = new Intent(getActivity(),ChoosePersonnelActivity.class);
                 i.putExtra(ProvidersApp.KEY_LOCATION_ID,LOCATION_ID);
-                startActivity(i);
+                if (getActivity() != null)
+                getActivity().startActivityForResult(i,ProvidersApp.REQUEST_CODE_CHOOSE_PERSONNEL);
                 dismiss();
 
 

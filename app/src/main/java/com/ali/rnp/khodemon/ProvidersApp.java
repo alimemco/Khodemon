@@ -6,6 +6,11 @@ public class ProvidersApp {
 
     }
 
+    public static final int SUCCESS_CODE_VOLLEY_ERROR= 0 ;
+    public static final int SUCCESS_CODE_JSON_EXCEPTION_ERROR= 1 ;
+    public static final int SUCCESS_CODE_SERVER_ERROR= 2 ;
+    public static final int SUCCESS_CODE_SUCCESSFULLY= 29 ;
+
     public static final String GROUP_NAME_KEY="group_name_key";
 
     public static final String GROUP_NAME_LOCATION ="LOCATION";
@@ -78,5 +83,11 @@ public class ProvidersApp {
     public static final String KEY_JSON_OBJECT_LOCATION_PHONE = "phone";
     public static final String KEY_JSON_OBJECT_LOCATION_SINCE = "since";
     public static final String KEY_JSON_OBJECT_LOCATION_CITY = "city";
+
+
+    public static final String KEY_JSON_OBJECT_LOCATION_ID = "LOCATION_ID";
+    public static final String KEY_JSON_OBJECT_PEOPLE_ID = "PEOPLE_ID";
+
+    public static final int REQUEST_CODE_CHOOSE_PERSONNEL = 236 ;
 
 }
