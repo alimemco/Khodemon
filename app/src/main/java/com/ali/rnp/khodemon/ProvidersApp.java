@@ -6,10 +6,10 @@ public class ProvidersApp {
 
     }
 
-    public static final int SUCCESS_CODE_VOLLEY_ERROR= 0 ;
-    public static final int SUCCESS_CODE_JSON_EXCEPTION_ERROR= 1 ;
-    public static final int SUCCESS_CODE_SERVER_ERROR= 2 ;
-    public static final int SUCCESS_CODE_SUCCESSFULLY= 29 ;
+    public static final int STATUS_CODE_VOLLEY_ERROR = 0 ;
+    public static final int STATUS_CODE_JSON_EXCEPTION_ERROR = 1 ;
+    public static final int STATUS_CODE_SERVER_ERROR = 2 ;
+    public static final int STATUS_CODE_SUCCESSFULLY = 29 ;
 
     public static final String GROUP_NAME_KEY="group_name_key";
 

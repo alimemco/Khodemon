@@ -12,10 +12,12 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.ali.rnp.khodemon.Adapter.DetailAdapter;
 import com.ali.rnp.khodemon.Adapter.PersonnelAdapter;
 import com.ali.rnp.khodemon.Adapter.ScreenSlidePagerAdapter;
 import com.ali.rnp.khodemon.Adapter.SimilarAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.Dialogs.DialogAddPersonnel;
@@ -50,6 +52,7 @@ import androidx.viewpager.widget.ViewPager;
 public class DetailActivity extends AppCompatActivity implements
         View.OnClickListener,
 ApiService.OnPersonnelReceived,
+        ApiService.OnGetDetails,
 PersonnelAdapter.OnItemClickListener{
 
 
@@ -67,6 +70,7 @@ PersonnelAdapter.OnItemClickListener{
 
     private RecyclerView personnelRecyclerView;
     private RecyclerView similarRecyclerView;
+    private RecyclerView infoRecyclerView;
 
     ConstraintLayout constraintLayout;
     private int post_id;
@@ -182,6 +186,7 @@ PersonnelAdapter.OnItemClickListener{
         tagTV = findViewById(R.id.activity_detail_tag_textView);
         similarRecyclerView = findViewById(R.id.activity_detail_recyclerView_similar);
         personnelRecyclerView = findViewById(R.id.activity_detail_job_recyclerView_personnel);
+        infoRecyclerView = findViewById(R.id.activity_detail_recyclerView_info);
 
 
         mPager = findViewById(R.id.pager);
@@ -209,26 +214,10 @@ PersonnelAdapter.OnItemClickListener{
 
 
 
-
-
-
-
-
             apiService.getPersonnel(post_id,this);
 
+            apiService.getDetail(post_id,this);
 
-
-
-/*
-            apiService.getDetail(post_id,(locationPeople, error) -> {
-                if (locationPeople != null && error == null) {
-               //textView.setText(convertFormat(locationPeople.getTimeReg()));
-
-                } else {
-                    Toast.makeText(DetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                }
-            });
-            */
 
 
             nameLocPeoTV.setText(locPeoName);
@@ -398,8 +387,7 @@ PersonnelAdapter.OnItemClickListener{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK){
-            if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_PERSONNEL && data != null){
+        if (resultCode == Activity.RESULT_OK && requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_PERSONNEL && data != null){
 
                 if (data.getExtras() != null){
                    int LOCATION_ID = data.getExtras().getInt(ProvidersApp.KEY_LOCATION_ID);
@@ -407,16 +395,31 @@ PersonnelAdapter.OnItemClickListener{
                     apiService.getPersonnel(LOCATION_ID,DetailActivity.this);
                 }
 
-
-            }
         }
 
     }
 
+
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void OnGetDetail(int statusCode, ArrayList<Info> infoList, String error) {
+        switch (statusCode){
+            case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
 
+                if (infoList!= null){
+                    LinearLayoutManager ln = new LinearLayoutManager(DetailActivity.this,RecyclerView.VERTICAL,true);
+                    DetailAdapter detailAdapter = new DetailAdapter(infoList);
+                    infoRecyclerView.setLayoutManager(ln);
+                    infoRecyclerView.setAdapter(detailAdapter);
+                }
+                break;
 
+            case ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR:
+            case ProvidersApp.STATUS_CODE_VOLLEY_ERROR:
+            case ProvidersApp.STATUS_CODE_SERVER_ERROR:
+
+                Toast.makeText(this, statusCode+" -> "+error, Toast.LENGTH_LONG).show();
+                break;
+
+        }
     }
 }

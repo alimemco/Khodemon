@@ -138,7 +138,7 @@ FragmentUserInfo.OnLogOut{
                         break;
 
                     case R.id.navigation_menu_about:
-                       // Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(MainActivity.this, item.getDescription(), Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, WeatherActivity.class));
 
 

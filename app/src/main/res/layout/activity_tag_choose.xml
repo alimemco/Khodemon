@@ -20,8 +20,7 @@
             android:id="@+id/activity_tag_choose_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            app:title="">
+            >
 
             <com.ali.rnp.khodemon.MyLibrary.MyTextView
                 android:layout_width="wrap_content"

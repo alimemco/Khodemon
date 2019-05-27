@@ -6,6 +6,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.ali.rnp.khodemon.DataModel.City;
+import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
@@ -22,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.annotations.Since;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -429,7 +431,7 @@ public class ApiService {
             parseGetDetail(response, onGetDetails);
 
 
-        }, error -> onGetDetails.OnGetDetail(null, error));
+        }, error -> onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
@@ -446,7 +448,7 @@ public class ApiService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onGetPersonList.onReceived(ProvidersApp.SUCCESS_CODE_VOLLEY_ERROR, null, error.toString());
+                onGetPersonList.onReceived(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString());
             }
         });
 
@@ -475,14 +477,14 @@ public class ApiService {
                     JSONObject jsonObjectResult = jsonArrayResult.getJSONObject(0);
                     boolean isSuccess = Boolean.valueOf(jsonObjectResult.getString("success"));
                     if (isSuccess) {
-                        onAddPersonnel.onAdded(ProvidersApp.SUCCESS_CODE_SUCCESSFULLY, null);
+                        onAddPersonnel.onAdded(ProvidersApp.STATUS_CODE_SUCCESSFULLY, null);
                     } else {
                         String msg = jsonObjectResult.getString("message");
-                        onAddPersonnel.onAdded(ProvidersApp.SUCCESS_CODE_SERVER_ERROR, msg);
+                        onAddPersonnel.onAdded(ProvidersApp.STATUS_CODE_SERVER_ERROR, msg);
 
                     }
                 } catch (JSONException e) {
-                    onAddPersonnel.onAdded(ProvidersApp.SUCCESS_CODE_JSON_EXCEPTION_ERROR, e.toString());
+                    onAddPersonnel.onAdded(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, e.toString());
                 }
 
 
@@ -490,7 +492,7 @@ public class ApiService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onAddPersonnel.onAdded(ProvidersApp.SUCCESS_CODE_VOLLEY_ERROR, error.toString());
+                onAddPersonnel.onAdded(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, error.toString());
 
             }
         });
@@ -768,26 +770,60 @@ public class ApiService {
     private void parseGetDetail(JSONObject response, OnGetDetails onGetDetails) {
         try {
             JSONObject jsonObjectResponse = new JSONObject(response.toString());
-            JSONArray jsonArrayRes = jsonObjectResponse.getJSONArray("result");
+            JSONObject jsonObjectRes = jsonObjectResponse.getJSONObject("result");
+
+            boolean isSuccess = jsonObjectRes.getBoolean("success");
+
+            if (isSuccess) {
+
+                ArrayList<Info> infoList = new ArrayList<>();
+
+                JSONArray jsAryItems = jsonObjectRes.getJSONArray("items");
+                JSONObject JsObjItems = jsAryItems.getJSONObject(0);
+
+                Info infoSince = new Info();
+
+                infoSince.setSubject("سال تاسیس");
+                infoSince.setDescription(JsObjItems.getString("since"));
+                infoSince.setIcon(R.drawable.ic_under_construction);
+
+                infoList.add(infoSince);
+
+                Info infoDimen = new Info();
+                infoDimen.setSubject("مساحت");
+                String des = JsObjItems.getString("dimensions")+" مترمربع ";
+                infoDimen.setDescription(des);
+                infoDimen.setIcon(R.drawable.ic_dimensions);
+                infoList.add(infoDimen);
+
+                Info infoPhone = new Info();
+                infoPhone.setSubject("تلفن تماس");
+                infoPhone.setDescription(JsObjItems.getString("phone"));
+                infoPhone.setIcon(R.drawable.ic_phone);
+                if (!infoPhone.getDescription().equals("")) {
+                    infoList.add(infoPhone);
+                }
+
+                onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_SUCCESSFULLY,infoList,null);
 
 
-            JSONObject jsObject = jsonArrayRes.getJSONObject(0);
-
-
-            LocationPeople locPeo = new LocationPeople();
-
-            locPeo.setTimeReg(jsObject.getString("reg_date"));
-            locPeo.setOwnerSeller(jsObject.getString("owner_seller"));
-
-
-            onGetDetails.OnGetDetail(locPeo, null);
+            } else {
+                String msg = jsonObjectRes.getString("message");
+                onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
+            }
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, response.toString());
 
 
         }
     }
+
+    private void addInfo(ArrayList<Info> infoList, JSONObject jsObjItems, String subject, String titleJson){
+
+    }
+
+
 
     private void parseJsonPersonList(JSONObject response, OnGetPersonList onGetPersonList) {
 
@@ -815,15 +851,15 @@ public class ApiService {
                     locationPeopleList.add(locationPeople);
                 }
 
-                onGetPersonList.onReceived(ProvidersApp.SUCCESS_CODE_SUCCESSFULLY, locationPeopleList, null);
+                onGetPersonList.onReceived(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locationPeopleList, null);
 
             } else {
                 String msg = jsonObjectRes.getString("message");
-                onGetPersonList.onReceived(ProvidersApp.SUCCESS_CODE_SERVER_ERROR, null, msg);
+                onGetPersonList.onReceived(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
             }
         } catch (JSONException e) {
             //e.printStackTrace();
-            onGetPersonList.onReceived(ProvidersApp.SUCCESS_CODE_JSON_EXCEPTION_ERROR, null, e.toString());
+            onGetPersonList.onReceived(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, e.toString());
 
         }
     }
@@ -882,7 +918,7 @@ public class ApiService {
     }
 
     public interface OnGetDetails {
-        void OnGetDetail(LocationPeople locationPeople, VolleyError error);
+        void OnGetDetail(int statusCode, ArrayList<Info> infoList, String error);
     }
 
     public interface OnGetPersonList {

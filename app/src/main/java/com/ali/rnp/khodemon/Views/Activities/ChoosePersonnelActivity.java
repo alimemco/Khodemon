@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -138,7 +137,7 @@ public class ChoosePersonnelActivity extends AppCompatActivity implements
 
         String msg = "";
         switch (successCode){
-            case ProvidersApp.SUCCESS_CODE_SUCCESSFULLY:
+            case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
 
                 if (locationPeopleList != null){
                     LinearLayoutManager ln = new LinearLayoutManager(ChoosePersonnelActivity.this,RecyclerView.VERTICAL,false);
@@ -151,28 +150,28 @@ public class ChoosePersonnelActivity extends AppCompatActivity implements
 
                 break;
 
-            case ProvidersApp.SUCCESS_CODE_VOLLEY_ERROR:
+            case ProvidersApp.STATUS_CODE_VOLLEY_ERROR:
                 msg = successCode+" | "+error ;
                 break;
 
-            case ProvidersApp.SUCCESS_CODE_JSON_EXCEPTION_ERROR:
+            case ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR:
                 msg = successCode+" | "+error ;
                 break;
 
-            case ProvidersApp.SUCCESS_CODE_SERVER_ERROR:
+            case ProvidersApp.STATUS_CODE_SERVER_ERROR:
                 msg = successCode+" | "+error ;
                 break;
 
         }
         
-        if (successCode!= ProvidersApp.SUCCESS_CODE_SUCCESSFULLY){
+        if (successCode!= ProvidersApp.STATUS_CODE_SUCCESSFULLY){
             Toast.makeText(this, msg , Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onAdded(int successCode, String error) {
-        if (successCode == ProvidersApp.SUCCESS_CODE_SUCCESSFULLY){
+        if (successCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY){
             Toast.makeText(this, "با موفقیت اضافه شد", Toast.LENGTH_LONG).show();
             Intent intent = new Intent();
             intent.putExtra(ProvidersApp.KEY_LOCATION_ID,LOCATION_ID);
