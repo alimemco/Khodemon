@@ -403,8 +403,8 @@ FragmentUserInfo.OnLogOut{
                         }else {
                             FragmentUserInfo fragmentUserInfo = FragmentUserInfo.newInstance(userName);
                             fragmentReplace(fragmentUserInfo);
-                            // TODO: 5/22/2019 
-                             
+                            // TODO: 5/22/2019
+
                         }
 
                         break;

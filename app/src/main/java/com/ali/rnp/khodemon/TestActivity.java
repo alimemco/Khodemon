@@ -3,12 +3,17 @@ package com.ali.rnp.khodemon;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Library.CircularImageView;
+import com.ali.rnp.khodemon.Views.fragments.FragmentBottomSheetCall;
 import com.android.volley.VolleyError;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,6 +30,8 @@ public class TestActivity extends AppCompatActivity {
     CircleImageView circleImageView;
     ImageView imageView;
 
+    Button btnShtFrg,btnSht,btnShtPre;
+
     private static final String TAG = "TestActivity";
 
 
@@ -34,10 +41,36 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        btnShtFrg = findViewById(R.id.activity_test_BtnShtFrg_BTN);
+        btnSht = findViewById(R.id.activity_test_BtnSht_BTN);
+        btnShtPre = findViewById(R.id.activity_test_PRE_BTN);
+
+        btnShtFrg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentBottomSheetCall fragmentBottomSheetCall = new FragmentBottomSheetCall();
+                fragmentBottomSheetCall.show(getSupportFragmentManager(),"tagewe");
+            }
+        });
+
+        btnSht.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.fragment_bottom_sheet_call, null);
+
+                BottomSheetDialog dialog = new BottomSheetDialog(TestActivity.this);
+                dialog.setContentView(view);
+                dialog.show();
+            }
+        });
+
 
         circularImageView = findViewById(R.id.imageView201);
         circleImageView = findViewById(R.id.imageView130);
         imageView = findViewById(R.id.imageView129);
+
+        BottomSheetBehavior bottomSheetBehavior;
+
 
 
 

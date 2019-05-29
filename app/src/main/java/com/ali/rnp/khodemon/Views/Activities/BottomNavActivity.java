@@ -23,7 +23,7 @@ public class BottomNavActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
 
-        text = findViewById(R.id.BottomNavigationTV);
+        text = findViewById(R.id.activity_bottom_nav_TV);
         
         initMeowBottomNavigation();
 
@@ -54,7 +54,7 @@ public class BottomNavActivity extends AppCompatActivity {
     private void initMeowBottomNavigation() {
 
 
-            MeowBottomNavigation meowBottomNavigation = findViewById(R.id.MeowBottomNavigation);
+            MeowBottomNavigation meowBottomNavigation = findViewById(R.id.activity_bottom_nav_MeowBottomNavigation);
             meowBottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_heart));
             meowBottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_magnifying_glass));
             meowBottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_add));

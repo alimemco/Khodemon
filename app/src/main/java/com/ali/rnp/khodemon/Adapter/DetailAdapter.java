@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -16,11 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailAdapterHolder> {
+public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Info> infoList;
 
-    public DetailAdapter (ArrayList<Info> infoList){
+    private int VIEW_TYPE_TITLE = 0;
+    private int VIEW_TYPE_INFO = 1;
+
+    public DetailAdapter(ArrayList<Info> infoList) {
 
         this.infoList = infoList;
 
@@ -28,24 +30,47 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailAdap
 
     }
 
-    @NonNull
     @Override
-    public DetailAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_location_detail,parent,false);
+    public int getItemViewType(int position) {
+        // return super.getItemViewType(position);
 
-        return new DetailAdapterHolder(view);
+
+        if (position == 0)
+            return VIEW_TYPE_TITLE;
+        else
+            return VIEW_TYPE_INFO;
+
+
     }
 
+    @NonNull
     @Override
-    public void onBindViewHolder(@NonNull DetailAdapterHolder holder, int position) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_TITLE){
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_title_detail,parent,false);
+            return new DetailAdapterTitleHolder(view);
+        }else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_location_detail, parent, false);
+            return new DetailAdapterHolder(view);
+        }
 
-        holder.bindDetail(holder,infoList.get(position));
+    }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+         if (holder instanceof DetailAdapterHolder){
+           DetailAdapterHolder mHolder = (DetailAdapterHolder) holder;
+            mHolder.bindDetail(mHolder, infoList.get(position + 1));
+        }
+
 
     }
 
     @Override
     public int getItemCount() {
-        return infoList.size();
+        return infoList.size() + 1;
     }
 
 
@@ -54,14 +79,14 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailAdap
         MyTextView descriptionTV;
         ImageView iconIV;
 
-         DetailAdapterHolder(@NonNull View itemView) {
+        DetailAdapterHolder(@NonNull View itemView) {
             super(itemView);
             iconIV = itemView.findViewById(R.id.recycler_view_location_detail_iconIV);
             subjectTV = itemView.findViewById(R.id.recycler_view_location_detail_subjectTV);
             descriptionTV = itemView.findViewById(R.id.recycler_view_location_detail_variableTV);
         }
 
-        void bindDetail(DetailAdapterHolder holder, Info info){
+        void bindDetail(DetailAdapterHolder holder, Info info) {
 
             holder.subjectTV.setText(info.getSubject());
             holder.descriptionTV.setText(info.getDescription());
@@ -69,5 +94,18 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailAdap
             holder.iconIV.setImageResource(info.getIcon());
 
         }
+    }
+
+    class DetailAdapterTitleHolder extends RecyclerView.ViewHolder {
+        MyTextView titleTV;
+
+         DetailAdapterTitleHolder(@NonNull View itemView) {
+            super(itemView);
+            titleTV = itemView.findViewById(R.id.recycler_view_title_detail_TV);
+
+            titleTV.setText("مشخصات");
+        }
+
+
     }
 }

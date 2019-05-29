@@ -790,7 +790,7 @@ public class ApiService {
                 infoList.add(infoSince);
 
                 Info infoDimen = new Info();
-                infoDimen.setSubject("مساحت");
+                infoDimen.setSubject        ("مساحت");
                 String des = JsObjItems.getString("dimensions")+" مترمربع ";
                 infoDimen.setDescription(des);
                 infoDimen.setIcon(R.drawable.ic_dimensions);

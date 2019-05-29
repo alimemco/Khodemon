@@ -26,6 +26,9 @@ import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.Activities.DetailActivity;
 import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -153,6 +156,7 @@ public class FragmentHome extends Fragment implements
 
                 if (activity != null && homeLists != null && locationPeopleList != null){
                    // singleItemAdapter.setListDataForAdapter(locationPeopleList);
+
                     linearSingleAdapter.setListDataForAdapter(homeLists);
 
                     recyclerView.setAdapter(linearSingleAdapter);
@@ -160,10 +164,13 @@ public class FragmentHome extends Fragment implements
 
 
 
-                }else if (error != null){
-                    Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show();
+                }else if (error != null && activity !=null) {
+                    Toast.makeText(activity, error, Toast.LENGTH_LONG).show();
+                    FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+                    Bundle bundle = new Bundle();
+                    bundle.putString("getHomeRecyclerListItems",error);
+                    mFirebaseAnalytics.logEvent("MyAppErrors",bundle);
                 }
-
             });
 
         },1);
@@ -180,7 +187,6 @@ public class FragmentHome extends Fragment implements
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
     private void initViews(View rootView) {
 
         recyclerView = rootView.findViewById(R.id.fragment_home_recyclerView_homeItems);
@@ -193,6 +199,7 @@ public class FragmentHome extends Fragment implements
         locationConstraintLayout = rootView.findViewById(R.id.fragment_home_location_constraintLayout);
         peopleConstraintLayout = rootView.findViewById(R.id.fragment_home_people_constraintLayout);
 
+        if (getActivity() !=null)
         bottomNavigation = getActivity().findViewById(R.id.bottom_navigation);
 
 
@@ -270,14 +277,17 @@ public class FragmentHome extends Fragment implements
 
             case R.id.fragment_home_editText_search:
 
-                FragmentSearch fragmentSearch = FragmentSearch.newInstance();
-                getFragmentManager()
-                        .beginTransaction()
-                        .addSharedElement(searchEditText, ViewCompat.getTransitionName(searchEditText))
-                        .replace(R.id.mainActivity_fragment_container, fragmentSearch)
-                        .commit();
+                if (getFragmentManager() != null ){
+                    FragmentSearch fragmentSearch = FragmentSearch.newInstance();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .addSharedElement(searchEditText, Objects.requireNonNull(ViewCompat.getTransitionName(searchEditText)))
+                            .replace(R.id.mainActivity_fragment_container, fragmentSearch)
+                            .commit();
 
-                bottomNavigation.setCurrentItem(MainActivity.BOTTOM_NAV_ITEM_SEARCH);
+                    bottomNavigation.setCurrentItem(MainActivity.BOTTOM_NAV_ITEM_SEARCH);
+                }
+
 
 /*
                 new Handler().postDelayed(new Runnable() {

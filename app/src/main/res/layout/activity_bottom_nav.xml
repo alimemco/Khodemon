@@ -8,7 +8,7 @@
 
 
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
-        android:id="@+id/MeowBottomNavigation"
+        android:id="@+id/activity_bottom_nav_MeowBottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -41,13 +41,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/MeowBottomNavigation"
+        app:layout_constraintBottom_toTopOf="@+id/activity_bottom_nav_MeowBottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_test" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
-        android:id="@+id/BottomNavigationTV"
+        android:id="@+id/activity_bottom_nav_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
