@@ -1,46 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="8dp"
-    android:paddingTop="8dp">
-
-<TextView
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/error_over_quality"
-    android:padding="@dimen/padding_10"
-    android:gravity="center"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:drawableLeft="@drawable/ic_call_answer"
-    android:drawableRight="@drawable/ic_saxaphone"/>
+    xmlns:tools="http://schemas.android.com/tools">
 
-
-
-
-    <TextView
-        android:layout_width="match_parent"
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/myTextView5"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="telegram"
-        android:padding="@dimen/padding_10"
-        android:gravity="center"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:drawableLeft="@drawable/ic_telegram"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="اطلاعات تماس"
+        android:textSize="@dimen/small_textSize_sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/fragment_bottom_sheet_call_callIV"
+        android:layout_width="55dp"
         android:layout_height="wrap_content"
-        android:text="domain"
-        android:padding="@dimen/padding_10"
+        android:layout_marginRight="24dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/shape_background_holo_green_image"
         android:clickable="true"
+        android:contentDescription="@string/app_name"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_bottom_sheet_call_numberTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_bottom_sheet_call_numberTV"
+        app:srcCompat="@drawable/ic_call_answer" />
+
+    <ImageView
+        android:id="@+id/fragment_bottom_sheet_call_messageIV"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/shape_background_holo_yellow_image"
+        android:contentDescription="@string/app_name"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_bottom_sheet_call_numberTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_bottom_sheet_call_numberTV"
+        app:srcCompat="@drawable/ic_envelope" />
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/fragment_bottom_sheet_call_numberTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+
+        android:layout_marginBottom="32dp"
         android:gravity="center"
-        android:drawableLeft="@drawable/ic_domain"/>
-</LinearLayout>
+        android:textSize="@dimen/small_textSize_sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_bottom_sheet_call_callIV"
+        app:layout_constraintStart_toEndOf="@+id/fragment_bottom_sheet_call_messageIV"
+        app:layout_constraintTop_toBottomOf="@+id/myTextView5"
+        tools:text="09169501905" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

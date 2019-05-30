@@ -17,18 +17,18 @@ import com.ali.rnp.khodemon.Adapter.PersonnelAdapter;
 import com.ali.rnp.khodemon.Adapter.ScreenSlidePagerAdapter;
 import com.ali.rnp.khodemon.Adapter.SimilarAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.BottomSheet.BottomSheetAddPersonnel;
 import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.Dialogs.DialogAddPersonnel;
-import com.ali.rnp.khodemon.Dialogs.DialogNumber;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
 import com.ali.rnp.khodemon.UtilsApp.Utils;
+import com.ali.rnp.khodemon.Views.fragments.FragmentBottomSheetCall;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.snackbar.Snackbar;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.text.ParseException;
@@ -43,7 +43,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -51,9 +50,10 @@ import androidx.viewpager.widget.ViewPager;
 
 public class DetailActivity extends AppCompatActivity implements
         View.OnClickListener,
-ApiService.OnPersonnelReceived,
+        ApiService.OnPersonnelReceived,
         ApiService.OnGetDetails,
-PersonnelAdapter.OnItemClickListener{
+        PersonnelAdapter.OnItemClickListener,
+        ApiService.OnPhoneReceived {
 
 
     private ViewPager mPager;
@@ -72,17 +72,17 @@ PersonnelAdapter.OnItemClickListener{
     private RecyclerView similarRecyclerView;
     private RecyclerView infoRecyclerView;
 
-    ConstraintLayout constraintLayout;
+    //ConstraintLayout constraintLayout;
     private int post_id;
+    private String number;
 
     ApiService apiService;
 
 
-
-   // WormDotsIndicator wormDotsIndicator;
+    // WormDotsIndicator wormDotsIndicator;
     DotsIndicator dotsIndicator;
     //ArrayList<String> imgAddressList;
-   // private ArrayList<PictureUpload> pictureUploadList;
+    // private ArrayList<PictureUpload> pictureUploadList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,9 +96,9 @@ PersonnelAdapter.OnItemClickListener{
         initFloatActionButton();
 
 
-        constraintLayout = findViewById(R.id.constraintLayout4);
-       // constraintLayout.setVisibility(View.INVISIBLE);
-       //constraintLayout.setAlpha(0);
+        //constraintLayout = findViewById(R.id.constraintLayout4);
+        // constraintLayout.setVisibility(View.INVISIBLE);
+        //constraintLayout.setAlpha(0);
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -109,7 +109,7 @@ PersonnelAdapter.OnItemClickListener{
 
 
             }
-        },2000);
+        }, 2000);
 
 
 
@@ -142,16 +142,14 @@ PersonnelAdapter.OnItemClickListener{
 */
 
 
-
     }
 
     private void initFloatActionButton() {
         ImageView call = findViewById(R.id.activity_detail_call_imageView);
 
         call.setOnClickListener(v -> {
-            DialogNumber dialogNumber = new DialogNumber();
-          //  dialogNumber.show(getSupportFragmentManager(),"dialogNumber");
-            Toast.makeText(this, "CALL", Toast.LENGTH_SHORT).show();
+            FragmentBottomSheetCall fragmentBottomSheetCall = FragmentBottomSheetCall.newInstance(number);
+            fragmentBottomSheetCall.show(getSupportFragmentManager(), "FragmentBottomSheetCall");
         });
     }
 
@@ -160,7 +158,7 @@ PersonnelAdapter.OnItemClickListener{
         ratingBar = findViewById(R.id.activity_detail_ratingBar);
         ratingBarTextView = findViewById(R.id.activity_detail_ratingBar_textView);
 
-        float randomRating = Utils.randomFloat(0.0f,5.0f);
+        float randomRating = Utils.randomFloat(0.0f, 5.0f);
 
         ratingBar.setRating(randomRating);
         ratingBar.setIsIndicator(true);
@@ -169,11 +167,9 @@ PersonnelAdapter.OnItemClickListener{
         StringBuilder sb = new StringBuilder();
         sb.append(String.valueOf(randomRating));
         sb.append(" | ");
-        sb.append(String.valueOf(Utils.randomInteger(10,200)));
+        sb.append(String.valueOf(Utils.randomInteger(10, 200)));
         sb.append(" نفر");
         ratingBarTextView.setText(sb);
-
-
 
 
     }
@@ -203,7 +199,7 @@ PersonnelAdapter.OnItemClickListener{
 
             ApiService apiService = new ApiService(this);
 
-            apiService.getPicture(post_id,(pictureUploadList, error) -> {
+            apiService.getPicture(post_id, (pictureUploadList, error) -> {
 
                 if (pictureUploadList != null && error == null) {
                     initViewPager(pictureUploadList);
@@ -213,11 +209,9 @@ PersonnelAdapter.OnItemClickListener{
             });
 
 
+            apiService.getPersonnel(post_id, this);
 
-            apiService.getPersonnel(post_id,this);
-
-            apiService.getDetail(post_id,this);
-
+            apiService.getDetail(post_id, this,this);
 
 
             nameLocPeoTV.setText(locPeoName);
@@ -305,12 +299,12 @@ PersonnelAdapter.OnItemClickListener{
             return "";
         }
 
-        SimpleDateFormat convertDateFormatYear = new SimpleDateFormat("yyyy",Locale.getDefault());
+        SimpleDateFormat convertDateFormatYear = new SimpleDateFormat("yyyy", Locale.getDefault());
         String year = convertDateFormatYear.format(date);
 
-        SimpleDateFormat convertDateFormatHour = new SimpleDateFormat("hh:mm:ss",Locale.getDefault());
+        SimpleDateFormat convertDateFormatHour = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
         String hour = convertDateFormatHour.format(date);
-        return year+"   "+hour;
+        return year + "   " + hour;
     }
 
 
@@ -319,17 +313,15 @@ PersonnelAdapter.OnItemClickListener{
 
         String msg = "known";
 
-        switch (status){
+        switch (status) {
             case ProvidersApp.KEY_SUCCESS:
 
-                if (locationPeopleList != null ) {
+                if (locationPeopleList != null) {
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
                     personnelRecyclerView.setLayoutManager(linearLayoutManager);
                     PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this, locationPeopleList);
                     personnelAdapter.setOnItemClickListener(this);
                     personnelRecyclerView.setAdapter(personnelAdapter);
-
-
 
 
                     SimilarAdapter similarAdapter = new SimilarAdapter(DetailActivity.this, locationPeopleList);
@@ -366,18 +358,23 @@ PersonnelAdapter.OnItemClickListener{
                 break;
         }
 
-        if (status != ProvidersApp.KEY_SUCCESS)
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        if (status == ProvidersApp.KEY_VOLLEY_ERROR || status == ProvidersApp.KEY_JSON_EXCEPTION)
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
     }
 
     //PersonnelAdapter
     @Override
     public void onItemClick(View view) {
-        switch (view.getId()){
-            case R.id.recycler_view_personnel_add_btn:
+        switch (view.getId()) {
+            case R.id.recycler_view_personnel_add_btn:/*
                 DialogAddPersonnel dialogAddPersonnel = DialogAddPersonnel.newInstance(post_id);
-                dialogAddPersonnel.show(getSupportFragmentManager(),"dialogAddPersonnel");
+                dialogAddPersonnel.show(getSupportFragmentManager(), "dialogAddPersonnel");
+
+                */
+
+                BottomSheetAddPersonnel btmShtAddPersonnel = BottomSheetAddPersonnel.newInstance(post_id);
+                btmShtAddPersonnel.show(getSupportFragmentManager(),"BottomSheetAddPersonnel");
 
                 break;
         }
@@ -387,13 +384,13 @@ PersonnelAdapter.OnItemClickListener{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_PERSONNEL && data != null){
+        if (resultCode == Activity.RESULT_OK && requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_PERSONNEL && data != null) {
 
-                if (data.getExtras() != null){
-                   int LOCATION_ID = data.getExtras().getInt(ProvidersApp.KEY_LOCATION_ID);
-                   ApiService apiService = new ApiService(DetailActivity.this);
-                    apiService.getPersonnel(LOCATION_ID,DetailActivity.this);
-                }
+            if (data.getExtras() != null) {
+                int LOCATION_ID = data.getExtras().getInt(ProvidersApp.KEY_LOCATION_ID);
+                ApiService apiService = new ApiService(DetailActivity.this);
+                apiService.getPersonnel(LOCATION_ID, DetailActivity.this);
+            }
 
         }
 
@@ -402,14 +399,15 @@ PersonnelAdapter.OnItemClickListener{
 
     @Override
     public void OnGetDetail(int statusCode, ArrayList<Info> infoList, String error) {
-        switch (statusCode){
+        switch (statusCode) {
             case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
 
-                if (infoList!= null){
-                    LinearLayoutManager ln = new LinearLayoutManager(DetailActivity.this,RecyclerView.VERTICAL,true);
+                if (infoList != null) {
+                    LinearLayoutManager ln = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
                     DetailAdapter detailAdapter = new DetailAdapter(infoList);
                     infoRecyclerView.setLayoutManager(ln);
                     infoRecyclerView.setAdapter(detailAdapter);
+
                 }
                 break;
 
@@ -417,9 +415,16 @@ PersonnelAdapter.OnItemClickListener{
             case ProvidersApp.STATUS_CODE_VOLLEY_ERROR:
             case ProvidersApp.STATUS_CODE_SERVER_ERROR:
 
-                Toast.makeText(this, statusCode+" -> "+error, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, statusCode + " -> " + error, Toast.LENGTH_LONG).show();
                 break;
 
+        }
+    }
+
+    @Override
+    public void onReceived(String number) {
+        if (number != null){
+            this.number = number;
         }
     }
 }

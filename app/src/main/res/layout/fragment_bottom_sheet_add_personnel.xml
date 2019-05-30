@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".BottomSheet.BottomSheetAddPersonnel">
+
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/bottom_sheet_add_personnel_addTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_primary"
+        android:text="اضافه کردن پرسنل جدید"
+        android:textSize="@dimen/small_textSize_sp"
+        android:drawableRight="@drawable/ic_add"
+        android:padding="15dp"
+        android:drawablePadding="25dp"
+        />
+
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/bottom_sheet_add_personnel_chooseTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/ripple_primary"
+            android:text="انتخاب از متخصص ها"
+            android:textSize="@dimen/small_textSize_sp"
+            android:drawableRight="@drawable/ic_double_click"
+            android:padding="15dp"
+            android:drawablePadding="25dp"
+            />
+
+
+
+
+
+
+
+
+
+</LinearLayout>

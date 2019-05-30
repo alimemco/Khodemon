@@ -62,7 +62,7 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
          if (holder instanceof DetailAdapterHolder){
            DetailAdapterHolder mHolder = (DetailAdapterHolder) holder;
-            mHolder.bindDetail(mHolder, infoList.get(position + 1));
+            mHolder.bindDetail(mHolder, infoList.get(position -1));
         }
 
 

@@ -21,9 +21,9 @@
         tools:text="موضوع" />
 
     <View
-        android:layout_width="70dp"
+        android:layout_width="0dp"
         android:layout_height="2dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/background_shape_under_title"
         app:layout_constraintBottom_toBottomOf="parent"

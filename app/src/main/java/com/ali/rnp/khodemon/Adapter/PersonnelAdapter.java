@@ -1,7 +1,6 @@
 package com.ali.rnp.khodemon.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
-import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
@@ -21,15 +19,16 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
-import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
 public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<LocationPeople> locationPeopleList;
     //private ArrayList<PictureUpload> pictureUploadList;
 
-    private static final int VIEW_TYPE_PERSONNEL = 0;
-    private static final int VIEW_TYPE_ADD_PERSONNEL = 1;
+    private static final int VIEW_TYPE_TITLE_PERSONNEL = 0;
+    private static final int VIEW_TYPE_PERSONNEL = 1;
+    private static final int VIEW_TYPE_ADD_PERSONNEL = 2;
+
 
     private OnItemClickListener onItemClickListener;
     private Context context;
@@ -46,20 +45,30 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public PersonnelAdapter(Context context, boolean isEmptyPersonnel) {
         this.context = context;
-        this.isEmptyPersonnel = true;
+        this.isEmptyPersonnel = isEmptyPersonnel;
+        if (!isEmptyPersonnel )
+            throw new IllegalArgumentException(context.toString()+" when data is empty 'isEmptyPersonnel' must set true");
     }
 
     @Override
     public int getItemViewType(int position) {
         if (isEmptyPersonnel) {
-            return VIEW_TYPE_ADD_PERSONNEL;
+            if (position == 0)
+                return VIEW_TYPE_TITLE_PERSONNEL;
+            else
+                return VIEW_TYPE_ADD_PERSONNEL;
+
         } else {
 
-            if (position == locationPeopleList.size()) {
+            if (position == 0)
+                return VIEW_TYPE_TITLE_PERSONNEL;
+
+            else if (position == locationPeopleList.size() + 1)
                 return VIEW_TYPE_ADD_PERSONNEL;
-            } else {
+
+            else
                 return VIEW_TYPE_PERSONNEL;
-            }
+
         }
 
 
@@ -72,13 +81,19 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (viewType == VIEW_TYPE_PERSONNEL) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_personnel, parent, false);
             RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(12, 0, 0, 12);
+            lp.setMargins(12, 0, 30, 12);
             view.setLayoutParams(lp);
             return new PersonnelHolder(view);
+        } else if (viewType == VIEW_TYPE_TITLE_PERSONNEL) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_title_detail, parent, false);
+            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(12, 0, 0, 12);
+            view.setLayoutParams(lp);
+            return new PersonnelTitleHolder(view);
         } else {
             View viewAdd = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_add_personnel, parent, false);
             RecyclerView.LayoutParams lpAdd = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lpAdd.setMargins(12, 0, 0, 12);
+            lpAdd.setMargins(12, 0, 0, 0);
             viewAdd.setLayoutParams(lpAdd);
             return new PersonnelAddHolder(viewAdd);
         }
@@ -92,7 +107,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         if (holder instanceof PersonnelHolder) {
             PersonnelHolder mHolder = (PersonnelHolder) holder;
-            mHolder.bindPersonnelView(mHolder, locationPeopleList.get(position));
+            mHolder.bindPersonnelView(mHolder, locationPeopleList.get(position-1));
 
         } else if (holder instanceof PersonnelAddHolder) {
 
@@ -108,7 +123,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return isEmptyPersonnel ? 1 : locationPeopleList.size() + 1;
+        return isEmptyPersonnel ? 2 : locationPeopleList.size() + 2;
     }
 
     class PersonnelHolder extends RecyclerView.ViewHolder {
@@ -153,18 +168,17 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
-
     class PersonnelAddHolder extends RecyclerView.ViewHolder {
         MyButton addBtn;
 
-        public PersonnelAddHolder(@NonNull View itemView) {
+        PersonnelAddHolder(@NonNull View itemView) {
             super(itemView);
             addBtn = itemView.findViewById(R.id.recycler_view_personnel_add_btn);
 
 
         }
 
-        public void bindAddPersonnel(PersonnelAddHolder mHolder) {
+        void bindAddPersonnel(PersonnelAddHolder mHolder) {
             mHolder.addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -172,6 +186,19 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         onItemClickListener.onItemClick(v);
                 }
             });
+        }
+
+
+    }
+
+    class PersonnelTitleHolder extends RecyclerView.ViewHolder {
+        MyTextView titleTV;
+
+        PersonnelTitleHolder(@NonNull View itemView) {
+            super(itemView);
+            titleTV = itemView.findViewById(R.id.recycler_view_title_detail_TV);
+
+            titleTV.setText("پرسنل");
         }
 
 

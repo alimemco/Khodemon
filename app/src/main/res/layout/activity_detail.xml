@@ -169,6 +169,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="16dp"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/app_name"
                     android:background="@drawable/shape_background_holo_green_image"
                     android:clickable="true"
                     android:focusable="true"
@@ -203,43 +204,15 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout4"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_detail_job_recyclerView_personnel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_detail_recyclerView_info">
-
-
-                <com.ali.rnp.khodemon.MyLibrary.MyTextView
-                    android:id="@+id/myTextView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="24dp"
-                    android:text="پرسنل"
-                    android:textSize="@dimen/normal_textSize_sp"
-                    app:fontCustom="shp_iranSansMobile"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activity_detail_job_recyclerView_personnel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="12dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/view8"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/myTextView5" />
+                app:layout_constraintTop_toTopOf="@+id/view6" />
 
 
                 <View
@@ -249,36 +222,32 @@
                     android:background="@drawable/shadow_blue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_detail_recyclerView_similar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_detail_job_recyclerView_personnel" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_detail_recyclerView_info"
                 android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
             <View
+                android:id="@+id/view6"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@drawable/shadow_blue"
-                app:layout_constraintTop_toBottomOf="@id/activity_detail_recyclerView_info"/>
+                app:layout_constraintTop_toBottomOf="@id/activity_detail_recyclerView_info" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -23,7 +23,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.annotations.Since;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -419,7 +418,7 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void getDetail(int Post_id, OnGetDetails onGetDetails) {
+    public void getDetail(int Post_id, OnGetDetails onGetDetails, OnPhoneReceived onPhoneReceived) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ProvidersApp.KEY_POST_ID, Post_id);
@@ -428,7 +427,7 @@ public class ApiService {
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_DETAIL, jsonObject, response -> {
 
-            parseGetDetail(response, onGetDetails);
+            parseGetDetail(response, onGetDetails,onPhoneReceived);
 
 
         }, error -> onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
@@ -767,7 +766,7 @@ public class ApiService {
 
     }
 
-    private void parseGetDetail(JSONObject response, OnGetDetails onGetDetails) {
+    private void parseGetDetail(JSONObject response, OnGetDetails onGetDetails, OnPhoneReceived onPhoneReceived) {
         try {
             JSONObject jsonObjectResponse = new JSONObject(response.toString());
             JSONObject jsonObjectRes = jsonObjectResponse.getJSONObject("result");
@@ -780,6 +779,10 @@ public class ApiService {
 
                 JSONArray jsAryItems = jsonObjectRes.getJSONArray("items");
                 JSONObject JsObjItems = jsAryItems.getJSONObject(0);
+
+
+
+                onPhoneReceived.onReceived(JsObjItems.getString("phone"));
 
                 Info infoSince = new Info();
 
@@ -931,6 +934,10 @@ public class ApiService {
 
     public interface OnAddPersonnel {
         void onAdded(int successCode, String error);
+    }
+
+    public interface OnPhoneReceived {
+        void onReceived(String number);
     }
 
 

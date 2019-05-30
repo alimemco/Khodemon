@@ -58,8 +58,9 @@ public class ProvidersApp {
     public static final int KEY_JSON_EXCEPTION = 1;
     public static final int KEY_VOLLEY_ERROR = 2;
 
-    public static final String KEY_ID = "USER_NAME";
+    public static final String KEY_ID = "ID";
     public static final String KEY_USERNAME = "USER_NAME";
+    public static final String KEY_PHONE = "PHONE";
 
     public static final String KEY_ITEM_LOCATION_PEOPLE = "LOCATION_PEOPLE";
     public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";
@@ -89,5 +90,7 @@ public class ProvidersApp {
     public static final String KEY_JSON_OBJECT_PEOPLE_ID = "PEOPLE_ID";
 
     public static final int REQUEST_CODE_CHOOSE_PERSONNEL = 236 ;
+    public static final int PERMISSIONS_REQUEST_SMS = 42;
+    public static final int PERMISSIONS_REQUEST_CALL = 43;
 
 }

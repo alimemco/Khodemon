@@ -475,7 +475,7 @@ public class AddRule extends AppCompatActivity implements
                     apiService.addLocation(jsonObjectLocation, new ApiService.OnAddLocationPeople() {
                         @Override
                         public void OnAdded(int last_id, String error) {
-                            if (last_id >= 0 && error == null) {
+                            if (last_id >= 0 && error == null && pictureUploadList != null) {
 
                                 // Toast.makeText(AddRule.this, result, Toast.LENGTH_LONG).show();
                                 // Log.i(TAG, "OnAdded: RES "+result);
@@ -507,9 +507,14 @@ public class AddRule extends AppCompatActivity implements
                                 DialogCompleteAdd dialog = new DialogCompleteAdd();
                                 dialog.show(fragmentManager, "AddRule");
 
-                            } else {
+                            } else  if (error !=null){
+
                                 Toast.makeText(AddRule.this, error, Toast.LENGTH_LONG).show();
-                            }
+
+                            } else {
+                                DialogCompleteAdd dialog = new DialogCompleteAdd();
+                                dialog.show(fragmentManager, "AddRule");
+                             }
                         }
                     });
                 }
