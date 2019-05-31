@@ -146,7 +146,8 @@
                     android:progressTint="@color/colorPrimary"
                     android:rating="1"
                     app:layout_constraintEnd_toEndOf="@+id/activity_detail_locPeoName_textView"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_detail_locPeoName_textView" />
+                    app:layout_constraintTop_toBottomOf="@+id/activity_detail_locPeoName_textView"
+                    tools:targetApi="lollipop" />
 
                 <com.ali.rnp.khodemon.MyLibrary.MyTextView
                     android:id="@+id/activity_detail_ratingBar_textView"
@@ -205,6 +206,17 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_detail_recyclerView_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_detail_job_recyclerView_personnel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -212,42 +224,27 @@
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/view6" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_detail_recyclerView_info" />
 
-
-                <View
-                    android:id="@+id/view8"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@drawable/shadow_blue"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_detail_recyclerView_similar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_detail_job_recyclerView_personnel" />
+                app:layout_constraintTop_toBottomOf="@id/activity_detail_job_recyclerView_personnel" />
+            <!--
+                        <View
+                            android:id="@+id/view6"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@drawable/shadow_blue"
+                            app:layout_constraintTop_toBottomOf="@id/activity_detail_recyclerView_info" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_detail_recyclerView_info"
-                android:layout_width="match_parent"
-                android:background="@color/white"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
-
-            <View
-                android:id="@+id/view6"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@drawable/shadow_blue"
-                app:layout_constraintTop_toBottomOf="@id/activity_detail_recyclerView_info" />
+                    -->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

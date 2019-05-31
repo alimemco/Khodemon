@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
-import com.ali.rnp.khodemon.Adapter.DetailAdapter;
+import com.ali.rnp.khodemon.Adapter.InfoAdapter;
 import com.ali.rnp.khodemon.Adapter.PersonnelAdapter;
 import com.ali.rnp.khodemon.Adapter.ScreenSlidePagerAdapter;
 import com.ali.rnp.khodemon.Adapter.SimilarAdapter;
@@ -21,7 +21,7 @@ import com.ali.rnp.khodemon.BottomSheet.BottomSheetAddPersonnel;
 import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
-import com.ali.rnp.khodemon.Dialogs.DialogAddPersonnel;
+import com.ali.rnp.khodemon.Interface.OnButtonAddClick;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
@@ -52,7 +52,7 @@ public class DetailActivity extends AppCompatActivity implements
         View.OnClickListener,
         ApiService.OnPersonnelReceived,
         ApiService.OnGetDetails,
-        PersonnelAdapter.OnItemClickListener,
+        OnButtonAddClick,
         ApiService.OnPhoneReceived {
 
 
@@ -320,7 +320,7 @@ public class DetailActivity extends AppCompatActivity implements
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
                     personnelRecyclerView.setLayoutManager(linearLayoutManager);
                     PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this, locationPeopleList);
-                    personnelAdapter.setOnItemClickListener(this);
+                    personnelAdapter.setOnButtonAddClick(this);
                     personnelRecyclerView.setAdapter(personnelAdapter);
 
 
@@ -342,7 +342,7 @@ public class DetailActivity extends AppCompatActivity implements
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
                 personnelRecyclerView.setLayoutManager(linearLayoutManager);
                 PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this, true);
-                personnelAdapter.setOnItemClickListener(this);
+                personnelAdapter.setOnButtonAddClick(this);
                 personnelRecyclerView.setAdapter(personnelAdapter);
 
                 break;
@@ -363,23 +363,7 @@ public class DetailActivity extends AppCompatActivity implements
 
     }
 
-    //PersonnelAdapter
-    @Override
-    public void onItemClick(View view) {
-        switch (view.getId()) {
-            case R.id.recycler_view_personnel_add_btn:/*
-                DialogAddPersonnel dialogAddPersonnel = DialogAddPersonnel.newInstance(post_id);
-                dialogAddPersonnel.show(getSupportFragmentManager(), "dialogAddPersonnel");
 
-                */
-
-                BottomSheetAddPersonnel btmShtAddPersonnel = BottomSheetAddPersonnel.newInstance(post_id);
-                btmShtAddPersonnel.show(getSupportFragmentManager(),"BottomSheetAddPersonnel");
-
-                break;
-        }
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -404,9 +388,10 @@ public class DetailActivity extends AppCompatActivity implements
 
                 if (infoList != null) {
                     LinearLayoutManager ln = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
-                    DetailAdapter detailAdapter = new DetailAdapter(infoList);
+                    InfoAdapter infoAdapter = new InfoAdapter(infoList);
+                    infoAdapter.setOnButtonAddClick(this);
                     infoRecyclerView.setLayoutManager(ln);
-                    infoRecyclerView.setAdapter(detailAdapter);
+                    infoRecyclerView.setAdapter(infoAdapter);
 
                 }
                 break;
@@ -426,5 +411,20 @@ public class DetailActivity extends AppCompatActivity implements
         if (number != null){
             this.number = number;
         }
+    }
+
+    @Override
+    public void OnAddClick(int rcvModel) {
+        switch (rcvModel){
+            case ProvidersApp.RECYCLER_VIEW_PERSONNEL:
+                BottomSheetAddPersonnel btmShtAddPersonnel = BottomSheetAddPersonnel.newInstance(post_id);
+                btmShtAddPersonnel.show(getSupportFragmentManager(),"BottomSheetAddPersonnel");
+                break;
+
+            case ProvidersApp.RECYCLER_VIEW_INFO:
+                Toast.makeText(this, "INFO ADD", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
     }
 }

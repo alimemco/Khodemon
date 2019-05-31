@@ -6,7 +6,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ali.rnp.khodemon.DataModel.Info;
+import com.ali.rnp.khodemon.Holder.ButtonAddHolder;
+import com.ali.rnp.khodemon.Holder.TitleHolder;
+import com.ali.rnp.khodemon.Interface.OnButtonAddClick;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 
 import java.util.ArrayList;
@@ -15,19 +19,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Info> infoList;
+    private OnButtonAddClick onButtonAddClick;
 
     private int VIEW_TYPE_TITLE = 0;
     private int VIEW_TYPE_INFO = 1;
+    private int VIEW_TYPE_BTN_ADD = 2;
 
-    public DetailAdapter(ArrayList<Info> infoList) {
+    public InfoAdapter(ArrayList<Info> infoList) {
 
         this.infoList = infoList;
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
+    }
+
+    public void setOnButtonAddClick(OnButtonAddClick onButtonAddClick) {
+        this.onButtonAddClick = onButtonAddClick;
     }
 
     @Override
@@ -37,6 +47,8 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (position == 0)
             return VIEW_TYPE_TITLE;
+        else if(position == infoList.size()+1)
+            return VIEW_TYPE_BTN_ADD;
         else
             return VIEW_TYPE_INFO;
 
@@ -48,8 +60,14 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_TITLE){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_title_detail,parent,false);
-            return new DetailAdapterTitleHolder(view);
-        }else {
+            return new TitleHolder("اطلاعات",view);
+
+        }else if(viewType == VIEW_TYPE_BTN_ADD) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_button_add,parent,false);
+            return new ButtonAddHolder("تغییر اطلاعات", view
+                    ,ProvidersApp.RECYCLER_VIEW_INFO,onButtonAddClick);
+            
+        }  else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_location_detail, parent, false);
             return new DetailAdapterHolder(view);
         }
@@ -70,7 +88,7 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return infoList.size() + 1;
+        return infoList.size() + 2;
     }
 
 
@@ -96,7 +114,7 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    class DetailAdapterTitleHolder extends RecyclerView.ViewHolder {
+   /* class DetailAdapterTitleHolder extends RecyclerView.ViewHolder {
         MyTextView titleTV;
 
          DetailAdapterTitleHolder(@NonNull View itemView) {
@@ -107,5 +125,5 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
 
-    }
+    }*/
 }

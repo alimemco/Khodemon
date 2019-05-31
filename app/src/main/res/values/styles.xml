@@ -44,6 +44,12 @@
         <item name="android:textSize">@dimen/small_textSize_sp</item>
     </style>
 
+    <style name="buttonAdd" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@drawable/shape_button_add</item>
+        <item name="android:textColor">@color/gray_600</item>
+        <item name="android:textSize">@dimen/very_small_textSize_sp</item>
+    </style>
+
     <style name="buttonPrimaryChoose" parent="Base.Widget.AppCompat.Button">
         <item name="android:width">280dp</item>
         <item name="android:height">25dp</item>

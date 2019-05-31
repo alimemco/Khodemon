@@ -11,6 +11,9 @@ public class ProvidersApp {
     public static final int STATUS_CODE_SERVER_ERROR = 2 ;
     public static final int STATUS_CODE_SUCCESSFULLY = 29 ;
 
+    public static final int RECYCLER_VIEW_PERSONNEL = 1 ;
+    public static final int RECYCLER_VIEW_INFO = 2 ;
+
     public static final String GROUP_NAME_KEY="group_name_key";
 
     public static final String GROUP_NAME_LOCATION ="LOCATION";

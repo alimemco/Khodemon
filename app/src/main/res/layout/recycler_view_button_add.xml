@@ -6,17 +6,17 @@
     android:layout_height="wrap_content">
 
     <com.ali.rnp.khodemon.MyLibrary.MyButton
-        android:id="@+id/recycler_view_personnel_add_btn"
-        style="@style/ButtonPrimary"
-        android:layout_width="150dp"
-        android:layout_height="42dp"
+        android:id="@+id/recycler_view_add_button_btn"
+        style="@style/buttonAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="اضافه کردن"
-        android:textSize="@dimen/small_textSize_sp"
+        tools:text="اضافه کردن"
+        android:textSize="@dimen/very_small_textSize_sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,5 +28,5 @@
         android:background="@drawable/shadow_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_view_personnel_add_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/recycler_view_add_button_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

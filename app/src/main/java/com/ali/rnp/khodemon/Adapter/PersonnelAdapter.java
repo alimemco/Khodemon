@@ -8,9 +8,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
-import com.ali.rnp.khodemon.MyLibrary.MyButton;
+import com.ali.rnp.khodemon.Holder.ButtonAddHolder;
+import com.ali.rnp.khodemon.Holder.TitleHolder;
+import com.ali.rnp.khodemon.Interface.OnButtonAddClick;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.UtilsApp.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +34,8 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int VIEW_TYPE_ADD_PERSONNEL = 2;
 
 
-    private OnItemClickListener onItemClickListener;
+    //private OnItemClickListener onItemClickListener;
+    private OnButtonAddClick onButtonAddClick;
     private Context context;
     private boolean isEmptyPersonnel;
 
@@ -45,9 +50,12 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public PersonnelAdapter(Context context, boolean isEmptyPersonnel) {
         this.context = context;
-        this.isEmptyPersonnel = isEmptyPersonnel;
-        if (!isEmptyPersonnel )
-            throw new IllegalArgumentException(context.toString()+" when data is empty 'isEmptyPersonnel' must set true");
+
+
+        if (isEmptyPersonnel )
+            this.isEmptyPersonnel = true;
+        else
+            throw new IllegalArgumentException(context.toString()+" -> when data is empty 'isEmptyPersonnel' must set true");
     }
 
     @Override
@@ -89,13 +97,14 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp.setMargins(12, 0, 0, 12);
             view.setLayoutParams(lp);
-            return new PersonnelTitleHolder(view);
+            return new TitleHolder("پرسنل",view);
         } else {
-            View viewAdd = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_add_personnel, parent, false);
+            View viewAdd = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_button_add, parent, false);
             RecyclerView.LayoutParams lpAdd = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lpAdd.setMargins(12, 0, 0, 0);
             viewAdd.setLayoutParams(lpAdd);
-            return new PersonnelAddHolder(viewAdd);
+            return new ButtonAddHolder("اضافه کردن", viewAdd,
+                    ProvidersApp.RECYCLER_VIEW_PERSONNEL, onButtonAddClick);
         }
 
 
@@ -109,13 +118,13 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             PersonnelHolder mHolder = (PersonnelHolder) holder;
             mHolder.bindPersonnelView(mHolder, locationPeopleList.get(position-1));
 
-        } else if (holder instanceof PersonnelAddHolder) {
+        } /*else if (holder instanceof ButtonAddHolder) {
 
             PersonnelAddHolder mHolder = (PersonnelAddHolder) holder;
             mHolder.bindAddPersonnel(mHolder);
 
 
-        }
+        }*/
 
 
     }
@@ -144,7 +153,8 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void bindPersonnelView(PersonnelHolder holder, LocationPeople locationPeople) {
 
 
-            loadImage(holder, locationPeople);
+            //loadImage(holder, locationPeople);
+            Utils.getImage(locationPeople,holder.imageView);
 
         /*if (!locationPeople.getOriginalPic().equals("")){
             Picasso.get().
@@ -167,7 +177,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
     }
-
+/*
     class PersonnelAddHolder extends RecyclerView.ViewHolder {
         MyButton addBtn;
 
@@ -190,7 +200,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     }
-
+*/
     class PersonnelTitleHolder extends RecyclerView.ViewHolder {
         MyTextView titleTV;
 
@@ -244,8 +254,8 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+    public void setOnButtonAddClick(OnButtonAddClick onButtonAddClick) {
+        this.onButtonAddClick = onButtonAddClick;
     }
 
     public interface OnItemClickListener {
