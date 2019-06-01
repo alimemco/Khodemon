@@ -65,6 +65,10 @@ public class ProvidersApp {
     public static final String KEY_USERNAME = "USER_NAME";
     public static final String KEY_PHONE = "PHONE";
 
+    public static final String KEY_DIMENSIONS = "dimensions";
+    public static final String KEY_SINCE = "since";
+    public static final String KEY_PHONE_NUMBER = "phone";
+
     public static final String KEY_ITEM_LOCATION_PEOPLE = "LOCATION_PEOPLE";
     public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";
 
@@ -92,8 +96,12 @@ public class ProvidersApp {
     public static final String KEY_JSON_OBJECT_LOCATION_ID = "LOCATION_ID";
     public static final String KEY_JSON_OBJECT_PEOPLE_ID = "PEOPLE_ID";
 
+
+
     public static final int REQUEST_CODE_CHOOSE_PERSONNEL = 236 ;
     public static final int PERMISSIONS_REQUEST_SMS = 42;
     public static final int PERMISSIONS_REQUEST_CALL = 43;
+
+
 
 }

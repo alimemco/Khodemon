@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -51,11 +52,12 @@ import androidx.viewpager.widget.ViewPager;
 public class DetailActivity extends AppCompatActivity implements
         View.OnClickListener,
         ApiService.OnPersonnelReceived,
+        ApiService.OnGetInfo,
         ApiService.OnGetDetails,
-        OnButtonAddClick,
-        ApiService.OnPhoneReceived {
+        OnButtonAddClick {
 
 
+    private static final String TAG = "DetailActivityDebug";
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private Toolbar toolbar;
@@ -145,11 +147,18 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void initFloatActionButton() {
-        ImageView call = findViewById(R.id.activity_detail_call_imageView);
+        ImageView callIV = findViewById(R.id.activity_detail_call_imageView);
+        ImageView scaleIV = findViewById(R.id.activity_detail_scale_imageView);
 
-        call.setOnClickListener(v -> {
+        callIV.setOnClickListener(v -> {
             FragmentBottomSheetCall fragmentBottomSheetCall = FragmentBottomSheetCall.newInstance(number);
             fragmentBottomSheetCall.show(getSupportFragmentManager(), "FragmentBottomSheetCall");
+        });
+
+        scaleIV.setOnClickListener(v -> {
+            Intent i = new Intent(DetailActivity.this,ScaleActivity.class);
+            i.putExtra(ProvidersApp.KEY_POST_ID,post_id);
+            startActivity(i);
         });
     }
 
@@ -210,8 +219,8 @@ public class DetailActivity extends AppCompatActivity implements
 
 
             apiService.getPersonnel(post_id, this);
-
-            apiService.getDetail(post_id, this,this);
+            apiService.getInfo(post_id, this);
+            apiService.getDetail(post_id,this);
 
 
             nameLocPeoTV.setText(locPeoName);
@@ -381,8 +390,60 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
 
+
     @Override
-    public void OnGetDetail(int statusCode, ArrayList<Info> infoList, String error) {
+    public void OnAddClick(int rcvModel) {
+        switch (rcvModel){
+            case ProvidersApp.RECYCLER_VIEW_PERSONNEL:
+                BottomSheetAddPersonnel btmShtAddPersonnel = BottomSheetAddPersonnel.newInstance(post_id);
+                btmShtAddPersonnel.show(getSupportFragmentManager(),"BottomSheetAddPersonnel");
+                break;
+
+            case ProvidersApp.RECYCLER_VIEW_INFO:
+                Toast.makeText(this, "INFO ADD", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+    }
+
+
+    @Override
+    public void OnGetDetail(int statusCode, LocationPeople locationPeople, String error) {
+        String ERR ="";
+        switch (statusCode) {
+
+            case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
+
+                if (locationPeople != null) {
+
+                    number = locationPeople.getPhone();
+                    Log.i(TAG, "OnGetDetail: "+number);
+
+                }else {
+                    Log.i(TAG, "OnGetDetail: NULL");
+                }
+                break;
+
+            case ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR:
+                ERR = "JSON_EXCEPTION_ERROR";
+                break;
+            case ProvidersApp.STATUS_CODE_VOLLEY_ERROR:
+                ERR = "VOLLEY_ERROR";
+                break;
+            case ProvidersApp.STATUS_CODE_SERVER_ERROR:
+                ERR = "SERVER_ERROR";
+                break;
+
+        }
+
+        if (statusCode != ProvidersApp.STATUS_CODE_SUCCESSFULLY){
+            Toast.makeText(this, ERR + " -> " + error, Toast.LENGTH_LONG).show();
+
+        }
+    }
+
+    @Override
+    public void OnGetInfo(int statusCode, ArrayList<Info> infoList, String error) {
         switch (statusCode) {
             case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
 
@@ -404,27 +465,5 @@ public class DetailActivity extends AppCompatActivity implements
                 break;
 
         }
-    }
-
-    @Override
-    public void onReceived(String number) {
-        if (number != null){
-            this.number = number;
-        }
-    }
-
-    @Override
-    public void OnAddClick(int rcvModel) {
-        switch (rcvModel){
-            case ProvidersApp.RECYCLER_VIEW_PERSONNEL:
-                BottomSheetAddPersonnel btmShtAddPersonnel = BottomSheetAddPersonnel.newInstance(post_id);
-                btmShtAddPersonnel.show(getSupportFragmentManager(),"BottomSheetAddPersonnel");
-                break;
-
-            case ProvidersApp.RECYCLER_VIEW_INFO:
-                Toast.makeText(this, "INFO ADD", Toast.LENGTH_SHORT).show();
-                break;
-        }
-
     }
 }

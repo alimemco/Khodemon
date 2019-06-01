@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+
     tools:context=".Views.Activities.TestPlace">
 
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/test_place_button"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -25,14 +26,80 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            android:textColor="@color/colorPrimary"
             android:scrollHorizontally="true"
             android:text="loading.."
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </ScrollView>
+
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layoutDirection="rtl"
+        android:stretchColumns="*"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:id="@+id/activity_test_place_price"
+                android:layout_span="1"
+                android:background="@color/gray_300"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text=" قیمت" />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:layout_span="5"
+                android:background="@color/gray_200"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5000 تومان" />
+
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:layout_span="5"
+                android:background="@color/gray_200"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="2400 تومان" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+    <LinearLayout
+        android:layoutDirection="rtl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout">
+
+        <Button
+            android:id="@+id/marginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+    </LinearLayout>
+
+
 
     <Button
         android:id="@+id/test_place_button"

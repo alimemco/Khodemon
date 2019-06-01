@@ -49,6 +49,7 @@ public class ApiService {
     private final static String API_ADD_PICTURE = "http://khodemon.ir/addPictures.php";
     private final static String API_GET_PICTURE = "http://khodemon.ir/getPictures.php";
     private final static String API_GET_DETAIL = "http://khodemon.ir/getDetail.php";
+    private final static String API_GET_INFO = "http://khodemon.ir/getInfo.php";
     private final static String API_ADD_PERSONNEL = "http://khodemon.ir/addPersonnel.php";
     private final static String API_GET_PERSONNEL = "http://khodemon.ir/getPersonnel.php";
     private final static String API_GET_PERSON_LIST = "http://khodemon.ir/getPersonList.php";
@@ -418,7 +419,7 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void getDetail(int Post_id, OnGetDetails onGetDetails, OnPhoneReceived onPhoneReceived) {
+    public void getDetail(int Post_id, OnGetDetails onGetDetails) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ProvidersApp.KEY_POST_ID, Post_id);
@@ -427,10 +428,28 @@ public class ApiService {
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_DETAIL, jsonObject, response -> {
 
-            parseGetDetail(response, onGetDetails,onPhoneReceived);
+            parseGetDetail(response, onGetDetails);
 
 
         }, error -> onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
+
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(context).add(request);
+    }
+
+    public void getInfo(int Post_id, OnGetInfo onGetInfo) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ProvidersApp.KEY_POST_ID, Post_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_INFO, jsonObject, response -> {
+
+            parseGetInfo(response, onGetInfo);
+
+
+        }, error -> onGetInfo.OnGetInfo(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
@@ -766,7 +785,7 @@ public class ApiService {
 
     }
 
-    private void parseGetDetail(JSONObject response, OnGetDetails onGetDetails, OnPhoneReceived onPhoneReceived) {
+    private void parseGetDetail(JSONObject response, OnGetDetails onGetDetails) {
         try {
             JSONObject jsonObjectResponse = new JSONObject(response.toString());
             JSONObject jsonObjectRes = jsonObjectResponse.getJSONObject("result");
@@ -775,14 +794,21 @@ public class ApiService {
 
             if (isSuccess) {
 
-                ArrayList<Info> infoList = new ArrayList<>();
 
                 JSONArray jsAryItems = jsonObjectRes.getJSONArray("items");
                 JSONObject JsObjItems = jsAryItems.getJSONObject(0);
 
+                LocationPeople locPeo = new LocationPeople();
+                locPeo.setPhone(JsObjItems.getString("phone"));
+
+                onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_SUCCESSFULLY,locPeo,null);
 
 
-                onPhoneReceived.onReceived(JsObjItems.getString("phone"));
+/*
+                Info info = new Info();
+                info.setSubject("Subject");
+                info.setDescription("Description");
+                infoList.add(info);
 
                 Info infoSince = new Info();
 
@@ -805,9 +831,8 @@ public class ApiService {
                 infoPhone.setIcon(R.drawable.ic_phone);
                 if (!infoPhone.getDescription().equals("")) {
                     infoList.add(infoPhone);
-                }
+                }*/
 
-                onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_SUCCESSFULLY,infoList,null);
 
 
             } else {
@@ -817,6 +842,44 @@ public class ApiService {
 
         } catch (JSONException e) {
             onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, response.toString());
+
+
+        }
+    }
+    private void parseGetInfo(JSONObject response, OnGetInfo onGetInfo) {
+        try {
+            JSONObject jsonObjectResponse = new JSONObject(response.toString());
+            JSONObject jsonObjectRes = jsonObjectResponse.getJSONObject("result");
+
+            boolean isSuccess = jsonObjectRes.getBoolean("success");
+
+            if (isSuccess) {
+
+                ArrayList<Info> infoList = new ArrayList<>();
+
+                JSONArray jsAryItems = jsonObjectRes.getJSONArray("items");
+
+                for (int i = 0; i < jsAryItems.length(); i++) {
+
+                    JSONObject jsObjItems = jsAryItems.getJSONObject(i);
+                    Info info = new Info();
+                    info.setSubject(jsObjItems.getString("key"));
+                    info.setDescription(jsObjItems.getString("value"));
+                    infoList.add(info);
+                }
+
+                //onPhoneReceived.onReceived(JsObjItems.getString("phone"));
+
+                onGetInfo.OnGetInfo(ProvidersApp.STATUS_CODE_SUCCESSFULLY,infoList,null);
+
+
+            } else {
+                String msg = jsonObjectRes.getString("message");
+                onGetInfo.OnGetInfo(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
+            }
+
+        } catch (JSONException e) {
+            onGetInfo.OnGetInfo(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, response.toString());
 
 
         }
@@ -921,7 +984,11 @@ public class ApiService {
     }
 
     public interface OnGetDetails {
-        void OnGetDetail(int statusCode, ArrayList<Info> infoList, String error);
+        void OnGetDetail(int statusCode, LocationPeople locationPeople, String error);
+    }
+
+    public interface OnGetInfo {
+        void OnGetInfo(int statusCode, ArrayList<Info> infoList, String error);
     }
 
     public interface OnGetPersonList {

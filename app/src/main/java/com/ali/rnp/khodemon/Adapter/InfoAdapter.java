@@ -30,11 +30,12 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public InfoAdapter(ArrayList<Info> infoList) {
 
-        this.infoList = infoList;
 
+        this.infoList = infoList;
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     }
+
 
     public void setOnButtonAddClick(OnButtonAddClick onButtonAddClick) {
         this.onButtonAddClick = onButtonAddClick;
@@ -42,12 +43,10 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        // return super.getItemViewType(position);
-
 
         if (position == 0)
             return VIEW_TYPE_TITLE;
-        else if(position == infoList.size()+1)
+        else if (position == infoList.size() + 1)
             return VIEW_TYPE_BTN_ADD;
         else
             return VIEW_TYPE_INFO;
@@ -58,16 +57,16 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_TITLE){
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_title_detail,parent,false);
-            return new TitleHolder("اطلاعات",view);
+        if (viewType == VIEW_TYPE_TITLE) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_title_detail, parent, false);
+            return new TitleHolder("اطلاعات", view);
 
-        }else if(viewType == VIEW_TYPE_BTN_ADD) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_button_add,parent,false);
+        } else if (viewType == VIEW_TYPE_BTN_ADD) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_button_add, parent, false);
             return new ButtonAddHolder("تغییر اطلاعات", view
-                    ,ProvidersApp.RECYCLER_VIEW_INFO,onButtonAddClick);
-            
-        }  else {
+                    , ProvidersApp.RECYCLER_VIEW_INFO, onButtonAddClick);
+
+        } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_location_detail, parent, false);
             return new DetailAdapterHolder(view);
         }
@@ -78,9 +77,9 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-         if (holder instanceof DetailAdapterHolder){
-           DetailAdapterHolder mHolder = (DetailAdapterHolder) holder;
-            mHolder.bindDetail(mHolder, infoList.get(position -1));
+        if (holder instanceof DetailAdapterHolder) {
+            DetailAdapterHolder mHolder = (DetailAdapterHolder) holder;
+            mHolder.bindDetail(mHolder, infoList.get(position - 1));
         }
 
 
@@ -106,24 +105,42 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         void bindDetail(DetailAdapterHolder holder, Info info) {
 
-            holder.subjectTV.setText(info.getSubject());
-            holder.descriptionTV.setText(info.getDescription());
+            Info infoPrs = parseInfo(info);
 
-            holder.iconIV.setImageResource(info.getIcon());
+            holder.subjectTV.setText(infoPrs.getSubject());
+            holder.iconIV.setImageResource(infoPrs.getIcon());
+            holder.descriptionTV.setText(infoPrs.getDescription());
+
 
         }
+
+        private Info parseInfo(Info info) {
+
+            switch (info.getSubject()) {
+                case ProvidersApp.KEY_DIMENSIONS:
+                    info.setSubject("سال تاسیس");
+                    info.setIcon(R.drawable.ic_under_construction);
+                    break;
+
+                case ProvidersApp.KEY_SINCE:
+                    info.setSubject("مساحت");
+                    info.setIcon(R.drawable.ic_dimensions);
+                    break;
+
+
+                case ProvidersApp.KEY_PHONE_NUMBER:
+                    if (info.getDescription().equals("")) {
+                        info.setDescription("وارد کنید..");
+                    }
+                    info.setSubject("تلفن تماس");
+                    info.setIcon(R.drawable.ic_phone);
+                    break;
+            }
+            return info;
+        }
+
+
     }
 
-   /* class DetailAdapterTitleHolder extends RecyclerView.ViewHolder {
-        MyTextView titleTV;
 
-         DetailAdapterTitleHolder(@NonNull View itemView) {
-            super(itemView);
-            titleTV = itemView.findViewById(R.id.recycler_view_title_detail_TV);
-
-            titleTV.setText("مشخصات");
-        }
-
-
-    }*/
 }

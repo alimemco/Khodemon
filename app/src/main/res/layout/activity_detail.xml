@@ -190,7 +190,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageView10"
+                    android:id="@+id/activity_detail_scale_imageView"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_marginStart="24dp"

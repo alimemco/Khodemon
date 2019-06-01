@@ -2,10 +2,15 @@ package com.ali.rnp.khodemon.Views.Activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.libraries.places.api.Places;
@@ -17,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class TestPlace extends AppCompatActivity  {
 
@@ -37,6 +43,20 @@ public class TestPlace extends AppCompatActivity  {
         textView = findViewById(R.id.test_place_text);
 
         button = findViewById(R.id.test_place_button);
+
+
+        MyTextView price = findViewById(R.id.activity_test_place_price);
+        Button marBtn = findViewById(R.id.marginBtn);
+
+        ViewTreeObserver observer = price.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(() -> {
+            Toast.makeText(this, ""+price.getWidth(), Toast.LENGTH_SHORT).show();
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) marBtn.getLayoutParams();
+            params.setMargins(price.getWidth(),0,price.getWidth(),price.getWidth());
+            marBtn.setLayoutParams(params);
+        });
+
 
 
         button.setOnClickListener(v -> fetchPlaceById());

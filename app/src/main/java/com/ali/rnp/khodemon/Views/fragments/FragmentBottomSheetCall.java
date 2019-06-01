@@ -76,12 +76,14 @@ public class FragmentBottomSheetCall extends BottomSheetDialogFragment implement
         callIV.setOnClickListener(this);
         messageIV.setOnClickListener(this);
 
-        if (!number.equals("")  ){
-            numberTV.setText(number);
-        }else {
-            numberTV.setText("هیچ شماره ای درج نشده!");
-            callIV.setVisibility(View.INVISIBLE);
-            messageIV.setVisibility(View.INVISIBLE);
+        if (number != null  ) {
+            if (!number.equals("")) {
+                numberTV.setText(number);
+            } else {
+                numberTV.setText("هیچ شماره ای درج نشده!");
+                callIV.setVisibility(View.INVISIBLE);
+                messageIV.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
@@ -109,23 +111,16 @@ public class FragmentBottomSheetCall extends BottomSheetDialogFragment implement
 
     private void sendSms() {
         Intent smsIntent = new Intent(Intent.ACTION_VIEW);
-
-        //smsIntent.setType("vnd.android-dir/mms-sms");
         smsIntent.setData(Uri.parse("smsto:"));
-
-        //smsIntent.setDataAndType(Uri.parse("smsto:"), "vnd.android-dir/mms-sms");
-
         smsIntent.putExtra("address"  , number);
-        //smsIntent.putExtra("sms_body"  , "");
 
 
 
         try {
             startActivity(smsIntent);
-            Log.i("Finished sending SMS...", "");
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(getActivity(),
-                    "SMS faild, please try again later.", Toast.LENGTH_SHORT).show();
+                    "SMS failed.", Toast.LENGTH_SHORT).show();
         }
     }
 

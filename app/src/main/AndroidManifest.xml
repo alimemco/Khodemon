@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ali.rnp.khodemon">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -15,7 +14,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -24,6 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Views.Activities.ScaleActivity"></activity>
         <activity android:name=".Views.Activities.BottomNavActivity" />
         <activity android:name=".Views.Activities.HoursChooseActivity" />
         <activity android:name=".Views.Activities.CityChooseActivityNew" />
@@ -31,7 +30,6 @@
             android:name=".Views.Activities.DetailActivity"
             android:theme="@style/statusBarTranslucent" />
         <activity android:name=".DiscreteScrollView.WeatherActivity" />
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -61,10 +59,10 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Views.Activities.TestPlace"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Views.Activities.MainActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Views.SplashScreen"
             android:theme="@style/SplashTheme">
@@ -107,7 +105,7 @@
                 android:resource="@xml/file_paths_public" />
         </provider>
 
-        <activity android:name=".Views.Activities.ChoosePersonnelActivity"></activity>
+        <activity android:name=".Views.Activities.ChoosePersonnelActivity" />
     </application>
 
 </manifest>
