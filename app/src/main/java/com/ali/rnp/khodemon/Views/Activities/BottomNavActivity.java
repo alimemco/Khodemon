@@ -1,17 +1,14 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
-
 import android.os.Bundle;
-import android.util.Log;
 
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BottomNavActivity extends AppCompatActivity {
 

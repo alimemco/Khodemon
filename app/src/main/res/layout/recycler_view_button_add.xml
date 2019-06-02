@@ -16,6 +16,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         tools:text="اضافه کردن"
+        android:drawablePadding="@dimen/standard_margin"
         android:textSize="@dimen/very_small_textSize_sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

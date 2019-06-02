@@ -15,26 +15,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChoosePersonnelAdapter extends RecyclerView.Adapter<ChoosePersonnelAdapter.ChoosePersonnelHolder> {
+public class ChooseScaleAdapter extends RecyclerView.Adapter<ChooseScaleAdapter.ChooseScaleHolder> {
 
     private ArrayList<LocationPeople> locationPeopleList;
     private OnItemClickListener onItemClickListener;
 
-    public ChoosePersonnelAdapter(ArrayList<LocationPeople> locationPeopleList){
+
+    public ChooseScaleAdapter(ArrayList<LocationPeople> locationPeopleList){
         this.locationPeopleList = locationPeopleList;
     }
 
     @NonNull
     @Override
-    public ChoosePersonnelHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_choose_personnel,parent,false);
-        return new ChoosePersonnelHolder(view);
+    public ChooseScaleHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.rcv_choose_scale_adapter,parent,false);
+        return new ChooseScaleHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChoosePersonnelHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ChooseScaleHolder holder, int position) {
 
-        holder.bindChoosePerson(holder,locationPeopleList.get(position));
+        holder.bind(holder,locationPeopleList.get(position));
 
     }
 
@@ -43,21 +44,25 @@ public class ChoosePersonnelAdapter extends RecyclerView.Adapter<ChoosePersonnel
         return locationPeopleList.size();
     }
 
-    class ChoosePersonnelHolder extends RecyclerView.ViewHolder {
+    class ChooseScaleHolder extends RecyclerView.ViewHolder {
         CircleImageView imageView;
         MyTextView nameTv;
         MyTextView jobTv;
-         ChoosePersonnelHolder(@NonNull View itemView) {
+        ChooseScaleHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.rcv_choose_scale_image);
             nameTv = itemView.findViewById(R.id.rcv_choose_scale_name);
             jobTv = itemView.findViewById(R.id.rcv_choose_scale_job);
         }
 
-        void bindChoosePerson(ChoosePersonnelHolder holder, LocationPeople locationPeople){
+        void bind(ChooseScaleHolder holder, LocationPeople locationPeople){
 
-            nameTv.setText(locationPeople.getName());
-            jobTv.setText(locationPeople.getTag());
+
+                nameTv.setText(locationPeople.getName());
+
+               jobTv.setText(locationPeople.getTag());
+
+
 
             if (onItemClickListener != null){
                 holder.itemView.setOnClickListener(new View.OnClickListener() {

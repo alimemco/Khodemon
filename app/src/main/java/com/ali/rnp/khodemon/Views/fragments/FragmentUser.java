@@ -1,7 +1,6 @@
 package com.ali.rnp.khodemon.Views.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import com.ali.rnp.khodemon.Interface.OnLoginListener;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.UtilsApp.Utils;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.ali.rnp.khodemon.Views.Activities.MainActivity;
 import com.google.android.material.tabs.TabLayout;
 
@@ -85,7 +84,7 @@ public class FragmentUser extends Fragment implements
 
         SetupTabLayout(rootView);
 
-        Utils.startAnimationViewsFadeVisible(rootLayout,cardLogReg);
+        UtilsApp.startAnimationViewsFadeVisible(rootLayout,cardLogReg);
 
         return rootView;
     }
@@ -116,13 +115,13 @@ public class FragmentUser extends Fragment implements
                 switch (tab.getPosition()){
                     case 0:
                         replaceFragment(fragmentLogin);
-                        Utils.startAnimationViewsFadeVisible(rootLayout,cardLogReg);
+                        UtilsApp.startAnimationViewsFadeVisible(rootLayout,cardLogReg);
                         break;
 
 
                     case 1:
                         replaceFragment(fragmentRegister);
-                        Utils.startAnimationViewsFadeVisible(rootLayout,cardLogReg);
+                        UtilsApp.startAnimationViewsFadeVisible(rootLayout,cardLogReg);
                         break;
                 }
             }

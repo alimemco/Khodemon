@@ -33,7 +33,7 @@ public class ScreenSlidePageFragment extends Fragment {
 
         Bundle args = new Bundle();
         args.putInt(ProvidersApp.KEY_BUNDLE_POSITION, position);
-        //args.putString(ProvidersApp.KEY_BUNDLE_IMG,pictureUploadList.get(position).get);
+        //args.putString(ProvidersApp.KEY_IMG,pictureUploadList.get(position).get);
         args.putParcelableArrayList(ProvidersApp.KEY_BUNDLE_IMG_LIST, pictureUploadList);
         ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
         fragment.setArguments(args);

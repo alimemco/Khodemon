@@ -27,7 +27,7 @@ import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
-import com.ali.rnp.khodemon.UtilsApp.Utils;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.ali.rnp.khodemon.Views.fragments.FragmentBottomSheetCall;
 import com.google.android.material.appbar.AppBarLayout;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
@@ -76,6 +76,7 @@ public class DetailActivity extends AppCompatActivity implements
 
     //ConstraintLayout constraintLayout;
     private int post_id;
+    private LocationPeople locPeoPost;
     private String number;
 
     ApiService apiService;
@@ -106,7 +107,7 @@ public class DetailActivity extends AppCompatActivity implements
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                //Utils.animMoveViewVisible(constraintLayout);
+                //UtilsApp.animMoveViewVisible(constraintLayout);
                 //constraintLayout.animate().y(25f);
 
 
@@ -158,6 +159,7 @@ public class DetailActivity extends AppCompatActivity implements
         scaleIV.setOnClickListener(v -> {
             Intent i = new Intent(DetailActivity.this,ScaleActivity.class);
             i.putExtra(ProvidersApp.KEY_POST_ID,post_id);
+            i.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE,locPeoPost);
             startActivity(i);
         });
     }
@@ -167,7 +169,7 @@ public class DetailActivity extends AppCompatActivity implements
         ratingBar = findViewById(R.id.activity_detail_ratingBar);
         ratingBarTextView = findViewById(R.id.activity_detail_ratingBar_textView);
 
-        float randomRating = Utils.randomFloat(0.0f, 5.0f);
+        float randomRating = UtilsApp.randomFloat(0.0f, 5.0f);
 
         ratingBar.setRating(randomRating);
         ratingBar.setIsIndicator(true);
@@ -176,7 +178,7 @@ public class DetailActivity extends AppCompatActivity implements
         StringBuilder sb = new StringBuilder();
         sb.append(String.valueOf(randomRating));
         sb.append(" | ");
-        sb.append(String.valueOf(Utils.randomInteger(10, 200)));
+        sb.append(String.valueOf(UtilsApp.randomInteger(10, 200)));
         sb.append(" نفر");
         ratingBarTextView.setText(sb);
 
@@ -205,6 +207,8 @@ public class DetailActivity extends AppCompatActivity implements
             post_id = extras.getInt(ProvidersApp.KEY_POST_ID);
             String locPeoName = extras.getString(ProvidersApp.KEY_LOC_PEO_NAME);
             String locPeoTag = extras.getString(ProvidersApp.KEY_LOC_PEO_TAG);
+            locPeoPost = extras.getParcelable(ProvidersApp.KEY_LOCATION_PEOPLE);
+
 
             ApiService apiService = new ApiService(this);
 
@@ -212,6 +216,8 @@ public class DetailActivity extends AppCompatActivity implements
 
                 if (pictureUploadList != null && error == null) {
                     initViewPager(pictureUploadList);
+
+
                 } else {
                     Toast.makeText(DetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                 }
@@ -271,7 +277,7 @@ public class DetailActivity extends AppCompatActivity implements
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), pictureUploadList);
         mPager.setAdapter(pagerAdapter);
 
-        Utils.animMoveViewVisible(dotsIndicator);
+        UtilsApp.animMoveViewVisible(dotsIndicator);
 
         dotsIndicator.setViewPager(mPager);
 
@@ -326,6 +332,7 @@ public class DetailActivity extends AppCompatActivity implements
             case ProvidersApp.KEY_SUCCESS:
 
                 if (locationPeopleList != null) {
+
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
                     personnelRecyclerView.setLayoutManager(linearLayoutManager);
                     PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this, locationPeopleList);

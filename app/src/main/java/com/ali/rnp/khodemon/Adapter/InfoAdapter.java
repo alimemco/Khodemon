@@ -12,6 +12,7 @@ import com.ali.rnp.khodemon.Interface.OnButtonAddClick;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 
 import java.util.ArrayList;
 
@@ -105,7 +106,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         void bindDetail(DetailAdapterHolder holder, Info info) {
 
-            Info infoPrs = parseInfo(info);
+            Info infoPrs = UtilsApp.parseInfo(info);
 
             holder.subjectTV.setText(infoPrs.getSubject());
             holder.iconIV.setImageResource(infoPrs.getIcon());
@@ -113,7 +114,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         }
-
+/*
         private Info parseInfo(Info info) {
 
             switch (info.getSubject()) {
@@ -138,7 +139,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             return info;
         }
-
+*/
 
     }
 

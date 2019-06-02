@@ -11,7 +11,9 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
+import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -23,9 +25,9 @@ import androidx.transition.Fade;
 import androidx.transition.Slide;
 import androidx.transition.TransitionManager;
 
-public class Utils {
+public class UtilsApp {
 
-    public Utils(){
+    public UtilsApp(){
 
     }
 
@@ -208,5 +210,104 @@ public class Utils {
 
         }
     }
+
+    public static void getImageWithoutResize(LocationPeople locationPeople, ImageView imgV){
+        if (!locationPeople.getOriginalPic().equals("")) {
+            boolean isLarge;
+            isLarge = locationPeople.getImageWidth() >= 1000;
+            String IMG_ADDRESS ;
+
+            IMG_ADDRESS = (isLarge) ?
+                    locationPeople.getImageThumb1000()
+                    : locationPeople.getOriginalPic();
+
+
+            Picasso.get()
+                    .load(locationPeople.getImageThumb150())
+                    .placeholder(R.drawable.holder_banner)
+                    .into(imgV, new Callback() {
+
+
+                        @Override
+                        public void onSuccess() {
+                            Picasso.get()
+                                    .load(IMG_ADDRESS)
+                                    .placeholder(imgV.getDrawable())
+                                    .into(imgV);
+
+                            //imageView.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+
+                    });
+
+        }
+    }
+
+    public static Info parseInfo(Info info) {
+
+        switch (info.getSubject()) {
+            case ProvidersApp.KEY_SINCE:
+                info.setSubject("سال تاسیس");
+                info.setIcon(R.drawable.ic_under_construction);
+                break;
+
+            case ProvidersApp.KEY_DIMENSIONS:
+                info.setSubject("مساحت");
+                info.setIcon(R.drawable.ic_dimensions);
+                break;
+
+
+            case ProvidersApp.KEY_PHONE_NUMBER:
+                if (info.getDescription().equals("")) {
+                    info.setDescription("وارد کنید..");
+                }
+                info.setSubject("تلفن تماس");
+                info.setIcon(R.drawable.ic_phone);
+                break;
+        }
+        return info;
+    }
+
+    public static Info parseInfoScale(Info info) {
+
+        validateDescription(info);
+
+            switch (info.getSubject()) {
+                case ProvidersApp.KEY_SINCE:
+                    info.setSubject("سال تاسیس");
+                    info.setIcon(R.drawable.ic_under_construction);
+                    break;
+
+                case ProvidersApp.KEY_DIMENSIONS:
+                    info.setSubject("مساحت");
+                    info.setIcon(R.drawable.ic_dimensions);
+                    break;
+
+
+                case ProvidersApp.KEY_PHONE_NUMBER:
+                    if (info.getDescription().equals("")) {
+                        info.setDescription("وارد کنید..");
+                    }
+                    info.setSubject("تلفن تماس");
+                    info.setIcon(R.drawable.ic_phone);
+                    break;
+            }
+
+
+        return info;
+    }
+
+    private static void validateDescription(Info info) {
+       if (info.getDescription().equals("") || info.getDescription().equals("0")){
+           info.setDescription("-");
+       }
+    }
+
 
 }

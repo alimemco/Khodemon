@@ -1,7 +1,5 @@
 package com.ali.rnp.khodemon.Views.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -16,7 +14,7 @@ import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.UtilsApp.Utils;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,7 +73,7 @@ public class FragmentLogin extends Fragment {
 
         initViews(rootView);
 
-        Utils.startAnimationViewsSlide(rootLayout,
+        UtilsApp.startAnimationViewsSlide(rootLayout,
                 loginBtn,
                 usernameTxt, passwordTxt, questionTxt,
                 usernameEdTxt, passwordEdTxt,
@@ -85,7 +83,7 @@ public class FragmentLogin extends Fragment {
             @Override
             public void onClick(View v) {
                 assert getContext() != null;
-                if (Utils.isConnectedToNetwork(getContext())) {
+                if (UtilsApp.isConnectedToNetwork(getContext())) {
 
                     validateFieldsLogin();
                 } else {

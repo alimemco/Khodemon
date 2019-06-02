@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple xmlns:tools="http://schemas.android.com/tools"
+android:color="#9FA8DA" xmlns:android="http://schemas.android.com/apk/res/android"
+tools:targetApi="lollipop">
 
-    <solid android:color="@color/white"/>
-    <stroke android:color="#9FA8DA" android:width="1dp"/>
-    <corners android:radius="90dp"/>
-    <padding android:left="@dimen/padding_10"
-        android:right="@dimen/padding_10"
-        android:top="@dimen/padding_10"
-        android:bottom="@dimen/padding_10"
-        />
-</shape>
+<item>
+    <shape>
+        <solid android:color="@color/white"/>
+        <stroke android:color="#9FA8DA" android:width="1dp"/>
+        <corners android:radius="90dp"/>
+        <padding android:left="@dimen/padding_10"
+            android:right="@dimen/padding_10"
+            android:top="@dimen/padding_10"
+            android:bottom="@dimen/padding_10"
+            />
+    </shape>
+</item>
+
+</ripple>

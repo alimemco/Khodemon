@@ -14,7 +14,7 @@ import com.ali.rnp.khodemon.Interface.OnButtonAddClick;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.UtilsApp.Utils;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -154,7 +154,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
             //loadImage(holder, locationPeople);
-            Utils.getImage(locationPeople,holder.imageView);
+            UtilsApp.getImage(locationPeople,holder.imageView);
 
         /*if (!locationPeople.getOriginalPic().equals("")){
             Picasso.get().

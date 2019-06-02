@@ -47,52 +47,6 @@ public class ChoosePersonnelActivity extends AppCompatActivity implements
     private void initRCV() {
         ApiService apiService = new ApiService(this);
         apiService.getPersonList(this);
-       /*
-        apiService.getPersonnel(LOCATION_ID, new ApiService.OnPersonnelReceived() {
-            @Override
-            public void onItemReceived(int status, ArrayList<LocationPeople> locationPeopleList, String error) {
-
-                String msg = "known";
-
-                switch (status){
-                    case ProvidersApp.KEY_SUCCESS:
-
-                        if (locationPeopleList != null ) {
-
-
-                            LinearLayoutManager ln = new LinearLayoutManager(ChoosePersonnelActivity.this,RecyclerView.VERTICAL,false);
-
-                            rcv.setLayoutManager(ln);
-                            ChoosePersonnelAdapter personnelAdapter = new ChoosePersonnelAdapter( locationPeopleList);
-                            personnelAdapter.setOnItemClickListener(ChoosePersonnelActivity.this);
-                            rcv.setAdapter(personnelAdapter);
-
-                        }
-
-                        break;
-
-                    case ProvidersApp.KEY_EMPTY_DATA:
-
-                        msg = "هیچ پرسنلی یافت نشد";
-
-                        break;
-
-                    case ProvidersApp.KEY_JSON_EXCEPTION:
-                        msg = error;
-
-                        break;
-
-                    case ProvidersApp.KEY_VOLLEY_ERROR:
-                        msg = error;
-
-                        break;
-                }
-
-                if (status != ProvidersApp.KEY_SUCCESS)
-                    Toast.makeText(ChoosePersonnelActivity.this, msg, Toast.LENGTH_LONG).show();
-            }
-        });
-*/
 
     }
 

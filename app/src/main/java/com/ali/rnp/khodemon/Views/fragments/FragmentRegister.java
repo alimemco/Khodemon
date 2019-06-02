@@ -19,7 +19,7 @@ import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProgressBarAnimation;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.UtilsApp.Utils;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,7 +114,7 @@ public class FragmentRegister extends Fragment {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        Utils.startAnimationViewsSlide(rootLayout,
+        UtilsApp.startAnimationViewsSlide(rootLayout,
                 nameTxt, familyTxt, userTxt, passwordTxt, questionTxt, questionLinkTxt,
                 nameEdTxt, familyEdTxt, userEdTxt, passwordEdTxt,
                 registerBtn);
@@ -141,7 +141,7 @@ public class FragmentRegister extends Fragment {
         registerBtn.setOnClickListener(v -> {
 
 
-            if (getContext() != null && Utils.isConnectedToNetwork(getContext())) {
+            if (getContext() != null && UtilsApp.isConnectedToNetwork(getContext())) {
 
                 validateFields();
 
@@ -313,21 +313,21 @@ public class FragmentRegister extends Fragment {
             if (nameEdTxt.getText() != null &&
                     nameEdTxt.getText().toString().equals("") || familyEdTxt.getText().toString().equals("")) {
 
-                Utils.startAnimationViewsFadeVisible(rootLayout, nameTxtError);
+                UtilsApp.startAnimationViewsFadeVisible(rootLayout, nameTxtError);
             } else {
                 nameTxtError.setVisibility(View.INVISIBLE);
             }
 
 
             if (userEdTxt.getText().toString().equals("")) {
-                Utils.startAnimationViewsFadeVisible(rootLayout, userTxtError);
+                UtilsApp.startAnimationViewsFadeVisible(rootLayout, userTxtError);
             } else {
                 userTxtError.setVisibility(View.INVISIBLE);
             }
 
             if (passwordEdTxt.getText().toString().equals("")) {
 
-                Utils.startAnimationViewsFadeVisible(rootLayout, passTxtError);
+                UtilsApp.startAnimationViewsFadeVisible(rootLayout, passTxtError);
 
             } else {
                 passTxtError.setVisibility(View.INVISIBLE);
@@ -364,7 +364,7 @@ public class FragmentRegister extends Fragment {
 
                 switch (status) {
                     case 0:
-                        Utils.startAnimationViewsFadeVisible(rootLayout, userTxtExist);
+                        UtilsApp.startAnimationViewsFadeVisible(rootLayout, userTxtExist);
                         break;
 
                     case 1:

@@ -69,10 +69,10 @@ public class ProvidersApp {
     public static final String KEY_SINCE = "since";
     public static final String KEY_PHONE_NUMBER = "phone";
 
-    public static final String KEY_ITEM_LOCATION_PEOPLE = "LOCATION_PEOPLE";
+    public static final String KEY_LOCATION_PEOPLE = "LOCATION_PEOPLE";
     public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";
 
-    public static final String KEY_BUNDLE_IMG = "IMAGE";
+    public static final String KEY_IMG = "IMAGE";
     public static final String KEY_BUNDLE_POSITION = "POSITION";
     public static final String KEY_BUNDLE_IMG_LIST = "IMAGE_LIST";
 
@@ -98,7 +98,8 @@ public class ProvidersApp {
 
 
 
-    public static final int REQUEST_CODE_CHOOSE_PERSONNEL = 236 ;
+    public static final int REQUEST_CODE_CHOOSE_PERSONNEL = 23 ;
+    public static final int REQUEST_CODE_CHOOSE_SCALE = 21 ;
     public static final int PERMISSIONS_REQUEST_SMS = 42;
     public static final int PERMISSIONS_REQUEST_CALL = 43;
 

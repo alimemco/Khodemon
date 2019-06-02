@@ -1,17 +1,12 @@
 package com.ali.rnp.khodemon.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
-import android.media.Image;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -19,12 +14,10 @@ import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Views.Activities.DetailActivity;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,6 +66,8 @@ public class SingleItemAdapter extends RecyclerView.Adapter<SingleItemAdapter.Si
                 intent.putExtra(ProvidersApp.KEY_POST_ID,postId);
                 intent.putExtra(ProvidersApp.KEY_LOC_PEO_NAME,locPeoName);
                 intent.putExtra(ProvidersApp.KEY_LOC_PEO_TAG,locPeoTag);
+                //TODO delete extra intent
+                intent.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE,locationPeopleList.get(position));
                 context.startActivity(intent);
 
 

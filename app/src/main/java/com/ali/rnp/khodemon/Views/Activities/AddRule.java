@@ -22,7 +22,7 @@ import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.UtilsApp.Utils;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelFour;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelOne;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelThree;
@@ -411,7 +411,7 @@ public class AddRule extends AppCompatActivity implements
 
                 if (dataFromMatisse != null &&
                         !inProgressUpload &&
-                        !isUploadPhotosSuccess && Utils.isConnectedToNetwork(this)
+                        !isUploadPhotosSuccess && UtilsApp.isConnectedToNetwork(this)
                 ) {
                     uploadImage();
                 }
@@ -538,7 +538,7 @@ public class AddRule extends AppCompatActivity implements
             case 2:
                 //  replaceNewFragment(fragmentAddLevelTwo);
 /*
-                if (dataFromMatisse != null && !isUploadPhotosSuccess && Utils.isConnectedToNetwork(this)) {
+                if (dataFromMatisse != null && !isUploadPhotosSuccess && UtilsApp.isConnectedToNetwork(this)) {
                     uploadImage();
                 }
 */
