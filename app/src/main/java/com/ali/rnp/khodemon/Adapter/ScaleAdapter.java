@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.squareup.picasso.Picasso;
@@ -25,6 +26,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private ArrayList<Info> infoListScale;
     private LocationPeople locPeoPostOne;
     private LocationPeople locPeoPostScale;
+    private String GROUP_NAME;
     private int VIEW_TYPE_SCALE_TOP = 0;
     private int VIEW_TYPE_SCALE_NORMAL = 1;
 
@@ -32,9 +34,11 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private OnAddScaleClick onAddScaleClick;
 
 
+
     public ScaleAdapter(ArrayList<Info> infoListOne, LocationPeople locPeoPost) {
         this.infoListOne = infoListOne;
         this.locPeoPostOne = locPeoPost;
+        this.GROUP_NAME = locPeoPost.getGroup();
     }
 
     public void setSaleSecond(ArrayList<Info> infoListTwo, LocationPeople locPeoPostTwo) {
@@ -110,9 +114,19 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         void bind(ScaleHolder holder, Info info) {
-            Info infoPrs = UtilsApp.parseInfoScale(info);
-            holder.titleTV.setText(infoPrs.getSubject());
-            holder.desOneTV.setText(infoPrs.getDescription());
+            //Info infoPrs = UtilsApp.parseInfoScale(info);
+            Info infoPrs = null;
+            if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)){
+                infoPrs = UtilsApp.parseInfoLocation(info,true);
+                holder.titleTV.setText(infoPrs.getSubject());
+                holder.desOneTV.setText(infoPrs.getDescription());
+            }else {
+                infoPrs = UtilsApp.parseInfoPeople(info,true);
+                holder.titleTV.setText(infoPrs.getSubject());
+                holder.desOneTV.setText(infoPrs.getDescription());
+            }
+
+
             // holder.desScaleTV.setText(infoPrs.getDescription());
         }
 

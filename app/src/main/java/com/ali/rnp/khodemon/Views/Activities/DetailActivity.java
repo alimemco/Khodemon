@@ -52,7 +52,7 @@ import androidx.viewpager.widget.ViewPager;
 public class DetailActivity extends AppCompatActivity implements
         View.OnClickListener,
         ApiService.OnPersonnelReceived,
-        ApiService.OnGetInfo,
+        ApiService.OnReceivedInfo,
         ApiService.OnGetDetails,
         OnButtonAddClick {
 
@@ -159,6 +159,7 @@ public class DetailActivity extends AppCompatActivity implements
         scaleIV.setOnClickListener(v -> {
             Intent i = new Intent(DetailActivity.this,ScaleActivity.class);
             i.putExtra(ProvidersApp.KEY_POST_ID,post_id);
+           // i.putExtra(ProvidersApp.GROUP_NAME,wef);
             i.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE,locPeoPost);
             startActivity(i);
         });
@@ -204,10 +205,11 @@ public class DetailActivity extends AppCompatActivity implements
 
         if (extras != null) {
 
-            post_id = extras.getInt(ProvidersApp.KEY_POST_ID);
-            String locPeoName = extras.getString(ProvidersApp.KEY_LOC_PEO_NAME);
-            String locPeoTag = extras.getString(ProvidersApp.KEY_LOC_PEO_TAG);
+
+            //String locPeoName = extras.getString(ProvidersApp.KEY_LOC_PEO_NAME);
+            //String locPeoTag = extras.getString(ProvidersApp.KEY_LOC_PEO_TAG);
             locPeoPost = extras.getParcelable(ProvidersApp.KEY_LOCATION_PEOPLE);
+            post_id = locPeoPost.getId();
 
 
             ApiService apiService = new ApiService(this);
@@ -225,12 +227,12 @@ public class DetailActivity extends AppCompatActivity implements
 
 
             apiService.getPersonnel(post_id, this);
-            apiService.getInfo(post_id, this);
+            apiService.getInfo(true,post_id, locPeoPost.getGroup(),this);
             apiService.getDetail(post_id,this);
 
 
-            nameLocPeoTV.setText(locPeoName);
-            tagTV.setText(locPeoTag);
+            nameLocPeoTV.setText(locPeoPost.getName());
+            tagTV.setText(locPeoPost.getTag());
 
 
         }
@@ -450,13 +452,13 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void OnGetInfo(int statusCode, ArrayList<Info> infoList, String error) {
+    public void OnReceived(boolean isFirstScale ,int statusCode, ArrayList<Info> infoList, String error) {
         switch (statusCode) {
             case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
 
                 if (infoList != null) {
                     LinearLayoutManager ln = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
-                    InfoAdapter infoAdapter = new InfoAdapter(infoList);
+                    InfoAdapter infoAdapter = new InfoAdapter(infoList,locPeoPost.getGroup());
                     infoAdapter.setOnButtonAddClick(this);
                     infoRecyclerView.setLayoutManager(ln);
                     infoRecyclerView.setAdapter(infoAdapter);

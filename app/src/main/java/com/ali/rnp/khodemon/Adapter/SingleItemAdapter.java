@@ -32,7 +32,7 @@ public class SingleItemAdapter extends RecyclerView.Adapter<SingleItemAdapter.Si
         this.context = context;
     }
 
-    public void setListDataForAdapter(List<LocationPeople> locationPeopleList) {
+     void setListDataForAdapter(List<LocationPeople> locationPeopleList) {
         this.locationPeopleList = locationPeopleList;
         notifyDataSetChanged();
     }
@@ -58,15 +58,11 @@ public class SingleItemAdapter extends RecyclerView.Adapter<SingleItemAdapter.Si
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int  postId = locationPeopleList.get(position).getId();
-                String locPeoName = locationPeopleList.get(position).getName();
-                String  locPeoTag = locationPeopleList.get(position).getTag();
+            //    int  postId = locationPeopleList.get(position).getId();
+
 
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(ProvidersApp.KEY_POST_ID,postId);
-                intent.putExtra(ProvidersApp.KEY_LOC_PEO_NAME,locPeoName);
-                intent.putExtra(ProvidersApp.KEY_LOC_PEO_TAG,locPeoTag);
-                //TODO delete extra intent
+             //   intent.putExtra(ProvidersApp.KEY_POST_ID,postId);
                 intent.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE,locationPeopleList.get(position));
                 context.startActivity(intent);
 

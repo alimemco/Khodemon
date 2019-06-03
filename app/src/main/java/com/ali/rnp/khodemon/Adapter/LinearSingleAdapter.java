@@ -98,7 +98,7 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
 
         }
 
-        public void bindNormalLocation(final ListLayout listLayout) {
+        void bindNormalLocation(final ListLayout listLayout) {
 
             nameTextView.setText(listLayout.getTitle());
 

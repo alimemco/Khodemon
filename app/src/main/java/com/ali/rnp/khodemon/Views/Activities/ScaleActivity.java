@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.ali.rnp.khodemon.Adapter.InfoAdapter;
 import com.ali.rnp.khodemon.Adapter.ScaleAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.Info;
@@ -23,14 +21,14 @@ import com.ali.rnp.khodemon.R;
 import java.util.ArrayList;
 
 public class ScaleActivity extends AppCompatActivity implements
-        ApiService.OnGetInfo,
+        ApiService.OnReceivedInfo,
         ScaleAdapter.OnAddScaleClick {
 
     private  ScaleAdapter scaleAdapter;
     private String IMAGE;
     private LocationPeople locPeoPost;
     private LocationPeople locPeoScale;
-    private ArrayList<Info> infoListScale;
+    //private ArrayList<Info> infoListScale;
     private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +38,11 @@ public class ScaleActivity extends AppCompatActivity implements
         initToolbar();
         int post_id = getIntent().getIntExtra((ProvidersApp.KEY_POST_ID),1);
        // IMAGE = getIntent().getStringExtra(ProvidersApp.KEY_IMG);
+
         locPeoPost = getIntent().getParcelableExtra(ProvidersApp.KEY_LOCATION_PEOPLE);
 
         ApiService apiService = new ApiService(this);
-        apiService.getInfo(post_id,this);
+        apiService.getInfo(true,post_id,locPeoPost.getGroup(),this);
     }
 
     private void initToolbar() {
@@ -63,19 +62,25 @@ public class ScaleActivity extends AppCompatActivity implements
 
 
     @Override
-    public void OnGetInfo(int statusCode, ArrayList<Info> infoList, String error) {
+    public void OnReceived(boolean isFirstScale , int statusCode, ArrayList<Info> infoList, String error) {
         switch (statusCode) {
             case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
 
                 if (infoList != null) {
-                    infoListScale = infoList;
-                    //TODO delete
-                    RecyclerView ScaleRcv = findViewById(R.id.activity_scale_rcv);
-                    LinearLayoutManager ln = new LinearLayoutManager(ScaleActivity.this, RecyclerView.VERTICAL, false);
-                    scaleAdapter = new ScaleAdapter(infoList,locPeoPost);
-                    scaleAdapter.setOnAddScaleClick(this);
-                    ScaleRcv.setLayoutManager(ln);
-                    ScaleRcv.setAdapter(scaleAdapter);
+
+                    if (isFirstScale){
+                       // infoListScale = infoList;
+
+                        RecyclerView ScaleRcv = findViewById(R.id.activity_scale_rcv);
+                        LinearLayoutManager ln = new LinearLayoutManager(ScaleActivity.this, RecyclerView.VERTICAL, false);
+                        scaleAdapter = new ScaleAdapter(infoList,locPeoPost);
+                        scaleAdapter.setOnAddScaleClick(this);
+                        ScaleRcv.setLayoutManager(ln);
+                        ScaleRcv.setAdapter(scaleAdapter);
+                    }else {
+                        scaleAdapter.setSaleSecond(infoList,locPeoScale);
+                    }
+
 
                 }
                 break;
@@ -93,6 +98,7 @@ public class ScaleActivity extends AppCompatActivity implements
     @Override
     public void OnAddScale() {
         Intent i = new Intent(this,ChooseScaleActivity.class);
+        i.putExtra(ProvidersApp.GROUP_NAME,locPeoPost.getGroup());
         startActivityForResult(i,ProvidersApp.REQUEST_CODE_CHOOSE_SCALE);
     }
 
@@ -103,27 +109,7 @@ public class ScaleActivity extends AppCompatActivity implements
             if (data != null){
                 locPeoScale = data.getParcelableExtra(ProvidersApp.KEY_LOCATION_PEOPLE);
                 ApiService apiService = new ApiService(ScaleActivity.this);
-                apiService.getInfo(locPeoScale.getId(), new ApiService.OnGetInfo() {
-                    @Override
-                    public void OnGetInfo(int statusCode, ArrayList<Info> infoList, String error) {
-                        switch (statusCode) {
-                            case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
-
-                                if (infoList != null) {
-                                    scaleAdapter.setSaleSecond(infoList,locPeoScale);
-                                }
-                                break;
-
-                            case ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR:
-                            case ProvidersApp.STATUS_CODE_VOLLEY_ERROR:
-                            case ProvidersApp.STATUS_CODE_SERVER_ERROR:
-
-                                Toast.makeText(ScaleActivity.this, statusCode + " -> " + error, Toast.LENGTH_LONG).show();
-                                break;
-
-                        }
-                    }
-                });
+                apiService.getInfo(false , locPeoScale.getId(),locPeoPost.getGroup(), this);
 
             }
 

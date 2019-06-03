@@ -166,7 +166,7 @@ public class AddRule extends AppCompatActivity implements
         jsonObjectLocation = new JSONObject();
 
 
-        groupName = getIntent().getStringExtra(ProvidersApp.GROUP_NAME_KEY);
+        groupName = getIntent().getStringExtra(ProvidersApp.GROUP_NAME);
         try {
             jsonObjectLocation.put(ProvidersApp.KEY_JSON_OBJECT_GROUP_NAME, groupName);
         } catch (JSONException e) {

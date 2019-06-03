@@ -49,9 +49,9 @@ public class ChoosePersonnelAdapter extends RecyclerView.Adapter<ChoosePersonnel
         MyTextView jobTv;
          ChoosePersonnelHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.rcv_choose_scale_image);
-            nameTv = itemView.findViewById(R.id.rcv_choose_scale_name);
-            jobTv = itemView.findViewById(R.id.rcv_choose_scale_job);
+            imageView = itemView.findViewById(R.id.recycler_view_choose_personnel_image);
+            nameTv = itemView.findViewById(R.id.recycler_view_choose_personnel_name);
+            jobTv = itemView.findViewById(R.id.recycler_view_choose_personnel_job);
         }
 
         void bindChoosePerson(ChoosePersonnelHolder holder, LocationPeople locationPeople){

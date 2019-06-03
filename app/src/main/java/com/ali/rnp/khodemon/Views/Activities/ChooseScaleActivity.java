@@ -42,8 +42,9 @@ public class ChooseScaleActivity extends AppCompatActivity implements
     }
 
     private void initRCV() {
+        String GROUP_NAME = getIntent().getStringExtra(ProvidersApp.GROUP_NAME);
         ApiService apiService = new ApiService(this);
-        apiService.getCategoryScale(this);
+        apiService.getCategoryScale(GROUP_NAME,this);
 
     }
 

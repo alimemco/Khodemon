@@ -438,19 +438,20 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void getInfo(int Post_id, OnGetInfo onGetInfo) {
+    public void getInfo(boolean isFirstScale,int Post_id,String GROUP_NAME, OnReceivedInfo onReceivedInfo) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ProvidersApp.KEY_POST_ID, Post_id);
+            jsonObject.put(ProvidersApp.GROUP_NAME, GROUP_NAME);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_INFO, jsonObject, response -> {
 
-            parseGetInfo(response, onGetInfo);
+            parseGetInfo(isFirstScale,response, onReceivedInfo);
 
 
-        }, error -> onGetInfo.OnGetInfo(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
+        }, error -> onReceivedInfo.OnReceived(isFirstScale,ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
@@ -476,23 +477,32 @@ public class ApiService {
 
     }
 
-    public void getCategoryScale(OnReceivedCategory onReceivedCategory) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API_GET_CATEGORY_SCALE, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
+    public void getCategoryScale(String GROUP_NAME,OnReceivedCategory onReceivedCategory) {
 
-                parseJsonCategory(response, onReceivedCategory);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(ProvidersApp.GROUP_NAME,GROUP_NAME);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_CATEGORY_SCALE, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                onReceivedCategory.onReceived(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString());
-            }
-        });
+                    parseJsonCategory(response, onReceivedCategory);
 
-        request.setRetryPolicy(new DefaultRetryPolicy());
-        Volley.newRequestQueue(context).add(request);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    onReceivedCategory.onReceived(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString());
+                }
+            });
+
+            request.setRetryPolicy(new DefaultRetryPolicy());
+            Volley.newRequestQueue(context).add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -825,35 +835,6 @@ public class ApiService {
                 onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_SUCCESSFULLY,locPeo,null);
 
 
-/*
-                Info info = new Info();
-                info.setSubject("Subject");
-                info.setDescription("Description");
-                infoList.add(info);
-
-                Info infoSince = new Info();
-
-                infoSince.setSubject("سال تاسیس");
-                infoSince.setDescription(JsObjItems.getString("since"));
-                infoSince.setIcon(R.drawable.ic_under_construction);
-
-                infoList.add(infoSince);
-
-                Info infoDimen = new Info();
-                infoDimen.setSubject        ("مساحت");
-                String des = JsObjItems.getString("dimensions")+" مترمربع ";
-                infoDimen.setDescription(des);
-                infoDimen.setIcon(R.drawable.ic_dimensions);
-                infoList.add(infoDimen);
-
-                Info infoPhone = new Info();
-                infoPhone.setSubject("تلفن تماس");
-                infoPhone.setDescription(JsObjItems.getString("phone"));
-                infoPhone.setIcon(R.drawable.ic_phone);
-                if (!infoPhone.getDescription().equals("")) {
-                    infoList.add(infoPhone);
-                }*/
-
 
 
             } else {
@@ -867,7 +848,7 @@ public class ApiService {
 
         }
     }
-    private void parseGetInfo(JSONObject response, OnGetInfo onGetInfo) {
+    private void parseGetInfo(boolean isFirstScale, JSONObject response, OnReceivedInfo onReceivedInfo) {
         try {
             JSONObject jsonObjectResponse = new JSONObject(response.toString());
             JSONObject jsonObjectRes = jsonObjectResponse.getJSONObject("result");
@@ -891,16 +872,16 @@ public class ApiService {
 
                 //onPhoneReceived.onReceived(JsObjItems.getString("phone"));
 
-                onGetInfo.OnGetInfo(ProvidersApp.STATUS_CODE_SUCCESSFULLY,infoList,null);
+                onReceivedInfo.OnReceived(isFirstScale,ProvidersApp.STATUS_CODE_SUCCESSFULLY,infoList,null);
 
 
             } else {
                 String msg = jsonObjectRes.getString("message");
-                onGetInfo.OnGetInfo(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
+                onReceivedInfo.OnReceived(isFirstScale,ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
             }
 
         } catch (JSONException e) {
-            onGetInfo.OnGetInfo(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, response.toString());
+            onReceivedInfo.OnReceived(isFirstScale,ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, response.toString());
 
 
         }
@@ -1047,8 +1028,8 @@ public class ApiService {
         void OnGetDetail(int statusCode, LocationPeople locationPeople, String error);
     }
 
-    public interface OnGetInfo {
-        void OnGetInfo(int statusCode, ArrayList<Info> infoList, String error);
+    public interface OnReceivedInfo {
+        void OnReceived(boolean isFirstScale, int statusCode, ArrayList<Info> infoList, String error);
     }
 
     public interface OnGetPersonList {

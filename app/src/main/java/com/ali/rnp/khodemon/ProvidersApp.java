@@ -14,7 +14,7 @@ public class ProvidersApp {
     public static final int RECYCLER_VIEW_PERSONNEL = 1 ;
     public static final int RECYCLER_VIEW_INFO = 2 ;
 
-    public static final String GROUP_NAME_KEY="group_name_key";
+    public static final String GROUP_NAME ="GROUP_NAME";
 
     public static final String GROUP_NAME_LOCATION ="LOCATION";
     public static final String GROUP_NAME_PEOPLE ="PEOPLE";
@@ -68,6 +68,9 @@ public class ProvidersApp {
     public static final String KEY_DIMENSIONS = "dimensions";
     public static final String KEY_SINCE = "since";
     public static final String KEY_PHONE_NUMBER = "phone";
+    public static final String KEY_WORK_EXPERIENCE = "work_experience";
+    public static final String KEY_DEGREE_OF_EDUCATION = "degreeOfEducation";
+    public static final String KEY_IS_EVIDENCE = "is_evidence";
 
     public static final String KEY_LOCATION_PEOPLE = "LOCATION_PEOPLE";
     public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";

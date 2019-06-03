@@ -24,15 +24,17 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Info> infoList;
     private OnButtonAddClick onButtonAddClick;
+    private String GROUP_NAME;
 
     private int VIEW_TYPE_TITLE = 0;
     private int VIEW_TYPE_INFO = 1;
     private int VIEW_TYPE_BTN_ADD = 2;
 
-    public InfoAdapter(ArrayList<Info> infoList) {
+    public InfoAdapter(ArrayList<Info> infoList, String group) {
 
 
         this.infoList = infoList;
+        this.GROUP_NAME = group;
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     }
@@ -106,40 +108,23 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         void bindDetail(DetailAdapterHolder holder, Info info) {
 
-            Info infoPrs = UtilsApp.parseInfo(info);
-
-            holder.subjectTV.setText(infoPrs.getSubject());
-            holder.iconIV.setImageResource(infoPrs.getIcon());
-            holder.descriptionTV.setText(infoPrs.getDescription());
-
-
-        }
-/*
-        private Info parseInfo(Info info) {
-
-            switch (info.getSubject()) {
-                case ProvidersApp.KEY_DIMENSIONS:
-                    info.setSubject("سال تاسیس");
-                    info.setIcon(R.drawable.ic_under_construction);
-                    break;
-
-                case ProvidersApp.KEY_SINCE:
-                    info.setSubject("مساحت");
-                    info.setIcon(R.drawable.ic_dimensions);
-                    break;
-
-
-                case ProvidersApp.KEY_PHONE_NUMBER:
-                    if (info.getDescription().equals("")) {
-                        info.setDescription("وارد کنید..");
-                    }
-                    info.setSubject("تلفن تماس");
-                    info.setIcon(R.drawable.ic_phone);
-                    break;
+            if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)){
+                Info infoPrs = UtilsApp.parseInfoLocation(info,false);
+                holder.subjectTV.setText(infoPrs.getSubject());
+                holder.iconIV.setImageResource(infoPrs.getIcon());
+                holder.descriptionTV.setText(infoPrs.getDescription());
+            }else {
+                Info infoPrs = UtilsApp.parseInfoPeople(info,false);
+                holder.subjectTV.setText(infoPrs.getSubject());
+                holder.iconIV.setImageResource(infoPrs.getIcon());
+                holder.descriptionTV.setText(infoPrs.getDescription());
             }
-            return info;
+
+
+
+
         }
-*/
+
 
     }
 

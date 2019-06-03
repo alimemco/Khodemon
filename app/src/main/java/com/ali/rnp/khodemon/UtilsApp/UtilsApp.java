@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
@@ -27,19 +26,20 @@ import androidx.transition.TransitionManager;
 
 public class UtilsApp {
 
-    public UtilsApp(){
+    public UtilsApp() {
 
     }
 
-    public static boolean isConnectedToNetwork(Context context){
+    public static boolean isConnectedToNetwork(Context context) {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo!=null && networkInfo.isConnected();
+        return networkInfo != null && networkInfo.isConnected();
 
     }
+
     public static void startAnimationViewsSlide(final View rootLayout, final View... views) {
-        for (View view : views){
+        for (View view : views) {
             view.setVisibility(View.INVISIBLE);
         }
         Handler handler = new Handler();
@@ -53,11 +53,11 @@ public class UtilsApp {
                 }
 
             }
-        },1);
+        }, 1);
     }
 
     public static void startAnimationViewsFadeVisible(final View rootLayout, final View... views) {
-        for (View view : views){
+        for (View view : views) {
             view.setVisibility(View.INVISIBLE);
         }
         Handler handler = new Handler();
@@ -71,7 +71,7 @@ public class UtilsApp {
                 }
 
             }
-        },1);
+        }, 1);
     }
 
 
@@ -88,14 +88,13 @@ public class UtilsApp {
                 }
 
             }
-        },1);
+        }, 1);
     }
 
-    public static void animMoveViewVisible(View view){
+    public static void animMoveViewVisible(View view) {
         TranslateAnimation animation = new TranslateAnimation(
                 0.0f, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f);
-
 
 
         animation.setDuration(1000);
@@ -122,60 +121,61 @@ public class UtilsApp {
     }
 
 
-    public static int randomInteger(int min, int max){
+    public static int randomInteger(int min, int max) {
         Random random = new Random();
-        return random.nextInt(max-min) + min;
+        return random.nextInt(max - min) + min;
     }
 
-    public static float randomFloat(float min, float max){
+    public static float randomFloat(float min, float max) {
 
 
         Random r = new Random();
-        float random =  min + r.nextFloat() * (max - min) ;
+        float random = min + r.nextFloat() * (max - min);
         DecimalFormat decimalFormat = new DecimalFormat("#,#");
         return Float.valueOf(decimalFormat.format(random));
 
     }
-/*
-    public static void getImage(String url, ImageView imgV,String imgTmbSmall, String imgTmbLarge, int imgWidth){
-        if (!url.equals("")) {
-            boolean isLarge;
-            isLarge = imgWidth >= 1000;
-            String IMG_ADDRESS ;
 
-            IMG_ADDRESS = (isLarge) ? imgTmbLarge : url;
+    /*
+        public static void getImage(String url, ImageView imgV,String imgTmbSmall, String imgTmbLarge, int imgWidth){
+            if (!url.equals("")) {
+                boolean isLarge;
+                isLarge = imgWidth >= 1000;
+                String IMG_ADDRESS ;
 
-
-            Picasso.get()
-                    .load(imgTmbSmall)
-                    .placeholder(R.drawable.holder_banner)
-                    .into(imgV, new Callback() {
+                IMG_ADDRESS = (isLarge) ? imgTmbLarge : url;
 
 
-                        @Override
-                        public void onSuccess() {
-                            Picasso.get()
-                                    .load(IMG_ADDRESS)
-                                    .placeholder(imgV.getDrawable())
-                                    .into(imgV);
+                Picasso.get()
+                        .load(imgTmbSmall)
+                        .placeholder(R.drawable.holder_banner)
+                        .into(imgV, new Callback() {
 
-                        }
 
-                        @Override
-                        public void onError(Exception e) {
+                            @Override
+                            public void onSuccess() {
+                                Picasso.get()
+                                        .load(IMG_ADDRESS)
+                                        .placeholder(imgV.getDrawable())
+                                        .into(imgV);
 
-                        }
+                            }
 
-                    });
+                            @Override
+                            public void onError(Exception e) {
 
+                            }
+
+                        });
+
+            }
         }
-    }
-    */
-    public static void getImage(LocationPeople locationPeople, ImageView imgV){
+        */
+    public static void getImage(LocationPeople locationPeople, ImageView imgV) {
         if (!locationPeople.getOriginalPic().equals("")) {
             boolean isLarge;
             isLarge = locationPeople.getImageWidth() >= 1000;
-            String IMG_ADDRESS ;
+            String IMG_ADDRESS;
 
             IMG_ADDRESS = (isLarge) ?
                     locationPeople.getImageThumb1000()
@@ -192,7 +192,7 @@ public class UtilsApp {
                         public void onSuccess() {
                             Picasso.get()
                                     .load(IMG_ADDRESS)
-                                    .resize(500,500)
+                                    .resize(500, 500)
                                     .centerCrop()
                                     .placeholder(imgV.getDrawable())
                                     .into(imgV);
@@ -211,11 +211,11 @@ public class UtilsApp {
         }
     }
 
-    public static void getImageWithoutResize(LocationPeople locationPeople, ImageView imgV){
+    public static void getImageWithoutResize(LocationPeople locationPeople, ImageView imgV) {
         if (!locationPeople.getOriginalPic().equals("")) {
             boolean isLarge;
             isLarge = locationPeople.getImageWidth() >= 1000;
-            String IMG_ADDRESS ;
+            String IMG_ADDRESS;
 
             IMG_ADDRESS = (isLarge) ?
                     locationPeople.getImageThumb1000()
@@ -249,7 +249,9 @@ public class UtilsApp {
         }
     }
 
-    public static Info parseInfo(Info info) {
+    public static Info parseInfoLocation(Info info, boolean isScale) {
+
+        validateDescription(info);
 
         switch (info.getSubject()) {
             case ProvidersApp.KEY_SINCE:
@@ -274,39 +276,78 @@ public class UtilsApp {
         return info;
     }
 
+    public static Info parseInfoPeople(Info info,boolean isScale) {
+
+
+        switch (info.getSubject()) {
+            case ProvidersApp.KEY_SINCE:
+                info.setSubject("سال تولد");
+                info.setIcon(R.drawable.ic_under_construction);
+                break;
+
+            case ProvidersApp.KEY_WORK_EXPERIENCE:
+                info.setSubject("تجربه کاری");
+                info.setIcon(R.drawable.ic_dimensions);
+                break;
+
+
+            case ProvidersApp.KEY_DEGREE_OF_EDUCATION:
+                info.setSubject("مدرک تحصیلی");
+                info.setIcon(R.drawable.ic_phone);
+                break;
+
+            case ProvidersApp.KEY_IS_EVIDENCE:
+                info.setSubject("دارای مدرک");
+                if (isScale){
+                    if (info.getDescription().equals("1"))
+                        info.setIcon(android.R.drawable.stat_sys_download_done);
+                    else
+                        info.setIcon(android.R.drawable.stat_notify_error);
+                }else {
+                    info.setIcon(R.drawable.ic_heart);
+                }
+
+                break;
+        }
+
+        validateDescription(info);
+        return info;
+    }
+
     public static Info parseInfoScale(Info info) {
 
         validateDescription(info);
 
-            switch (info.getSubject()) {
-                case ProvidersApp.KEY_SINCE:
-                    info.setSubject("سال تاسیس");
-                    info.setIcon(R.drawable.ic_under_construction);
-                    break;
+        switch (info.getSubject()) {
+            case ProvidersApp.KEY_SINCE:
+                info.setSubject("سال تاسیس");
+                info.setIcon(R.drawable.ic_under_construction);
+                break;
 
-                case ProvidersApp.KEY_DIMENSIONS:
-                    info.setSubject("مساحت");
-                    info.setIcon(R.drawable.ic_dimensions);
-                    break;
+            case ProvidersApp.KEY_DIMENSIONS:
+                info.setSubject("مساحت");
+                info.setIcon(R.drawable.ic_dimensions);
+                break;
 
 
-                case ProvidersApp.KEY_PHONE_NUMBER:
-                    if (info.getDescription().equals("")) {
-                        info.setDescription("وارد کنید..");
-                    }
-                    info.setSubject("تلفن تماس");
-                    info.setIcon(R.drawable.ic_phone);
-                    break;
-            }
+            case ProvidersApp.KEY_PHONE_NUMBER:
+                if (info.getDescription().equals("")) {
+                    info.setDescription("وارد کنید..");
+                }
+                info.setSubject("تلفن تماس");
+                info.setIcon(R.drawable.ic_phone);
+                break;
+        }
 
 
         return info;
     }
 
     private static void validateDescription(Info info) {
-       if (info.getDescription().equals("") || info.getDescription().equals("0")){
-           info.setDescription("-");
-       }
+        String description = info.getDescription();
+        if (description == null || description.equals("") || description.equals("0")) {
+            info.setDescription("-");
+        }
     }
 
 

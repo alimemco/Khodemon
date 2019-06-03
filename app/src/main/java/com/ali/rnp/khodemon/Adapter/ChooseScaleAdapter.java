@@ -57,12 +57,9 @@ public class ChooseScaleAdapter extends RecyclerView.Adapter<ChooseScaleAdapter.
 
         void bind(ChooseScaleHolder holder, LocationPeople locationPeople){
 
-
                 nameTv.setText(locationPeople.getName());
-
                jobTv.setText(locationPeople.getTag());
-
-
+               //jobTv.setText(locationPeople.getTag());
 
             if (onItemClickListener != null){
                 holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -78,7 +78,7 @@ public class FragmentAdd extends Fragment implements View.OnClickListener {
             case R.id.fragment_add_location_constraintLayout:
 
                 Intent intentLocation = new Intent(context, AddRule.class);
-                intentLocation.putExtra(ProvidersApp.GROUP_NAME_KEY, ProvidersApp.GROUP_NAME_LOCATION);
+                intentLocation.putExtra(ProvidersApp.GROUP_NAME, ProvidersApp.GROUP_NAME_LOCATION);
                 startActivity(intentLocation);
 
                 break;
@@ -86,7 +86,7 @@ public class FragmentAdd extends Fragment implements View.OnClickListener {
             case R.id.fragment_add_people_constraintLayout:
 
                 Intent intentPeople = new Intent(context, AddRule.class);
-                intentPeople.putExtra(ProvidersApp.GROUP_NAME_KEY, ProvidersApp.GROUP_NAME_PEOPLE);
+                intentPeople.putExtra(ProvidersApp.GROUP_NAME, ProvidersApp.GROUP_NAME_PEOPLE);
                 startActivity(intentPeople);
 
                 break;
