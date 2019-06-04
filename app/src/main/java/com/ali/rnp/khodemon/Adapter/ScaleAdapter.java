@@ -42,6 +42,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void setSaleSecond(ArrayList<Info> infoListTwo, LocationPeople locPeoPostTwo) {
+        this.infoListScale = new ArrayList<>();
         this.infoListScale = infoListTwo;
         this.locPeoPostScale = locPeoPostTwo;
         notifyDataSetChanged();
@@ -189,7 +190,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else {
                 desScaleTextV.setText("اضافه کردن برای مقایسه");
                 Picasso.get()
-                        .load(R.drawable.holder_banner)
+                        .load(R.drawable.add_scale)
                         .centerCrop()
                         .resize(1000, 1000)
                         .into(desScaleIV);

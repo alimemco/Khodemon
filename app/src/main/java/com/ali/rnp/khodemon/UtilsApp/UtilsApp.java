@@ -350,5 +350,28 @@ public class UtilsApp {
         }
     }
 
+    public static String statusCodeToError(int statusCode , String error){
+        String msg = "" ;
+        switch (statusCode){
+            case ProvidersApp.STATUS_CODE_VOLLEY_ERROR:
+                msg = "VOLLEY_ERROR | " + error ;
+                break;
+            case ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR:
+                msg = "JSON_EXCEPTION_ERROR | " + error ;
+                break;
+            case ProvidersApp.STATUS_CODE_SERVER_ERROR:
+                msg = "SERVER_ERROR | " + error ;
+                break;
+            case ProvidersApp.STATUS_CODE_SERVER_MISSING_ERROR:
+                msg = "SERVER_MISSING_ERROR | " + error ;
+                break;
+
+
+            case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
+                msg = "SUCCESSFULLY" ;
+                break;
+        }
+        return msg;
+    }
 
 }

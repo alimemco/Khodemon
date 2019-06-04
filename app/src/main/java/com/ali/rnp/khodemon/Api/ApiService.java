@@ -188,13 +188,18 @@ public class ApiService {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_LIST_ITEMS, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                parseJsonHomeRecyclerListItems(response, onHomeListItemReceived);
+                if (response.length() > 0){
+                    parseJsonHomeRecyclerListItems(response, onHomeListItemReceived);
+                }else {
+                    onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_SERVER_MISSING_ERROR,null, null, "server is missing");
+                }
+
             }
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onHomeListItemReceived.onItemReceived(null, null, "VolleyError | " + error.toString());
+                        onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_VOLLEY_ERROR,null, null,  error.toString());
                     }
                 }
         );
@@ -689,10 +694,10 @@ public class ApiService {
             }
 
 
-            onHomeListItemReceived.onItemReceived(locationPeopleListLayout, locationPeoplePerItem, null);
+            onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_SUCCESSFULLY,locationPeopleListLayout, locationPeoplePerItem, null);
 
         } catch (JSONException e) {
-            onHomeListItemReceived.onItemReceived(null, null, "JSONException | " + e.toString());
+            onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR,null, null,  e.toString());
 
         }
 
@@ -992,7 +997,7 @@ public class ApiService {
     }
 
     public interface OnHomeListItemReceived {
-        void onItemReceived(List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList, String error);
+        void onItemReceived(int statusCode , List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList, String error);
     }
 
     public interface OnGroupItemReceived {

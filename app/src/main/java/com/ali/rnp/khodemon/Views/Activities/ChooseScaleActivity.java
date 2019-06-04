@@ -2,8 +2,10 @@ package com.ali.rnp.khodemon.Views.Activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -71,9 +73,12 @@ public class ChooseScaleActivity extends AppCompatActivity implements
             case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
 
                 if (locationPeopleList != null){
-                    LinearLayoutManager ln = new LinearLayoutManager(ChooseScaleActivity.this, RecyclerView.VERTICAL,false);
 
-                    rcv.setLayoutManager(ln);
+                    LinearLayoutManager ln = new LinearLayoutManager(ChooseScaleActivity.this, RecyclerView.VERTICAL,false);
+                    StaggeredGridLayoutManager st = new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL);
+                    GridLayoutManager gd = new GridLayoutManager(ChooseScaleActivity.this,4,RecyclerView.VERTICAL,false);
+                   rcv.setLayoutManager(gd);
+
                     ChooseScaleAdapter chooseScaleAdapter = new ChooseScaleAdapter( locationPeopleList);
                     chooseScaleAdapter.setOnItemClickListener(ChooseScaleActivity.this);
                     rcv.setAdapter(chooseScaleAdapter);
