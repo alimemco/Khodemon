@@ -109,15 +109,15 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         void bindDetail(DetailAdapterHolder holder, Info info) {
 
             if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)){
-                Info infoPrs = UtilsApp.parseInfoLocation(info,false);
-                holder.subjectTV.setText(infoPrs.getSubject());
-                holder.iconIV.setImageResource(infoPrs.getIcon());
-                holder.descriptionTV.setText(infoPrs.getDescription());
+               UtilsApp.parseInfoLocation(info,false);
+                holder.subjectTV.setText(info.getSubject());
+                holder.iconIV.setImageResource(info.getIcon());
+                holder.descriptionTV.setText(info.getDescription());
             }else {
-                Info infoPrs = UtilsApp.parseInfoPeople(info,false);
-                holder.subjectTV.setText(infoPrs.getSubject());
-                holder.iconIV.setImageResource(infoPrs.getIcon());
-                holder.descriptionTV.setText(infoPrs.getDescription());
+                UtilsApp.parseInfoPeople(info,false);
+                holder.subjectTV.setText(info.getSubject());
+                holder.iconIV.setImageResource(info.getIcon());
+                holder.descriptionTV.setText(info.getDescription());
             }
 
 

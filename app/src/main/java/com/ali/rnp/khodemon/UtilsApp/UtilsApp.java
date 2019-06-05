@@ -14,6 +14,7 @@ import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.google.android.gms.common.util.NumberUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -249,6 +250,7 @@ public class UtilsApp {
         }
     }
 
+
     public static Info parseInfoLocation(Info info, boolean isScale) {
 
         validateDescription(info);
@@ -276,7 +278,7 @@ public class UtilsApp {
         return info;
     }
 
-    public static Info parseInfoPeople(Info info,boolean isScale) {
+    public static void parseInfoPeople(Info info, boolean isScale) {
 
 
         switch (info.getSubject()) {
@@ -298,20 +300,25 @@ public class UtilsApp {
 
             case ProvidersApp.KEY_IS_EVIDENCE:
                 info.setSubject("دارای مدرک");
-                if (isScale){
-                    if (info.getDescription().equals("true"))
-                        info.setIcon(android.R.drawable.stat_sys_download_done);
-                    else
-                        info.setIcon(android.R.drawable.stat_notify_error);
-                }else {
+                if (!isScale) {
+
+                    info.setIcon(R.drawable.ic_heart);
+                }
+
+                break;
+
+            case ProvidersApp.KEY_IS_MEDAL:
+                info.setSubject("تایید شده");
+                if (!isScale) {
+
                     info.setIcon(R.drawable.ic_heart);
                 }
 
                 break;
         }
 
-       // validateDescription(info);
-        return info;
+        // validateDescription(info);
+        //  return info;
     }
 
     public static Info parseInfoScale(Info info) {
@@ -350,52 +357,52 @@ public class UtilsApp {
         }
     }
 
-    public static String statusCodeToError(int statusCode , String error){
-        String msg = "" ;
-        switch (statusCode){
+    public static String statusCodeToError(int statusCode, String error) {
+        String msg = "";
+        switch (statusCode) {
             case ProvidersApp.STATUS_CODE_VOLLEY_ERROR:
-                msg = "VOLLEY_ERROR | " + error ;
+                msg = "VOLLEY_ERROR | " + error;
                 break;
             case ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR:
-                msg = "JSON_EXCEPTION_ERROR | " + error ;
+                msg = "JSON_EXCEPTION_ERROR | " + error;
                 break;
             case ProvidersApp.STATUS_CODE_SERVER_ERROR:
-                msg = "SERVER_ERROR | " + error ;
+                msg = "SERVER_ERROR | " + error;
                 break;
             case ProvidersApp.STATUS_CODE_SERVER_MISSING_ERROR:
-                msg = "SERVER_MISSING_ERROR | " + error ;
+                msg = "SERVER_MISSING_ERROR | " + error;
                 break;
 
 
             case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
-                msg = "SUCCESSFULLY" ;
+                msg = "SUCCESSFULLY";
                 break;
         }
         return msg;
     }
 
 
+    public static class validate {
 
-    public static class validate{
-
-        public static Info validateInfo(Info info){
+        public static Info validateInfo(Info info) {
 
             validateBySubject(info);
 
             return info;
 
         }
+
         private static void validateBySubject(Info info) {
 
-            info.setIcon(0);
+            // info.setIcon(0);
 
 
             String subject = info.getSubject();
 
-            switch (subject){
+            switch (subject) {
                 case ProvidersApp.KEY_WORK_EXPERIENCE:
-                    if (!info.getDescription().equals("-")){
-                        String msg = UtilsApp.validate.validateWorkExperience(Integer.parseInt(info.getDescription()));
+                    if (!info.getDescription().equals("-")) {
+                        String msg = UtilsApp.validate.validateWorkExperience(info.getDescription());
                         info.setDescription(msg);
                     }
 
@@ -405,20 +412,19 @@ public class UtilsApp {
                 case ProvidersApp.KEY_IS_EVIDENCE:
 
 
-
-                     UtilsApp.validate.validateByBoolean(info);
+                    UtilsApp.validate.validateByBoolean(info);
 
                     break;
 
                 case ProvidersApp.KEY_DEGREE_OF_EDUCATION:
 
-                   // UtilsApp.validate.validateByDescription(info);
+                    // UtilsApp.validate.validateByDescription(info);
 
                     break;
 
                 case ProvidersApp.KEY_PHONE_NUMBER:
 
-                  //  UtilsApp.validate.validateByDescription(info);
+                    //  UtilsApp.validate.validateByDescription(info);
 
                     break;
 
@@ -426,9 +432,8 @@ public class UtilsApp {
             }
 
 
-
-
         }
+
         private static void validateByDescription(Info info) {
 
             String description = info.getDescription();
@@ -451,33 +456,45 @@ public class UtilsApp {
 
             String description = info.getDescription();
 
-            if (description.equals("true")){
+            if (description.equals("true")) {
                 info.setIcon(R.drawable.ic_validate_true);
-               // info.setDescription("true");
-            }else {
+                // info.setDescription("true");
+            } else {
                 info.setIcon(R.drawable.ic_validate_false);
-               // info.setDescription("false");
+                // info.setDescription("false");
             }
 
         }
 
-        private static String validateWorkExperience(int workExperience){
+        private static String validateWorkExperience(String workExperience) {
+            if (isNumber(workExperience)) {
+                int number = Integer.parseInt(workExperience);
 
-            String msg;
-            if ( 0 <= workExperience && workExperience <= 6){
-                msg = "کمتر از 6 ماه";
-            } else if ( 7 <= workExperience && workExperience <= 12){
-                msg = "کمتر از 1 سال";
-            } else if ( 13 <= workExperience && workExperience <= 24){
-                msg = "بیش از 1 سال";
-            } else if ( 25 <= workExperience && workExperience <= 36){
-                msg = "بیش از 2 سال";
-            } else {
-                msg = "بیش از 3 سال";
+                if (0 <= number && number <= 6) {
+                    workExperience = "کمتر از 6 ماه";
+                } else if (7 <= number && number <= 12) {
+                    workExperience = "کمتر از 1 سال";
+                } else if (13 <= number && number <= 24) {
+                    workExperience = "بیش از 1 سال";
+                } else if (25 <= number && number <= 36) {
+                    workExperience = "بیش از 2 سال";
+                } else {
+                    workExperience = "بیش از 3 سال";
+                }
             }
 
-            return msg;
 
+            return workExperience;
+
+        }
+
+        private static boolean isNumber(String workExperience) {
+            try {
+                Double.parseDouble(workExperience);
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
+            }
         }
 
     }

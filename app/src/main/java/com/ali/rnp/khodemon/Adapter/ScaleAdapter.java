@@ -40,12 +40,16 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public ScaleAdapter(ArrayList<Info> infoListOne, LocationPeople locPeoPost) {
         this.infoTitle = infoListOne;
-        this.infoListOne = infoListOne;
+
         this.locPeoPostOne = locPeoPost;
         this.GROUP_NAME = locPeoPost.getGroup();
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
+        for (int i = 0; i < infoListOne.size(); i++) {
+           infoListOne.get(i).setIcon(0);
+        }
+        this.infoListOne = infoListOne;
 
     }
 
@@ -133,14 +137,18 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         void bindTitle(ScaleHolder holder, Info info) {
-            Info infoPrs = null;
+
+            //UtilsApp.parseTitle(info);
+            holder.titleTV.setText(info.getSubject());
+
+           // Info infoPrs = null;
             if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
-                infoPrs = UtilsApp.parseInfoLocation(info, true);
-                holder.titleTV.setText(infoPrs.getSubject());
+                info = UtilsApp.parseInfoLocation(info, true);
+                holder.titleTV.setText(info.getSubject());
 
             } else {
-                infoPrs = UtilsApp.parseInfoPeople(info, true);
-                holder.titleTV.setText(infoPrs.getSubject());
+                UtilsApp.parseInfoPeople(info, true);
+                holder.titleTV.setText(info.getSubject());
 
             }
 
