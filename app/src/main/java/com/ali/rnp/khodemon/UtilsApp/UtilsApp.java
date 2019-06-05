@@ -386,7 +386,8 @@ public class UtilsApp {
 
         public static Info validateInfo(Info info) {
 
-            validateBySubject(info);
+            validateByBoolean(info);
+            //validateBySubject(info);
 
             return info;
 
@@ -395,6 +396,8 @@ public class UtilsApp {
         private static void validateBySubject(Info info) {
 
             // info.setIcon(0);
+
+
 
 
             String subject = info.getSubject();
@@ -410,9 +413,8 @@ public class UtilsApp {
                     break;
 
                 case ProvidersApp.KEY_IS_EVIDENCE:
+                case ProvidersApp.KEY_IS_MEDAL:
 
-
-                    UtilsApp.validate.validateByBoolean(info);
 
                     break;
 
@@ -427,6 +429,8 @@ public class UtilsApp {
                     //  UtilsApp.validate.validateByDescription(info);
 
                     break;
+
+
 
 
             }
@@ -452,16 +456,22 @@ public class UtilsApp {
 
         private static void validateByBoolean(Info info) {
 
-            info.setBoolean(true);
-
             String description = info.getDescription();
 
-            if (description.equals("true")) {
-                info.setIcon(R.drawable.ic_validate_true);
-                // info.setDescription("true");
-            } else {
-                info.setIcon(R.drawable.ic_validate_false);
-                // info.setDescription("false");
+            if (info.isBoolean()){
+                info.setDescription("");
+                if (description.equals("true")) {
+                    info.setIcon(R.drawable.ic_validate_true);
+                    // info.setDescription("true");
+                } else if (description.equals("false")){
+                    info.setIcon(R.drawable.ic_validate_false);
+
+                }
+
+            }else {
+                if (description.equals("0") || description.equals("")){
+                    info.setDescription("-");
+                }
             }
 
         }

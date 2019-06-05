@@ -872,6 +872,7 @@ public class ApiService {
                     Info info = new Info();
                     info.setSubject(jsObjItems.getString("key"));
                     info.setDescription(jsObjItems.getString("value"));
+                    info.setBoolean(jsObjItems.getBoolean("isBoolean"));
                     infoList.add(info);
                 }
 

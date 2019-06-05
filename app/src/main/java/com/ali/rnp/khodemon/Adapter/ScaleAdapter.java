@@ -175,26 +175,21 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         void bindScale(ScaleHolder holder, Info info) {
 
-
-
-
             //validateInfo(info, holder.desScaleImageView, holder.desScaleTV);
             UtilsApp.validate.validateInfo(info);
 
 
-            Log.i(TAG, "before bindScale: \n subject: "+
-                    info.getSubject()+"\n isBoolean: "+
-                    info.isBoolean()+"\n description: "+
-                    info.getDescription()+"\n icon:"+
-                    info.getIcon()+"\n -------------------------------------------");
-
+/*
             if (info.isBoolean()){
                 holder.desScaleTV.setText("");
                 holder.desScaleImageView.setImageResource(info.getIcon());
             }else {
                 holder.desScaleTV.setText(info.getDescription());
                 holder.desScaleImageView.setImageResource(0);
-            }
+            }*/
+
+            holder.desScaleTV.setText(info.getDescription());
+            holder.desScaleImageView.setImageResource(info.getIcon());
 
 
 
@@ -264,46 +259,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public interface OnAddScaleClick {
         void OnAddScale();
     }
-/*
-    private void validateInfo(Info info, ImageView imageView, MyTextView textView){
 
-        switch (info.getDescription()) {
-
-            case "":
-            case "0":
-                info.setDescription("-");
-                break;
-
-            case "true":
-
-                imageView.setImageResource(R.drawable.ic_validate_true);
-                info.setDescription("");
-                break;
-            case "false":
-                imageView.setImageResource(R.drawable.ic_validate_false);
-                info.setDescription("-");
-                break;
-            default:
-                imageView.setImageResource(0);
-
-                break;
-        }
-
-        textView.setText(info.getDescription());
-
-        switch (info.getSubject()){
-            case ProvidersApp.KEY_WORK_EXPERIENCE:
-                if (!info.getDescription().equals("-")){
-                    String msg = UtilsApp.validateWorkExperience(Integer.parseInt(info.getDescription()));
-                    info.setDescription(msg);
-                    textView.setText(info.getDescription());
-                }
-
-
-                break;
-        }
-    }
-*/
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
