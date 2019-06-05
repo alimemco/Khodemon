@@ -17,32 +17,38 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Info> infoListOne;
     private ArrayList<Info> infoListScale;
+    private ArrayList<Info> infoTitle;
     private LocationPeople locPeoPostOne;
     private LocationPeople locPeoPostScale;
     private String GROUP_NAME;
     private int VIEW_TYPE_SCALE_TOP = 0;
     private int VIEW_TYPE_SCALE_NORMAL = 1;
 
-    private Context context;
     private OnAddScaleClick onAddScaleClick;
-
+    private Context context;
 
 
     public ScaleAdapter(ArrayList<Info> infoListOne, LocationPeople locPeoPost) {
+        this.infoTitle = infoListOne;
         this.infoListOne = infoListOne;
         this.locPeoPostOne = locPeoPost;
         this.GROUP_NAME = locPeoPost.getGroup();
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
     }
 
     public void setSaleSecond(ArrayList<Info> infoListTwo, LocationPeople locPeoPostTwo) {
-        this.infoListScale = new ArrayList<>();
+       /* if (this.infoListScale != null) {
+            this.infoListScale.clear();
+        }*/
         this.infoListScale = infoListTwo;
         this.locPeoPostScale = locPeoPostTwo;
         notifyDataSetChanged();
@@ -82,9 +88,11 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof ScaleHolder) {
             ScaleHolder mHolder = (ScaleHolder) holder;
             mHolder.bind(mHolder, infoListOne.get(position - 1));
+            mHolder.bindTitle(mHolder,infoTitle.get(position-1));
             if (infoListScale != null) {
                 mHolder.bindScale(mHolder, infoListScale.get(position - 1));
-        }
+
+            }
         } else if (holder instanceof ScaleTopHolder) {
             ScaleTopHolder mHolder = (ScaleTopHolder) holder;
             mHolder.bindTop(locPeoPostOne);
@@ -96,48 +104,52 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return infoListOne.size() + 1;
+        return infoTitle.size() + 1;
     }
 
     class ScaleHolder extends RecyclerView.ViewHolder {
         MyTextView titleTV;
         MyTextView desOneTV;
         MyTextView desScaleTV;
+        ImageView desOneImageView;
+        ImageView desScaleImageView;
 
         ScaleHolder(@NonNull View itemView) {
             super(itemView);
             titleTV = itemView.findViewById(R.id.rcv_scale_adapter_title);
             desOneTV = itemView.findViewById(R.id.rcv_scale_adapter_decOne);
             desScaleTV = itemView.findViewById(R.id.rcv_scale_adapter_decTwo);
+            desOneImageView = itemView.findViewById(R.id.rcv_scale_adapter_decOneImageView);
+            desScaleImageView = itemView.findViewById(R.id.rcv_scale_adapter_decTwoImageView);
 
             desScaleTV.setText("-");
+
+
+
+
+        }
+
+        void bindTitle(ScaleHolder holder, Info info) {
+            Info infoPrs = null;
+            if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
+                infoPrs = UtilsApp.parseInfoLocation(info, true);
+                holder.titleTV.setText(infoPrs.getSubject());
+               // holder.desOneTV.setText(infoPrs.getDescription());
+            } else {
+                infoPrs = UtilsApp.parseInfoPeople(info, true);
+                holder.titleTV.setText(infoPrs.getSubject());
+               // holder.desOneTV.setText(infoPrs.getDescription());
+            }
 
         }
 
         void bind(ScaleHolder holder, Info info) {
-            //Info infoPrs = UtilsApp.parseInfoScale(info);
-            Info infoPrs = null;
-            if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)){
-                infoPrs = UtilsApp.parseInfoLocation(info,true);
-                holder.titleTV.setText(infoPrs.getSubject());
-                holder.desOneTV.setText(infoPrs.getDescription());
-            }else {
-                infoPrs = UtilsApp.parseInfoPeople(info,true);
-                holder.titleTV.setText(infoPrs.getSubject());
-                holder.desOneTV.setText(infoPrs.getDescription());
-            }
-
-
-            // holder.desScaleTV.setText(infoPrs.getDescription());
+            validateInfo(info,holder.desOneImageView,holder.desOneTV);
         }
 
         void bindScale(ScaleHolder holder, Info info) {
 
-            if (info.getDescription().equals("") || info.getDescription().equals("0")){
-                info.setDescription("-");
-            }else {
-                holder.desScaleTV.setText(info.getDescription());
-            }
+            validateInfo(info, holder.desScaleImageView, holder.desScaleTV);
 
 
         }
@@ -161,12 +173,13 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         void bindTop(LocationPeople locationPeople) {
             desOneTextV.setText(locPeoPostOne.getName());
 
-
-            Picasso.get()
-                    .load(locationPeople.getOriginalPic())
-                    .centerCrop()
-                    .resize(1000, 1000)
-                    .into(desOneIV);
+            if (locationPeople.getOriginalPic() != null) {
+                Picasso.get()
+                        .load(locationPeople.getOriginalPic())
+                        .centerCrop()
+                        .resize(1000, 1000)
+                        .into(desOneIV);
+            }
 
 
             desScaleIV.setOnClickListener(v -> {
@@ -182,11 +195,14 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         void bindScaleTop(LocationPeople locationPeople) {
             if (locationPeople != null) {
                 desScaleTextV.setText(locPeoPostScale.getName());
-                Picasso.get()
-                        .load(locationPeople.getOriginalPic())
-                        .centerCrop()
-                        .resize(1000, 1000)
-                        .into(desScaleIV);
+                if (!locationPeople.getOriginalPic().equals("")){
+                    Picasso.get()
+                            .load(locationPeople.getOriginalPic())
+                            .centerCrop()
+                            .resize(1000, 1000)
+                            .into(desScaleIV);
+                }
+
             } else {
                 desScaleTextV.setText("اضافه کردن برای مقایسه");
                 Picasso.get()
@@ -203,12 +219,46 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         void OnAddScale();
     }
 
+    private void validateInfo(Info info, ImageView imageView, MyTextView textView){
+        textView.setText(info.getDescription());
+        switch (info.getDescription()) {
+
+            case "":
+            case "0":
+                info.setDescription("-");
+                break;
+
+            case "true":
+
+                imageView.setImageResource(R.drawable.ic_validate_true);
+                textView.setText("");
+                break;
+            case "false":
+                imageView.setImageResource(R.drawable.ic_validate_false);
+                textView.setText("");
+                break;
+            default:
+                imageView.setImageResource(0);
+
+                break;
+        }
+
+        switch (info.getSubject()){
+            case ProvidersApp.KEY_WORK_EXPERIENCE:
+                if (!info.getDescription().equals("-")){
+                    String msg = UtilsApp.validateWorkExperience(Integer.parseInt(info.getDescription()));
+                    info.setDescription(msg);
+                    textView.setText(info.getDescription());
+                }
+
+
+                break;
+        }
+    }
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        context = recyclerView.getContext();
+        this.context = recyclerView.getContext() ;
     }
-
-
 }

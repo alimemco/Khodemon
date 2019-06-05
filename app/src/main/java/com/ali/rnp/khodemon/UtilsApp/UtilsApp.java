@@ -374,4 +374,23 @@ public class UtilsApp {
         return msg;
     }
 
+    public static String validateWorkExperience(int workExperience){
+
+        String msg;
+        if ( 0 <= workExperience && workExperience <= 6){
+            msg = "کمتر از 6 ماه";
+        } else if ( 7 <= workExperience && workExperience <= 12){
+            msg = "کمتر از 1 سال";
+        } else if ( 13 <= workExperience && workExperience <= 24){
+            msg = "بیش از 1 سال";
+        } else if ( 25 <= workExperience && workExperience <= 36){
+            msg = "بیش از 2 سال";
+        } else {
+            msg = "بیش از 3 سال";
+        }
+
+        return msg;
+
+    }
+
 }

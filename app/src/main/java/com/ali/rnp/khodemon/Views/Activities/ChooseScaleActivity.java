@@ -2,6 +2,7 @@ package com.ali.rnp.khodemon.Views.Activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ public class ChooseScaleActivity extends AppCompatActivity implements
         ChooseScaleAdapter.OnItemClickListener {
 
     private RecyclerView rcv;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,19 @@ public class ChooseScaleActivity extends AppCompatActivity implements
 
         initView();
         initRCV();
+        initToolbar();
     }
 
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.activity_choose_scale_toolbar);
+
+        if (getSupportActionBar() != null){
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+    }
 
 
     private void initView() {
@@ -75,8 +88,8 @@ public class ChooseScaleActivity extends AppCompatActivity implements
                 if (locationPeopleList != null){
 
                     LinearLayoutManager ln = new LinearLayoutManager(ChooseScaleActivity.this, RecyclerView.VERTICAL,false);
-                    StaggeredGridLayoutManager st = new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL);
-                    GridLayoutManager gd = new GridLayoutManager(ChooseScaleActivity.this,4,RecyclerView.VERTICAL,false);
+                    StaggeredGridLayoutManager st = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+                    GridLayoutManager gd = new GridLayoutManager(ChooseScaleActivity.this,3,RecyclerView.VERTICAL,false);
                    rcv.setLayoutManager(gd);
 
                     ChooseScaleAdapter chooseScaleAdapter = new ChooseScaleAdapter( locationPeopleList);
