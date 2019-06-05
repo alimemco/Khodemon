@@ -5,6 +5,7 @@ public class Info {
     private String subject;
     private String description;
     private int icon;
+    private boolean isBoolean;
 
     public String getSubject() {
         return subject;
@@ -28,5 +29,13 @@ public class Info {
 
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+
+    public boolean isBoolean() {
+        return isBoolean;
+    }
+
+    public void setBoolean(boolean aBoolean) {
+        isBoolean = aBoolean;
     }
 }

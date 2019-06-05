@@ -1,6 +1,7 @@
 package com.ali.rnp.khodemon.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,8 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private OnAddScaleClick onAddScaleClick;
     private Context context;
 
+    private static final String TAG = "ScaleAdapter";
+
 
     public ScaleAdapter(ArrayList<Info> infoListOne, LocationPeople locPeoPost) {
         this.infoTitle = infoListOne;
@@ -43,12 +46,11 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
+
     }
 
     public void setSaleSecond(ArrayList<Info> infoListTwo, LocationPeople locPeoPostTwo) {
-       /* if (this.infoListScale != null) {
-            this.infoListScale.clear();
-        }*/
+
         this.infoListScale = infoListTwo;
         this.locPeoPostScale = locPeoPostTwo;
         notifyDataSetChanged();
@@ -87,7 +89,8 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         if (holder instanceof ScaleHolder) {
             ScaleHolder mHolder = (ScaleHolder) holder;
-            mHolder.bind(mHolder, infoListOne.get(position - 1));
+
+            mHolder.bind(mHolder, infoListOne,position-1);
             mHolder.bindTitle(mHolder,infoTitle.get(position-1));
             if (infoListScale != null) {
                 mHolder.bindScale(mHolder, infoListScale.get(position - 1));
@@ -122,7 +125,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             desOneImageView = itemView.findViewById(R.id.rcv_scale_adapter_decOneImageView);
             desScaleImageView = itemView.findViewById(R.id.rcv_scale_adapter_decTwoImageView);
 
-            desScaleTV.setText("-");
+           // desScaleTV.setText("-");
 
 
 
@@ -134,22 +137,57 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
                 infoPrs = UtilsApp.parseInfoLocation(info, true);
                 holder.titleTV.setText(infoPrs.getSubject());
-               // holder.desOneTV.setText(infoPrs.getDescription());
+
             } else {
                 infoPrs = UtilsApp.parseInfoPeople(info, true);
                 holder.titleTV.setText(infoPrs.getSubject());
-               // holder.desOneTV.setText(infoPrs.getDescription());
+
             }
 
         }
 
-        void bind(ScaleHolder holder, Info info) {
-            validateInfo(info,holder.desOneImageView,holder.desOneTV);
+        void bind(ScaleHolder holder, ArrayList<Info> infoList , int position) {
+           // validateInfo(info,holder.desOneImageView,holder.desOneTV);
+            if (infoList!= null){
+                Info info = infoListOne.get(position);
+                Info infoPrs = UtilsApp.validate.validateInfo(info);
+                ScaleAdapter.this.infoListOne.set(position,infoPrs);
+
+                if (info.isBoolean()){
+                    holder.desOneTV.setText("");
+                    holder.desOneImageView.setImageResource(info.getIcon());
+                }else {
+                    holder.desOneTV.setText(info.getDescription());
+                    holder.desOneImageView.setImageResource(0);
+                }
+            }
+
+
         }
 
         void bindScale(ScaleHolder holder, Info info) {
 
-            validateInfo(info, holder.desScaleImageView, holder.desScaleTV);
+
+
+
+            //validateInfo(info, holder.desScaleImageView, holder.desScaleTV);
+            UtilsApp.validate.validateInfo(info);
+
+
+            Log.i(TAG, "before bindScale: \n subject: "+
+                    info.getSubject()+"\n isBoolean: "+
+                    info.isBoolean()+"\n description: "+
+                    info.getDescription()+"\n icon:"+
+                    info.getIcon()+"\n -------------------------------------------");
+
+            if (info.isBoolean()){
+                holder.desScaleTV.setText("");
+                holder.desScaleImageView.setImageResource(info.getIcon());
+            }else {
+                holder.desScaleTV.setText(info.getDescription());
+                holder.desScaleImageView.setImageResource(0);
+            }
+
 
 
         }
@@ -218,9 +256,9 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public interface OnAddScaleClick {
         void OnAddScale();
     }
-
+/*
     private void validateInfo(Info info, ImageView imageView, MyTextView textView){
-        textView.setText(info.getDescription());
+
         switch (info.getDescription()) {
 
             case "":
@@ -231,17 +269,19 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case "true":
 
                 imageView.setImageResource(R.drawable.ic_validate_true);
-                textView.setText("");
+                info.setDescription("");
                 break;
             case "false":
                 imageView.setImageResource(R.drawable.ic_validate_false);
-                textView.setText("");
+                info.setDescription("-");
                 break;
             default:
                 imageView.setImageResource(0);
 
                 break;
         }
+
+        textView.setText(info.getDescription());
 
         switch (info.getSubject()){
             case ProvidersApp.KEY_WORK_EXPERIENCE:
@@ -255,7 +295,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 break;
         }
     }
-
+*/
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);

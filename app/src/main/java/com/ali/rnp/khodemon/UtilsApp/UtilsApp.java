@@ -299,7 +299,7 @@ public class UtilsApp {
             case ProvidersApp.KEY_IS_EVIDENCE:
                 info.setSubject("دارای مدرک");
                 if (isScale){
-                    if (info.getDescription().equals("1"))
+                    if (info.getDescription().equals("true"))
                         info.setIcon(android.R.drawable.stat_sys_download_done);
                     else
                         info.setIcon(android.R.drawable.stat_notify_error);
@@ -310,7 +310,7 @@ public class UtilsApp {
                 break;
         }
 
-        validateDescription(info);
+       // validateDescription(info);
         return info;
     }
 
@@ -374,22 +374,111 @@ public class UtilsApp {
         return msg;
     }
 
-    public static String validateWorkExperience(int workExperience){
 
-        String msg;
-        if ( 0 <= workExperience && workExperience <= 6){
-            msg = "کمتر از 6 ماه";
-        } else if ( 7 <= workExperience && workExperience <= 12){
-            msg = "کمتر از 1 سال";
-        } else if ( 13 <= workExperience && workExperience <= 24){
-            msg = "بیش از 1 سال";
-        } else if ( 25 <= workExperience && workExperience <= 36){
-            msg = "بیش از 2 سال";
-        } else {
-            msg = "بیش از 3 سال";
+
+    public static class validate{
+
+        public static Info validateInfo(Info info){
+
+            validateBySubject(info);
+
+            return info;
+
+        }
+        private static void validateBySubject(Info info) {
+
+            info.setIcon(0);
+
+
+            String subject = info.getSubject();
+
+            switch (subject){
+                case ProvidersApp.KEY_WORK_EXPERIENCE:
+                    if (!info.getDescription().equals("-")){
+                        String msg = UtilsApp.validate.validateWorkExperience(Integer.parseInt(info.getDescription()));
+                        info.setDescription(msg);
+                    }
+
+
+                    break;
+
+                case ProvidersApp.KEY_IS_EVIDENCE:
+
+
+
+                     UtilsApp.validate.validateByBoolean(info);
+
+                    break;
+
+                case ProvidersApp.KEY_DEGREE_OF_EDUCATION:
+
+                   // UtilsApp.validate.validateByDescription(info);
+
+                    break;
+
+                case ProvidersApp.KEY_PHONE_NUMBER:
+
+                  //  UtilsApp.validate.validateByDescription(info);
+
+                    break;
+
+
+            }
+
+
+
+
+        }
+        private static void validateByDescription(Info info) {
+
+            String description = info.getDescription();
+
+            switch (description) {
+
+                case "":
+                case "0":
+                    info.setDescription("-");
+                    break;
+
+            }
+
+
         }
 
-        return msg;
+        private static void validateByBoolean(Info info) {
+
+            info.setBoolean(true);
+
+            String description = info.getDescription();
+
+            if (description.equals("true")){
+                info.setIcon(R.drawable.ic_validate_true);
+               // info.setDescription("true");
+            }else {
+                info.setIcon(R.drawable.ic_validate_false);
+               // info.setDescription("false");
+            }
+
+        }
+
+        private static String validateWorkExperience(int workExperience){
+
+            String msg;
+            if ( 0 <= workExperience && workExperience <= 6){
+                msg = "کمتر از 6 ماه";
+            } else if ( 7 <= workExperience && workExperience <= 12){
+                msg = "کمتر از 1 سال";
+            } else if ( 13 <= workExperience && workExperience <= 24){
+                msg = "بیش از 1 سال";
+            } else if ( 25 <= workExperience && workExperience <= 36){
+                msg = "بیش از 2 سال";
+            } else {
+                msg = "بیش از 3 سال";
+            }
+
+            return msg;
+
+        }
 
     }
 
