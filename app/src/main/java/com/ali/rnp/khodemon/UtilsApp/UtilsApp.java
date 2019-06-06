@@ -19,6 +19,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Random;
 
 import androidx.transition.Fade;
@@ -74,7 +75,6 @@ public class UtilsApp {
             }
         }, 1);
     }
-
 
     public static void startAnimationViewsFadeGone(final View rootLayout, final View... views) {
 
@@ -137,41 +137,7 @@ public class UtilsApp {
 
     }
 
-    /*
-        public static void getImage(String url, ImageView imgV,String imgTmbSmall, String imgTmbLarge, int imgWidth){
-            if (!url.equals("")) {
-                boolean isLarge;
-                isLarge = imgWidth >= 1000;
-                String IMG_ADDRESS ;
 
-                IMG_ADDRESS = (isLarge) ? imgTmbLarge : url;
-
-
-                Picasso.get()
-                        .load(imgTmbSmall)
-                        .placeholder(R.drawable.holder_banner)
-                        .into(imgV, new Callback() {
-
-
-                            @Override
-                            public void onSuccess() {
-                                Picasso.get()
-                                        .load(IMG_ADDRESS)
-                                        .placeholder(imgV.getDrawable())
-                                        .into(imgV);
-
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-
-                            }
-
-                        });
-
-            }
-        }
-        */
     public static void getImage(LocationPeople locationPeople, ImageView imgV) {
         if (!locationPeople.getOriginalPic().equals("")) {
             boolean isLarge;
@@ -250,7 +216,6 @@ public class UtilsApp {
         }
     }
 
-
     public static Info parseInfoLocation(Info info, boolean isScale) {
 
         validateDescription(info);
@@ -283,7 +248,7 @@ public class UtilsApp {
 
         switch (info.getSubject()) {
             case ProvidersApp.KEY_SINCE:
-                info.setSubject("سال تولد");
+                info.setSubject("سن");
                 info.setIcon(R.drawable.ic_under_construction);
                 break;
 
@@ -384,73 +349,104 @@ public class UtilsApp {
 
     public static class validate {
 
-        public static Info validateInfo(Info info) {
+        public static Info validateInfo(Info info, String group, boolean isScale) {
 
-            validateByBoolean(info);
-            //validateBySubject(info);
+            validateBySubject(info, group,isScale);
+            validateEmptyInfo(info);
+            if (isScale){
+                validateByBoolean(info);
+            }
+
 
             return info;
 
         }
 
-        private static void validateBySubject(Info info) {
+        private static void validateEmptyInfo(Info info) {
+            String des = info.getDescription();
 
-            // info.setIcon(0);
+            if (des.equals("") || des.equals("0")){
+                info.setDescription("---");
+            }
+        }
 
-
-
+        private static void validateBySubject(Info info, String group,boolean isScale) {
 
             String subject = info.getSubject();
 
             switch (subject) {
                 case ProvidersApp.KEY_WORK_EXPERIENCE:
-                    if (!info.getDescription().equals("-")) {
-                        String msg = UtilsApp.validate.validateWorkExperience(info.getDescription());
-                        info.setDescription(msg);
+
+                    String exp = UtilsApp.validate.validateWorkExperience(info.getDescription());
+                    info.setDescription(exp);
+                    info.setSubject("تجربه کاری");
+                    if (!isScale)
+                    info.setIcon(R.drawable.ic_dimensions);
+                    else
+                        info.setIcon(0);
+
+
+                    break;
+
+                case ProvidersApp.KEY_SINCE:
+
+                    String since = UtilsApp.validate.validateSince(info.getDescription(), group);
+                    info.setDescription(since);
+
+                    if (group.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
+                        info.setSubject("سال تاسیس");
+                        if (!isScale)
+                        info.setIcon(R.drawable.ic_under_construction);
+                        else
+                            info.setIcon(0);
+                    }
+
+
+                    else if (group.equals(ProvidersApp.GROUP_NAME_PEOPLE)) {
+
+                        info.setSubject("سن");
+                        if (!isScale)
+                        info.setIcon(R.drawable.ic_under_construction);
+                        else
+                            info.setIcon(0);
                     }
 
 
                     break;
 
                 case ProvidersApp.KEY_IS_EVIDENCE:
+                    info.setSubject("دارای مدرک");
+                    if (!isScale)
+                    info.setIcon(R.drawable.ic_domain);
+                    else
+                        info.setIcon(0);
+                    break;
                 case ProvidersApp.KEY_IS_MEDAL:
-
-
+                    info.setSubject("تایید شده");
+                    if (!isScale)
+                    info.setIcon(R.drawable.ic_domain);
+                    else
+                        info.setIcon(0);
                     break;
 
                 case ProvidersApp.KEY_DEGREE_OF_EDUCATION:
-
-                    // UtilsApp.validate.validateByDescription(info);
-
+                    info.setSubject("مدرک تحصیلی");
+                    if (!isScale)
+                    info.setIcon(R.drawable.ic_magnifying_glass);
+                    else
+                        info.setIcon(0);
                     break;
 
                 case ProvidersApp.KEY_PHONE_NUMBER:
-
-                    //  UtilsApp.validate.validateByDescription(info);
+                    info.setSubject("تلفن تماس");
+                    if (!isScale)
+                    info.setIcon(R.drawable.ic_call_answer);
+                    else
+                        info.setIcon(0);
 
                     break;
 
-
-
-
             }
-
-
-        }
-
-        private static void validateByDescription(Info info) {
-
-            String description = info.getDescription();
-
-            switch (description) {
-
-                case "":
-                case "0":
-                    info.setDescription("-");
-                    break;
-
-            }
-
 
         }
 
@@ -458,18 +454,17 @@ public class UtilsApp {
 
             String description = info.getDescription();
 
-            if (info.isBoolean()){
+            if (info.isBoolean()) {
                 info.setDescription("");
                 if (description.equals("true")) {
                     info.setIcon(R.drawable.ic_validate_true);
-                    // info.setDescription("true");
-                } else if (description.equals("false")){
+                } else if (description.equals("false")) {
                     info.setIcon(R.drawable.ic_validate_false);
 
                 }
 
-            }else {
-                if (description.equals("0") || description.equals("")){
+            } else {
+                if (description.equals("0") || description.equals("")) {
                     info.setDescription("-");
                 }
             }
@@ -498,14 +493,88 @@ public class UtilsApp {
 
         }
 
-        private static boolean isNumber(String workExperience) {
+        private static String validateSince(String since, String group) {
+            if (group.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
+                if(isNumber(since)){
+                            if(Integer.parseInt(since) == 0){
+                                return "---";
+                            }
+                }
+                return " سال " + since;
+            } else if (group.equals(ProvidersApp.GROUP_NAME_PEOPLE)) {
+                int ageInt = 0;
+                if (isNumber(since)) {
+                    int userYear = Integer.parseInt(since);
+                    if (userYear == 0){
+                        return "---";
+                    }
+                    int cYear = Calendar.getInstance().get(Calendar.YEAR);
+                    ageInt = (cYear - userYear) - 621;
+                }
+
+                String age = String.valueOf(ageInt) + " سال ";
+                return age;
+            } else {
+                return since;
+            }
+
+
+        }
+
+        private static boolean isNumber(String string) {
             try {
-                Double.parseDouble(workExperience);
+                Double.parseDouble(string);
                 return true;
             } catch (NumberFormatException e) {
                 return false;
             }
         }
+
+        //----------------------------\\
+/*
+        public static void validatePeople(Info info, String group) {
+
+
+            switch (info.getSubject()) {
+                case ProvidersApp.KEY_SINCE:
+                    info.setSubject("سن");
+                    info.setIcon(R.drawable.ic_under_construction);
+                    break;
+
+                case ProvidersApp.KEY_WORK_EXPERIENCE:
+                    info.setSubject("تجربه کاری");
+                    info.setIcon(R.drawable.ic_dimensions);
+                    break;
+
+
+                case ProvidersApp.KEY_DEGREE_OF_EDUCATION:
+                    info.setSubject("مدرک تحصیلی");
+                    info.setIcon(R.drawable.ic_phone);
+                    break;
+
+                case ProvidersApp.KEY_IS_EVIDENCE:
+                    info.setSubject("دارای مدرک");
+                    if (!isScale) {
+
+                        info.setIcon(R.drawable.ic_heart);
+                    }
+
+                    break;
+
+                case ProvidersApp.KEY_IS_MEDAL:
+                    info.setSubject("تایید شده");
+                    if (!isScale) {
+
+                        info.setIcon(R.drawable.ic_heart);
+                    }
+
+                    break;
+            }
+
+            // validateDescription(info);
+            //  return info;
+        }
+*/
 
     }
 

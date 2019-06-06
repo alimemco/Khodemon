@@ -158,7 +158,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
            // validateInfo(info,holder.desOneImageView,holder.desOneTV);
             if (infoList!= null){
                 Info info = infoListOne.get(position);
-                Info infoPrs = UtilsApp.validate.validateInfo(info);
+                Info infoPrs = UtilsApp.validate.validateInfo(info,locPeoPostOne.getGroup(),true);
                 ScaleAdapter.this.infoListOne.set(position,infoPrs);
 
                 if (info.isBoolean()){
@@ -176,7 +176,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         void bindScale(ScaleHolder holder, Info info) {
 
             //validateInfo(info, holder.desScaleImageView, holder.desScaleTV);
-            UtilsApp.validate.validateInfo(info);
+            UtilsApp.validate.validateInfo(info,locPeoPostOne.getGroup(),true);
 
 
 /*

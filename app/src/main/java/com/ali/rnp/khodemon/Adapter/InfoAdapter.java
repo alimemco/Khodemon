@@ -98,35 +98,56 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MyTextView subjectTV;
         MyTextView descriptionTV;
         ImageView iconIV;
+        ImageView iconDescriptionIV;
 
         DetailAdapterHolder(@NonNull View itemView) {
             super(itemView);
             iconIV = itemView.findViewById(R.id.recycler_view_location_detail_iconIV);
+            iconDescriptionIV = itemView.findViewById(R.id.recycler_view_location_detail_iconDescriptionIV);
             subjectTV = itemView.findViewById(R.id.recycler_view_location_detail_subjectTV);
             descriptionTV = itemView.findViewById(R.id.recycler_view_location_detail_variableTV);
         }
 
         void bindDetail(DetailAdapterHolder holder, Info info) {
 
-            if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)){
-               UtilsApp.parseInfoLocation(info,false);
+            if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
+                //UtilsApp.parseInfoLocation(info,false);
+                UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_LOCATION, false);
+
+
+            } else {
+                //UtilsApp.parseInfoPeople(info,false);
+                UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_PEOPLE, false);
+/*
                 holder.subjectTV.setText(info.getSubject());
                 holder.iconIV.setImageResource(info.getIcon());
-                holder.descriptionTV.setText(info.getDescription());
-            }else {
-                UtilsApp.parseInfoPeople(info,false);
-                holder.subjectTV.setText(info.getSubject());
-                holder.iconIV.setImageResource(info.getIcon());
-                holder.descriptionTV.setText(info.getDescription());
+                holder.descriptionTV.setText(info.getDescription());*/
             }
 
+            holder.subjectTV.setText(info.getSubject());
+            holder.iconIV.setImageResource(info.getIcon());
+           // holder.descriptionTV.setText(info.getDescription());
 
+            if (info.isBoolean()) {
+                if (info.getDescription().equals("true")) {
+                    holder.iconDescriptionIV.setImageResource(R.drawable.ic_validate_true);
+                    holder.descriptionTV.setText("");
+                } else if (info.getDescription().equals("false")) {
+                    holder.iconDescriptionIV.setImageResource(R.drawable.ic_validate_false);
+                    holder.descriptionTV.setText("");
+                }else {
+                    holder.iconDescriptionIV.setImageResource(0);
+                    holder.descriptionTV.setText("-");
+                }
+            }else {
+                holder.iconDescriptionIV.setImageResource(0);
+                if (info.getDescription().equals("") || info.getDescription().equals("0")){
+                    holder.descriptionTV.setText("---");
+                }else {
+                    holder.descriptionTV.setText(info.getDescription());
+                }
 
-
+            }
         }
-
-
     }
-
-
 }
