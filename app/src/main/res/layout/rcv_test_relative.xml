@@ -1,18 +1,14 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layoutDirection="rtl"
-android:paddingBottom="5dp"
-    android:orientation="horizontal"
-    tools:targetApi="jelly_bean_mr1">
-
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:id="@+id/rcv_scale_adapter_decOne"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/gray_200"
         android:gravity="center"
         android:padding="4dp"
@@ -20,7 +16,7 @@ android:paddingBottom="5dp"
         app:layout_constraintLeft_toRightOf="@+id/rcv_scale_adapter_title"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text=" تاقبتث4ف عاقفلعنثف4 نعاث4ف نعا4ف نعثاف5 نتاثفق تالث قل نعثا اول" />
+        tools:text="@string/common_open_on_phone" />
 
     <ImageView
         android:id="@+id/rcv_scale_adapter_decOneImageView"
@@ -28,57 +24,63 @@ android:paddingBottom="5dp"
         android:layout_height="0dp"
         android:contentDescription="@string/app_name"
         android:gravity="center"
-        android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/rcv_scale_adapter_decOne"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/rcv_scale_adapter_title"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rcv_scale_adapter_decOne"
-        app:layout_constraintVertical_bias="1.0" />
+        android:padding="4dp" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:id="@+id/rcv_scale_adapter_title"
         android:layout_width="100dp"
-        android:layout_height="0dp"
-
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="116dp"
+        android:layout_marginLeft="116dp"
+        android:layout_marginEnd="138dp"
+        android:layout_marginRight="138dp"
+        android:layout_marginBottom="414dp"
+        android:layout_toEndOf="@+id/rcv_scale_adapter_decTwo"
+        android:layout_toRightOf="@+id/rcv_scale_adapter_decTwo"
         android:background="@color/gray_100"
         android:gravity="center"
         android:paddingLeft="@dimen/padding_10"
         android:paddingTop="4dp"
         android:paddingRight="@dimen/padding_10"
-
+        android:paddingBottom="2dp"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="قیمت متن طقب قلقل قل" />
+        tools:text="title" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:id="@+id/rcv_scale_adapter_decTwo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rcv_scale_adapter_decOne"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="122dp"
+        android:layout_marginRight="122dp"
         android:background="@color/gray_200"
+
         android:gravity="center"
         android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
 
-        app:layout_constraintRight_toLeftOf="@+id/rcv_scale_adapter_title"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="efe" />
+        tools:text="two" />
 
     <ImageView
         android:id="@+id/rcv_scale_adapter_decTwoImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:contentDescription="@string/app_name"
         android:gravity="center"
         android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/rcv_scale_adapter_decTwo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/rcv_scale_adapter_title"
-        app:layout_constraintTop_toTopOf="@+id/rcv_scale_adapter_decTwo" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
+</RelativeLayout>

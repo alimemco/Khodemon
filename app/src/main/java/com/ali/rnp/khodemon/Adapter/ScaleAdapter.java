@@ -1,7 +1,8 @@
 package com.ali.rnp.khodemon.Adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,28 +130,26 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             desOneImageView = itemView.findViewById(R.id.rcv_scale_adapter_decOneImageView);
             desScaleImageView = itemView.findViewById(R.id.rcv_scale_adapter_decTwoImageView);
 
-           // desScaleTV.setText("-");
-
-
-
 
         }
 
         void bindTitle(ScaleHolder holder, Info info) {
 
-            //UtilsApp.parseTitle(info);
             holder.titleTV.setText(info.getSubject());
 
-           // Info infoPrs = null;
             if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
-                info = UtilsApp.parseInfoLocation(info, true);
-                holder.titleTV.setText(info.getSubject());
+                //info = UtilsApp.parseInfoLocation(info, true);
+                UtilsApp.validate.validateInfo(info,ProvidersApp.GROUP_NAME_LOCATION,true);
+               // holder.titleTV.setText(info.getSubject());
 
             } else {
-                UtilsApp.parseInfoPeople(info, true);
-                holder.titleTV.setText(info.getSubject());
+                //UtilsApp.parseInfoPeople(info, true);
+                UtilsApp.validate.validateInfo(info,ProvidersApp.GROUP_NAME_PEOPLE,true);
+
 
             }
+
+            holder.titleTV.setText(info.getSubject());
 
         }
 
@@ -166,6 +165,17 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     holder.desOneImageView.setImageResource(info.getIcon());
                 }else {
                     holder.desOneTV.setText(info.getDescription());
+
+                    holder.desOneTV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+
+                    int measuredHeight = holder.desOneTV.getMeasuredHeight();
+
+                    Rect bounds = new Rect();
+                    Paint textPaint =  holder.desOneTV.getPaint();
+                    textPaint.getTextBounds(info.getDescription(),0,info.getDescription().length(),bounds);
+                    int height = bounds.height();
+
+                    holder.desOneTV.setMinHeight(convertDpToPx(context,measuredHeight));
                     holder.desOneImageView.setImageResource(0);
                 }
             }
@@ -197,33 +207,38 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     class ScaleTopHolder extends RecyclerView.ViewHolder {
-        ImageView desOneIV;
-        ImageView desScaleIV;
-        MyTextView desOneTextV;
-        MyTextView desScaleTextV;
+        ImageView OneImageView;
+        ImageView ScaleImageView;
+        MyTextView nameOneTextView;
+        MyTextView nameScaleTextView;
+        MyTextView tagOneTextView;
+        MyTextView tagScaleTextView;
 
         ScaleTopHolder(@NonNull View itemView) {
             super(itemView);
-            desOneIV = itemView.findViewById(R.id.rcv_scale_top_adapter_decOne_IV);
-            desScaleIV = itemView.findViewById(R.id.rcv_scale_top_adapter_decTwoIV);
-            desOneTextV = itemView.findViewById(R.id.rcv_scale_top_adapter_decOneTV);
-            desScaleTextV = itemView.findViewById(R.id.rcv_scale_top_adapter_decTwoTV);
+            OneImageView = itemView.findViewById(R.id.rcv_scale_top_adapter_decOne_IV);
+            ScaleImageView = itemView.findViewById(R.id.rcv_scale_top_adapter_decTwoIV);
+            nameOneTextView = itemView.findViewById(R.id.rcv_scale_top_adapter_decOneTV);
+            nameScaleTextView = itemView.findViewById(R.id.rcv_scale_top_adapter_decTwoTV);
+            tagOneTextView = itemView.findViewById(R.id.rcv_scale_top_adapter_decOneTagTv);
+            tagScaleTextView = itemView.findViewById(R.id.rcv_scale_top_adapter_decScaleTagTv);
 
         }
 
         void bindTop(LocationPeople locationPeople) {
-            desOneTextV.setText(locPeoPostOne.getName());
+            nameOneTextView.setText(locationPeople.getName());
+            tagOneTextView.setText(locationPeople.getTag());
 
             if (locationPeople.getOriginalPic() != null) {
                 Picasso.get()
                         .load(locationPeople.getOriginalPic())
                         .centerCrop()
                         .resize(1000, 1000)
-                        .into(desOneIV);
+                        .into(OneImageView);
             }
 
 
-            desScaleIV.setOnClickListener(v -> {
+            ScaleImageView.setOnClickListener(v -> {
                 if (onAddScaleClick != null) {
                     onAddScaleClick.OnAddScale();
                 } else {
@@ -235,22 +250,25 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         void bindScaleTop(LocationPeople locationPeople) {
             if (locationPeople != null) {
-                desScaleTextV.setText(locPeoPostScale.getName());
+                nameScaleTextView.setText(locationPeople.getName());
+                tagScaleTextView.setText(locationPeople.getTag());
+
+
                 if (!locationPeople.getOriginalPic().equals("")){
                     Picasso.get()
                             .load(locationPeople.getOriginalPic())
                             .centerCrop()
                             .resize(1000, 1000)
-                            .into(desScaleIV);
+                            .into(ScaleImageView);
                 }
 
             } else {
-                desScaleTextV.setText("اضافه کردن برای مقایسه");
+                nameScaleTextView.setText("اضافه کردن برای مقایسه");
                 Picasso.get()
                         .load(R.drawable.add_scale)
                         .centerCrop()
                         .resize(1000, 1000)
-                        .into(desScaleIV);
+                        .into(ScaleImageView);
             }
 
         }
@@ -264,5 +282,13 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.context = recyclerView.getContext() ;
+    }
+
+    public int convertDpToPx(Context context, int dp) {
+        return (int)( dp * context.getResources().getDisplayMetrics().density);
+    }
+
+    public  int dpToPx(int dp) {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
 }

@@ -26,6 +26,7 @@ import com.ali.rnp.khodemon.Interface.OnButtonAddClick;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.UtilsApp.ConverterJalali;
 import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.ali.rnp.khodemon.Views.fragments.FragmentBottomSheetCall;
@@ -91,7 +92,11 @@ public class DetailActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
+/*
+        ConverterJalali cj = new ConverterJalali();
+        cj.GregorianToPersian(2019,6,20);
+        Toast.makeText(this, cj.toString(), Toast.LENGTH_LONG).show();
+        */
         initStatusBar();
         initViews();
         initRatingBar();
