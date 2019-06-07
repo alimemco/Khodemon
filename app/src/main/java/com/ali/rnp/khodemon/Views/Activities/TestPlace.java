@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -47,6 +48,9 @@ public class TestPlace extends AppCompatActivity  {
 
         MyTextView price = findViewById(R.id.activity_test_place_price);
         Button marBtn = findViewById(R.id.marginBtn);
+
+        int [] number = {12,25,36,48,25};
+        price.setText(UtilsApp.getMax(number)+"");
 
         ViewTreeObserver observer = price.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(() -> {

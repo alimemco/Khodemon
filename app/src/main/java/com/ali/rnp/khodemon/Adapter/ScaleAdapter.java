@@ -6,7 +6,10 @@ import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
@@ -167,16 +170,29 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     holder.desOneTV.setText(info.getDescription());
 
                     holder.desOneTV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-
-                    int measuredHeight = holder.desOneTV.getMeasuredHeight();
+                    int measuredHeightOne = holder.desOneTV.getMeasuredHeight();
+                    int measuredHeightScale = holder.desScaleTV.getMeasuredHeight();
+                    int measuredHeightTitle = holder.titleTV.getMeasuredHeight();
+                    int [] num = {measuredHeightOne,measuredHeightScale,measuredHeightTitle};
+                   int maximumHeight =  UtilsApp.getMax(num);
 
                     Rect bounds = new Rect();
                     Paint textPaint =  holder.desOneTV.getPaint();
                     textPaint.getTextBounds(info.getDescription(),0,info.getDescription().length(),bounds);
                     int height = bounds.height();
 
-                    holder.desOneTV.setMinHeight(convertDpToPx(context,measuredHeight));
+                    //holder.desOneTV.setHeight(convertDpToPx(context,maximumHeight));
+                    holder.desOneTV.setHeight(convertDpToPx(context,maximumHeight));
+                    holder.desScaleTV.setHeight(convertDpToPx(context,maximumHeight));
+                    holder.titleTV.setHeight(convertDpToPx(context,maximumHeight));
+
+
+
                     holder.desOneImageView.setImageResource(0);
+
+
+
+
                 }
             }
 

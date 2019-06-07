@@ -346,6 +346,13 @@ public class UtilsApp {
         return msg;
     }
 
+    public static int getMax(int[] numbers){
+        int max = numbers[0];
+        for (int i = 0; i < numbers.length; i++) {
+            max = Math.max(max,numbers[i]);
+        }
+        return max;
+    }
 
     public static class validate {
 
