@@ -36,6 +36,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     //private OnItemClickListener onItemClickListener;
     private OnButtonAddClick onButtonAddClick;
+    private OnItemClickListener onItemClickListener;
     private Context context;
     private boolean isEmptyPersonnel;
 
@@ -152,16 +153,8 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         void bindPersonnelView(PersonnelHolder holder, LocationPeople locationPeople) {
 
-
-            //loadImage(holder, locationPeople);
             UtilsApp.getImage(locationPeople,holder.imageView);
 
-        /*if (!locationPeople.getOriginalPic().equals("")){
-            Picasso.get().
-                    load(locationPeople.getOriginalPic())
-                    .placeholder(R.drawable.holder_banner)
-                    .into(holder.imageView);
-        }*/
 
             holder.nameTv.setText(locationPeople.getName());
             holder.jobTv.setText(locationPeople.getTag());
@@ -170,96 +163,30 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, locationPeople.getName(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context, locationPeople.getName(), Toast.LENGTH_SHORT).show();
+                    if (onItemClickListener != null){
+                        onItemClickListener.onItemClick(locationPeople);
+                    }else {
+                        throw new IllegalArgumentException("PersonnelAdapter must be implement 'onItemClickListener' ");
+                    }
                 }
             });
 
         }
 
     }
-/*
-    class PersonnelAddHolder extends RecyclerView.ViewHolder {
-        MyButton addBtn;
 
-        PersonnelAddHolder(@NonNull View itemView) {
-            super(itemView);
-            addBtn = itemView.findViewById(R.id.recycler_view_personnel_add_btn);
-
-
-        }
-
-        void bindAddPersonnel(PersonnelAddHolder mHolder) {
-            mHolder.addBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClickListener != null)
-                        onItemClickListener.onItemClick(v);
-                }
-            });
-        }
-
-
-    }
-*/
-    class PersonnelTitleHolder extends RecyclerView.ViewHolder {
-        MyTextView titleTV;
-
-        PersonnelTitleHolder(@NonNull View itemView) {
-            super(itemView);
-            titleTV = itemView.findViewById(R.id.recycler_view_title_detail_TV);
-
-            titleTV.setText("پرسنل");
-        }
-
-
-    }
-
-
-    private void loadImage(PersonnelHolder holder, LocationPeople locationPeople) {
-        if (!locationPeople.getOriginalPic().equals("")) {
-
-            boolean isLarge;
-            isLarge = locationPeople.getImageWidth() >= 1000;
-            String IMG_ADDRESS;
-
-            IMG_ADDRESS = (isLarge) ?
-                    locationPeople.getImageThumb1000()
-                    : locationPeople.getOriginalPic();
-
-
-            Picasso.get()
-                    .load(locationPeople.getImageThumb150())
-                    .placeholder(R.drawable.holder_banner)
-                    .into(holder.imageView, new Callback() {
-
-
-                        @Override
-                        public void onSuccess() {
-                            Picasso.get()
-                                    .load(IMG_ADDRESS)
-                                    .placeholder(holder.imageView.getDrawable())
-                                    .into(holder.imageView);
-
-                            //imageView.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-
-                    });
-
-        }
-    }
 
     public void setOnButtonAddClick(OnButtonAddClick onButtonAddClick) {
         this.onButtonAddClick = onButtonAddClick;
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public interface OnItemClickListener {
-        void onItemClick(View view);
+        void onItemClick(LocationPeople locationPeople);
     }
 
 }

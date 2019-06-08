@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.internal.Util;
 
 public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -118,7 +119,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return infoTitle.size() + 1;
     }
 
-    class ScaleHolder extends RecyclerView.ViewHolder {
+    class ScaleHolder extends RecyclerView.ViewHolder implements ViewTreeObserver.OnGlobalLayoutListener {
         MyTextView titleTV;
         MyTextView desOneTV;
         MyTextView desScaleTV;
@@ -168,36 +169,33 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     holder.desOneImageView.setImageResource(info.getIcon());
                 }else {
                     holder.desOneTV.setText(info.getDescription());
-
-                    holder.desOneTV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                    int measuredHeightOne = holder.desOneTV.getMeasuredHeight();
-                    int measuredHeightScale = holder.desScaleTV.getMeasuredHeight();
-                    int measuredHeightTitle = holder.titleTV.getMeasuredHeight();
-                    int [] num = {measuredHeightOne,measuredHeightScale,measuredHeightTitle};
-                   int maximumHeight =  UtilsApp.getMax(num);
-
-                    Rect bounds = new Rect();
-                    Paint textPaint =  holder.desOneTV.getPaint();
-                    textPaint.getTextBounds(info.getDescription(),0,info.getDescription().length(),bounds);
-                    int height = bounds.height();
-
-                    //holder.desOneTV.setHeight(convertDpToPx(context,maximumHeight));
-                    holder.desOneTV.setHeight(convertDpToPx(context,maximumHeight));
-                    holder.desScaleTV.setHeight(convertDpToPx(context,maximumHeight));
-                    holder.titleTV.setHeight(convertDpToPx(context,maximumHeight));
-
-
-
                     holder.desOneImageView.setImageResource(0);
 
 
+                    ViewTreeObserver observer = holder.desOneTV.getViewTreeObserver();
+                    observer.addOnGlobalLayoutListener(() -> setHeightTextView(holder));
 
+                    ViewTreeObserver obScale = holder.desScaleTV.getViewTreeObserver();
+                    obScale.addOnGlobalLayoutListener(() -> setHeightTextView(holder));
+
+                    ViewTreeObserver obTitle = holder.titleTV.getViewTreeObserver();
+                    obTitle.addOnGlobalLayoutListener(() -> setHeightTextView(holder));
 
                 }
             }
 
 
         }
+
+        private void setHeightTextView(ScaleHolder holder) {
+            int numbers[] = {holder.desOneTV.getHeight(),holder.desScaleTV.getHeight(),holder.titleTV.getHeight()};
+            int max =  UtilsApp.getMax(numbers);
+
+            holder.desOneTV.setHeight(max);
+            holder.desScaleTV.setHeight(max);
+            holder.titleTV.setHeight(max);
+        }
+
 
         void bindScale(ScaleHolder holder, Info info) {
 
@@ -220,7 +218,20 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
         }
+
+        @Override
+        public void onGlobalLayout() {
+
+            int numbers[] = {desOneTV.getHeight(),desScaleTV.getHeight(),titleTV.getHeight()};
+            int max =  UtilsApp.getMax(numbers);
+
+            desOneTV.setHeight(max);
+            desScaleTV.setHeight(max);
+            titleTV.setHeight(max);
+        }
     }
+
+
 
     class ScaleTopHolder extends RecyclerView.ViewHolder {
         ImageView OneImageView;

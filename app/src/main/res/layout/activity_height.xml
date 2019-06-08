@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:context=".HeightActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="textOne"
+        android:layout_weight="1"
+        android:textSize="@dimen/normal_textSize_sp"
+        android:padding="@dimen/standard_margin_2x"
+        android:background="@color/gray_300"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="لورم ایپسوم متن ساختگی با تولید  صنعت چاپ و با استفاده از طراحا مجله در ستهر دستسوالات "
+        android:layout_weight="1"
+        android:textSize="@dimen/normal_textSize_sp"
+        android:padding="@dimen/standard_margin_2x"
+        android:background="@color/gray_100"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="لورم ایپسوم متن ساختگی با تولrege"
+        android:layout_weight="1"
+        android:textSize="@dimen/normal_textSize_sp"
+        android:padding="@dimen/standard_margin_2x"
+        android:background="@color/gray_300"/>
+
+</LinearLayout>

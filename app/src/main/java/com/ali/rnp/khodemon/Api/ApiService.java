@@ -54,6 +54,7 @@ public class ApiService {
     private final static String API_GET_PERSONNEL = "http://khodemon.ir/getPersonnel.php";
     private final static String API_GET_PERSON_LIST = "http://khodemon.ir/getPersonList.php";
     private final static String API_GET_CATEGORY_SCALE = "http://khodemon.ir/getCategory.php";
+    private final static String API_GET_SIMILAR = "http://khodemon.ir/getSimilar.php";
 
 
     public static final int STATUS_REGISTER_ERROR = 616;
@@ -511,6 +512,35 @@ public class ApiService {
 
     }
 
+    public void getSimilar(String GROUP_NAME,OnReceivedSimilar onReceivedSimilar) {
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(ProvidersApp.GROUP_NAME,GROUP_NAME);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SIMILAR, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    parseJsonSimilar(response, onReceivedSimilar);
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    onReceivedSimilar.onReceivedSmr(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString());
+                }
+            });
+
+            request.setRetryPolicy(new DefaultRetryPolicy());
+            Volley.newRequestQueue(context).add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public void addPersonnel(int LOCATION_ID, int PEOPLE_ID, OnAddPersonnel onAddPersonnel) {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -897,8 +927,6 @@ public class ApiService {
 
     }
 
-
-
     private void parseJsonPersonList(JSONObject response, OnGetPersonList onGetPersonList) {
 
         try {
@@ -977,6 +1005,45 @@ public class ApiService {
         }
     }
 
+    private void parseJsonSimilar(JSONObject response, OnReceivedSimilar onReceivedSimilar) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(response.toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("result");
+            JSONObject jsonObjectRes = jsonArray.getJSONObject(0);
+            boolean isSuccess = Boolean.valueOf(jsonObjectRes.getString("success"));
+
+            if (isSuccess) {
+                JSONArray jsonArrayItems = jsonObjectRes.getJSONArray("items");
+
+                ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
+
+                for (int i = 0; i < jsonArrayItems.length(); i++) {
+
+                    JSONObject jsonObjectItems = jsonArrayItems.getJSONObject(i);
+                    LocationPeople locationPeople = new LocationPeople();
+                    locationPeople.setId(jsonObjectItems.getInt("ID"));
+                    locationPeople.setName(jsonObjectItems.getString("nameLocPeo"));
+                    locationPeople.setTag(jsonObjectItems.getString("tagLocPeo"));
+                    locationPeople.setOriginalPic(jsonObjectItems.getString("original_pic"));
+                    locationPeople.setImageThumb150(jsonObjectItems.getString("thumb_pic"));
+
+                    locationPeopleList.add(locationPeople);
+                }
+
+                onReceivedSimilar.onReceivedSmr(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locationPeopleList, null);
+
+            } else {
+                String msg = jsonObjectRes.getString("message");
+                onReceivedSimilar.onReceivedSmr(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
+            }
+        } catch (JSONException e) {
+            //e.printStackTrace();
+            onReceivedSimilar.onReceivedSmr(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, e.toString());
+
+        }
+    }
+
     private String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
@@ -1042,10 +1109,6 @@ public class ApiService {
         void onReceived(int successCode, ArrayList<LocationPeople> locationPeopleList, String error);
     }
 
-    public interface OnReceivedCategory {
-        void onReceived(int successCode, ArrayList<LocationPeople> locationPeopleList, String error);
-    }
-
     public interface OnPersonnelReceived {
         void onItemReceived(int status, ArrayList<LocationPeople> locationPeopleList, String error);
     }
@@ -1054,9 +1117,14 @@ public class ApiService {
         void onAdded(int successCode, String error);
     }
 
-    public interface OnPhoneReceived {
-        void onReceived(String number);
+    public interface OnReceivedCategory {
+        void onReceived(int successCode, ArrayList<LocationPeople> locationPeopleList, String error);
     }
+
+    public interface OnReceivedSimilar {
+        void onReceivedSmr(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error);
+    }
+
 
 
 }

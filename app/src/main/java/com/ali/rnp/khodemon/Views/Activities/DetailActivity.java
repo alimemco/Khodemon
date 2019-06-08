@@ -30,6 +30,7 @@ import com.ali.rnp.khodemon.UtilsApp.ConverterJalali;
 import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.ali.rnp.khodemon.Views.fragments.FragmentBottomSheetCall;
+import com.android.volley.VolleyError;
 import com.google.android.material.appbar.AppBarLayout;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
@@ -55,6 +56,9 @@ public class DetailActivity extends AppCompatActivity implements
         ApiService.OnPersonnelReceived,
         ApiService.OnReceivedInfo,
         ApiService.OnGetDetails,
+        ApiService.OnGetPictures,
+        ApiService.OnReceivedSimilar,
+PersonnelAdapter.OnItemClickListener,
         OnButtonAddClick {
 
 
@@ -70,6 +74,8 @@ public class DetailActivity extends AppCompatActivity implements
 
     private RatingBar ratingBar;
     private MyTextView ratingBarTextView;
+
+    private MyTextView titleSimilarTv;
 
     private RecyclerView personnelRecyclerView;
     private RecyclerView similarRecyclerView;
@@ -200,6 +206,7 @@ public class DetailActivity extends AppCompatActivity implements
         similarRecyclerView = findViewById(R.id.activity_detail_recyclerView_similar);
         personnelRecyclerView = findViewById(R.id.activity_detail_job_recyclerView_personnel);
         infoRecyclerView = findViewById(R.id.activity_detail_recyclerView_info);
+        titleSimilarTv = findViewById(R.id.activity_detail_textView_similar);
 
 
         mPager = findViewById(R.id.pager);
@@ -210,38 +217,30 @@ public class DetailActivity extends AppCompatActivity implements
 
         if (extras != null) {
 
-
-            //String locPeoName = extras.getString(ProvidersApp.KEY_LOC_PEO_NAME);
-            //String locPeoTag = extras.getString(ProvidersApp.KEY_LOC_PEO_TAG);
             locPeoPost = extras.getParcelable(ProvidersApp.KEY_LOCATION_PEOPLE);
-            post_id = locPeoPost.getId();
+
+            if(locPeoPost!= null){
+
+                nameLocPeoTV.setText(locPeoPost.getName());
+                tagTV.setText(locPeoPost.getTag());
 
 
-            ApiService apiService = new ApiService(this);
+                post_id = locPeoPost.getId();
+                ApiService apiService = new ApiService(this);
 
-            apiService.getPicture(post_id, (pictureUploadList, error) -> {
+                apiService.getPicture(post_id,this);
+                apiService.getInfo(true,post_id, locPeoPost.getGroup(),this);
+                apiService.getDetail(post_id,this);
+                apiService.getSimilar(locPeoPost.getGroup(),this);
 
-                if (pictureUploadList != null && error == null) {
-                    initViewPager(pictureUploadList);
-
-
-                } else {
-                    Toast.makeText(DetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                if (locPeoPost.getGroup().equals(ProvidersApp.GROUP_NAME_LOCATION)){
+                    apiService.getPersonnel(post_id, this);
+                    titleSimilarTv.setText("مکان های مشابه");
+                }else {
+                    titleSimilarTv.setText("متخصص های مشابه");
                 }
-            });
-
-
-            apiService.getPersonnel(post_id, this);
-            apiService.getInfo(true,post_id, locPeoPost.getGroup(),this);
-            apiService.getDetail(post_id,this);
-
-
-            nameLocPeoTV.setText(locPeoPost.getName());
-            tagTV.setText(locPeoPost.getTag());
-
-
+            }
         }
-
     }
 
     private void initStatusBar() {
@@ -344,15 +343,10 @@ public class DetailActivity extends AppCompatActivity implements
                     personnelRecyclerView.setLayoutManager(linearLayoutManager);
                     PersonnelAdapter personnelAdapter = new PersonnelAdapter(DetailActivity.this, locationPeopleList);
                     personnelAdapter.setOnButtonAddClick(this);
+                    personnelAdapter.setOnItemClickListener(this);
                     personnelRecyclerView.setAdapter(personnelAdapter);
 
 
-                    SimilarAdapter similarAdapter = new SimilarAdapter(DetailActivity.this, locationPeopleList);
-                    LinearLayoutManager linearLayoutManagerSim = new LinearLayoutManager(
-                            this, RecyclerView.HORIZONTAL, false);
-
-                    similarRecyclerView.setLayoutManager(linearLayoutManagerSim);
-                    similarRecyclerView.setAdapter(similarAdapter);
                 }
 
                 break;
@@ -479,5 +473,41 @@ public class DetailActivity extends AppCompatActivity implements
                 break;
 
         }
+    }
+
+    @Override
+    public void OnGetPicture(ArrayList<PictureUpload> pictureUploadList, VolleyError error) {
+        if (pictureUploadList != null && error == null) {
+            initViewPager(pictureUploadList);
+
+
+        } else {
+            Toast.makeText(DetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onReceivedSmr(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error) {
+        if (statusCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY){
+
+
+            SimilarAdapter similarAdapter = new SimilarAdapter(DetailActivity.this, locationPeopleList);
+            LinearLayoutManager linearLayoutManagerSim = new LinearLayoutManager(
+                    this, RecyclerView.HORIZONTAL, false);
+
+            similarRecyclerView.setLayoutManager(linearLayoutManagerSim);
+            similarRecyclerView.setAdapter(similarAdapter);
+
+
+        }else {
+            String msg = UtilsApp.statusCodeToError(statusCode,error);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onItemClick(LocationPeople locationPeople) {
+        Intent i = new Intent(DetailActivity.this,DetailActivity.class);
+        Toast.makeText(this, locationPeople.getName(), Toast.LENGTH_SHORT).show();
     }
 }
