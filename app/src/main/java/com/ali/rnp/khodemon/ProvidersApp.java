@@ -82,6 +82,9 @@ public class ProvidersApp {
     public static final String KEY_BUNDLE_POSITION = "POSITION";
     public static final String KEY_BUNDLE_IMG_LIST = "IMAGE_LIST";
     public static final String KEY_BUNDLE_QUESTION = "QUESTION";
+    public static final String KEY_BUNDLE_PEOPLE_ID = "PEOPLE_ID";
+    public static final String KEY_BUNDLE_POSITIVE_BUTTON = "POSITIVE";
+    public static final String KEY_BUNDLE_NEGATIVE_BUTTON = "NEGATIVE";
 
 
 

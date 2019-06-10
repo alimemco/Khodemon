@@ -15,6 +15,7 @@ import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -32,18 +33,18 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public InfoAdapter(ArrayList<Info> infoList, String group) {
 
-        //this.infoList = infoList;
+
         this.GROUP_NAME = group;
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-
-        for (int i = 0; i < infoList.size(); i++) {
-            Info info = infoList.get(i) ;
-
-            if (info.getDescription().equals("") || info.getDescription().equals("0")){
-                infoList.remove(i);
-            }
+        Iterator<Info> i = infoList.iterator();
+        while (i.hasNext()){
+            Info s = i.next();
+            String t = s.getDescription();
+            if (t.equals("0") || t.equals(""))
+            i.remove();
         }
+
         this.infoList = infoList;
 
     }

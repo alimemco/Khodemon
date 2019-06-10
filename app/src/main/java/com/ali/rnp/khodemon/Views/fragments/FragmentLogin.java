@@ -156,7 +156,7 @@ public class FragmentLogin extends Fragment {
                                     break;
 
                                 case 1:
-                                    status = "User Not Found";
+                                    status = "Person Not Found";
                                     break;
 
                                 case 2:

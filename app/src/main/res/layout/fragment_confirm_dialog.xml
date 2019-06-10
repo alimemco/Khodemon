@@ -4,53 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Dialogs.ConfirmDialog"
-    android:background="@drawable/shape_background_dialog_fragment">
+    android:background="@drawable/shape_background_dialog_fragment"
+    tools:context=".Dialogs.ConfirmDialog">
 
-    <com.ali.rnp.khodemon.MyLibrary.MyTextView
-        android:id="@+id/fragment_confirm_question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:text="سوال اینجاست ؟"
-        android:textSize="@dimen/normal_textSize_sp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/fragment_confirm_dialog_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        tools:src="@drawable/logo_nafis_draw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/fragment_confirm_question"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/standard_margin_2x"
+        android:gravity="center"
+        android:textSize="@dimen/normal_textSize_sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_confirm_dialog_image"
+        tools:text="  و متن طولانی برای نمایش سوال اینجاست ؟" />
+
+    <com.ali.rnp.khodemon.MyLibrary.MyButton
         android:id="@+id/fragment_confirm_answer_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/ripple_positive_button"
         android:text="تایید"
-        android:padding="16dp"
         android:textColor="@color/price_green"
         android:textSize="@dimen/normal_textSize_sp"
-        app:fontCustom="shp_iranSansMobileBold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="
+        parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/fragment_confirm_answer_cancel"
+        app:layout_constraintLeft_toRightOf="@+id/fragment_confirm_answer_cancel"
         app:layout_constraintTop_toBottomOf="@+id/fragment_confirm_question" />
 
-    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+    <com.ali.rnp.khodemon.MyLibrary.MyButton
         android:id="@+id/fragment_confirm_answer_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ripple_negative_button"
         android:text="انصراف"
-        android:padding="16dp"
         android:textColor="@color/red300"
         android:textSize="@dimen/normal_textSize_sp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_confirm_answer_ok"
-        app:layout_constraintEnd_toStartOf="@+id/fragment_confirm_answer_ok"
+        app:layout_constraintRight_toLeftOf="@+id/fragment_confirm_answer_ok"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fragment_confirm_answer_ok" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

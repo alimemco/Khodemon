@@ -1,11 +1,13 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -16,16 +18,20 @@ import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Dialogs.ConfirmDialog;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 
 import java.util.ArrayList;
 
 public class ChoosePersonnelActivity extends AppCompatActivity implements
         ChoosePersonnelAdapter.OnItemClickListener,
         ApiService.OnGetPersonList,
-        ApiService.OnAddPersonnel {
+        ApiService.OnAddPersonnel,
+ConfirmDialog.OnClickButtonDialog{
 
     private RecyclerView rcv;
+    private Toolbar toolbar;
     private int LOCATION_ID;
+    private int PEOPLE_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +39,29 @@ public class ChoosePersonnelActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_choose_personnel);
 
         initView();
-
         initRCV();
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.activity_choose_personnel_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar !=null){
+
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 
     private void initView() {
@@ -52,14 +79,9 @@ public class ChoosePersonnelActivity extends AppCompatActivity implements
     }
 
 
-
-
     //choose personnel Adapter
     @Override
     public void onItemClick(LocationPeople locationPeople) {
-       // Toast.makeText(this, "Add This Person "+PEOPLE_ID, Toast.LENGTH_SHORT).show();
-       // int PEOPLE_ID = locationPeople.getId();
-        showConfirmDialog(locationPeople);
 
         showDialog(locationPeople);
 
@@ -67,38 +89,22 @@ public class ChoosePersonnelActivity extends AppCompatActivity implements
     }
 
     private void showDialog(LocationPeople locationPeople) {
-        int PEOPLE_ID = locationPeople.getId();
+       PEOPLE_ID = locationPeople.getId();
 
-        String q = "آیا می خواهید " +
-                locationPeople.getName() +
-                " را به پرسنل این مکان اضافه کنید ؟";
+        String question =
+                locationPeople.getName()
+                        +"\n"+
+                " را اضافه می کنید ؟";
 
-        ConfirmDialog dialog = ConfirmDialog.newInstance(q);
+        ConfirmDialog dialog = new ConfirmDialog.Builder()
+                .setQuestion(question)
+                .setLocationPeople(locationPeople)
+                .setPositiveListener(this)
+                .setNegativeButton(this)
+                .create();
         dialog.show(getSupportFragmentManager(),"tag");
 
-    }
 
-    private void showConfirmDialog(LocationPeople locationPeople) {
-        int PEOPLE_ID = locationPeople.getId();
-
-        StringBuilder question = new StringBuilder();
-        question.append("آیا می خواهید ");
-        question.append(locationPeople.getName());
-        question.append(" را به پرسنل این مکان اضافه کنید ؟");
-
-
-        new AlertDialog.Builder(this)
-                .setTitle(locationPeople.getName())
-                .setMessage(question)
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                   ApiService apiService = new ApiService(this);
-                   apiService.addPersonnel(LOCATION_ID,PEOPLE_ID,ChoosePersonnelActivity.this);
-                })
-                .setNegativeButton(android.R.string.no, (dialog, which) -> {
-                    dialog.dismiss();
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
     }
 
     @Override
@@ -141,13 +147,26 @@ public class ChoosePersonnelActivity extends AppCompatActivity implements
     @Override
     public void onAdded(int successCode, String error) {
         if (successCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY){
-            Toast.makeText(this, "با موفقیت اضافه شد", Toast.LENGTH_LONG).show();
+            Toast.makeText(ChoosePersonnelActivity.this, "با موفقیت اضافه شد", Toast.LENGTH_LONG).show();
             Intent intent = new Intent();
             intent.putExtra(ProvidersApp.KEY_LOCATION_ID,LOCATION_ID);
             setResult(Activity.RESULT_OK,intent);
             finish();
         }else  if (error != null){
-            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+            String msg = UtilsApp.statusCodeToError(successCode,error);
+            Toast.makeText(ChoosePersonnelActivity.this, msg, Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onClickDialog(Dialog dialog, int which) {
+
+        if (which == ConfirmDialog.BUTTON_POSITIVE){
+            ApiService apiService = new ApiService(ChoosePersonnelActivity.this);
+            apiService.addPersonnel(LOCATION_ID, PEOPLE_ID,this);
+        }else if (which == ConfirmDialog.BUTTON_NEGATIVE){
+            dialog.dismiss();
+        }
+
     }
 }

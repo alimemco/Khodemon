@@ -11,9 +11,18 @@
         android:layout_height="wrap_content"
         android:background="@color/white">
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/activity_choose_personnel_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"/>
+            android:background="@color/white">
+            <com.ali.rnp.khodemon.MyLibrary.MyTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_textSize_sp"
+                android:layout_marginRight="@dimen/standard_margin_2x"
+                android:gravity="right"
+                android:text="انتخاب پرسنل"/>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView

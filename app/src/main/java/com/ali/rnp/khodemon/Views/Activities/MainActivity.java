@@ -595,6 +595,6 @@ FragmentUserInfo.OnLogOut{
     @Override
     public void OnLoginOut() {
         fragmentReplace(fragmentUser);
-        Toast.makeText(this, "Log Out User :D ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Log Out Person :D ", Toast.LENGTH_SHORT).show();
     }
 }
