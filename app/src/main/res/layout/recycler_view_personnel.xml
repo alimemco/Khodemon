@@ -47,7 +47,7 @@
         android:layout_marginBottom="8dp"
         android:text="تخصص"
         android:textSize="@dimen/very_small_textSize_sp"
-        android:textColor="@color/colorPrimary70"
+        android:textColor="@color/colorPrimaryS45"
         app:fontCustom="shp_iranSansMobile"
         app:layout_constraintBottom_toBottomOf="@+id/recycler_view_personnel_image"
         app:layout_constraintEnd_toEndOf="@+id/recycler_view_personnel_name"

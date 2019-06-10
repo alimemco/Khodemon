@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.ali.rnp.khodemon.Adapter.ChoosePersonnelAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.Dialogs.ConfirmDialog;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 
@@ -60,6 +61,20 @@ public class ChoosePersonnelActivity extends AppCompatActivity implements
        // int PEOPLE_ID = locationPeople.getId();
         showConfirmDialog(locationPeople);
 
+        showDialog(locationPeople);
+
+
+    }
+
+    private void showDialog(LocationPeople locationPeople) {
+        int PEOPLE_ID = locationPeople.getId();
+
+        String q = "آیا می خواهید " +
+                locationPeople.getName() +
+                " را به پرسنل این مکان اضافه کنید ؟";
+
+        ConfirmDialog dialog = ConfirmDialog.newInstance(q);
+        dialog.show(getSupportFragmentManager(),"tag");
 
     }
 

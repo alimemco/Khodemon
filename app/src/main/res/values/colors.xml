@@ -69,6 +69,10 @@
     <color name="greenH200">#a5d6a7</color>
 
 
+<!-- S VALUE CHANGED IN  https://colordesigner.io -->
+    <color name="colorPrimaryS45">#88BAF7</color>
+
+
 
     <array name="gradientPeriodicClouds">
         <item>@color/colorAccent</item>

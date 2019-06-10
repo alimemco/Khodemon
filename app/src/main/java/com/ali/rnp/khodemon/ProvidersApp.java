@@ -77,9 +77,13 @@ public class ProvidersApp {
     public static final String KEY_LOCATION_PEOPLE = "LOCATION_PEOPLE";
     public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";
 
+    //*** bundle ***//
     public static final String KEY_IMG = "IMAGE";
     public static final String KEY_BUNDLE_POSITION = "POSITION";
     public static final String KEY_BUNDLE_IMG_LIST = "IMAGE_LIST";
+    public static final String KEY_BUNDLE_QUESTION = "QUESTION";
+
+
 
 
     public static final String KEY_JSON_OBJECT_GROUP_NAME= "group_name";

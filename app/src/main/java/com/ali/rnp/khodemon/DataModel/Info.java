@@ -6,6 +6,7 @@ public class Info {
     private String description;
     private int icon;
     private boolean isBoolean;
+    private boolean isVisible = true;
 
     public String getSubject() {
         return subject;
@@ -37,5 +38,13 @@ public class Info {
 
     public void setBoolean(boolean aBoolean) {
         isBoolean = aBoolean;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }

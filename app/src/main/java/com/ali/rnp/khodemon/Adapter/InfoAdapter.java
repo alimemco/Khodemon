@@ -32,10 +32,19 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public InfoAdapter(ArrayList<Info> infoList, String group) {
 
-
-        this.infoList = infoList;
+        //this.infoList = infoList;
         this.GROUP_NAME = group;
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+
+        for (int i = 0; i < infoList.size(); i++) {
+            Info info = infoList.get(i) ;
+
+            if (info.getDescription().equals("") || info.getDescription().equals("0")){
+                infoList.remove(i);
+            }
+        }
+        this.infoList = infoList;
 
     }
 
@@ -82,7 +91,16 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (holder instanceof DetailAdapterHolder) {
             DetailAdapterHolder mHolder = (DetailAdapterHolder) holder;
-            mHolder.bindDetail(mHolder, infoList.get(position - 1));
+            Info info = infoList.get(position - 1) ;
+            if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
+                UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_LOCATION, false);
+
+            } else {
+                UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_PEOPLE, false);
+            }
+
+                mHolder.bindDetail(mHolder, info);
+
         }
 
 
@@ -90,7 +108,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return infoList.size() + 2;
+        return infoList.isEmpty() ? 2 : infoList.size() + 2;
     }
 
 
@@ -99,6 +117,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MyTextView descriptionTV;
         ImageView iconIV;
         ImageView iconDescriptionIV;
+        ImageView arrowIV;
 
         DetailAdapterHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,27 +125,19 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             iconDescriptionIV = itemView.findViewById(R.id.recycler_view_location_detail_iconDescriptionIV);
             subjectTV = itemView.findViewById(R.id.recycler_view_location_detail_subjectTV);
             descriptionTV = itemView.findViewById(R.id.recycler_view_location_detail_variableTV);
+            arrowIV = itemView.findViewById(R.id.recycler_view_location_detail_imageView_arrow);
         }
 
         void bindDetail(DetailAdapterHolder holder, Info info) {
-
+/*
             if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
-                //UtilsApp.parseInfoLocation(info,false);
                 UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_LOCATION, false);
 
-
             } else {
-                //UtilsApp.parseInfoPeople(info,false);
                 UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_PEOPLE, false);
-/*
-                holder.subjectTV.setText(info.getSubject());
-                holder.iconIV.setImageResource(info.getIcon());
-                holder.descriptionTV.setText(info.getDescription());*/
-            }
-
+            }*/
             holder.subjectTV.setText(info.getSubject());
             holder.iconIV.setImageResource(info.getIcon());
-           // holder.descriptionTV.setText(info.getDescription());
 
             if (info.isBoolean()) {
                 if (info.getDescription().equals("true")) {
@@ -136,16 +147,21 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holder.iconDescriptionIV.setImageResource(R.drawable.ic_validate_false);
                     holder.descriptionTV.setText("");
                 }else {
+
                     holder.iconDescriptionIV.setImageResource(0);
                     holder.descriptionTV.setText("-");
+
                 }
             }else {
-                holder.iconDescriptionIV.setImageResource(0);
-                if (info.getDescription().equals("") || info.getDescription().equals("0")){
-                    holder.descriptionTV.setText("---");
-                }else {
-                    holder.descriptionTV.setText(info.getDescription());
+
+                    holder.iconDescriptionIV.setImageResource(0);
+                    if (info.getDescription().equals("") || info.getDescription().equals("0")){
+                        holder.descriptionTV.setText("---");
+                    }else {
+                        holder.descriptionTV.setText(info.getDescription());
+
                 }
+
 
             }
         }

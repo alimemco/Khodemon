@@ -80,7 +80,6 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }
 
-
     }
 
     @NonNull
@@ -114,20 +113,11 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-
         if (holder instanceof PersonnelHolder) {
             PersonnelHolder mHolder = (PersonnelHolder) holder;
             mHolder.bindPersonnelView(mHolder, locationPeopleList.get(position-1));
 
-        } /*else if (holder instanceof ButtonAddHolder) {
-
-            PersonnelAddHolder mHolder = (PersonnelAddHolder) holder;
-            mHolder.bindAddPersonnel(mHolder);
-
-
-        }*/
-
-
+        }
     }
 
 

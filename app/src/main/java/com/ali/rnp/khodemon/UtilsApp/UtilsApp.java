@@ -379,9 +379,23 @@ public class UtilsApp {
 
         private static void validateBySubject(Info info, String group,boolean isScale) {
 
+            if (!isScale){
+                if (info.getDescription().equals("") || info.getDescription().equals("0")){
+                    info.setVisible(false);
+                }
+            }
+
             String subject = info.getSubject();
 
             switch (subject) {
+
+                case ProvidersApp.KEY_DIMENSIONS:
+
+                    info.setSubject("مساحت مکان");
+                    info.setIcon(R.drawable.ic_dimensions);
+
+                    break;
+
                 case ProvidersApp.KEY_WORK_EXPERIENCE:
 
                     String exp = UtilsApp.validate.validateWorkExperience(info.getDescription());
