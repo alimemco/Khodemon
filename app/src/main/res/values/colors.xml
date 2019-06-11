@@ -60,6 +60,7 @@
 
     <color name="item_pressed">#8f8f8f</color>
 
+    <!-- H is Color Level -->
     <color name="colorPrimary50">#50509AF7</color>
     <color name="colorPrimary70">#70509AF7</color>
     <color name="blueH50">#e3f2fd</color>
@@ -67,6 +68,8 @@
     <color name="yellowH200">#fff59d</color>
     <color name="greenH100">#c8e6c9</color>
     <color name="greenH200">#a5d6a7</color>
+    <color name="orangeH200">#FFCC80</color>
+    <color name="orangeH500">#FF9800</color>
 
 
 <!-- S VALUE CHANGED IN  https://colordesigner.io -->

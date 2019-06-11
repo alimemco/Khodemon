@@ -26,7 +26,6 @@ import com.ali.rnp.khodemon.Interface.OnButtonAddClick;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.UtilsApp.ConverterJalali;
 import com.ali.rnp.khodemon.UtilsApp.StatusBarUtil;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.ali.rnp.khodemon.Views.fragments.FragmentBottomSheetCall;
@@ -39,8 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -58,7 +55,7 @@ public class DetailActivity extends AppCompatActivity implements
         ApiService.OnGetDetails,
         ApiService.OnGetPictures,
         ApiService.OnReceivedSimilar,
-PersonnelAdapter.OnItemClickListener,
+        PersonnelAdapter.OnItemClickListener,
         OnButtonAddClick {
 
 
@@ -98,35 +95,18 @@ PersonnelAdapter.OnItemClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-/*
+
+        initStatusBar();
+        initViews();
+        initBundle();
+        initRatingBar();
+        initToolbar();
+
+        /*
         ConverterJalali cj = new ConverterJalali();
         cj.GregorianToPersian(2019,6,20);
         Toast.makeText(this, cj.toString(), Toast.LENGTH_LONG).show();
         */
-        initStatusBar();
-        initViews();
-        initRatingBar();
-        initToolbar();
-        initFloatActionButton();
-
-
-        //constraintLayout = findViewById(R.id.constraintLayout4);
-        // constraintLayout.setVisibility(View.INVISIBLE);
-        //constraintLayout.setAlpha(0);
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //UtilsApp.animMoveViewVisible(constraintLayout);
-                //constraintLayout.animate().y(25f);
-
-
-            }
-        }, 2000);
-
-
-
 
 
 /*
@@ -158,23 +138,37 @@ PersonnelAdapter.OnItemClickListener,
 
     }
 
-    private void initFloatActionButton() {
-        ImageView callIV = findViewById(R.id.activity_detail_call_imageView);
-        ImageView scaleIV = findViewById(R.id.activity_detail_scale_imageView);
+    private void initBundle() {
+        Bundle extras = getIntent().getExtras();
 
-        callIV.setOnClickListener(v -> {
-            FragmentBottomSheetCall fragmentBottomSheetCall = FragmentBottomSheetCall.newInstance(number);
-            fragmentBottomSheetCall.show(getSupportFragmentManager(), "FragmentBottomSheetCall");
-        });
+        if (extras != null) {
 
-        scaleIV.setOnClickListener(v -> {
-            Intent i = new Intent(DetailActivity.this,ScaleActivity.class);
-            i.putExtra(ProvidersApp.KEY_POST_ID,post_id);
-           // i.putExtra(ProvidersApp.GROUP_NAME,wef);
-            i.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE,locPeoPost);
-            startActivity(i);
-        });
+            locPeoPost = extras.getParcelable(ProvidersApp.KEY_LOCATION_PEOPLE);
+
+            if (locPeoPost != null) {
+
+                nameLocPeoTV.setText(locPeoPost.getName());
+                tagTV.setText(locPeoPost.getTag());
+
+
+                post_id = locPeoPost.getId();
+                ApiService apiService = new ApiService(this);
+
+                apiService.getPicture(post_id, this);
+                apiService.getInfo(true, post_id, locPeoPost.getGroup(), this);
+                apiService.getDetail(post_id, this);
+                apiService.getSimilar(locPeoPost.getGroup(), this);
+
+                if (locPeoPost.getGroup().equals(ProvidersApp.GROUP_NAME_LOCATION)) {
+                    apiService.getPersonnel(post_id, this);
+                    titleSimilarTv.setText("مکان های مشابه");
+                } else {
+                    titleSimilarTv.setText("متخصص های مشابه");
+                }
+            }
+        }
     }
+
 
     private void initRatingBar() {
 
@@ -208,39 +202,20 @@ PersonnelAdapter.OnItemClickListener,
         infoRecyclerView = findViewById(R.id.activity_detail_recyclerView_info);
         titleSimilarTv = findViewById(R.id.activity_detail_textView_similar);
 
+        ImageView callIV = findViewById(R.id.activity_detail_call_imageView);
+        ImageView scaleIV = findViewById(R.id.activity_detail_scale_imageView);
+        ImageView commentIV = findViewById(R.id.activity_detail_comment_imageView);
+
+        callIV.setOnClickListener(this);
+        scaleIV.setOnClickListener(this);
+        commentIV.setOnClickListener(this);
+
 
         mPager = findViewById(R.id.pager);
         dotsIndicator = findViewById(R.id.dots_indicator);
         dotsIndicator.setVisibility(View.INVISIBLE);
 
-        Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
-
-            locPeoPost = extras.getParcelable(ProvidersApp.KEY_LOCATION_PEOPLE);
-
-            if(locPeoPost!= null){
-
-                nameLocPeoTV.setText(locPeoPost.getName());
-                tagTV.setText(locPeoPost.getTag());
-
-
-                post_id = locPeoPost.getId();
-                ApiService apiService = new ApiService(this);
-
-                apiService.getPicture(post_id,this);
-                apiService.getInfo(true,post_id, locPeoPost.getGroup(),this);
-                apiService.getDetail(post_id,this);
-                apiService.getSimilar(locPeoPost.getGroup(),this);
-
-                if (locPeoPost.getGroup().equals(ProvidersApp.GROUP_NAME_LOCATION)){
-                    apiService.getPersonnel(post_id, this);
-                    titleSimilarTv.setText("مکان های مشابه");
-                }else {
-                    titleSimilarTv.setText("متخصص های مشابه");
-                }
-            }
-        }
     }
 
     private void initStatusBar() {
@@ -290,14 +265,7 @@ PersonnelAdapter.OnItemClickListener,
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.activity_detail_toolbar_3line:
-                Toast.makeText(this, "three line Clicked..", Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
+
 
 
     private int getStatusBarHeight() {
@@ -381,7 +349,6 @@ PersonnelAdapter.OnItemClickListener,
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -398,13 +365,12 @@ PersonnelAdapter.OnItemClickListener,
     }
 
 
-
     @Override
     public void OnAddClick(int rcvModel) {
-        switch (rcvModel){
+        switch (rcvModel) {
             case ProvidersApp.RECYCLER_VIEW_PERSONNEL:
                 BottomSheetAddPersonnel btmShtAddPersonnel = BottomSheetAddPersonnel.newInstance(post_id);
-                btmShtAddPersonnel.show(getSupportFragmentManager(),"BottomSheetAddPersonnel");
+                btmShtAddPersonnel.show(getSupportFragmentManager(), "BottomSheetAddPersonnel");
                 break;
 
             case ProvidersApp.RECYCLER_VIEW_INFO:
@@ -417,7 +383,7 @@ PersonnelAdapter.OnItemClickListener,
 
     @Override
     public void OnGetDetail(int statusCode, LocationPeople locationPeople, String error) {
-        String ERR ="";
+        String ERR = "";
         switch (statusCode) {
 
             case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
@@ -425,10 +391,7 @@ PersonnelAdapter.OnItemClickListener,
                 if (locationPeople != null) {
 
                     number = locationPeople.getPhone();
-                    Log.i(TAG, "OnGetDetail: "+number);
 
-                }else {
-                    Log.i(TAG, "OnGetDetail: NULL");
                 }
                 break;
 
@@ -444,20 +407,20 @@ PersonnelAdapter.OnItemClickListener,
 
         }
 
-        if (statusCode != ProvidersApp.STATUS_CODE_SUCCESSFULLY){
+        if (statusCode != ProvidersApp.STATUS_CODE_SUCCESSFULLY) {
             Toast.makeText(this, ERR + " -> " + error, Toast.LENGTH_LONG).show();
 
         }
     }
 
     @Override
-    public void OnReceived(boolean isFirstScale ,int statusCode, ArrayList<Info> infoList, String error) {
+    public void OnReceived(boolean isFirstScale, int statusCode, ArrayList<Info> infoList, String error) {
         switch (statusCode) {
             case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
 
                 if (infoList != null) {
                     LinearLayoutManager ln = new LinearLayoutManager(DetailActivity.this, RecyclerView.VERTICAL, false);
-                    InfoAdapter infoAdapter = new InfoAdapter(infoList,locPeoPost.getGroup());
+                    InfoAdapter infoAdapter = new InfoAdapter(infoList, locPeoPost.getGroup());
                     infoAdapter.setOnButtonAddClick(this);
                     infoRecyclerView.setLayoutManager(ln);
                     infoRecyclerView.setAdapter(infoAdapter);
@@ -488,8 +451,7 @@ PersonnelAdapter.OnItemClickListener,
 
     @Override
     public void onReceivedSmr(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error) {
-        if (statusCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY){
-
+        if (statusCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY) {
 
             SimilarAdapter similarAdapter = new SimilarAdapter(DetailActivity.this, locationPeopleList);
             LinearLayoutManager linearLayoutManagerSim = new LinearLayoutManager(
@@ -499,15 +461,45 @@ PersonnelAdapter.OnItemClickListener,
             similarRecyclerView.setAdapter(similarAdapter);
 
 
-        }else {
-            String msg = UtilsApp.statusCodeToError(statusCode,error);
+        } else {
+            String msg = UtilsApp.statusCodeToError(statusCode, error);
             Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onItemClick(LocationPeople locationPeople) {
-        Intent i = new Intent(DetailActivity.this,DetailActivity.class);
-        Toast.makeText(this, locationPeople.getName(), Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(DetailActivity.this, DetailActivity.class);
+        locationPeople.setGroup(ProvidersApp.GROUP_NAME_PEOPLE);
+        i.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE, locationPeople);
+        startActivity(i);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.activity_detail_toolbar_3line:
+                Toast.makeText(this, "three line Clicked..", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.activity_detail_call_imageView:
+                FragmentBottomSheetCall fragmentBottomSheetCall = FragmentBottomSheetCall.newInstance(number);
+                fragmentBottomSheetCall.show(getSupportFragmentManager(), "FragmentBottomSheetCall");
+
+                break;
+
+            case R.id.activity_detail_scale_imageView:
+                Intent i = new Intent(DetailActivity.this, ScaleActivity.class);
+                i.putExtra(ProvidersApp.KEY_POST_ID, post_id);
+                i.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE, locPeoPost);
+                startActivity(i);
+                break;
+
+
+            case R.id.activity_detail_comment_imageView:
+                Toast.makeText(this, "Comment", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }

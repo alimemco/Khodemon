@@ -652,7 +652,8 @@ public class ApiService {
                     LocationPeople locationPeople = new LocationPeople();
                     // PictureUpload pictureUpload = new PictureUpload();
 
-                    locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
+                   // locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
+                    locationPeople.setId(jsonObjectLocPeo.getInt("PEOPLE_ID"));
                     locationPeople.setName(jsonObjectLocPeo.getString("personnelName"));
                     locationPeople.setTag(jsonObjectLocPeo.getString("TagPeople"));
                     locationPeople.setOriginalPic(jsonObjectLocPeo.getString("image"));

@@ -15,7 +15,6 @@ import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.ali.rnp.khodemon.Views.fragments.FragmentDialog;
-import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import de.hdodenhof.circleimageview.CircleImageView;

@@ -199,23 +199,10 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         void bindScale(ScaleHolder holder, Info info) {
 
-            //validateInfo(info, holder.desScaleImageView, holder.desScaleTV);
             UtilsApp.validate.validateInfo(info,locPeoPostOne.getGroup(),true);
-
-
-/*
-            if (info.isBoolean()){
-                holder.desScaleTV.setText("");
-                holder.desScaleImageView.setImageResource(info.getIcon());
-            }else {
-                holder.desScaleTV.setText(info.getDescription());
-                holder.desScaleImageView.setImageResource(0);
-            }*/
 
             holder.desScaleTV.setText(info.getDescription());
             holder.desScaleImageView.setImageResource(info.getIcon());
-
-
 
         }
 

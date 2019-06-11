@@ -33,19 +33,18 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public InfoAdapter(ArrayList<Info> infoList, String group) {
 
-
-        this.GROUP_NAME = group;
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         Iterator<Info> i = infoList.iterator();
         while (i.hasNext()){
-            Info s = i.next();
-            String t = s.getDescription();
-            if (t.equals("0") || t.equals(""))
+            Info info = i.next();
+            String des = info.getDescription();
+            if (des.equals("0") || des.equals(""))
             i.remove();
         }
 
         this.infoList = infoList;
+        this.GROUP_NAME = group;
 
     }
 
@@ -100,7 +99,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_PEOPLE, false);
             }
 
-                mHolder.bindDetail(mHolder, info);
+                mHolder.bindDetail(mHolder, info,position);
 
         }
 
@@ -119,6 +118,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageView iconIV;
         ImageView iconDescriptionIV;
         ImageView arrowIV;
+        View lineV;
 
         DetailAdapterHolder(@NonNull View itemView) {
             super(itemView);
@@ -127,9 +127,10 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             subjectTV = itemView.findViewById(R.id.recycler_view_location_detail_subjectTV);
             descriptionTV = itemView.findViewById(R.id.recycler_view_location_detail_variableTV);
             arrowIV = itemView.findViewById(R.id.recycler_view_location_detail_imageView_arrow);
+            lineV = itemView.findViewById(R.id.recycler_view_location_detail_line);
         }
 
-        void bindDetail(DetailAdapterHolder holder, Info info) {
+        void bindDetail(DetailAdapterHolder holder, Info info,int position) {
 /*
             if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
                 UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_LOCATION, false);
@@ -140,18 +141,25 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.subjectTV.setText(info.getSubject());
             holder.iconIV.setImageResource(info.getIcon());
 
+            lineV.setVisibility((position == infoList.size()? View.INVISIBLE : View.VISIBLE));
+
+
             if (info.isBoolean()) {
-                if (info.getDescription().equals("true")) {
-                    holder.iconDescriptionIV.setImageResource(R.drawable.ic_validate_true);
-                    holder.descriptionTV.setText("");
-                } else if (info.getDescription().equals("false")) {
-                    holder.iconDescriptionIV.setImageResource(R.drawable.ic_validate_false);
-                    holder.descriptionTV.setText("");
-                }else {
+                switch (info.getDescription()) {
+                    case "true":
+                        holder.iconDescriptionIV.setImageResource(R.drawable.ic_validate_true);
+                        holder.descriptionTV.setText("");
+                        break;
+                    case "false":
+                        holder.iconDescriptionIV.setImageResource(R.drawable.ic_validate_false);
+                        holder.descriptionTV.setText("");
+                        break;
+                    default:
 
-                    holder.iconDescriptionIV.setImageResource(0);
-                    holder.descriptionTV.setText("-");
+                        holder.iconDescriptionIV.setImageResource(0);
+                        holder.descriptionTV.setText("-");
 
+                        break;
                 }
             }else {
 

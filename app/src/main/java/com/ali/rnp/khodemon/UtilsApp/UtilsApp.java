@@ -216,104 +216,6 @@ public class UtilsApp {
         }
     }
 
-    public static Info parseInfoLocation(Info info, boolean isScale) {
-
-        validateDescription(info);
-
-        switch (info.getSubject()) {
-            case ProvidersApp.KEY_SINCE:
-                info.setSubject("سال تاسیس");
-                info.setIcon(R.drawable.ic_under_construction);
-                break;
-
-            case ProvidersApp.KEY_DIMENSIONS:
-                info.setSubject("مساحت");
-                info.setIcon(R.drawable.ic_dimensions);
-                break;
-
-
-            case ProvidersApp.KEY_PHONE_NUMBER:
-                if (info.getDescription().equals("")) {
-                    info.setDescription("وارد کنید..");
-                }
-                info.setSubject("تلفن تماس");
-                info.setIcon(R.drawable.ic_phone);
-                break;
-        }
-        return info;
-    }
-
-    public static void parseInfoPeople(Info info, boolean isScale) {
-
-
-        switch (info.getSubject()) {
-            case ProvidersApp.KEY_SINCE:
-                info.setSubject("سن");
-                info.setIcon(R.drawable.ic_under_construction);
-                break;
-
-            case ProvidersApp.KEY_WORK_EXPERIENCE:
-                info.setSubject("تجربه کاری");
-                info.setIcon(R.drawable.ic_dimensions);
-                break;
-
-
-            case ProvidersApp.KEY_DEGREE_OF_EDUCATION:
-                info.setSubject("مدرک تحصیلی");
-                info.setIcon(R.drawable.ic_phone);
-                break;
-
-            case ProvidersApp.KEY_IS_EVIDENCE:
-                info.setSubject("دارای مدرک");
-                if (!isScale) {
-
-                    info.setIcon(R.drawable.ic_heart);
-                }
-
-                break;
-
-            case ProvidersApp.KEY_IS_MEDAL:
-                info.setSubject("تایید شده");
-                if (!isScale) {
-
-                    info.setIcon(R.drawable.ic_heart);
-                }
-
-                break;
-        }
-
-        // validateDescription(info);
-        //  return info;
-    }
-
-    public static Info parseInfoScale(Info info) {
-
-        validateDescription(info);
-
-        switch (info.getSubject()) {
-            case ProvidersApp.KEY_SINCE:
-                info.setSubject("سال تاسیس");
-                info.setIcon(R.drawable.ic_under_construction);
-                break;
-
-            case ProvidersApp.KEY_DIMENSIONS:
-                info.setSubject("مساحت");
-                info.setIcon(R.drawable.ic_dimensions);
-                break;
-
-
-            case ProvidersApp.KEY_PHONE_NUMBER:
-                if (info.getDescription().equals("")) {
-                    info.setDescription("وارد کنید..");
-                }
-                info.setSubject("تلفن تماس");
-                info.setIcon(R.drawable.ic_phone);
-                break;
-        }
-
-
-        return info;
-    }
 
     private static void validateDescription(Info info) {
         String description = info.getDescription();
@@ -392,7 +294,10 @@ public class UtilsApp {
                 case ProvidersApp.KEY_DIMENSIONS:
 
                     info.setSubject("مساحت مکان");
+                    if (!isScale)
                     info.setIcon(R.drawable.ic_dimensions);
+                    else
+                        info.setIcon(0);
 
                     break;
 
@@ -438,14 +343,14 @@ public class UtilsApp {
                 case ProvidersApp.KEY_IS_EVIDENCE:
                     info.setSubject("دارای مدرک");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_domain);
+                    info.setIcon(R.drawable.ic_diploma);
                     else
                         info.setIcon(0);
                     break;
                 case ProvidersApp.KEY_IS_MEDAL:
                     info.setSubject("تایید شده");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_domain);
+                    info.setIcon(R.drawable.ic_verified);
                     else
                         info.setIcon(0);
                     break;
@@ -479,14 +384,14 @@ public class UtilsApp {
                 info.setDescription("");
                 if (description.equals("true")) {
                     info.setIcon(R.drawable.ic_validate_true);
-                } else if (description.equals("false")) {
+                } else  {
                     info.setIcon(R.drawable.ic_validate_false);
 
                 }
 
             } else {
                 if (description.equals("0") || description.equals("")) {
-                    info.setDescription("-");
+                    info.setDescription("---");
                 }
             }
 
