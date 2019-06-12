@@ -30,6 +30,7 @@ ConfirmDialog.OnClickButtonDialog{
 
     private RecyclerView rcv;
     private Toolbar toolbar;
+    private ConfirmDialog dialog;
     private int LOCATION_ID;
     private int PEOPLE_ID;
 
@@ -96,7 +97,7 @@ ConfirmDialog.OnClickButtonDialog{
                         +"\n"+
                 " را اضافه می کنید ؟";
 
-        ConfirmDialog dialog = new ConfirmDialog.Builder()
+        dialog = new ConfirmDialog.Builder()
                 .setQuestion(question)
                 .setLocationPeople(locationPeople)
                 .setPositiveListener(this)
@@ -168,5 +169,12 @@ ConfirmDialog.OnClickButtonDialog{
             dialog.dismiss();
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (dialog != null)
+            dialog.dismiss();
     }
 }

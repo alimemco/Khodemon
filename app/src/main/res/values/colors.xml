@@ -68,8 +68,13 @@
     <color name="yellowH200">#fff59d</color>
     <color name="greenH100">#c8e6c9</color>
     <color name="greenH200">#a5d6a7</color>
+    <color name="greenH400">#66BB6A</color>
+    <color name="greenH500">#4CAF50</color>
     <color name="orangeH200">#FFCC80</color>
     <color name="orangeH500">#FF9800</color>
+    <color name="redH200">#ef9a9a</color>
+    <color name="redH400">#ef5350</color>
+    <color name="redH500">#f44336</color>
 
 
 <!-- S VALUE CHANGED IN  https://colordesigner.io -->

@@ -131,13 +131,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         void bindDetail(DetailAdapterHolder holder, Info info,int position) {
-/*
-            if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
-                UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_LOCATION, false);
 
-            } else {
-                UtilsApp.validate.validateInfo(info, ProvidersApp.GROUP_NAME_PEOPLE, false);
-            }*/
             holder.subjectTV.setText(info.getSubject());
             holder.iconIV.setImageResource(info.getIcon());
 
@@ -147,11 +141,11 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (info.isBoolean()) {
                 switch (info.getDescription()) {
                     case "true":
-                        holder.iconDescriptionIV.setImageResource(R.drawable.ic_validate_true);
+                        holder.iconDescriptionIV.setImageResource(R.drawable.ic_true_circle);
                         holder.descriptionTV.setText("");
                         break;
                     case "false":
-                        holder.iconDescriptionIV.setImageResource(R.drawable.ic_validate_false);
+                        holder.iconDescriptionIV.setImageResource(R.drawable.ic_false_circle);
                         holder.descriptionTV.setText("");
                         break;
                     default:

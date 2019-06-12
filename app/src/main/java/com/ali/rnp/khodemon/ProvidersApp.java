@@ -71,6 +71,7 @@ public class ProvidersApp {
     public static final String KEY_PHONE_NUMBER = "phone";
     public static final String KEY_WORK_EXPERIENCE = "work_experience";
     public static final String KEY_DEGREE_OF_EDUCATION = "degreeOfEducation";
+    public static final String KEY_STUDY = "study";
     public static final String KEY_IS_EVIDENCE = "is_evidence";
     public static final String KEY_IS_MEDAL = "is_medal";
 

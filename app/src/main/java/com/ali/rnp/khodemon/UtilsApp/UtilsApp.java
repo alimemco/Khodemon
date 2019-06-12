@@ -307,7 +307,7 @@ public class UtilsApp {
                     info.setDescription(exp);
                     info.setSubject("تجربه کاری");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_dimensions);
+                    info.setIcon(R.drawable.ic_work_experience);
                     else
                         info.setIcon(0);
 
@@ -332,7 +332,7 @@ public class UtilsApp {
 
                         info.setSubject("سن");
                         if (!isScale)
-                        info.setIcon(R.drawable.ic_under_construction);
+                        info.setIcon(R.drawable.ic_birthday_cake);
                         else
                             info.setIcon(0);
                     }
@@ -358,7 +358,15 @@ public class UtilsApp {
                 case ProvidersApp.KEY_DEGREE_OF_EDUCATION:
                     info.setSubject("مدرک تحصیلی");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_magnifying_glass);
+                    info.setIcon(R.drawable.ic_student);
+                    else
+                        info.setIcon(0);
+                    break;
+
+                case ProvidersApp.KEY_STUDY:
+                    info.setSubject("رشته تحصیلی");
+                    if (!isScale)
+                        info.setIcon(R.drawable.ic_student);
                     else
                         info.setIcon(0);
                     break;
@@ -383,9 +391,9 @@ public class UtilsApp {
             if (info.isBoolean()) {
                 info.setDescription("");
                 if (description.equals("true")) {
-                    info.setIcon(R.drawable.ic_validate_true);
+                    info.setIcon(R.drawable.ic_true_circle);
                 } else  {
-                    info.setIcon(R.drawable.ic_validate_false);
+                    info.setIcon(R.drawable.ic_false_circle);
 
                 }
 
@@ -400,7 +408,17 @@ public class UtilsApp {
         private static String validateWorkExperience(String workExperience) {
             if (isNumber(workExperience)) {
                 int number = Integer.parseInt(workExperience);
+                float year = (float)(number / 12) ;
 
+                if (year <= 0.5 ){
+                    workExperience = "کمتر از 6 ماه";
+                }else if ( year >= 0.5 && year <= 1){
+                    workExperience = "کمتر از 1 سال";
+                }else if (year > 1){
+
+                    workExperience =(int)year+" سال";
+                }
+/*
                 if (0 <= number && number <= 6) {
                     workExperience = "کمتر از 6 ماه";
                 } else if (7 <= number && number <= 12) {
@@ -412,6 +430,7 @@ public class UtilsApp {
                 } else {
                     workExperience = "بیش از 3 سال";
                 }
+                */
             }
 
 
