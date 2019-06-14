@@ -119,7 +119,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return infoTitle.size() + 1;
     }
 
-    class ScaleHolder extends RecyclerView.ViewHolder implements ViewTreeObserver.OnGlobalLayoutListener {
+    class ScaleHolder extends RecyclerView.ViewHolder  {
         MyTextView titleTV;
         MyTextView desOneTV;
         MyTextView desScaleTV;
@@ -142,12 +142,11 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             holder.titleTV.setText(info.getSubject());
 
             if (GROUP_NAME.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
-                //info = UtilsApp.parseInfoLocation(info, true);
+
                 UtilsApp.validate.validateInfo(info,ProvidersApp.GROUP_NAME_LOCATION,true);
-               // holder.titleTV.setText(info.getSubject());
 
             } else {
-                //UtilsApp.parseInfoPeople(info, true);
+
                 UtilsApp.validate.validateInfo(info,ProvidersApp.GROUP_NAME_PEOPLE,true);
 
 
@@ -171,30 +170,11 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     holder.desOneTV.setText(info.getDescription());
                           holder.desOneImageView.setImageResource(0);
 
-/*
-                    ViewTreeObserver observer = holder.desOneTV.getViewTreeObserver();
-                    observer.addOnGlobalLayoutListener(() -> setHeightTextView(holder));
 
-                    ViewTreeObserver obScale = holder.desScaleTV.getViewTreeObserver();
-                    obScale.addOnGlobalLayoutListener(() -> setHeightTextView(holder));
-
-                    ViewTreeObserver obTitle = holder.titleTV.getViewTreeObserver();
-                    obTitle.addOnGlobalLayoutListener(() -> setHeightTextView(holder));
-                    */
 
                 }
             }
 
-
-        }
-
-        private void setHeightTextView(ScaleHolder holder) {
-            int numbers[] = {holder.desOneTV.getHeight(),holder.desScaleTV.getHeight(),holder.titleTV.getHeight()};
-            int max =  UtilsApp.getMax(numbers);
-
-            holder.desOneTV.setHeight(max);
-            holder.desScaleTV.setHeight(max);
-            holder.titleTV.setHeight(max);
         }
 
 
@@ -202,21 +182,19 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             UtilsApp.validate.validateInfo(info,locPeoPostOne.getGroup(),true);
 
-            holder.desScaleTV.setText(info.getDescription());
-             holder.desScaleImageView.setImageResource(info.getIcon());
+            if (info.isBoolean()){
+
+                holder.desScaleTV.setText("");
+                holder.desScaleImageView.setImageResource(info.getIcon());
+            }else {
+                holder.desScaleTV.setText(info.getDescription());
+                holder.desScaleImageView.setImageResource(0);
+
+            }
 
         }
 
-        @Override
-        public void onGlobalLayout() {
 
-            int numbers[] = {desOneTV.getHeight(),desScaleTV.getHeight(),titleTV.getHeight()};
-            int max =  UtilsApp.getMax(numbers);
-
-            desOneTV.setHeight(max);
-            desScaleTV.setHeight(max);
-            titleTV.setHeight(max);
-        }
     }
 
 

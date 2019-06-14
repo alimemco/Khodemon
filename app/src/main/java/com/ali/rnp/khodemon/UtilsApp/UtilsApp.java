@@ -260,14 +260,15 @@ public class UtilsApp {
         public static Info validateInfo(Info info, String group, boolean isScale) {
 
             validateBySubject(info, group,isScale);
-
             validateEmptyInfo(info);
 
             if (isScale){
                 validateByBoolean(info);
             }
 
-            validateLargeDesInfo(info);
+            if (!info.isBoolean()) {
+                validateLargeDesInfo(info);
+            }
 
             return info;
 
@@ -415,7 +416,7 @@ public class UtilsApp {
             String description = info.getDescription();
 
             if (info.isBoolean()) {
-                info.setDescription("");
+                //info.setDescription("");
                 if (description.equals("true")) {
                     info.setIcon(R.drawable.ic_true_circle);
                 } else  {
