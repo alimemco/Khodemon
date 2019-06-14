@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Library.CircularImageView;
+import com.ali.rnp.khodemon.Test.AliAsyncTask;
 import com.ali.rnp.khodemon.Views.fragments.FragmentBottomSheetCall;
 import com.android.volley.VolleyError;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -25,8 +26,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TestActivity extends AppCompatActivity {
 
-    private static final String TAG = "TestActivity";
 
+    private static final String TAG = "TestActivity";
 
 
     @Override
@@ -34,11 +35,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-
-
     }
-
-
 
 
 

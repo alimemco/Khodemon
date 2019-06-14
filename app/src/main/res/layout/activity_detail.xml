@@ -76,9 +76,9 @@
 
                 <ImageView
                     android:id="@+id/activity_detail_toolbar_3line"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_check_white_18dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/ic_bookmark_white"
                     android:contentDescription="@string/app_name"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
                     android:background="@drawable/shape_background_img_btn_circle"/>

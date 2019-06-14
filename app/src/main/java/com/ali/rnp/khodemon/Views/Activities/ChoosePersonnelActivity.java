@@ -26,7 +26,7 @@ public class ChoosePersonnelActivity extends AppCompatActivity implements
         ChoosePersonnelAdapter.OnItemClickListener,
         ApiService.OnGetPersonList,
         ApiService.OnAddPersonnel,
-ConfirmDialog.OnClickButtonDialog{
+        ConfirmDialog.OnClickButtonDialog{
 
     private RecyclerView rcv;
     private Toolbar toolbar;
@@ -66,11 +66,11 @@ ConfirmDialog.OnClickButtonDialog{
     }
 
     private void initView() {
-         rcv = findViewById(R.id.activity_choose_personnel_rcv);
+        rcv = findViewById(R.id.activity_choose_personnel_rcv);
 
-         if (getIntent() != null ){
+        if (getIntent() != null ){
             LOCATION_ID =  getIntent().getIntExtra(ProvidersApp.KEY_LOCATION_ID,0);
-         }
+        }
     }
 
     private void initRCV() {
@@ -90,12 +90,12 @@ ConfirmDialog.OnClickButtonDialog{
     }
 
     private void showDialog(LocationPeople locationPeople) {
-       PEOPLE_ID = locationPeople.getId();
+        PEOPLE_ID = locationPeople.getId();
 
         String question =
                 locationPeople.getName()
                         +"\n"+
-                " را اضافه می کنید ؟";
+                        " را اضافه می کنید ؟";
 
         dialog = new ConfirmDialog.Builder()
                 .setQuestion(question)
@@ -139,7 +139,7 @@ ConfirmDialog.OnClickButtonDialog{
                 break;
 
         }
-        
+
         if (successCode!= ProvidersApp.STATUS_CODE_SUCCESSFULLY){
             Toast.makeText(this, msg , Toast.LENGTH_LONG).show();
         }

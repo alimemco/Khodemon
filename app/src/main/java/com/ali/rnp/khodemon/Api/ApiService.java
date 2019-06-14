@@ -947,7 +947,6 @@ public class ApiService {
                     LocationPeople locationPeople = new LocationPeople();
                     locationPeople.setId(jsonObjectItems.getInt("ID"));
                     locationPeople.setName(jsonObjectItems.getString("nameLocPeo"));
-                    locationPeople.setGroup(jsonObjectItems.getString("group_name"));
                     locationPeople.setTag(jsonObjectItems.getString("tagLocPeo"));
                     locationPeople.setOriginalPic(jsonObjectItems.getString("original_pic"));
                     locationPeople.setImageThumb150(jsonObjectItems.getString("thumb_pic"));

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -15,14 +14,12 @@ import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
-import com.google.android.gms.common.util.NumberUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Random;
-import java.util.StringTokenizer;
 
 import androidx.transition.Fade;
 import androidx.transition.Slide;
@@ -361,7 +358,7 @@ public class UtilsApp {
 
                     break;
 
-                case ProvidersApp.KEY_IS_EVIDENCE:
+                case ProvidersApp.KEY_HAS_CERFIFICATE:
                     info.setSubject("دارای مدرک");
                     if (!isScale)
                     info.setIcon(R.drawable.ic_diploma);
