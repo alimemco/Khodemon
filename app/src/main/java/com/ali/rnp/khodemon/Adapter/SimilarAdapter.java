@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Holder.TitleHolder;
+import com.ali.rnp.khodemon.Interface.OnItemClickListener;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.squareup.picasso.Picasso;
@@ -22,37 +23,22 @@ public class SimilarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private ArrayList<LocationPeople> locationPeopleList;
     private Context context;
-/*
-    private static final int VIEW_TYPE_TITLE = 0;
-    private static final int VIEW_TYPE_NORMAL = 1;
-*/
+    private OnItemClickListener onItemClickListener;
+
 
     public SimilarAdapter(Context context, ArrayList<LocationPeople> locationPeopleList){
        this.context = context;
         this.locationPeopleList = locationPeopleList ;
     }
-/*
-    @Override
-    public int getItemViewType(int position) {
-       // return super.getItemViewType(position);
-        if (position == 0){
-            return VIEW_TYPE_TITLE;
-        }else {
-            return VIEW_TYPE_NORMAL;
-        }
-    }*/
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       /* if (viewType == VIEW_TYPE_TITLE){
 
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_title_detail, parent, false);
-            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(340, ViewGroup.LayoutParams.WRAP_CONTENT);
-            view.setLayoutParams(lp);
-            return new TitleHolder("مشابه", view);
-
-        }else {*/
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_similar,parent,false);
             RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(340, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
@@ -103,7 +89,11 @@ public class SimilarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
 
-            holder.itemView.setOnClickListener(v -> Toast.makeText(context, locationPeople.getName(), Toast.LENGTH_SHORT).show());
+
+            holder.itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null)
+                onItemClickListener.onItemClick(locationPeople);
+            });
 
         }
     }

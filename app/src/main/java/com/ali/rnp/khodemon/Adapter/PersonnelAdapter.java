@@ -11,6 +11,7 @@ import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Holder.ButtonAddHolder;
 import com.ali.rnp.khodemon.Holder.TitleHolder;
 import com.ali.rnp.khodemon.Interface.OnButtonAddClick;
+import com.ali.rnp.khodemon.Interface.OnItemClickListener;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
@@ -155,6 +156,7 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
                    // Toast.makeText(context, locationPeople.getName(), Toast.LENGTH_SHORT).show();
                     if (onItemClickListener != null){
+                        locationPeople.setGroup(ProvidersApp.GROUP_NAME_PEOPLE);
                         onItemClickListener.onItemClick(locationPeople);
                     }else {
                         throw new IllegalArgumentException("PersonnelAdapter must be implement 'onItemClickListener' ");
@@ -174,9 +176,9 @@ public class PersonnelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
-
+/*
     public interface OnItemClickListener {
         void onItemClick(LocationPeople locationPeople);
-    }
+    }*/
 
 }

@@ -123,7 +123,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         MyTextView titleTV;
         MyTextView desOneTV;
         MyTextView desScaleTV;
-        ImageView desOneImageView;
+         ImageView desOneImageView;
         ImageView desScaleImageView;
 
         ScaleHolder(@NonNull View itemView) {
@@ -131,8 +131,8 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             titleTV = itemView.findViewById(R.id.rcv_scale_adapter_title);
             desOneTV = itemView.findViewById(R.id.rcv_scale_adapter_decOne);
             desScaleTV = itemView.findViewById(R.id.rcv_scale_adapter_decTwo);
-            desOneImageView = itemView.findViewById(R.id.rcv_scale_adapter_decOneImageView);
-            desScaleImageView = itemView.findViewById(R.id.rcv_scale_adapter_decTwoImageView);
+             desOneImageView = itemView.findViewById(R.id.rcv_scale_adapter_decOneImageView);
+             desScaleImageView = itemView.findViewById(R.id.rcv_scale_adapter_decTwoImageView);
 
 
         }
@@ -166,12 +166,12 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                 if (info.isBoolean()){
                     holder.desOneTV.setText("");
-                    holder.desOneImageView.setImageResource(info.getIcon());
+                     holder.desOneImageView.setImageResource(info.getIcon());
                 }else {
                     holder.desOneTV.setText(info.getDescription());
-                    holder.desOneImageView.setImageResource(0);
+                          holder.desOneImageView.setImageResource(0);
 
-
+/*
                     ViewTreeObserver observer = holder.desOneTV.getViewTreeObserver();
                     observer.addOnGlobalLayoutListener(() -> setHeightTextView(holder));
 
@@ -180,6 +180,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                     ViewTreeObserver obTitle = holder.titleTV.getViewTreeObserver();
                     obTitle.addOnGlobalLayoutListener(() -> setHeightTextView(holder));
+                    */
 
                 }
             }
@@ -202,7 +203,7 @@ public class ScaleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             UtilsApp.validate.validateInfo(info,locPeoPostOne.getGroup(),true);
 
             holder.desScaleTV.setText(info.getDescription());
-            holder.desScaleImageView.setImageResource(info.getIcon());
+             holder.desScaleImageView.setImageResource(info.getIcon());
 
         }
 

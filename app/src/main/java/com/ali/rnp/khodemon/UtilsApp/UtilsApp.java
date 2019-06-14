@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -21,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import androidx.transition.Fade;
 import androidx.transition.Slide;
@@ -240,7 +242,6 @@ public class UtilsApp {
                 msg = "SERVER_MISSING_ERROR | " + error;
                 break;
 
-
             case ProvidersApp.STATUS_CODE_SUCCESSFULLY:
                 msg = "SUCCESSFULLY";
                 break;
@@ -250,9 +251,10 @@ public class UtilsApp {
 
     public static int getMax(int[] numbers){
         int max = numbers[0];
-        for (int i = 0; i < numbers.length; i++) {
-            max = Math.max(max,numbers[i]);
+        for (int number : numbers) {
+            max = Math.max(max, number);
         }
+
         return max;
     }
 
@@ -261,11 +263,14 @@ public class UtilsApp {
         public static Info validateInfo(Info info, String group, boolean isScale) {
 
             validateBySubject(info, group,isScale);
+
             validateEmptyInfo(info);
+
             if (isScale){
                 validateByBoolean(info);
             }
 
+            validateLargeDesInfo(info);
 
             return info;
 
@@ -277,6 +282,22 @@ public class UtilsApp {
             if (des.equals("") || des.equals("0")){
                 info.setDescription("---");
             }
+        }
+
+        private static void validateLargeDesInfo(Info info) {
+
+            String data = info.getDescription();
+            String[] items = data.split(",");
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < items.length; i++) {
+                sb.append(items[i]);
+                if(i+1 != items.length)
+                sb.append("\n");
+            }
+
+            info.setDescription(sb.toString());
+
         }
 
         private static void validateBySubject(Info info, String group,boolean isScale) {
@@ -358,7 +379,7 @@ public class UtilsApp {
                 case ProvidersApp.KEY_DEGREE_OF_EDUCATION:
                     info.setSubject("مدرک تحصیلی");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_student);
+                    info.setIcon(R.drawable.ic_diploma);
                     else
                         info.setIcon(0);
                     break;
@@ -369,6 +390,14 @@ public class UtilsApp {
                         info.setIcon(R.drawable.ic_student);
                     else
                         info.setIcon(0);
+                    break;
+
+                case ProvidersApp.KEY_EXPERTS:
+                    info.setSubject("تخصص ها");
+                    if (!isScale)
+                        info.setIcon(R.drawable.ic_skills);
+                    else
+                    info.setIcon(0);
                     break;
 
                 case ProvidersApp.KEY_PHONE_NUMBER:

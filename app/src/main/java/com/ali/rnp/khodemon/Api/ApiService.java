@@ -521,7 +521,7 @@ public class ApiService {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    parseJsonSimilar(response, onReceivedSimilar);
+                    parseJsonSimilar(response, onReceivedSimilar,GROUP_NAME);
 
                 }
             }, new Response.ErrorListener() {
@@ -947,6 +947,7 @@ public class ApiService {
                     LocationPeople locationPeople = new LocationPeople();
                     locationPeople.setId(jsonObjectItems.getInt("ID"));
                     locationPeople.setName(jsonObjectItems.getString("nameLocPeo"));
+                    locationPeople.setGroup(jsonObjectItems.getString("group_name"));
                     locationPeople.setTag(jsonObjectItems.getString("tagLocPeo"));
                     locationPeople.setOriginalPic(jsonObjectItems.getString("original_pic"));
                     locationPeople.setImageThumb150(jsonObjectItems.getString("thumb_pic"));
@@ -1006,7 +1007,7 @@ public class ApiService {
         }
     }
 
-    private void parseJsonSimilar(JSONObject response, OnReceivedSimilar onReceivedSimilar) {
+    private void parseJsonSimilar(JSONObject response, OnReceivedSimilar onReceivedSimilar,String GROUP_NAME) {
 
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -1026,6 +1027,7 @@ public class ApiService {
                     locationPeople.setId(jsonObjectItems.getInt("ID"));
                     locationPeople.setName(jsonObjectItems.getString("nameLocPeo"));
                     locationPeople.setTag(jsonObjectItems.getString("tagLocPeo"));
+                    locationPeople.setGroup(GROUP_NAME);
                     locationPeople.setOriginalPic(jsonObjectItems.getString("original_pic"));
                     locationPeople.setImageThumb150(jsonObjectItems.getString("thumb_pic"));
 

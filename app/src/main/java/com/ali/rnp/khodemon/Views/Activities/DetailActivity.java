@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,6 +22,7 @@ import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.Interface.OnButtonAddClick;
+import com.ali.rnp.khodemon.Interface.OnItemClickListener;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
@@ -55,7 +55,8 @@ public class DetailActivity extends AppCompatActivity implements
         ApiService.OnGetDetails,
         ApiService.OnGetPictures,
         ApiService.OnReceivedSimilar,
-        PersonnelAdapter.OnItemClickListener,
+
+        OnItemClickListener,
         OnButtonAddClick {
 
 
@@ -265,9 +266,6 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
 
-
-
-
     private int getStatusBarHeight() {
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         return getResources().getDimensionPixelSize(resourceId);
@@ -457,6 +455,8 @@ public class DetailActivity extends AppCompatActivity implements
             LinearLayoutManager linearLayoutManagerSim = new LinearLayoutManager(
                     this, RecyclerView.HORIZONTAL, false);
 
+            similarAdapter.setOnItemClickListener(this);
+
             similarRecyclerView.setLayoutManager(linearLayoutManagerSim);
             similarRecyclerView.setAdapter(similarAdapter);
 
@@ -465,14 +465,6 @@ public class DetailActivity extends AppCompatActivity implements
             String msg = UtilsApp.statusCodeToError(statusCode, error);
             Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void onItemClick(LocationPeople locationPeople) {
-        Intent i = new Intent(DetailActivity.this, DetailActivity.class);
-        locationPeople.setGroup(ProvidersApp.GROUP_NAME_PEOPLE);
-        i.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE, locationPeople);
-        startActivity(i);
     }
 
 
@@ -501,5 +493,14 @@ public class DetailActivity extends AppCompatActivity implements
                 Toast.makeText(this, "Comment", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(LocationPeople locationPeople) {
+
+        Intent i = new Intent(DetailActivity.this, DetailActivity.class);
+        i.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE, locationPeople);
+        startActivity(i);
+
     }
 }
