@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:color="@color/white"
-    tools:ignore="NewApi">
+<shape
+xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
-    <item>
-        <shape >
-            <gradient
-                android:startColor="#02AAB0"
-                android:endColor="#00CDAC"
+<gradient
+    android:startColor="#02AAB0"
+    android:endColor="#00CDAC"
 
-                android:angle="90"/>
-        </shape>
-    </item>
+    android:angle="90"/>
 
 
 
-</ripple>
+
+</shape>

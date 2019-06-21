@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple
+<shape
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:color="@color/white"
-    tools:ignore="NewApi">
+    >
+    <gradient
+        android:startColor="#2193b0"
+        android:endColor="#6dd5ed"
 
+        android:angle="90"/>
 
-    <item>
-        <shape>
-            <gradient
-                android:startColor="#2193b0"
-                android:endColor="#6dd5ed"
-
-                android:angle="90"/>
-        </shape>
-    </item>
-
-</ripple>
+</shape>

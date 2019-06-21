@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 
 import com.crashlytics.android.Crashlytics;
 
+import androidx.multidex.MultiDex;
 import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends Application {
@@ -25,6 +26,12 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     public static Typeface getBYekan(Context context) {

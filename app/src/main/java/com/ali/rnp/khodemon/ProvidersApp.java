@@ -73,8 +73,8 @@ public class ProvidersApp {
     public static final String KEY_DEGREE_OF_EDUCATION = "degreeOfEducation";
     public static final String KEY_STUDY = "study";
     public static final String KEY_EXPERTS = "experts";
-    public static final String KEY_HAS_CERFIFICATE = "is_certificate";
-    public static final String KEY_IS_MEDAL = "is_medal";
+    public static final String KEY_HAS_CERTIFICATE = "has_certificate";
+    public static final String KEY_IS_VERIFIED = "is_verified";
 
     public static final String KEY_LOCATION_PEOPLE = "LOCATION_PEOPLE";
     public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";

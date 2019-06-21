@@ -27,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TestActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "TestActivity";
+    private static final String TAG = "TestActivityExample";
 
 
     @Override
@@ -35,6 +35,18 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        float x = 8 ;
+        float y = 7 ;
+
+        float sum = x + y ;
+        float sub = x - y ;
+        float hit = x * y ;
+        float div = x / y ;
+
+        Log.i(TAG, "8 + 7 is : "+ sum);
+        Log.i(TAG, "8 - 7 is : "+ sub);
+        Log.i(TAG, "8 * 7 is : "+ hit);
+        Log.i(TAG, "8 / 7 is : "+ div);
     }
 
 

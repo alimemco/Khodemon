@@ -216,12 +216,6 @@ public class UtilsApp {
     }
 
 
-    private static void validateDescription(Info info) {
-        String description = info.getDescription();
-        if (description == null || description.equals("") || description.equals("0")) {
-            info.setDescription("-");
-        }
-    }
 
     public static String statusCodeToError(int statusCode, String error) {
         String msg = "";
@@ -359,14 +353,14 @@ public class UtilsApp {
 
                     break;
 
-                case ProvidersApp.KEY_HAS_CERFIFICATE:
+                case ProvidersApp.KEY_HAS_CERTIFICATE:
                     info.setSubject("دارای مدرک");
                     if (!isScale)
                     info.setIcon(R.drawable.ic_diploma);
                     else
                         info.setIcon(0);
                     break;
-                case ProvidersApp.KEY_IS_MEDAL:
+                case ProvidersApp.KEY_IS_VERIFIED:
                     info.setSubject("تایید شده");
                     if (!isScale)
                     info.setIcon(R.drawable.ic_verified);

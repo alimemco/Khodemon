@@ -27,6 +27,7 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 public class FragmentGroup extends Fragment {
@@ -35,6 +36,7 @@ public class FragmentGroup extends Fragment {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
+    SwipeRefreshLayout swip;
 
 
     public FragmentGroup() {
@@ -43,8 +45,7 @@ public class FragmentGroup extends Fragment {
 
 
     public static FragmentGroup newInstance() {
-        FragmentGroup fragment = new FragmentGroup();
-        return fragment;
+        return new FragmentGroup();
     }
 
     @Override
@@ -144,6 +145,16 @@ public class FragmentGroup extends Fragment {
     private void initViews(View rootView) {
         recyclerView = rootView.findViewById(R.id.fragment_group_recyclerView);
         progressBar = rootView.findViewById(R.id.fragment_group_progressBar);
+
+        swip = rootView.findViewById(R.id.fragment_group_swipe);
+
+        swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getContext(), "Ok", Toast.LENGTH_SHORT).show();
+                swip.setRefreshing(false);
+            }
+        });
 
     }
 

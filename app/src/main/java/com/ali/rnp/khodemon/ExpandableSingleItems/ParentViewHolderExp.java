@@ -11,6 +11,8 @@ import com.squareup.picasso.Picasso;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
 public class ParentViewHolderExp extends GroupViewHolder {
@@ -24,6 +26,7 @@ public class ParentViewHolderExp extends GroupViewHolder {
         groupName =  itemView.findViewById(R.id.list_item_parent_exp_name);
         arrow =  itemView.findViewById(R.id.list_item_parent_exp_arrow);
         icon =  itemView.findViewById(R.id.list_item_parent_exp_icon);
+
     }
 
     public void setGroupingTitle(ExpandableGroup group) {
@@ -38,7 +41,9 @@ public class ParentViewHolderExp extends GroupViewHolder {
                 icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
             }
 */
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
+
 
 
     }

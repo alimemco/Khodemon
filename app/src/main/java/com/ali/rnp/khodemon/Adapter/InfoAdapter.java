@@ -151,7 +151,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     default:
 
                         holder.iconDescriptionIV.setImageResource(0);
-                        holder.descriptionTV.setText("-");
+                        holder.descriptionTV.setText("#154");
 
                         break;
                 }

@@ -37,6 +37,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.transition.TransitionInflater;
 import ss.com.bannerslider.Slider;
 
@@ -61,6 +62,8 @@ public class FragmentHome extends Fragment implements
     private FragmentManager fragmentManager;
     private FragmentGroup fragmentGroup;
     private FragmentTransaction fragmentTrGroup;
+
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public static final String GROUP_KEY = "GROUP_KEY";
 
@@ -174,7 +177,7 @@ public class FragmentHome extends Fragment implements
     private void initViews(View rootView) {
 
         recyclerView = rootView.findViewById(R.id.fragment_home_recyclerView_homeItems);
-        // swipeRefreshLayout = rootView.findViewById(R.id.fragment_home_swipeRefreshLayout);
+         swipeRefreshLayout = rootView.findViewById(R.id.fragment_home_swipeRefreshLayout);
         searchEditText = rootView.findViewById(R.id.fragment_home_editText_search);
         progressBar = rootView.findViewById(R.id.fragment_home_progress_bar);
         locationCardView = rootView.findViewById(R.id.fragment_home_location_cardView);
@@ -200,6 +203,13 @@ public class FragmentHome extends Fragment implements
         });
 
         peopleCardView.setOnClickListener(this);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -255,12 +265,14 @@ public class FragmentHome extends Fragment implements
             case R.id.fragment_home_editText_search:
 
                 if (getFragmentManager() != null) {
+
                     FragmentSearch fragmentSearch = FragmentSearch.newInstance();
                     getFragmentManager()
                             .beginTransaction()
                             .addSharedElement(searchEditText, Objects.requireNonNull(ViewCompat.getTransitionName(searchEditText)))
                             .replace(R.id.mainActivity_fragment_container, fragmentSearch)
                             .commit();
+
 
                     bottomNavigation.setCurrentItem(MainActivity.BOTTOM_NAV_ITEM_SEARCH);
                 }
