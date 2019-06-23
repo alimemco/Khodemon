@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.ali.rnp.khodemon.R;
+import com.zhihu.matisse.listener.OnFragmentInteractionListener;
+
 import androidx.fragment.app.Fragment;
 
 
 public class FragmentFavorite extends Fragment {
 
-
-    private OnFragmentInteractionListener mListener;
 
     public FragmentFavorite() {
 
@@ -43,24 +43,7 @@ public class FragmentFavorite extends Fragment {
 
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
+
 }

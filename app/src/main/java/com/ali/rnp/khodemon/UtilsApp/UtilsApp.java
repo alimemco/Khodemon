@@ -163,8 +163,6 @@ public class UtilsApp {
                                     .placeholder(imgV.getDrawable())
                                     .into(imgV);
 
-                            //imageView.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-
                         }
 
                         @Override

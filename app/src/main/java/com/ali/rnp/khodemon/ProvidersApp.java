@@ -76,6 +76,8 @@ public class ProvidersApp {
     public static final String KEY_HAS_CERTIFICATE = "has_certificate";
     public static final String KEY_IS_VERIFIED = "is_verified";
 
+    public static final String KEY_KEYWORD = "keyword";
+
     public static final String KEY_LOCATION_PEOPLE = "LOCATION_PEOPLE";
     public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";
 

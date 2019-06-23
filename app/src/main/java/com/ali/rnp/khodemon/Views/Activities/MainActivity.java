@@ -69,8 +69,6 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements
         View.OnClickListener,
-        FragmentSearch.OnFragmentInteractionListener,
-        FragmentFavorite.OnFragmentInteractionListener,
         OnLoginListener,
 FragmentUserInfo.OnLogOut{
 
@@ -577,10 +575,6 @@ FragmentUserInfo.OnLogOut{
     }
 
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
 
     @Override

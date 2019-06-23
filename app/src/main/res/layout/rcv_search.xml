@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recycler_view_personnel_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
-
+    xmlns:tools="http://schemas.android.com/tools">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/recycler_view_personnel_image"
+        android:id="@+id/rcv_search_imageView"
         android:layout_width="50dp"
         android:layout_height="65dp"
         android:layout_marginTop="6dp"
@@ -18,25 +16,24 @@
         app:civ_border_color="@color/dark_gray"
         app:civ_border_width="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="@id/recycler_view_personnel_constraintLayout"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/logo_nafis_draw" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
-        android:id="@+id/recycler_view_personnel_name"
+        android:id="@+id/rcv_search_nameTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:textSize="@dimen/small_textSize_sp"
         app:fontCustom="shp_iranSansMobile"
-        app:layout_constraintEnd_toStartOf="@+id/recycler_view_personnel_image"
-        app:layout_constraintTop_toTopOf="@+id/recycler_view_personnel_image"
+        app:layout_constraintRight_toLeftOf="@+id/rcv_search_imageView"
+        app:layout_constraintTop_toTopOf="@+id/rcv_search_imageView"
         tools:text="نام پرسنل" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
-        android:id="@+id/recycler_view_personnel_job"
+        android:id="@+id/rcv_search_categoryTv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -46,10 +43,10 @@
         android:textColor="@color/colorPrimaryS45"
         android:textSize="@dimen/very_small_textSize_sp"
         app:fontCustom="shp_iranSansMobile"
-        app:layout_constraintBottom_toBottomOf="@+id/recycler_view_personnel_image"
-        app:layout_constraintEnd_toEndOf="@+id/recycler_view_personnel_name"
+        app:layout_constraintBottom_toBottomOf="@+id/rcv_search_imageView"
+        app:layout_constraintRight_toRightOf="@+id/rcv_search_nameTv"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_view_personnel_name" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rcv_search_nameTv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

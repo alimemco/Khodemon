@@ -5,10 +5,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionInflater;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,91 +22,113 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.ali.rnp.khodemon.Adapter.SearchAdapter;
+import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.MyLibrary.MyEditText;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
+
+import java.util.ArrayList;
 
 
-public class FragmentSearch extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class FragmentSearch extends Fragment implements TextWatcher {
 
+    MyEditText edtSearch;
+    RecyclerView rcvSearch;
+    ApiService apiService;
+    SearchAdapter searchAdapter;
 
-    private String mParam1;
-    private String mParam2;
-
-    private ImageView imageView;
-    private Button button;
-
-    private OnFragmentInteractionListener mListener;
+    private static final String TAG = "FragmentSearch";
 
     public FragmentSearch() {
 
     }
 
     public static FragmentSearch newInstance() {
+        
+        Bundle args = new Bundle();
+        
         FragmentSearch fragment = new FragmentSearch();
-
+        fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
 
         }
-
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        initViews(view);
+        initRcv();
 
-        return rootView;
+        return view;
     }
 
+    private void initViews(View view) {
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        edtSearch = view.findViewById(R.id.fragment_search_editText);
+        rcvSearch = view.findViewById(R.id.fragment_search_rcvRes);
+        
+        edtSearch.addTextChangedListener(this);
+
+    }
+
+    private void initRcv() {
+        apiService = new ApiService(getContext());
+        searchAdapter = new SearchAdapter();
+
+        LinearLayoutManager ln = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+
+        rcvSearch.setLayoutManager(ln);
+        rcvSearch.setAdapter(searchAdapter);
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (!s.toString().equals("")){
+            Log.i(TAG, "onTextChanged: "+s);
+            apiService.search(s.toString(), (statusCode, locationPeopleList, error) -> {
+
+                if (statusCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY){
+
+                    if (locationPeopleList != null){
+                        searchAdapter.setData(locationPeopleList);
+                    }
+                }else {
+                    String msg = UtilsApp.statusCodeToError(statusCode,error);
+                    Log.i(TAG, "onSearch Error: "+msg);
+                    searchAdapter.setIsEmpty();
+                    Log.i(TAG, "onTextChanged: SetEmpty");
+                }
+            });
+
+
+
+        }else {
+            searchAdapter.setIsEmpty();
+            Log.i(TAG, "onTextChanged: last Else SetEmpty");
+        }
     }
 }

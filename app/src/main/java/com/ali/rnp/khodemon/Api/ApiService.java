@@ -55,6 +55,7 @@ public class ApiService {
     private final static String API_GET_PERSON_LIST = "http://khodemon.ir/getPersonList.php";
     private final static String API_GET_CATEGORY_SCALE = "http://khodemon.ir/getCategory.php";
     private final static String API_GET_SIMILAR = "http://khodemon.ir/getSimilar.php";
+    private final static String API_GET_SEARCH = "http://khodemon.ir/search.php";
 
 
     public static final int STATUS_REGISTER_ERROR = 616;
@@ -587,6 +588,36 @@ public class ApiService {
     }
 
 
+    public void search(String keyword,OnReceivedSearch onReceivedSearch) {
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(ProvidersApp.KEY_KEYWORD,keyword);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    parseJsonSearch(response, onReceivedSearch);
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString());
+                }
+            });
+
+            request.setRetryPolicy(new DefaultRetryPolicy());
+            Volley.newRequestQueue(context).add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
     private void parseJsonGroupItems(JSONObject response, int groupKey, OnGroupItemReceived onGroupItemReceived) {
 
         try {
@@ -1046,6 +1077,46 @@ public class ApiService {
         }
     }
 
+    private void parseJsonSearch(JSONObject response, OnReceivedSearch onReceivedSearch) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(response.toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("result");
+            JSONObject jsonObjectRes = jsonArray.getJSONObject(0);
+            boolean isSuccess = Boolean.valueOf(jsonObjectRes.getString("success"));
+
+            if (isSuccess) {
+                JSONArray jsonArrayItems = jsonObjectRes.getJSONArray("items");
+
+                ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
+
+                for (int i = 0; i < jsonArrayItems.length(); i++) {
+
+                    JSONObject jsonObjectItems = jsonArrayItems.getJSONObject(i);
+                    LocationPeople locationPeople = new LocationPeople();
+                    locationPeople.setId(jsonObjectItems.getInt("ID"));
+                    locationPeople.setName(jsonObjectItems.getString("nameLocPeo"));
+                    locationPeople.setTag(jsonObjectItems.getString("tagLocPeo"));
+                    locationPeople.setCity(jsonObjectItems.getString("city"));
+                    locationPeople.setProvince(jsonObjectItems.getString("province"));
+                    locationPeople.setOriginalPic(jsonObjectItems.getString("original_pic"));
+                    locationPeople.setImageThumb150(jsonObjectItems.getString("thumb_pic"));
+
+                    locationPeopleList.add(locationPeople);
+                }
+
+                onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locationPeopleList, null);
+
+            } else {
+                String msg = jsonObjectRes.getString("message");
+                onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
+            }
+        } catch (JSONException e) {
+            onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, e.toString());
+
+        }
+    }
+
     private String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
@@ -1127,6 +1198,8 @@ public class ApiService {
         void onReceivedSmr(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error);
     }
 
-
+    public interface OnReceivedSearch{
+        void onSearch(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error);
+    }
 
 }
