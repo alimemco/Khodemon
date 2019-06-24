@@ -1,33 +1,32 @@
 package com.ali.rnp.khodemon;
 
-import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.view.Display;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.ali.rnp.khodemon.Api.ApiService;
-import com.ali.rnp.khodemon.DataModel.LocationPeople;
-import com.ali.rnp.khodemon.Library.CircularImageView;
-import com.ali.rnp.khodemon.Test.AliAsyncTask;
-import com.ali.rnp.khodemon.Views.fragments.FragmentBottomSheetCall;
-import com.android.volley.VolleyError;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.squareup.picasso.Picasso;
+import com.ali.rnp.khodemon.DataModel.SampleSearchModel;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import androidx.appcompat.app.AppCompatActivity;
-import de.hdodenhof.circleimageview.CircleImageView;
+import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
+import ir.mirrajabi.searchdialog.StringsHelper;
+import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
+import ir.mirrajabi.searchdialog.core.SearchResultListener;
 
 public class TestActivity extends AppCompatActivity {
 
 
     private static final String TAG = "TestActivityExample";
+
+     EditText editText;
+     TextView text;
 
 
     @Override
@@ -35,18 +34,47 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        float x = 8 ;
-        float y = 7 ;
 
-        float sum = x + y ;
-        float sub = x - y ;
-        float hit = x * y ;
-        float div = x / y ;
+         SimpleSearchDialogCompat dialog = new SimpleSearchDialogCompat<>(TestActivity.this, "Search...",
+                 "What are you looking for...?", null, createSampleData(),
+                 new SearchResultListener<SampleSearchModel>() {
+                     @Override
+                     public void onSelected(BaseSearchDialogCompat dialog,
+                                            SampleSearchModel item, int position) {
+                         Toast.makeText(TestActivity.this, item.getTitle(),
+                                 Toast.LENGTH_SHORT).show();
+                         dialog.dismiss();
+                     }
+                 });
 
-        Log.i(TAG, "8 + 7 is : "+ sum);
-        Log.i(TAG, "8 - 7 is : "+ sub);
-        Log.i(TAG, "8 * 7 is : "+ hit);
-        Log.i(TAG, "8 / 7 is : "+ div);
+         dialog.show();
+
+        Display display = getWindowManager(). getDefaultDisplay();
+        Point size = new Point();
+        display. getSize(size);
+        int width = size. x;
+        int height = size. y;
+        Log. e("Width", "" + width);
+        Log. e("height", "" + height);
+
+
+
+
+
+    }
+
+    private ArrayList<SampleSearchModel> createSampleData(){
+        ArrayList<SampleSearchModel> items = new ArrayList<>();
+        items.add(new SampleSearchModel("First item"));
+        items.add(new SampleSearchModel("Second item"));
+        items.add(new SampleSearchModel("Third item"));
+        items.add(new SampleSearchModel("The ultimate item"));
+        items.add(new SampleSearchModel("Last item"));
+        items.add(new SampleSearchModel("Lorem ipsum"));
+        items.add(new SampleSearchModel("Dolor sit"));
+        items.add(new SampleSearchModel("Some random word"));
+        items.add(new SampleSearchModel("guess who's back"));
+        return items;
     }
 
 

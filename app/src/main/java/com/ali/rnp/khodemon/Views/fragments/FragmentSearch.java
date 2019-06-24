@@ -114,7 +114,7 @@ public class FragmentSearch extends Fragment implements TextWatcher {
                 if (statusCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY){
 
                     if (locationPeopleList != null){
-                        searchAdapter.setData(locationPeopleList);
+                        searchAdapter.setData(locationPeopleList,s.toString());
                     }
                 }else {
                     String msg = UtilsApp.statusCodeToError(statusCode,error);

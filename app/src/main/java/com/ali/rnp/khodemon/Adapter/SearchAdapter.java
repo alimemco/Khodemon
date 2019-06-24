@@ -1,29 +1,36 @@
 package com.ali.rnp.khodemon.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.Helper.StringHighlight;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.TestActivity;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<LocationPeople> locationPeopleList;
+    String txt;
+    Context context;
 
     public SearchAdapter() {
     }
 
-    public void setData(ArrayList<LocationPeople> locationPeopleList) {
+    public void setData(ArrayList<LocationPeople> locationPeopleList, String txt) {
         this.locationPeopleList = locationPeopleList;
+        this.txt = txt ;
         notifyDataSetChanged();
     }
 
@@ -73,9 +80,18 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             LocationPeople locationPeople = locationPeopleList.get(position);
 
             UtilsApp.getImage(locationPeople, mHolder.imageView);
-            mHolder.nameTv.setText(locationPeople.getName());
-            mHolder.categoryTv.setText(locationPeople.getTag());
+           // mHolder.nameTv.setText(locationPeople.getName());
+            mHolder.nameTv.setText(StringHighlight.highlight(locationPeople.getName(), txt,
+                    ContextCompat.getColor(context,R.color.searchDialogResultHighlightColor)));
+
+                    mHolder.categoryTv.setText(locationPeople.getTag());
 
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        context = recyclerView.getContext();
     }
 }
