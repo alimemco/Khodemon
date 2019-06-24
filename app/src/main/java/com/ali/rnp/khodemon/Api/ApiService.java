@@ -34,8 +34,31 @@ import java.util.List;
 
 public class ApiService {
 
-    private static final String TAG = "ApiService";
+    private final static String SITE = "http://khodemon.ir/";
+    private final static String FOLDER = "androidConnector/";
 
+    private final static String API_REGISTER_USER = SITE + FOLDER + "registerUser.php";
+    private final static String API_LOGIN_USER = SITE + FOLDER + "loginUser.php";
+    private final static String API_GET_HOME_ITEMS = SITE + FOLDER + "getHomeItems.php";
+    private final static String API_GET_GROUP_ITEMS = SITE + FOLDER + "getGroupItems.php";
+    private final static String API_GET_HOME_LIST_ITEMS = SITE + FOLDER + "getHomeItemsList.php";
+    private final static String API_ADD_LOCATION_PEOPLE = SITE + FOLDER + "addLocationPeople.php";
+    private final static String API_UPLOAD_PHOTOS = SITE + FOLDER + "upload_images.php";
+    private final static String API_ADD_PICTURE = SITE + FOLDER + "addPictures.php";
+    private final static String API_GET_PICTURE = SITE + FOLDER + "getPictures.php";
+    private final static String API_GET_DETAIL = SITE + FOLDER + "getDetail.php";
+    private final static String API_GET_INFO = SITE + FOLDER + "getInfo.php";
+    private final static String API_ADD_PERSONNEL = SITE + FOLDER + "addPersonnel.php";
+    private final static String API_GET_PERSONNEL = SITE + FOLDER + "getPersonnel.php";
+    private final static String API_GET_PERSON_LIST = SITE + FOLDER + "getPersonList.php";
+    private final static String API_GET_CATEGORY_SCALE = SITE + FOLDER + "getCategory.php";
+    private final static String API_GET_SIMILAR = SITE + FOLDER + "getSimilar.php";
+    private final static String API_GET_SEARCH = SITE + FOLDER + "search.php";
+
+    //JSON
+    private final static String API_GET_PROVINCE = SITE + "json/Province.json";
+    private final static String API_GET_TAGS = SITE + "json/Tags.json";
+    /*
     private final static String API_REGISTER_USER = "http://khodemon.ir/registerUser.php";
     private final static String API_LOGIN_USER = "http://khodemon.ir/loginUser.php";
     private final static String API_GET_HOME_ITEMS = "http://khodemon.ir/getHomeItems.php";
@@ -56,7 +79,9 @@ public class ApiService {
     private final static String API_GET_CATEGORY_SCALE = "http://khodemon.ir/getCategory.php";
     private final static String API_GET_SIMILAR = "http://khodemon.ir/getSimilar.php";
     private final static String API_GET_SEARCH = "http://khodemon.ir/search.php";
+*/
 
+    private static final String TAG = "ApiService";
 
     public static final int STATUS_REGISTER_ERROR = 616;
     public static final int STATUS_Login_ERROR = 717;
@@ -190,10 +215,10 @@ public class ApiService {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_LIST_ITEMS, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (response.length() > 0){
+                if (response.length() > 0) {
                     parseJsonHomeRecyclerListItems(response, onHomeListItemReceived);
-                }else {
-                    onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_SERVER_MISSING_ERROR,null, null, "server is missing");
+                } else {
+                    onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_SERVER_MISSING_ERROR, null, null, "server is missing");
                 }
 
             }
@@ -201,7 +226,7 @@ public class ApiService {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_VOLLEY_ERROR,null, null,  error.toString());
+                        onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, null, error.toString());
                     }
                 }
         );
@@ -445,7 +470,7 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
-    public void getInfo(boolean isFirstScale,int Post_id,String GROUP_NAME, OnReceivedInfo onReceivedInfo) {
+    public void getInfo(boolean isFirstScale, int Post_id, String GROUP_NAME, OnReceivedInfo onReceivedInfo) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ProvidersApp.KEY_POST_ID, Post_id);
@@ -455,10 +480,10 @@ public class ApiService {
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_INFO, jsonObject, response -> {
 
-            parseGetInfo(isFirstScale,response, onReceivedInfo);
+            parseGetInfo(isFirstScale, response, onReceivedInfo);
 
 
-        }, error -> onReceivedInfo.OnReceived(isFirstScale,ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
+        }, error -> onReceivedInfo.OnReceived(isFirstScale, ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
@@ -484,11 +509,11 @@ public class ApiService {
 
     }
 
-    public void getCategoryScale(String GROUP_NAME,OnReceivedCategory onReceivedCategory) {
+    public void getCategoryScale(String GROUP_NAME, OnReceivedCategory onReceivedCategory) {
 
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put(ProvidersApp.GROUP_NAME,GROUP_NAME);
+            jsonObject.put(ProvidersApp.GROUP_NAME, GROUP_NAME);
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_CATEGORY_SCALE, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -513,16 +538,16 @@ public class ApiService {
 
     }
 
-    public void getSimilar(String GROUP_NAME,OnReceivedSimilar onReceivedSimilar) {
+    public void getSimilar(String GROUP_NAME, OnReceivedSimilar onReceivedSimilar) {
 
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put(ProvidersApp.GROUP_NAME,GROUP_NAME);
+            jsonObject.put(ProvidersApp.GROUP_NAME, GROUP_NAME);
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SIMILAR, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    parseJsonSimilar(response, onReceivedSimilar,GROUP_NAME);
+                    parseJsonSimilar(response, onReceivedSimilar, GROUP_NAME);
 
                 }
             }, new Response.ErrorListener() {
@@ -588,11 +613,11 @@ public class ApiService {
     }
 
 
-    public void search(String keyword,OnReceivedSearch onReceivedSearch) {
+    public void search(String keyword, OnReceivedSearch onReceivedSearch) {
 
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put(ProvidersApp.KEY_KEYWORD,keyword);
+            jsonObject.put(ProvidersApp.KEY_KEYWORD, keyword);
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -683,7 +708,7 @@ public class ApiService {
                     LocationPeople locationPeople = new LocationPeople();
                     // PictureUpload pictureUpload = new PictureUpload();
 
-                   // locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
+                    // locationPeople.setId(jsonObjectLocPeo.getInt("ID"));
                     locationPeople.setId(jsonObjectLocPeo.getInt("PEOPLE_ID"));
                     locationPeople.setName(jsonObjectLocPeo.getString("personnelName"));
                     locationPeople.setTag(jsonObjectLocPeo.getString("TagPeople"));
@@ -756,10 +781,10 @@ public class ApiService {
             }
 
 
-            onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_SUCCESSFULLY,locationPeopleListLayout, locationPeoplePerItem, null);
+            onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locationPeopleListLayout, locationPeoplePerItem, null);
 
         } catch (JSONException e) {
-            onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR,null, null,  e.toString());
+            onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, null, e.toString());
 
         }
 
@@ -899,9 +924,7 @@ public class ApiService {
                 LocationPeople locPeo = new LocationPeople();
                 locPeo.setPhone(JsObjItems.getString("phone"));
 
-                onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_SUCCESSFULLY,locPeo,null);
-
-
+                onGetDetails.OnGetDetail(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locPeo, null);
 
 
             } else {
@@ -915,6 +938,7 @@ public class ApiService {
 
         }
     }
+
     private void parseGetInfo(boolean isFirstScale, JSONObject response, OnReceivedInfo onReceivedInfo) {
         try {
             JSONObject jsonObjectResponse = new JSONObject(response.toString());
@@ -940,22 +964,22 @@ public class ApiService {
 
                 //onPhoneReceived.onReceived(JsObjItems.getString("phone"));
 
-                onReceivedInfo.OnReceived(isFirstScale,ProvidersApp.STATUS_CODE_SUCCESSFULLY,infoList,null);
+                onReceivedInfo.OnReceived(isFirstScale, ProvidersApp.STATUS_CODE_SUCCESSFULLY, infoList, null);
 
 
             } else {
                 String msg = jsonObjectRes.getString("message");
-                onReceivedInfo.OnReceived(isFirstScale,ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
+                onReceivedInfo.OnReceived(isFirstScale, ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
             }
 
         } catch (JSONException e) {
-            onReceivedInfo.OnReceived(isFirstScale,ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, response.toString());
+            onReceivedInfo.OnReceived(isFirstScale, ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, response.toString());
 
 
         }
     }
 
-    private void addInfo(ArrayList<Info> infoList, JSONObject jsObjItems, String subject, String titleJson){
+    private void addInfo(ArrayList<Info> infoList, JSONObject jsObjItems, String subject, String titleJson) {
 
     }
 
@@ -1037,7 +1061,7 @@ public class ApiService {
         }
     }
 
-    private void parseJsonSimilar(JSONObject response, OnReceivedSimilar onReceivedSimilar,String GROUP_NAME) {
+    private void parseJsonSimilar(JSONObject response, OnReceivedSimilar onReceivedSimilar, String GROUP_NAME) {
 
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -1138,7 +1162,7 @@ public class ApiService {
     }
 
     public interface OnHomeListItemReceived {
-        void onItemReceived(int statusCode , List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList, String error);
+        void onItemReceived(int statusCode, List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList, String error);
     }
 
     public interface OnGroupItemReceived {
@@ -1198,7 +1222,7 @@ public class ApiService {
         void onReceivedSmr(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error);
     }
 
-    public interface OnReceivedSearch{
+    public interface OnReceivedSearch {
         void onSearch(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error);
     }
 

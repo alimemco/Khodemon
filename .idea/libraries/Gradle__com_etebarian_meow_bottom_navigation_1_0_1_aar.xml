@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.etebarian:meow-bottom-navigation:1.0.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/meow-bottom-navigation-1.0.1.aar/61bef986d07137a830cafad3858405e1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/meow-bottom-navigation-1.0.1.aar/61bef986d07137a830cafad3858405e1/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.etebarian/meow-bottom-navigation/1.0.1/ee32bbafd88a87caadff0fc22fbd3c52e2d0752a/meow-bottom-navigation-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

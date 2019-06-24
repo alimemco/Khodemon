@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
 
+import androidx.multidex.MultiDex;
+
 import com.crashlytics.android.Crashlytics;
 
 import androidx.multidex.MultiDex;

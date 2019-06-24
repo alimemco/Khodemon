@@ -51,7 +51,7 @@ public class TestActivity extends AppCompatActivity {
 
         Display display = getWindowManager(). getDefaultDisplay();
         Point size = new Point();
-        display. getSize(size);
+        display.getSize(size);
         int width = size. x;
         int height = size. y;
         Log. e("Width", "" + width);

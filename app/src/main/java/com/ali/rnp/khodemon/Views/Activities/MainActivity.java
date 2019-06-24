@@ -11,7 +11,6 @@ import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,12 +21,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.ali.rnp.khodemon.DataModel.LocationCity;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Dialogs.DialogCompleteAdd;
 import com.ali.rnp.khodemon.DiscreteScrollView.WeatherActivity;
 import com.ali.rnp.khodemon.ExpandableRecActivity;
-import com.ali.rnp.khodemon.HeightActivity;
 import com.ali.rnp.khodemon.Interface.OnLoginListener;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -39,7 +36,6 @@ import com.ali.rnp.khodemon.Views.fragments.FragmentAdd;
 import com.ali.rnp.khodemon.Views.fragments.FragmentDialog;
 import com.ali.rnp.khodemon.Views.fragments.FragmentFavorite;
 import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
-import com.ali.rnp.khodemon.Views.fragments.FragmentLogin;
 import com.ali.rnp.khodemon.Views.fragments.FragmentSearch;
 import com.ali.rnp.khodemon.Views.fragments.FragmentUser;
 import com.ali.rnp.khodemon.Views.fragments.FragmentUserInfo;
@@ -133,7 +129,6 @@ FragmentUserInfo.OnLogOut{
                 switch (item.getItemId()){
 
                     case R.id.navigation_menu_userManagement:
-                        startActivity(new Intent(MainActivity.this, HeightActivity.class));
                         break;
 
                     case R.id.navigation_menu_about:
