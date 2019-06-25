@@ -1,6 +1,6 @@
 package com.ali.rnp.khodemon.DataModel;
 
-public class Tags {
+public class Category {
     private String parentName;
     private String childName;
     private String imgUrl;

@@ -96,7 +96,7 @@ public class AddRule extends AppCompatActivity implements
 
     private static final String TAG = "AddRuleApp";
 
-    private static final int REQUEST_CODE_CHOOSE = 23;
+    //private static final int REQUEST_CODE_CHOOSE = 23;
     //private static final int REQUEST_CODE_CHOOSE_EXPERT = 6363;
     // private static final int REQUEST_CODE_CHOOSE_LOCATION_MAP = 7259;
 
@@ -574,7 +574,7 @@ public class AddRule extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+        if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_GALLERY && resultCode == RESULT_OK) {
 
             FragmentAddLevelOne.mAdapter.setData(Matisse.obtainResult(data), false, null);
 
@@ -585,12 +585,13 @@ public class AddRule extends AppCompatActivity implements
             dataFromMatisse = data;
 
 
-        } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_TAGS_FRG_ADD_LVL_ONE && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(ProvidersApp.KEY_CHOOSE_TAGS_FRG_ADD_LVL_ONE);
+        } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY && resultCode == RESULT_OK) {
+            String title = data.getStringExtra(ProvidersApp.KEY_BUNDLE_CATEGORY);
             FragmentAddLevelOne.chooseTagTextView.setText(title);
 
         } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE) {
 
+            Toast.makeText(this, "Hours", Toast.LENGTH_SHORT).show();
 
         } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_MAP_FRG_ADD_LVL_TWO && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
@@ -641,7 +642,7 @@ public class AddRule extends AppCompatActivity implements
 
     @Override
     public void viewClickedFrgOne() {
-        startActivityForResult(new Intent(AddRule.this, TagChooseActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_TAGS_FRG_ADD_LVL_ONE);
+        startActivityForResult(new Intent(AddRule.this, ChooseCategoryActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY);
 
     }
 

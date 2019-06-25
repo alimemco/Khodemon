@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.ss.bannerslider:bannerslider:2.0.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-bannerslider-2.0.0.aar/ebb360c973aa947f2c4d0c2c0844950f/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-bannerslider-2.0.0.aar/ebb360c973aa947f2c4d0c2c0844950f/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-bannerslider-2.0.0.aar/fb0c63c6744edcb499e0db3d58e8f59d/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-bannerslider-2.0.0.aar/fb0c63c6744edcb499e0db3d58e8f59d/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

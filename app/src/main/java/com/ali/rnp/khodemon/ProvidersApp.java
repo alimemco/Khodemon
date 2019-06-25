@@ -89,6 +89,7 @@ public class ProvidersApp {
     public static final String KEY_BUNDLE_PEOPLE_ID = "PEOPLE_ID";
     public static final String KEY_BUNDLE_POSITIVE_BUTTON = "POSITIVE";
     public static final String KEY_BUNDLE_NEGATIVE_BUTTON = "NEGATIVE";
+    public static final String KEY_BUNDLE_CATEGORY= "CATEGORY";
 
 
 
@@ -114,10 +115,10 @@ public class ProvidersApp {
 
 
 
-    public static final int REQUEST_CODE_CHOOSE_PERSONNEL = 23 ;
-    public static final int REQUEST_CODE_CHOOSE_SCALE = 21 ;
-    public static final int PERMISSIONS_REQUEST_SMS = 42;
-    public static final int PERMISSIONS_REQUEST_CALL = 43;
+    public static final int REQUEST_CODE_CHOOSE_PERSONNEL = 21 ;
+    public static final int REQUEST_CODE_CHOOSE_SCALE = 22 ;
+    public static final int REQUEST_CODE_CHOOSE_CATEGORY = 23 ;
+    public static final int REQUEST_CODE_CHOOSE_GALLERY = 24 ;
 
 
 

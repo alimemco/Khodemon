@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.mirrajabi:search-dialog:1.2.3@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-search-dialog-1.2.3.aar/3ab976d47cef144b1f304436ba802eba/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-search-dialog-1.2.3.aar/3ab976d47cef144b1f304436ba802eba/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-search-dialog-1.2.3.aar/6cfdd852918d56807f14905ff1be786a/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-search-dialog-1.2.3.aar/6cfdd852918d56807f14905ff1be786a/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

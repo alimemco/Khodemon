@@ -5,12 +5,12 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 
+import com.ali.rnp.khodemon.DataModel.Category;
 import com.ali.rnp.khodemon.DataModel.City;
 import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
-import com.ali.rnp.khodemon.DataModel.Tags;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.ExpandableSingleItems.SingleCheckItemsExp;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -57,29 +57,7 @@ public class ApiService {
 
     //JSON
     private final static String API_GET_PROVINCE = SITE + "json/Province.json";
-    private final static String API_GET_TAGS = SITE + "json/Tags.json";
-    /*
-    private final static String API_REGISTER_USER = "http://khodemon.ir/registerUser.php";
-    private final static String API_LOGIN_USER = "http://khodemon.ir/loginUser.php";
-    private final static String API_GET_HOME_ITEMS = "http://khodemon.ir/getHomeItems.php";
-    private final static String API_GET_GROUP_ITEMS = "http://khodemon.ir/getGroupItems.php";
-    private final static String API_GET_HOME_LIST_ITEMS = "http://khodemon.ir/getHomeItemsList.php";
-    private final static String API_ADD_LOCATION_PEOPLE = "http://khodemon.ir/addLocationPeople.php";
-    private final static String API_GET_PROVINCE = "http://khodemon.ir/json/Province.json";
-    private final static String API_GET_TAGS = "http://khodemon.ir/json/Tags.json";
-
-    private final static String API_UPLOAD_PHOTOS = "http://khodemon.ir/upload_images.php";
-    private final static String API_ADD_PICTURE = "http://khodemon.ir/addPictures.php";
-    private final static String API_GET_PICTURE = "http://khodemon.ir/getPictures.php";
-    private final static String API_GET_DETAIL = "http://khodemon.ir/getDetail.php";
-    private final static String API_GET_INFO = "http://khodemon.ir/getInfo.php";
-    private final static String API_ADD_PERSONNEL = "http://khodemon.ir/addPersonnel.php";
-    private final static String API_GET_PERSONNEL = "http://khodemon.ir/getPersonnel.php";
-    private final static String API_GET_PERSON_LIST = "http://khodemon.ir/getPersonList.php";
-    private final static String API_GET_CATEGORY_SCALE = "http://khodemon.ir/getCategory.php";
-    private final static String API_GET_SIMILAR = "http://khodemon.ir/getSimilar.php";
-    private final static String API_GET_SEARCH = "http://khodemon.ir/search.php";
-*/
+    private final static String API_GET_CATEGORY = SITE + "json/Category.json";
 
     private static final String TAG = "ApiService";
 
@@ -99,12 +77,11 @@ public class ApiService {
     private int retryTime = 10000;
     private Context context;
 
-    List<LocationPeople> locationPeoplePerItem;
-    List<String> imageUrlList;
+
+
 
     public ApiService(Context context) {
         this.context = context;
-        imageUrlList = new ArrayList<>();
     }
 
     public void registerUser(JSONObject jsonObject, final OnRegisterCompleted onRegisterCompleted) {
@@ -258,20 +235,20 @@ public class ApiService {
         requestQueue.add(request);
     }
 
-    public void getTags(OnTagsReceived onTagsReceived) {
+    public void getCategory(OnCategoryReceived onCategoryReceived) {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API_GET_TAGS, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API_GET_CATEGORY, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                parseJsonTags(response, onTagsReceived);
+                parseJsonCategory(response, onCategoryReceived);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                onTagsReceived.onReceived(null, null, error);
+                onCategoryReceived.onReceived(null, null, error);
 
             }
         });
@@ -738,7 +715,7 @@ public class ApiService {
     }
 
     private void parseJsonHomeRecyclerListItems(JSONObject response, OnHomeListItemReceived onHomeListItemReceived) {
-
+        List<LocationPeople> locationPeoplePerItem = new ArrayList<>();
         try {
 
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -833,9 +810,9 @@ public class ApiService {
 
     }
 
-    private void parseJsonTags(JSONArray response, OnTagsReceived onTagsReceived) {
+    private void parseJsonCategory(JSONArray response, OnCategoryReceived onCategoryReceived) {
 
-        List<Tags> tagsList = new ArrayList<>();
+        List<Category> categoryList = new ArrayList<>();
         List<SingleCheckItemsExp> makeSingleCheckParent = new ArrayList<>();
 
 
@@ -852,12 +829,12 @@ public class ApiService {
                     JSONObject jsonObjectChild = jsonArrayChild.getJSONObject(j);
                     String childName = jsonObjectChild.getString("name");
 
-                    Tags tags = new Tags();
-                    tags.setParentName(parentName);
-                    tags.setChildName(childName);
-                    tags.setImgUrl(imgUrl);
+                    Category category = new Category();
+                    category.setParentName(parentName);
+                    category.setChildName(childName);
+                    category.setImgUrl(imgUrl);
 
-                    tagsList.add(tags);
+                    categoryList.add(category);
 
 
                     ChildExp childExp = new ChildExp();
@@ -876,7 +853,7 @@ public class ApiService {
 
         }
 
-        onTagsReceived.onReceived(makeSingleCheckParent, tagsList, null);
+        onCategoryReceived.onReceived(makeSingleCheckParent, categoryList, null);
 
     }
 
@@ -1174,8 +1151,8 @@ public class ApiService {
         void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent, List<City> cities, VolleyError error);
     }
 
-    public interface OnTagsReceived {
-        void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent, List<Tags> tags, VolleyError error);
+    public interface OnCategoryReceived {
+        void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent, List<Category> tags, VolleyError error);
     }
 
     public interface OnUploadedPhoto {

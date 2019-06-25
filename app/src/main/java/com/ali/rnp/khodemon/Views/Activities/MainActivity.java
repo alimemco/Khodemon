@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Dialogs.DialogCompleteAdd;
 import com.ali.rnp.khodemon.DiscreteScrollView.WeatherActivity;
-import com.ali.rnp.khodemon.ExpandableRecActivity;
 import com.ali.rnp.khodemon.Interface.OnLoginListener;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -161,7 +160,6 @@ FragmentUserInfo.OnLogOut{
 
 
                     case R.id.navigation_menu_Expandable:
-                        startActivity(new Intent(MainActivity.this, ExpandableRecActivity.class));
 
                         break;
 
@@ -193,34 +191,6 @@ FragmentUserInfo.OnLogOut{
         });
     }
 
-    public void showDialog() {
-        boolean isLargeLayout = false ;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentDialog fragmentDialog = new FragmentDialog();
-
-
-
-        if (isLargeLayout) {
-            // The device is using a large layout, so show the fragment as a dialog
-            fragmentDialog.show(fragmentManager, "dialog");
-        } else {
-            // The device is smaller, so show the fragment fullscreen
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            // For a little polish, specify a transition animation
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            // To make it fullscreen, use the 'content' root view as the container
-            // for the fragment, which is always the root view for the activity
-            transaction.add(android.R.id.content, fragmentDialog)
-                    .addToBackStack(null).commit();
-        }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fragmentDialog.dismiss();
-            }
-        },3000);
-    }
 
     private void SetupFragments() {
 
@@ -381,13 +351,13 @@ FragmentUserInfo.OnLogOut{
 
                 switch (position) {
                     case BOTTOM_NAV_ITEM_HOME:
-                        fragmentReplace(fragmentHome);
+                        fragmentReplace(fragmentHome,"FragmentHome");
                         break;
 
                     case BOTTOM_NAV_ITEM_USER:
                         String userName = sharedPrefManager.getUser().getUserName();
                         if (userName.equals("")){
-                            fragmentReplace(fragmentUser);
+                            fragmentReplace(fragmentUser,"FragmentUser");
 
                             fragmentUser.setOnLoginListener(MainActivity.this);
 
@@ -396,23 +366,22 @@ FragmentUserInfo.OnLogOut{
 
                         }else {
                             FragmentUserInfo fragmentUserInfo = FragmentUserInfo.newInstance(userName);
-                            fragmentReplace(fragmentUserInfo);
-                            // TODO: 5/22/2019
+                            fragmentReplace(fragmentUserInfo,"FragmentUserInfo");
 
                         }
 
                         break;
 
                     case BOTTOM_NAV_ITEM_ADD:
-                        fragmentReplace(fragmentAdd);
+                        fragmentReplace(fragmentAdd,"FragmentAdd");
                         break;
 
                     case BOTTOM_NAV_ITEM_SEARCH:
-                         fragmentReplace(fragmentSearch);
+                         fragmentReplace(fragmentSearch,"FragmentSearch");
                         break;
 
                     case BOTTOM_NAV_ITEM_FAVORITE:
-                        fragmentReplace(fragmentFavorite);
+                        fragmentReplace(fragmentFavorite,"FragmentFavorite");
                         bottomNavigation.setNotification("", BOTTOM_NAV_ITEM_FAVORITE);
                         break;
                 }
@@ -472,8 +441,6 @@ FragmentUserInfo.OnLogOut{
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.i(TAG, "onActivityResult: "+requestCode+" "+resultCode);
-
         if (resultCode == Activity.RESULT_OK){
 
             switch (requestCode) {
@@ -485,17 +452,22 @@ FragmentUserInfo.OnLogOut{
 
                         cityName.setText(cityNameString);
 
-
                         runOnUiThread(() -> {
                             LocationPeople locationPeople = new LocationPeople();
-                            // locationCity.setCityId(cityId);
                             locationPeople.setCity(cityNameString);
-                            // locationCity.setCityProvinceName(cityProvinceNameString);
                             sharedPrefManager.setSharedCity(locationPeople);
                         });
 
                     }
 
+                    break;
+
+
+                case ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY:
+                    Fragment fragment = getSupportFragmentManager().findFragmentByTag("FragmentSearch");
+                    if (fragment != null){
+                        fragment.onActivityResult(requestCode,resultCode,data);
+                    }
                     break;
             }
         }
@@ -506,17 +478,15 @@ FragmentUserInfo.OnLogOut{
         Fragment frCurrent = getSupportFragmentManager().findFragmentById(R.id.mainActivity_fragment_container);
 
         if (!(frCurrent instanceof FragmentHome)){
-            fragmentReplace(fragmentHome);
+            fragmentReplace(fragmentHome,"FragmentHome");
             bottomNavigation.setCurrentItem(0);
         }
 
     }
 
-    private void fragmentReplace(Fragment fragment) {
+    private void fragmentReplace(Fragment fragment,String tag) {
         FragmentTransaction transactionFragment = fragmentManager.beginTransaction();
-       // transactionFragment.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
-        transactionFragment.replace(R.id.mainActivity_fragment_container, fragment);
-        // transactionFragment.addToBackStack("HomeFragmentStack");
+        transactionFragment.replace(R.id.mainActivity_fragment_container, fragment,tag);
         if (fragment instanceof FragmentUserInfo){
             ((FragmentUserInfo) fragment).setOnLogOutListener(MainActivity.this);
         }
@@ -575,7 +545,7 @@ FragmentUserInfo.OnLogOut{
     @Override
     public void onLogin(String userName) {
         FragmentUserInfo fragmentUserInfo = FragmentUserInfo.newInstance(userName);
-        fragmentReplace(fragmentUserInfo);
+        fragmentReplace(fragmentUserInfo,"FragmentUserInfo");
         Toast.makeText(this, "us "+userName, Toast.LENGTH_SHORT).show();
 
         fragmentUserInfo.setOnLogOutListener(this);
@@ -583,7 +553,7 @@ FragmentUserInfo.OnLogOut{
 
     @Override
     public void OnLoginOut() {
-        fragmentReplace(fragmentUser);
+        fragmentReplace(fragmentUser,"FragmentUser");
         Toast.makeText(this, "Log Out Person :D ", Toast.LENGTH_SHORT).show();
     }
 }

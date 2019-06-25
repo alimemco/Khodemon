@@ -5,9 +5,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ali.rnp.khodemon.ExpandableRecylerView.Genre;
-import com.ali.rnp.khodemon.ExpandableRecylerView.multicheck.MultiCheckGenre;
-import com.ali.rnp.khodemon.ExpandableRecylerView.singlecheck.SingleCheckGenre;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;

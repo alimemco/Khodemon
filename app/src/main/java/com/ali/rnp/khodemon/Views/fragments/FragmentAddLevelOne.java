@@ -63,8 +63,6 @@ public class FragmentAddLevelOne extends Fragment implements
 
     private OnViewClickListener onViewClickListener;
 
-    private String[] chooseOwnerModel = {"انتخاب کنید", "مالک", "فروشنده", "زیر مجموعه", "هیچکدام"};
-
 
     public FragmentAddLevelOne() {
 
