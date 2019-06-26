@@ -179,8 +179,7 @@ FragmentUserInfo.OnLogOut{
 
                         case R.id.navigation_menu_btv:
 
-                        startActivity(new Intent(MainActivity.this, BottomNavActivity.class));
-
+                    
                         break;
 
 

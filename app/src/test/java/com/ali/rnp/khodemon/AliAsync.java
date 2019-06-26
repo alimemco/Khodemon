@@ -2,5 +2,7 @@ package com.ali.rnp.khodemon;
 
 import android.os.AsyncTask;
 
-public abstract class AliAsync extends AsyncTask {
+import com.ali.rnp.khodemon.Views.Activities.MainActivity;
+
+public class AliAsync {
 }

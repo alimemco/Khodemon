@@ -6,17 +6,12 @@
     android:orientation="vertical"
     tools:context=".TestActivity">
 
-    <EditText
-        android:id="@+id/activity_test_edTxt"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/testActivity_rcv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="input"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/activity_test_Tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ali moghadam"/>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </LinearLayout>

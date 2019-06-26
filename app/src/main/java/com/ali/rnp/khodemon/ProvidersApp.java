@@ -77,9 +77,9 @@ public class ProvidersApp {
     public static final String KEY_IS_VERIFIED = "is_verified";
 
     public static final String KEY_KEYWORD = "keyword";
+    public static final String KEY_CATEGORY = "category";
 
     public static final String KEY_LOCATION_PEOPLE = "LOCATION_PEOPLE";
-    public static final String KEY_ITEM_IMAGE_TRANSITION_NAME = "IMAGE_TRANSITION_NAME";
 
     //*** bundle ***//
     public static final String KEY_IMG = "IMAGE";
@@ -89,8 +89,6 @@ public class ProvidersApp {
     public static final String KEY_BUNDLE_PEOPLE_ID = "PEOPLE_ID";
     public static final String KEY_BUNDLE_POSITIVE_BUTTON = "POSITIVE";
     public static final String KEY_BUNDLE_NEGATIVE_BUTTON = "NEGATIVE";
-    public static final String KEY_BUNDLE_CATEGORY= "CATEGORY";
-
 
 
 

@@ -590,32 +590,11 @@ public class ApiService {
     }
 
 
-    public void search(String keyword, OnReceivedSearch onReceivedSearch) {
+    public void search(JSONObject jsonObject, OnReceivedSearch onReceivedSearch) {
 
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(ProvidersApp.KEY_KEYWORD, keyword);
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH, jsonObject, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-
-                    parseJsonSearch(response, onReceivedSearch);
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString());
-                }
-            });
-
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH, jsonObject, response -> parseJsonSearch(response, onReceivedSearch), error -> onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
             request.setRetryPolicy(new DefaultRetryPolicy());
             Volley.newRequestQueue(context).add(request);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
 
     }
 

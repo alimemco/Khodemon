@@ -1,32 +1,34 @@
 package com.ali.rnp.khodemon;
 
-import android.graphics.Point;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Display;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ali.rnp.khodemon.DataModel.SampleSearchModel;
+import com.ali.rnp.khodemon.RcvHeader.ChildModel;
+import com.ali.rnp.khodemon.RcvHeader.CustomAdapter;
+import com.ali.rnp.khodemon.RcvHeader.HeaderModel;
+import com.ali.rnp.khodemon.RcvHeader.ListItem;
 
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
-import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
-import ir.mirrajabi.searchdialog.StringsHelper;
-import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
-import ir.mirrajabi.searchdialog.core.SearchResultListener;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class TestActivity extends AppCompatActivity {
 
 
     private static final String TAG = "TestActivityExample";
 
-     EditText editText;
-     TextView text;
+    private RecyclerView recyclerView;
+    private CustomAdapter customAdapter;
+
+    private String[] vehicleTypes = new String[]{"ماشین", "دوچرخه",
+            "هواپیما","ماشین قدیمی"};
+
+    private ArrayList<ListItem> listItemArrayList;
+
+    private String[] childNames = new String[]{"Range Rover", "Lamborghini",
+            "Rolls Royce","Ferrari","Harley davidson","Ducati","BMW","Honda","Boeing","Airbus","Royal Air","Space X","Horse","Elephant","Camel","Donkey"};
+
 
 
     @Override
@@ -35,27 +37,15 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
 
 
-         SimpleSearchDialogCompat dialog = new SimpleSearchDialogCompat<>(TestActivity.this, "Search...",
-                 "What are you looking for...?", null, createSampleData(),
-                 new SearchResultListener<SampleSearchModel>() {
-                     @Override
-                     public void onSelected(BaseSearchDialogCompat dialog,
-                                            SampleSearchModel item, int position) {
-                         Toast.makeText(TestActivity.this, item.getTitle(),
-                                 Toast.LENGTH_SHORT).show();
-                         dialog.dismiss();
-                     }
-                 });
+        recyclerView = findViewById(R.id.testActivity_rcv);
 
-         dialog.show();
+        listItemArrayList = new ArrayList<>();
+        populateList();
 
-        Display display = getWindowManager(). getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size. x;
-        int height = size. y;
-        Log. e("Width", "" + width);
-        Log. e("height", "" + height);
+        customAdapter = new CustomAdapter(listItemArrayList);
+        recyclerView.setAdapter(customAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
+                RecyclerView.VERTICAL, false));
 
 
 
@@ -63,19 +53,28 @@ public class TestActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<SampleSearchModel> createSampleData(){
-        ArrayList<SampleSearchModel> items = new ArrayList<>();
-        items.add(new SampleSearchModel("First item"));
-        items.add(new SampleSearchModel("Second item"));
-        items.add(new SampleSearchModel("Third item"));
-        items.add(new SampleSearchModel("The ultimate item"));
-        items.add(new SampleSearchModel("Last item"));
-        items.add(new SampleSearchModel("Lorem ipsum"));
-        items.add(new SampleSearchModel("Dolor sit"));
-        items.add(new SampleSearchModel("Some random word"));
-        items.add(new SampleSearchModel("guess who's back"));
-        return items;
+    private void populateList(){
+
+        int headerdone = 0, childdone = 0;
+
+        for(int i = 0; i < 20; i++){
+
+            if(i == 0 || i == 5 | i == 10 | i == 15){
+                HeaderModel header = new HeaderModel();
+                header.setHeader(vehicleTypes[headerdone]);
+                listItemArrayList.add(header);
+                headerdone = headerdone + 1;
+            }else {
+                ChildModel child = new ChildModel();
+                child.setChild(childNames[childdone]);
+                listItemArrayList.add(child);
+                childdone = childdone + 1;
+            }
+        }
+
     }
+
+
 
 
 

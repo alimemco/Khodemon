@@ -49,7 +49,7 @@ public class ChooseCategoryActivity extends AppCompatActivity {
 
             if (category != null && !category.equals("")){
                 Intent intent = new Intent();
-                intent.putExtra(ProvidersApp.KEY_BUNDLE_CATEGORY, category);
+                intent.putExtra(ProvidersApp.KEY_CATEGORY, category);
                 setResult(Activity.RESULT_OK,intent);
             }
 

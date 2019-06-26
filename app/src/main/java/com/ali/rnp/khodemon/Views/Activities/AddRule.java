@@ -586,7 +586,7 @@ public class AddRule extends AppCompatActivity implements
 
 
         } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(ProvidersApp.KEY_BUNDLE_CATEGORY);
+            String title = data.getStringExtra(ProvidersApp.KEY_CATEGORY);
             FragmentAddLevelOne.chooseTagTextView.setText(title);
 
         } else if (requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_HOURS_FRG_ADD_LVL_THREE) {
