@@ -37,4 +37,6 @@
     <string name="day_close">تعطیل</string>
     <string name="day_open">باز است</string>
 
+    <string name="chooseCategory">انتخاب دسته بندی</string>
+
 </resources>

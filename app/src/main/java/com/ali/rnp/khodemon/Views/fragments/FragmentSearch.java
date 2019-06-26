@@ -10,9 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.SearchAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.MyLibrary.MyButtonDrawable;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -23,6 +26,8 @@ import com.ali.rnp.khodemon.Views.Activities.ChooseCategoryActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -32,14 +37,20 @@ import androidx.transition.TransitionInflater;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 
-public class FragmentSearch extends Fragment implements TextWatcher, View.OnClickListener {
+public class FragmentSearch extends Fragment implements TextWatcher,
+        View.OnClickListener,
+        ApiService.OnReceivedSearch,
+MyButtonDrawable.DrawableClickListener{
 
-    RecyclerView rcvSearch;
-    ApiService apiService;
-    SearchAdapter searchAdapter;
-    MaterialProgressBar progressBar;
-    MyButton chooseCategory;
-    String category;
+    private RecyclerView rcvSearch;
+    private ApiService apiService;
+    private SearchAdapter searchAdapter;
+    private MaterialProgressBar progressBar;
+    private MyButton chooseCategory;
+    private String category;
+    private String typed;
+    private JSONObject jsonObject;
+    private boolean isSelectedCategory;
 
     private static final String TAG = "FragmentSearch";
 
@@ -48,9 +59,9 @@ public class FragmentSearch extends Fragment implements TextWatcher, View.OnClic
     }
 
     public static FragmentSearch newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         FragmentSearch fragment = new FragmentSearch();
         fragment.setArguments(args);
         return fragment;
@@ -66,6 +77,11 @@ public class FragmentSearch extends Fragment implements TextWatcher, View.OnClic
             setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
 
         }
+
+        category = "";
+        typed = "";
+        jsonObject = new JSONObject();
+
     }
 
     @Override
@@ -90,7 +106,11 @@ public class FragmentSearch extends Fragment implements TextWatcher, View.OnClic
 
         edtSearch.addTextChangedListener(this);
         chooseCategory.setOnClickListener(this);
+        //chooseCategory.setDrawableClickListener(this);
         chooseCity.setOnClickListener(this);
+
+
+
 
     }
 
@@ -98,7 +118,7 @@ public class FragmentSearch extends Fragment implements TextWatcher, View.OnClic
         apiService = new ApiService(getContext());
         searchAdapter = new SearchAdapter();
 
-        LinearLayoutManager ln = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        LinearLayoutManager ln = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
 
         rcvSearch.setLayoutManager(ln);
         rcvSearch.setAdapter(searchAdapter);
@@ -106,7 +126,7 @@ public class FragmentSearch extends Fragment implements TextWatcher, View.OnClic
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        
+
     }
 
     @Override
@@ -116,44 +136,19 @@ public class FragmentSearch extends Fragment implements TextWatcher, View.OnClic
 
     @Override
     public void afterTextChanged(Editable s) {
+
         progressBar.setVisibility(View.VISIBLE);
+        typed = s.toString();
 
-        if (!s.toString().equals("")){
+        if (!typed.equals("")) {
 
+            sendJson(true);
 
-            try {
-                JSONObject jsonObject = new JSONObject();
+        } else if (!category.equals("")) {
 
-                if (category != null && category.equals("")){
-                    jsonObject.put(ProvidersApp.KEY_CATEGORY, category);
-                }
+            sendJson(true);
 
-                jsonObject.put(ProvidersApp.KEY_KEYWORD, s.toString());
-
-
-
-                apiService.search(jsonObject, (statusCode, locationPeopleList, error) -> {
-
-                    progressBar.setVisibility(View.GONE);
-
-                    if (statusCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY){
-
-                        if (locationPeopleList != null){
-                            searchAdapter.setData(locationPeopleList,s.toString());
-                        }else {
-                            searchAdapter.setIsEmpty();
-                        }
-                    }else {
-                        String msg = UtilsApp.statusCodeToError(statusCode,error);
-                        Log.i(TAG, "onSearch Error: "+msg);
-                        searchAdapter.setIsEmpty();
-                    }
-                });
-            } catch (JSONException e) {
-               // e.printStackTrace();
-            }
-
-        }else {
+        } else {
             searchAdapter.setIsEmpty();
             progressBar.setVisibility(View.GONE);
         }
@@ -161,11 +156,14 @@ public class FragmentSearch extends Fragment implements TextWatcher, View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.fragment_search_chooseCategory_button:
-                if (getActivity() != null)
-                getActivity().startActivityForResult(new Intent(getActivity(), ChooseCategoryActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY);
+
+                    if (getActivity() != null)
+                        getActivity().startActivityForResult(new Intent(getActivity(), ChooseCategoryActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY);
+
+
                 break;
 
             case R.id.fragment_search_chooseCity_button:
@@ -178,13 +176,79 @@ public class FragmentSearch extends Fragment implements TextWatcher, View.OnClic
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK && requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY){
+        if (resultCode == Activity.RESULT_OK && requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY) {
 
-            if (data != null){
+            if (data != null) {
                 category = data.getStringExtra(ProvidersApp.KEY_CATEGORY);
                 chooseCategory.setText(category);
 
+                isSelectedCategory = true;
+                checkCategoryExist();
+                sendJson(false);
+
             }
+        }
+    }
+
+    @Override
+    public void onSearch(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error) {
+        progressBar.setVisibility(View.GONE);
+
+        if (statusCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY) {
+
+            if (locationPeopleList != null) {
+                searchAdapter.setData(locationPeopleList, typed);
+            } else {
+                searchAdapter.setIsEmpty();
+            }
+        } else {
+            String msg = UtilsApp.statusCodeToError(statusCode, error);
+            Log.i(TAG, "onSearch Error: " + msg);
+            searchAdapter.setIsEmpty();
+        }
+    }
+
+    private void sendJson(boolean setNew) {
+        try {
+            if (setNew) {
+                jsonObject = new JSONObject();
+            }
+
+            if (!category.equals("")) {
+
+                jsonObject.put(ProvidersApp.KEY_CATEGORY, category);
+            }
+
+            if (!typed.equals("")) {
+                jsonObject.put(ProvidersApp.KEY_KEYWORD, typed);
+            }
+
+            apiService.search(jsonObject, this);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkCategoryExist() {
+
+        if (category.equals("")) {
+            chooseCategory.setText(R.string.chooseCategory);
+        } else {
+            chooseCategory.setText(category);
+        }
+    }
+
+    @Override
+    public void onClick(DrawablePosition target) {
+        switch (target){
+
+            case RIGHT:
+            case LEFT:
+                category = "";
+                isSelectedCategory = false ;
+                checkCategoryExist();
+                break;
         }
     }
 }

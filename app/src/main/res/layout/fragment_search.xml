@@ -52,8 +52,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Category"
+        android:layout_marginTop="16dp"
+        android:text="@string/chooseCategory"
+        app:drawableRightCompat="@drawable/ic_chat"
+        android:drawablePadding="12dp"
+        style="@style/buttonAdd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_search_editText" />
 
@@ -70,12 +73,11 @@
         android:id="@+id/fragment_search_rcvRes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_search_chooseCategory_button" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
