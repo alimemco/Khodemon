@@ -1,6 +1,7 @@
 package com.ali.rnp.khodemon.Views.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +42,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 public class FragmentSearch extends Fragment implements TextWatcher,
         View.OnClickListener,
         ApiService.OnReceivedSearch,
-MyButtonDrawable.DrawableClickListener{
+MyButton.DrawableClickListener{
 
     private RecyclerView rcvSearch;
     private ApiService apiService;
@@ -50,7 +52,8 @@ MyButtonDrawable.DrawableClickListener{
     private String category;
     private String typed;
     private JSONObject jsonObject;
-    private boolean isSelectedCategory;
+
+    private Context context;
 
     private static final String TAG = "FragmentSearch";
 
@@ -74,7 +77,7 @@ MyButtonDrawable.DrawableClickListener{
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+            setSharedElementEnterTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.move));
 
         }
 
@@ -105,23 +108,24 @@ MyButtonDrawable.DrawableClickListener{
         progressBar.setVisibility(View.GONE);
 
         edtSearch.addTextChangedListener(this);
-        chooseCategory.setOnClickListener(this);
-        //chooseCategory.setDrawableClickListener(this);
         chooseCity.setOnClickListener(this);
 
-
-
+        chooseCategory.setOnClickListener(this);
+        chooseCategory.setDrawableClickListener(this);
 
     }
 
     private void initRcv() {
-        apiService = new ApiService(getContext());
+        apiService = new ApiService(context);
         searchAdapter = new SearchAdapter();
 
-        LinearLayoutManager ln = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        LinearLayoutManager ln = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
 
         rcvSearch.setLayoutManager(ln);
         rcvSearch.setAdapter(searchAdapter);
+
+        apiService.getSearchSuggestion(this);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -136,6 +140,7 @@ MyButtonDrawable.DrawableClickListener{
 
     @Override
     public void afterTextChanged(Editable s) {
+
 
         progressBar.setVisibility(View.VISIBLE);
         typed = s.toString();
@@ -180,11 +185,9 @@ MyButtonDrawable.DrawableClickListener{
 
             if (data != null) {
                 category = data.getStringExtra(ProvidersApp.KEY_CATEGORY);
-                chooseCategory.setText(category);
 
-                isSelectedCategory = true;
                 checkCategoryExist();
-                sendJson(false);
+
 
             }
         }
@@ -209,6 +212,7 @@ MyButtonDrawable.DrawableClickListener{
     }
 
     private void sendJson(boolean setNew) {
+
         try {
             if (setNew) {
                 jsonObject = new JSONObject();
@@ -234,21 +238,35 @@ MyButtonDrawable.DrawableClickListener{
 
         if (category.equals("")) {
             chooseCategory.setText(R.string.chooseCategory);
+           chooseCategory.setCompoundDrawablesWithIntrinsicBounds( 0, 0, R.drawable.ic_add, 0);
+
+            sendJson(true);
         } else {
+
+            progressBar.setVisibility(View.VISIBLE);
+
             chooseCategory.setText(category);
+            chooseCategory.setCompoundDrawablesWithIntrinsicBounds( 0, 0, R.drawable.ic_false_circle, 0);
+
+            sendJson(false);
         }
+
+
+    }
+
+
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
     @Override
     public void onClick(DrawablePosition target) {
-        switch (target){
-
-            case RIGHT:
-            case LEFT:
-                category = "";
-                isSelectedCategory = false ;
-                checkCategoryExist();
-                break;
-        }
+        category = "";
+        checkCategoryExist();
     }
+
 }

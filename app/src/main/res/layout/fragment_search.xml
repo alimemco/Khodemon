@@ -46,18 +46,19 @@
         app:mpb_setBothDrawables="true"
         app:mpb_useIntrinsicPadding="true" />
 
+
     <com.ali.rnp.khodemon.MyLibrary.MyButton
         android:id="@+id/fragment_search_chooseCategory_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/chooseCategory"
-        app:drawableRightCompat="@drawable/ic_chat"
+        app:drawableRightCompat="@drawable/ic_add"
         android:drawablePadding="12dp"
         style="@style/buttonAdd"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_search_editText" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyButton
@@ -66,7 +67,7 @@
         android:layout_height="0dp"
         android:text="city"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_search_chooseCategory_button"
-        app:layout_constraintStart_toEndOf="@+id/fragment_search_chooseCategory_button"
+        app:layout_constraintRight_toLeftOf="@+id/fragment_search_chooseCategory_button"
         app:layout_constraintTop_toTopOf="@+id/fragment_search_chooseCategory_button" />
 
     <androidx.recyclerview.widget.RecyclerView

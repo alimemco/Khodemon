@@ -54,6 +54,7 @@ public class ApiService {
     private final static String API_GET_CATEGORY_SCALE = SITE + FOLDER + "getCategory.php";
     private final static String API_GET_SIMILAR = SITE + FOLDER + "getSimilar.php";
     private final static String API_GET_SEARCH = SITE + FOLDER + "search.php";
+    private final static String API_GET_SEARCH_SUGGESTION = SITE + FOLDER + "searchSuggestion.php";
 
     //JSON
     private final static String API_GET_PROVINCE = SITE + "json/Province.json";
@@ -576,13 +577,7 @@ public class ApiService {
 
 
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                onAddPersonnel.onAdded(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, error.toString());
-
-            }
-        });
+        }, error -> onAddPersonnel.onAdded(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, error.toString()));
 
         request.setRetryPolicy(new DefaultRetryPolicy());
         Volley.newRequestQueue(context).add(request);
@@ -595,6 +590,14 @@ public class ApiService {
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH, jsonObject, response -> parseJsonSearch(response, onReceivedSearch), error -> onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
             request.setRetryPolicy(new DefaultRetryPolicy());
             Volley.newRequestQueue(context).add(request);
+
+    }
+
+    public void getSearchSuggestion( OnReceivedSearch onReceivedSearch) {
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH_SUGGESTION, null, response -> parseJsonSearchSuggestion(response, onReceivedSearch), error -> onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
+        request.setRetryPolicy(new DefaultRetryPolicy());
+        Volley.newRequestQueue(context).add(request);
 
     }
 
@@ -1097,6 +1100,46 @@ public class ApiService {
         }
     }
 
+    private void parseJsonSearchSuggestion(JSONObject response, OnReceivedSearch onReceivedSearch) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(response.toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("result");
+            JSONObject jsonObjectRes = jsonArray.getJSONObject(0);
+            boolean isSuccess = Boolean.valueOf(jsonObjectRes.getString("success"));
+
+            if (isSuccess) {
+                JSONArray jsonArrayItems = jsonObjectRes.getJSONArray("items");
+
+                ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
+
+                for (int i = 0; i < jsonArrayItems.length(); i++) {
+
+                    JSONObject jsonObjectItems = jsonArrayItems.getJSONObject(i);
+                    LocationPeople locationPeople = new LocationPeople();
+                    locationPeople.setId(jsonObjectItems.getInt("ID"));
+                    locationPeople.setName(jsonObjectItems.getString("nameLocPeo"));
+                    locationPeople.setTag(jsonObjectItems.getString("tagLocPeo"));
+                    locationPeople.setCity(jsonObjectItems.getString("city"));
+                    locationPeople.setProvince(jsonObjectItems.getString("province"));
+                    locationPeople.setOriginalPic(jsonObjectItems.getString("original_pic"));
+                    locationPeople.setImageThumb150(jsonObjectItems.getString("thumb_pic"));
+
+                    locationPeopleList.add(locationPeople);
+                }
+
+                onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locationPeopleList, null);
+
+            } else {
+                String msg = jsonObjectRes.getString("message");
+                onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
+            }
+        } catch (JSONException e) {
+            onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, e.toString());
+
+        }
+    }
+
     private String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
@@ -1181,5 +1224,7 @@ public class ApiService {
     public interface OnReceivedSearch {
         void onSearch(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error);
     }
+
+
 
 }

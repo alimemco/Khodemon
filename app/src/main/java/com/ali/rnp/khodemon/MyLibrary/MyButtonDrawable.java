@@ -6,9 +6,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.EditText;
 
-import androidx.appcompat.widget.AppCompatEditText;
 
 public class MyButtonDrawable extends MyButton {
 
@@ -25,7 +23,6 @@ public class MyButtonDrawable extends MyButton {
 
     public MyButtonDrawable(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // this Contructure required when you are using this view in xml
     }
 
     public MyButtonDrawable(Context context, AttributeSet attrs, int defStyle) {
@@ -38,8 +35,8 @@ public class MyButtonDrawable extends MyButton {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
+        super.onSizeChanged(w, h, oldW, oldH);
     }
 
     @Override
@@ -62,7 +59,6 @@ public class MyButtonDrawable extends MyButton {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        performClick();
         Rect bounds;
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             actionX = (int) event.getX();
@@ -91,7 +87,7 @@ public class MyButtonDrawable extends MyButton {
                 y = actionY;
 
                 if (!bounds.contains(actionX, actionY)) {
-                    /** Gives the +20 area for tapping. */
+                    /* Gives the +20 area for tapping. */
                     x = (int) (actionX - extraTapArea);
                     y = (int) (actionY - extraTapArea);
 
@@ -121,7 +117,7 @@ public class MyButtonDrawable extends MyButton {
                 bounds = drawableRight.getBounds();
 
                 int x, y;
-                int extraTapArea = 13;
+                int extraTapArea = 30;
 
                 /*
                  * IF USER CLICKS JUST OUT SIDE THE RECTANGLE OF THE DRAWABLE
