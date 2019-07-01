@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -9,8 +9,11 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/white</item>
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <!--
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
         <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
+-->
+
 
     </style>
 
@@ -98,8 +101,37 @@
     </style>
 
 
+    <style name="MyMaterialComponents" parent="Theme.MaterialComponents.Light.NoActionBar">
 
 
+                <item name="android:colorBackground">@color/my_app_background_color</item>
+                <item name="colorError">@color/my_app_error_color</item>
+
+                 New MaterialComponents attributes.
+                <item name="colorPrimaryVariant">@color/greenH500</item>
+                <item name="colorSecondaryVariant">@color/purple500</item>
+                <item name="colorSurface">@color/red400</item>
+                <item name="colorOnPrimary">@color/my_app_color_on_primary</item>
+                <item name="colorOnSecondary">@color/my_app_color_on_secondary</item>
+                <item name="colorOnBackground">@color/my_app_color_on_background</item>
+                <item name="colorOnError">@color/my_app_color_on_error</item>
+                <item name="colorOnSurface">@color/my_app_color_on_surface</item>
+                <item name="scrimBackground">@color/my_scrim_color</item>
+                <item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1</item>
+                <item name="textAppearanceHeadline2">@style/TextAppearance.MaterialComponents.Headline2</item>
+                <item name="textAppearanceHeadline3">@style/TextAppearance.MaterialComponents.Headline3</item>
+                <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4</item>
+                <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5</item>
+                <item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6</item>
+                <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1</item>
+                <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2</item>
+                <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
+                <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>
+                <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
+                <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
+                <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
+
+    </style>
 
 
 </resources>

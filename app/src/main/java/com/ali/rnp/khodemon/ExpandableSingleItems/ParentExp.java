@@ -1,9 +1,9 @@
 package com.ali.rnp.khodemon.ExpandableSingleItems;
 
-import com.ali.rnp.khodemon.ExpandableTags.Grouping;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.List;
+
 
 public class ParentExp extends ExpandableGroup<ChildExp> {
 
@@ -21,9 +21,9 @@ public class ParentExp extends ExpandableGroup<ChildExp> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Grouping)) return false;
+        if (!(o instanceof ParentExp)) return false;
 
-        Grouping tag = (Grouping) o;
+        ParentExp tag = (ParentExp) o;
 
         return getIconResId() == tag.getIconResId();
 

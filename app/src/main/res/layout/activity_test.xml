@@ -3,15 +3,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context=".TestActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/testActivity_rcv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<com.google.android.material.chip.Chip
+    android:id="@+id/test_chips"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/padding_10"
+    android:text="hello_world"
 
-    </androidx.recyclerview.widget.RecyclerView>
+
+    app:rippleColor="@color/greenH500"
+    app:closeIcon="@drawable/ic_false_circle"
+    app:iconStartPadding="@dimen/padding_10"
+    app:iconEndPadding="@dimen/padding_10"
+    app:chipStrokeWidth="1dp"
+    app:chipStrokeColor="@color/gray_300"
+    app:checkedIcon="@drawable/ic_check"
+    android:checked="false"
+    android:checkable="true"
+    app:checkedIconEnabled="true"
+/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/test_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ali"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/testRcv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+
+
+
+
+
 
 
 </LinearLayout>

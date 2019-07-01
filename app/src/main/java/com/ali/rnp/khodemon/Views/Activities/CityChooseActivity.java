@@ -44,9 +44,6 @@ public class CityChooseActivity extends AppCompatActivity implements
     private List<City> cityList;
     private List<SingleCheckItemsExp> makeSingleCheckParentList;
 
-    public static final String INTENT_CITY_ID = "city_id";
-    public static final String INTENT_CITY_NAME = "city_name";
-    public static final String INTENT_CITY_PROVINCE_NAME = "city_province_name";
 
 
 
@@ -102,29 +99,10 @@ public class CityChooseActivity extends AppCompatActivity implements
 
     public void sendCityData() {
         Intent intent = new Intent();
-        //  intent.putExtra(CityChooseActivity.INTENT_CITY_ID, city.getId());
         intent.putExtra(ProvidersApp.KEY_CITY_NAME, cityName);
         intent.putExtra(ProvidersApp.KEY_PROVINCE_NAME, provinceName);
-        // intent.putExtra(CityChooseActivity.INTENT_CITY_PROVINCE_NAME, city.getProvince());
         setResult(RESULT_OK, intent);
-        /*
 
-        if (isFromFragmentAddTwo){
-
-            String name = provinceName+" ، "+cityName;
-            FragmentAddLevelTwo.chooseCityTextView.setText(name);
-
-            FragmentAddLevelTwo.provinceName = provinceName;
-            FragmentAddLevelTwo.cityName = cityName;
-
-        }else {
-            Intent intent = new Intent(CityChooseActivity.this, MainActivity.class);
-            //  intent.putExtra(CityChooseActivity.INTENT_CITY_ID, city.getId());
-            intent.putExtra(CityChooseActivity.INTENT_CITY_NAME, cityName);
-            // intent.putExtra(CityChooseActivity.INTENT_CITY_PROVINCE_NAME, city.getProvince());
-            setResult(RESULT_OK, intent);
-        }
-*/
 
         finish();
 

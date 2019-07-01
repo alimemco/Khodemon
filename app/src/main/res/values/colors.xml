@@ -128,4 +128,21 @@
         <item>@color/gradientClear_c3</item>
     </array>
 
+
+    <color name="my_app_background_color">#f44336</color>
+    <color name="my_app_error_color">#E91E63</color>
+    <color name="my_app_primary_variant_color">#9C27B0</color>
+    <color name="my_app_secondary_variant_color">#673AB7</color>
+    <color name="my_app_surface_color">#3F51B5</color>
+    <color name="my_app_color_on_primary">#2196F3</color>
+    <color name="my_app_color_on_secondary">#03A9F4</color>
+    <color name="my_app_color_on_error">#00BCD4</color>
+    <color name="my_app_color_on_background">#009688</color>
+    <color name="my_app_color_on_surface">#4CAF50</color>
+    <color name="my_scrim_color">#CDDC39</color>
+    <color name="my_app_background_color2">#FFC107</color>
+    <color name="my_app_background_color3">#FF9800</color>
+    <color name="my_app_background_color4">#FF5722</color>
+    <color name="my_app_background_color5">#795548</color>
+
 </resources>

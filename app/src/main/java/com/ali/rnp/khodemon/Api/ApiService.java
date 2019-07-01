@@ -766,11 +766,11 @@ public class ApiService {
                 for (int j = 0; j < jsonArrayCities.length(); j++) {
                     JSONObject jsonObjectCity = jsonArrayCities.getJSONObject(j);
                     String cityName = jsonObjectCity.getString("name");
-
+/*
                     City city = new City();
                     city.setCityName(cityName);
                     city.setProvince(provinceName);
-                    cities.add(city);
+                    cities.add(city);*/
 
                     ChildExp childExp = new ChildExp();
                     childExp.setData(cityName, true);

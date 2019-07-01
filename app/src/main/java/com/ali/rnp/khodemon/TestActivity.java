@@ -1,11 +1,18 @@
 package com.ali.rnp.khodemon;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.view.animation.RotateAnimation;
+import android.widget.Toast;
 
-import com.ali.rnp.khodemon.RcvHeader.ChildModel;
-import com.ali.rnp.khodemon.RcvHeader.CustomAdapter;
-import com.ali.rnp.khodemon.RcvHeader.HeaderModel;
-import com.ali.rnp.khodemon.RcvHeader.ListItem;
+import com.ali.rnp.khodemon.Search.ChildModel;
+import com.ali.rnp.khodemon.Search.GroupModel;
+import com.ali.rnp.khodemon.Search.SearchAdapter;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
@@ -13,23 +20,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TestActivity extends AppCompatActivity {
+import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
+public class TestActivity extends AppCompatActivity
+implements SearchAdapter.OnChildClickListener{
 
-    private static final String TAG = "TestActivityExample";
+    MaterialButton btn;
+    boolean isCheckedChip;
 
-    private RecyclerView recyclerView;
-    private CustomAdapter customAdapter;
-
-    private String[] vehicleTypes = new String[]{"ماشین", "دوچرخه",
-            "هواپیما","ماشین قدیمی"};
-
-    private ArrayList<ListItem> listItemArrayList;
-
-    private String[] childNames = new String[]{"Range Rover", "Lamborghini",
-            "Rolls Royce","Ferrari","Harley davidson","Ducati","BMW","Honda","Boeing","Airbus","Royal Air","Space X","Horse","Elephant","Camel","Donkey"};
-
-
+    private String[] groupNames  = new String[]{"پیشنهادی", "در شهر من" ,"جدیدترین ها","پر بازدید ترین ها"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,45 +36,104 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
 
 
-        recyclerView = findViewById(R.id.testActivity_rcv);
-
-        listItemArrayList = new ArrayList<>();
-        populateList();
-
-        customAdapter = new CustomAdapter(listItemArrayList);
-        recyclerView.setAdapter(customAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
-                RecyclerView.VERTICAL, false));
+        initRcv();
 
 
 
 
+        Chip chip = findViewById(R.id.test_chips);
+        btn = findViewById(R.id.test_btn);
+        isCheckedChip = chip.isChecked();
 
-    }
 
-    private void populateList(){
+                chip.setOnClickListener(v -> {
 
-        int headerdone = 0, childdone = 0;
+                    chip.setCloseIconVisible(true);
+                    isCheckedChip = !isCheckedChip;
+                    chip.setChecked(isCheckedChip);
 
-        for(int i = 0; i < 20; i++){
+                    if (isCheckedChip){
+                        animateExpand(btn);
+                    }else {
+                        animateCollapse(btn);
+                    }
+                });
 
-            if(i == 0 || i == 5 | i == 10 | i == 15){
-                HeaderModel header = new HeaderModel();
-                header.setHeader(vehicleTypes[headerdone]);
-                listItemArrayList.add(header);
-                headerdone = headerdone + 1;
-            }else {
-                ChildModel child = new ChildModel();
-                child.setChild(childNames[childdone]);
-                listItemArrayList.add(child);
-                childdone = childdone + 1;
+        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chip.setCloseIconVisible(false);
             }
+        });
+
+
+    }
+
+    private void initRcv() {
+
+        RecyclerView rcv = findViewById(R.id.testRcv);
+        LinearLayoutManager lm = new LinearLayoutManager(TestActivity.this,RecyclerView.VERTICAL,false);
+
+        SearchAdapter searchAdapter = new SearchAdapter(makeList());
+        searchAdapter.setOnChildClickListener(this);
+
+
+        rcv.setLayoutManager(lm);
+        rcv.setAdapter(searchAdapter);
+    }
+
+    private ArrayList<GroupModel> makeList() {
+
+        ArrayList<GroupModel> groupModels = new ArrayList<>();
+        ArrayList<ChildModel> childModels = null;
+
+        for (int i = 0; i < groupNames.length; i++) {
+            childModels = new ArrayList<>();
+
+            for (int j = 0; j < UtilsApp.randomInteger(2,6); j++) {
+
+
+                ChildModel childModel = new ChildModel("نام","دسته بندی");
+                childModels.add(childModel);
+
+
+            }
+
+            GroupModel groupModel = new GroupModel(groupNames[i],childModels);
+            groupModels.add(groupModel);
+
         }
+        return groupModels;
 
     }
 
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.bottom_navigation_test, menu);
+        return true;
+    }
 
 
+    private void animateCollapse(View view) {
+        RotateAnimation rotate =
+                new RotateAnimation(180, 360, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(300);
+        rotate.setFillAfter(true);
+        view.setAnimation(rotate);
+    }
+
+    private void animateExpand(View view) {
+        RotateAnimation rotate =
+                new RotateAnimation(360, 180, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(300);
+        rotate.setFillAfter(true);
+        view.setAnimation(rotate);
+    }
+
+    @Override
+    public void onChildClick(ChildModel childModel) {
+        Toast.makeText(this, childModel.getName(), Toast.LENGTH_SHORT).show();
+    }
 }

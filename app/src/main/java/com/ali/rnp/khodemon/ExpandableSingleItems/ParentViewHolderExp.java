@@ -27,21 +27,15 @@ public class ParentViewHolderExp extends GroupViewHolder {
         arrow =  itemView.findViewById(R.id.list_item_parent_exp_arrow);
         icon =  itemView.findViewById(R.id.list_item_parent_exp_icon);
 
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
     }
 
     public void setGroupingTitle(ExpandableGroup group) {
 
 
             groupName.setText(group.getTitle());
-            /*
-            if (!((SingleCheckItemsExp) group).isUrl() ){
-                Picasso.get().load(((SingleCheckItemsExp) group).getIconUrl()).into(icon);
-
-            }else {
-                icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
-            }
-*/
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
 
 

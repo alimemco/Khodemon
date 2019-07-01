@@ -103,7 +103,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             UtilsApp.getImage(locationPeople, mHolder.imageView);
            // mHolder.nameTv.setText(locationPeople.getName());
             mHolder.nameTv.setText(StringHighlight.highlight(locationPeople.getName(), txt,
-                    ContextCompat.getColor(context,R.color.searchDialogResultHighlightColor)));
+                    ContextCompat.getColor(context,R.color.red400)));
 
                     mHolder.categoryTv.setText(locationPeople.getTag());
 
