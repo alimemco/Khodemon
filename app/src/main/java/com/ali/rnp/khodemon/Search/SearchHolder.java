@@ -1,10 +1,17 @@
 package com.ali.rnp.khodemon.Search;
 
 import android.view.View;
+
+import com.ali.rnp.khodemon.Library.CircularImageView;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
+import com.squareup.picasso.Picasso;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 class SearchHolder {
 
@@ -33,10 +40,12 @@ class SearchHolder {
     static class ChildHolder extends RecyclerView.ViewHolder {
         MyTextView nameTv;
         MyTextView categoryTv;
+        CircleImageView imageView;
         ChildHolder(@NonNull View itemView) {
             super(itemView);
-            nameTv = itemView.findViewById(R.id.search_child_name_tv);
-            categoryTv = itemView.findViewById(R.id.search_child_category_tv);
+            nameTv = itemView.findViewById(R.id.rcv_search_category_nameTv);
+            categoryTv = itemView.findViewById(R.id.rcv_search_category_categoryTv);
+            imageView = itemView.findViewById(R.id.rcv_search_category_imageView);
 
         }
 
@@ -44,6 +53,7 @@ class SearchHolder {
 
             nameTv.setText(childModel.getName());
             categoryTv.setText(childModel.getCategory());
+
 
 
         }

@@ -128,6 +128,8 @@ FragmentUserInfo.OnLogOut{
                 switch (item.getItemId()){
 
                     case R.id.navigation_menu_userManagement:
+                        startActivity(new Intent(MainActivity.this,testUnit.class));
+
                         break;
 
                     case R.id.navigation_menu_about:

@@ -15,6 +15,8 @@ import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.ExpandableSingleItems.SingleCheckItemsExp;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.Search.ChildModel;
+import com.ali.rnp.khodemon.Search.GroupModel;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +58,7 @@ public class ApiService {
     private final static String API_GET_SIMILAR = SITE + FOLDER + "getSimilar.php";
     private final static String API_GET_SEARCH = SITE + FOLDER + "search.php";
     private final static String API_GET_SEARCH_SUGGESTION = SITE + FOLDER + "searchSuggestion.php";
-
+    private final static String API_GET_SEARCH_CATEGORY = SITE + FOLDER + "searchCategory.php";
     //JSON
     private final static String API_GET_PROVINCE = SITE + "json/Province.json";
     private final static String API_GET_CATEGORY = SITE + "json/Category.json";
@@ -77,8 +80,6 @@ public class ApiService {
 
     private int retryTime = 10000;
     private Context context;
-
-
 
 
     public ApiService(Context context) {
@@ -587,13 +588,20 @@ public class ApiService {
 
     public void search(JSONObject jsonObject, OnReceivedSearch onReceivedSearch) {
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH, jsonObject, response -> parseJsonSearch(response, onReceivedSearch), error -> onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
-            request.setRetryPolicy(new DefaultRetryPolicy());
-            Volley.newRequestQueue(context).add(request);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH, jsonObject, response -> parseJsonSearch(response, onReceivedSearch), error -> onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
+        request.setRetryPolicy(new DefaultRetryPolicy());
+        Volley.newRequestQueue(context).add(request);
 
     }
 
-    public void getSearchSuggestion( OnReceivedSearch onReceivedSearch) {
+    public void searchCategory(JSONObject jsonObject, OnSearchCategory onSearchCategory) {
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH_CATEGORY, jsonObject, response -> parseJsonSearchCategory(response, onSearchCategory), onSearchCategory::OnErrorSearch);
+        request.setRetryPolicy(new DefaultRetryPolicy());
+        Volley.newRequestQueue(context).add(request);
+    }
+
+    public void getSearchSuggestion(OnReceivedSearch onReceivedSearch) {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH_SUGGESTION, null, response -> parseJsonSearchSuggestion(response, onReceivedSearch), error -> onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
         request.setRetryPolicy(new DefaultRetryPolicy());
@@ -1100,6 +1108,54 @@ public class ApiService {
         }
     }
 
+    private void parseJsonSearchCategory(JSONObject response, OnSearchCategory onSearchCategory) {
+
+        try {
+            ArrayList<GroupModel> groupModels = new ArrayList<>();
+            ArrayList<ChildModel> childModels = new ArrayList<>();
+            String titleGroup;
+
+            JSONObject jsonObject = new JSONObject(response.toString());
+            JSONArray arrResult = jsonObject.getJSONArray("result");
+            for (int i = 0; i < arrResult.length(); i++) {
+
+                JSONObject objCategory = arrResult.getJSONObject(i);
+                titleGroup = objCategory.getString("title");
+                JSONArray arrData = objCategory.getJSONArray("data");
+                JSONObject objData = arrData.getJSONObject(0);
+                boolean isSuccess = objData.getBoolean("success");
+
+                if (isSuccess) {
+                    JSONArray arrItems = objData.getJSONArray("items");
+
+                    childModels = new ArrayList<>();
+                    for (int j = 0; j < arrItems.length(); j++) {
+
+                        JSONObject objItem = arrItems.getJSONObject(j);
+                        String name = objItem.getString("nameLocPeo");
+                        String category = objItem.getString("tagLocPeo");
+
+                        childModels.add(new ChildModel(name, category));
+
+                    }
+
+                } else {
+                    onSearchCategory.OnErrorSearch(objData.getString("message"));
+                }
+
+                groupModels.add(new GroupModel(titleGroup, childModels));
+
+            }
+
+            onSearchCategory.OnSuccessSearch(groupModels);
+
+
+        } catch (JSONException e) {
+            onSearchCategory.OnErrorSearch(e);
+
+        }
+    }
+
     private void parseJsonSearchSuggestion(JSONObject response, OnReceivedSearch onReceivedSearch) {
 
         try {
@@ -1225,6 +1281,11 @@ public class ApiService {
         void onSearch(int statusCode, ArrayList<LocationPeople> locationPeopleList, String error);
     }
 
+    public interface OnSearchCategory {
+        void OnSuccessSearch(ArrayList<GroupModel> groupModels);
+
+        void OnErrorSearch(Object error);
+    }
 
 
 }

@@ -22,6 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Views.Activities.testUnit"></activity>
         <activity android:name=".Views.Activities.ChooseScaleActivity" />
         <activity android:name=".Views.Activities.ScaleActivity" />
         <activity android:name=".Views.Activities.HoursChooseActivity" />
