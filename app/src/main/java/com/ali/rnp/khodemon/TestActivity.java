@@ -74,12 +74,12 @@ implements SearchAdapter.OnChildClickListener{
         RecyclerView rcv = findViewById(R.id.testRcv);
         LinearLayoutManager lm = new LinearLayoutManager(TestActivity.this,RecyclerView.VERTICAL,false);
 
-        SearchAdapter searchAdapter = new SearchAdapter(makeList());
-        searchAdapter.setOnChildClickListener(this);
+       // SearchAdapter searchAdapter = new SearchAdapter(makeList());
+       // searchAdapter.setOnChildClickListener(this);
 
 
-        rcv.setLayoutManager(lm);
-        rcv.setAdapter(searchAdapter);
+       // rcv.setLayoutManager(lm);
+       // rcv.setAdapter(searchAdapter);
     }
 
     private ArrayList<GroupModel> makeList() {

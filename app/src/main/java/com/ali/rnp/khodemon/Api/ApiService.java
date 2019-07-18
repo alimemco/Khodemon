@@ -1132,18 +1132,28 @@ public class ApiService {
                     for (int j = 0; j < arrItems.length(); j++) {
 
                         JSONObject objItem = arrItems.getJSONObject(j);
-                        String name = objItem.getString("nameLocPeo");
-                        String category = objItem.getString("tagLocPeo");
+                       // String name = ;
+                      //  String category = ;
 
-                        childModels.add(new ChildModel(name, category));
+
+                        //childModels.add(new ChildModel(name, category));
+                        childModels.add(new ChildModel.Builder()
+                                .setId(objItem.getInt("ID"))
+                                .setName(objItem.getString("nameLocPeo"))
+                                .setCategory(objItem.getString("tagLocPeo"))
+                                .setCity(objItem.getString("city"))
+                                .setOriginalPic(objItem.getString("original_pic"))
+                                .setThumb_pic(objItem.getString("thumb_pic"))
+                                .create());
 
                     }
+                    groupModels.add(new GroupModel(titleGroup, childModels));
 
                 } else {
                     onSearchCategory.OnErrorSearch(objData.getString("message"));
                 }
 
-                groupModels.add(new GroupModel(titleGroup, childModels));
+
 
             }
 

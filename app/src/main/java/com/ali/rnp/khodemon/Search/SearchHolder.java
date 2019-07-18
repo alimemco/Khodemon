@@ -1,7 +1,9 @@
 package com.ali.rnp.khodemon.Search;
 
+import android.content.Context;
 import android.view.View;
 
+import com.ali.rnp.khodemon.Helper.StringHighlight;
 import com.ali.rnp.khodemon.Library.CircularImageView;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
@@ -9,14 +11,20 @@ import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 class SearchHolder {
 
+     Context context;
 
-     static class ParentHolder extends RecyclerView.ViewHolder {
+    public SearchHolder(Context context) {
+        this.context = context;
+    }
+
+    static class ParentHolder extends RecyclerView.ViewHolder {
         MyTextView titleTv;
         MyTextView statusTv;
 
@@ -41,18 +49,30 @@ class SearchHolder {
         MyTextView nameTv;
         MyTextView categoryTv;
         CircleImageView imageView;
-        ChildHolder(@NonNull View itemView) {
+        Context context;
+         String txt;
+
+        public ChildHolder(@NonNull View itemView, Context context,String txt) {
             super(itemView);
+            this.context = context;
+            this.txt = txt ;
+
             nameTv = itemView.findViewById(R.id.rcv_search_category_nameTv);
             categoryTv = itemView.findViewById(R.id.rcv_search_category_categoryTv);
             imageView = itemView.findViewById(R.id.rcv_search_category_imageView);
-
         }
+
 
         void bind(ChildModel childModel){
 
-            nameTv.setText(childModel.getName());
+          //  nameTv.setText(childModel.getName());
+
+            nameTv.setText(StringHighlight.highlight(childModel.getName(), txt,
+                    ContextCompat.getColor(context,R.color.red400)));
+
             categoryTv.setText(childModel.getCategory());
+
+            UtilsApp.getImageResize(childModel.getOriginalPic(),childModel.getThumb_pic(),imageView);
 
 
 

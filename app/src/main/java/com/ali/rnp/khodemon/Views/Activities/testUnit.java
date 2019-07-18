@@ -92,15 +92,16 @@ public class testUnit extends AppCompatActivity implements SearchAdapter.OnChild
                 jsonObject.put(ProvidersApp.KEY_CATEGORY, category);
             }*/
 
-            if (!typed.equals("")) {
+
                 jsonObject.put(ProvidersApp.KEY_KEYWORD, typed);
-            }
+
 
             apiService.searchCategory(jsonObject, new ApiService.OnSearchCategory() {
                 @Override
                 public void OnSuccessSearch(ArrayList<GroupModel> groupModels) {
 
-                    SearchAdapter searchAdapter = new SearchAdapter(groupModels);
+                    SearchAdapter searchAdapter = new SearchAdapter(testUnit.this,groupModels);
+                    searchAdapter.setData(typed);
                     searchAdapter.setOnChildClickListener(testUnit.this);
                     rcv.setAdapter(searchAdapter);
                 }

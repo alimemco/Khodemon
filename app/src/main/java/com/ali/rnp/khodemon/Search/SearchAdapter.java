@@ -1,5 +1,6 @@
 package com.ali.rnp.khodemon.Search;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,18 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final String TAG = "SearchAdapter";
     private SearchList searchList;
     private OnChildClickListener onChildClickListener;
+    private Context context;
+    private String txt;
 
-    public SearchAdapter( ArrayList<GroupModel> groupList) {
+    public SearchAdapter( Context context ,ArrayList<GroupModel> groupList) {
         this.searchList = new SearchList(groupList);
+        this.context = context;
 
+    }
+
+    public void setData(String txt){
+        this.txt = txt;
+      //  notifyDataSetChanged();
     }
 
 
@@ -43,7 +52,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
          return new SearchHolder.ParentHolder(viewParent);
      }else {
          View viewChild = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_child,parent,false);
-         return new SearchHolder.ChildHolder(viewChild);
+         return new SearchHolder.ChildHolder(viewChild,context,txt);
      }
 
 
@@ -90,4 +99,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public interface OnChildClickListener{
         void onChildClick(ChildModel childModel);
     }
+
+
 }

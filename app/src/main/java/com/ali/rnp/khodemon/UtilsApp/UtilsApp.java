@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -173,6 +174,35 @@ public class UtilsApp {
                     });
 
         }
+    }
+
+    public static void getImageResize( String url , String thumb, ImageView imgV) {
+
+
+            Picasso.get()
+                    .load(thumb)
+                    .placeholder(R.drawable.holder_banner)
+                    .into(imgV, new Callback() {
+
+
+                        @Override
+                        public void onSuccess() {
+                            Picasso.get()
+                                    .load(url)
+                                    .resize(500, 500)
+                                    .centerCrop()
+                                    .placeholder(imgV.getDrawable())
+                                    .into(imgV);
+
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                        }
+
+                    });
+
+
     }
 
     public static void getImageWithoutResize(LocationPeople locationPeople, ImageView imgV) {
