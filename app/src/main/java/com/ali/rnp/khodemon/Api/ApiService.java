@@ -59,6 +59,7 @@ public class ApiService {
     private final static String API_GET_SEARCH = SITE + FOLDER + "search.php";
     private final static String API_GET_SEARCH_SUGGESTION = SITE + FOLDER + "searchSuggestion.php";
     private final static String API_GET_SEARCH_CATEGORY = SITE + FOLDER + "searchCategory.php";
+    private final static String API_GET_ALL_ITEMS = SITE + FOLDER + "getAll.php";
     //JSON
     private final static String API_GET_PROVINCE = SITE + "json/Province.json";
     private final static String API_GET_CATEGORY = SITE + "json/Category.json";
@@ -594,6 +595,14 @@ public class ApiService {
 
     }
 
+    public void getAllItems(OnGetAllItems onGetAllItems) {
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_ALL_ITEMS, null, response -> parseGetAllItems(response, onGetAllItems), error -> onGetAllItems.OnErrorSearch(error));
+        request.setRetryPolicy(new DefaultRetryPolicy());
+        Volley.newRequestQueue(context).add(request);
+
+    }
+
     public void searchCategory(JSONObject jsonObject, OnSearchCategory onSearchCategory) {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH_CATEGORY, jsonObject, response -> parseJsonSearchCategory(response, onSearchCategory), onSearchCategory::OnErrorSearch);
@@ -1108,6 +1117,49 @@ public class ApiService {
         }
     }
 
+    private void parseGetAllItems(JSONObject response, OnGetAllItems onGetAllItems) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(response.toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("result");
+            JSONObject jsonObjectRes = jsonArray.getJSONObject(0);
+            boolean isSuccess = Boolean.valueOf(jsonObjectRes.getString("success"));
+
+            if (isSuccess) {
+                JSONArray jsonArrayItems = jsonObjectRes.getJSONArray("items");
+
+                ArrayList<LocationPeople> locationPeopleList = new ArrayList<>();
+
+                for (int i = 0; i < jsonArrayItems.length(); i++) {
+
+                    JSONObject jsonObjectItems = jsonArrayItems.getJSONObject(i);
+                    LocationPeople locationPeople = new LocationPeople();
+                    locationPeople.setId(jsonObjectItems.getInt("ID"));
+                    locationPeople.setName(jsonObjectItems.getString("nameLocPeo"));
+                    locationPeople.setTag(jsonObjectItems.getString("tagLocPeo"));
+                    locationPeople.setCity(jsonObjectItems.getString("city"));
+                    locationPeople.setProvince(jsonObjectItems.getString("province"));
+                    locationPeople.setOriginalPic(jsonObjectItems.getString("original_pic"));
+                    locationPeople.setImageThumb150(jsonObjectItems.getString("thumb_pic"));
+
+                    locationPeopleList.add(locationPeople);
+                }
+
+               // onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locationPeopleList, null);
+                onGetAllItems.OnSuccessSearch(locationPeopleList);
+
+            } else {
+                String msg = jsonObjectRes.getString("message");
+              //  onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
+                onGetAllItems.OnErrorSearch(msg);
+            }
+        } catch (JSONException e) {
+           // onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, e.toString());
+            onGetAllItems.OnErrorSearch(e);
+
+        }
+    }
+
     private void parseJsonSearchCategory(JSONObject response, OnSearchCategory onSearchCategory) {
 
         try {
@@ -1142,6 +1194,7 @@ public class ApiService {
                                 .setName(objItem.getString("nameLocPeo"))
                                 .setCategory(objItem.getString("tagLocPeo"))
                                 .setCity(objItem.getString("city"))
+                                .setIsAd(objItem.getString("is_ad"))
                                 .setOriginalPic(objItem.getString("original_pic"))
                                 .setThumb_pic(objItem.getString("thumb_pic"))
                                 .create());
@@ -1293,6 +1346,12 @@ public class ApiService {
 
     public interface OnSearchCategory {
         void OnSuccessSearch(ArrayList<GroupModel> groupModels);
+
+        void OnErrorSearch(Object error);
+    }
+
+    public interface OnGetAllItems {
+        void OnSuccessSearch(ArrayList<LocationPeople> locationPeopleList);
 
         void OnErrorSearch(Object error);
     }

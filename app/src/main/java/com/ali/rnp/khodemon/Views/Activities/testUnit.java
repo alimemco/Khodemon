@@ -19,6 +19,7 @@ import com.ali.rnp.khodemon.Search.ChildModel;
 import com.ali.rnp.khodemon.Search.GroupModel;
 import com.ali.rnp.khodemon.Search.SearchAdapter;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
+import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 public class testUnit extends AppCompatActivity implements SearchAdapter.OnChildClickListener{
 
     private EditText editText;
+    private MaterialButton btn;
     private RecyclerView rcv;
 
     private String category = "";
@@ -40,6 +42,7 @@ public class testUnit extends AppCompatActivity implements SearchAdapter.OnChild
         setContentView(R.layout.activity_test_unit);
 
         editText = findViewById(R.id.testUnitEditText);
+        btn = findViewById(R.id.testUnitButton);
         rcv = findViewById(R.id.testUnitRcv);
         apiService = new ApiService(testUnit.this);
         jsonObject = new JSONObject();
@@ -47,6 +50,29 @@ public class testUnit extends AppCompatActivity implements SearchAdapter.OnChild
         rcv.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
 
 
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                apiService.getAllItems(new ApiService.OnGetAllItems() {
+                    @Override
+                    public void OnSuccessSearch(ArrayList<LocationPeople> locationPeopleList) {
+                        if (locationPeopleList != null){
+                            com.ali.rnp.khodemon.Adapter.SearchAdapter searchAdapter =new com.ali.rnp.khodemon.Adapter.SearchAdapter();
+                            //searchAdapter.setData(typed);
+                            searchAdapter.setData(locationPeopleList,"");
+                           // searchAdapter.setOnChildClickListener(testUnit.this);
+                            rcv.setAdapter(searchAdapter);
+                        }
+                    }
+
+                    @Override
+                    public void OnErrorSearch(Object error) {
+                        Toast.makeText(testUnit.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
 
         editText.addTextChangedListener(new TextWatcher() {

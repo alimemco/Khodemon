@@ -36,6 +36,7 @@ import com.ali.rnp.khodemon.Views.fragments.FragmentDialog;
 import com.ali.rnp.khodemon.Views.fragments.FragmentFavorite;
 import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
 import com.ali.rnp.khodemon.Views.fragments.FragmentSearch;
+import com.ali.rnp.khodemon.Views.fragments.FragmentSearchTwo;
 import com.ali.rnp.khodemon.Views.fragments.FragmentUser;
 import com.ali.rnp.khodemon.Views.fragments.FragmentUserInfo;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -79,7 +80,7 @@ FragmentUserInfo.OnLogOut{
     private FragmentHome fragmentHome;
     private FragmentUser fragmentUser;
     private FragmentAdd fragmentAdd;
-    private FragmentSearch fragmentSearch;
+    private FragmentSearchTwo fragmentSearch;
     private FragmentFavorite fragmentFavorite;
 
     private static final int BOTTOM_NAV_ITEM_HOME=0;
@@ -201,7 +202,8 @@ FragmentUserInfo.OnLogOut{
         fragmentHome = FragmentHome.newInstance();
         fragmentUser = new FragmentUser();
         fragmentAdd = new FragmentAdd();
-        fragmentSearch = new FragmentSearch();
+       // fragmentSearch = new FragmentSearch();
+        fragmentSearch = new FragmentSearchTwo();
         fragmentFavorite = new FragmentFavorite();
 
 

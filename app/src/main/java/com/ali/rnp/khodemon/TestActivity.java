@@ -81,7 +81,7 @@ implements SearchAdapter.OnChildClickListener{
        // rcv.setLayoutManager(lm);
        // rcv.setAdapter(searchAdapter);
     }
-
+/*
     private ArrayList<GroupModel> makeList() {
 
         ArrayList<GroupModel> groupModels = new ArrayList<>();
@@ -106,7 +106,7 @@ implements SearchAdapter.OnChildClickListener{
         return groupModels;
 
     }
-
+*/
 
 
     @Override

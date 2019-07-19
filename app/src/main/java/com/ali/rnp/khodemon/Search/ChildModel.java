@@ -21,12 +21,8 @@ public class ChildModel  {
     private int imageWidth;
     private int imageHeight;
     private String thumb_pic;
+    private String isAd;
 
-
-    public ChildModel(String name, String category) {
-        this.name = name;
-        this.category = category;
-    }
 
     public ChildModel(Builder builder) {
 
@@ -36,6 +32,7 @@ public class ChildModel  {
         this.city = builder.city;
         this.originalPic = builder.originalPic;
         this.thumb_pic = builder.thumb_pic;
+        this.isAd = builder.isAd;
     }
 
     public String getName() {
@@ -58,6 +55,10 @@ public class ChildModel  {
         return city;
     }
 
+    public String isAd() {
+        return isAd;
+    }
+
 
     public static class Builder {
         private int id;
@@ -76,6 +77,7 @@ public class ChildModel  {
         private String phone;
         private String dimen;
         private String since;
+        private String isAd;
 
 
         private int imageWidth;
@@ -111,6 +113,12 @@ public class ChildModel  {
         public Builder setThumb_pic(String thumb_pic) {
             this.thumb_pic = thumb_pic;
             return  this ;
+        }
+
+
+        public Builder setIsAd(String isAd) {
+            this.isAd = isAd;
+            return this ;
         }
 
         public ChildModel create(){

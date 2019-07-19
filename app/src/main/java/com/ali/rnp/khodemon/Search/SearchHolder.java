@@ -49,6 +49,7 @@ class SearchHolder {
         MyTextView nameTv;
         MyTextView categoryTv;
         CircleImageView imageView;
+        MyTextView ad;
         Context context;
          String txt;
 
@@ -60,6 +61,7 @@ class SearchHolder {
             nameTv = itemView.findViewById(R.id.rcv_search_category_nameTv);
             categoryTv = itemView.findViewById(R.id.rcv_search_category_categoryTv);
             imageView = itemView.findViewById(R.id.rcv_search_category_imageView);
+            ad = itemView.findViewById(R.id.rcv_search_category_isAd);
         }
 
 
@@ -71,6 +73,14 @@ class SearchHolder {
                     ContextCompat.getColor(context,R.color.red400)));
 
             categoryTv.setText(childModel.getCategory());
+            /*
+            if(childModel.isAd().equals("true")){
+                ad.setVisibility(View.VISIBLE);
+            }else {
+                ad.setVisibility(View.INVISIBLE);
+            }*/
+
+            ad.setVisibility(childModel.isAd().equals("true") ? View.VISIBLE : View.INVISIBLE);
 
             UtilsApp.getImageResize(childModel.getOriginalPic(),childModel.getThumb_pic(),imageView);
 
