@@ -32,10 +32,8 @@ import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.SharedPrefManager;
 import com.ali.rnp.khodemon.TestActivity;
 import com.ali.rnp.khodemon.Views.fragments.FragmentAdd;
-import com.ali.rnp.khodemon.Views.fragments.FragmentDialog;
 import com.ali.rnp.khodemon.Views.fragments.FragmentFavorite;
 import com.ali.rnp.khodemon.Views.fragments.FragmentHome;
-import com.ali.rnp.khodemon.Views.fragments.FragmentSearch;
 import com.ali.rnp.khodemon.Views.fragments.FragmentSearchTwo;
 import com.ali.rnp.khodemon.Views.fragments.FragmentUser;
 import com.ali.rnp.khodemon.Views.fragments.FragmentUserInfo;
@@ -203,7 +201,7 @@ FragmentUserInfo.OnLogOut{
         fragmentUser = new FragmentUser();
         fragmentAdd = new FragmentAdd();
        // fragmentSearch = new FragmentSearch();
-        fragmentSearch = new FragmentSearchTwo();
+        fragmentSearch = FragmentSearchTwo.newInstance();
         fragmentFavorite = new FragmentFavorite();
 
 

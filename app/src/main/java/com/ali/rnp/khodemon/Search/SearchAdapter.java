@@ -1,14 +1,11 @@
 package com.ali.rnp.khodemon.Search;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ali.rnp.khodemon.R;
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
-import com.thoughtbot.expandablerecyclerview.models.ExpandableListPosition;
 
 import java.util.ArrayList;
 
@@ -23,17 +20,25 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private OnChildClickListener onChildClickListener;
     private Context context;
     private String txt;
+    private String typed;
 
-    public SearchAdapter( Context context ,ArrayList<GroupModel> groupList) {
+    /*public SearchAdapter( Context context ,ArrayList<GroupModel> groupList) {
         this.searchList = new SearchList(groupList);
+        this.context = context;
+
+    }*/
+    public SearchAdapter(Context context) {
         this.context = context;
 
     }
 
-    public void setData(String txt){
-        this.txt = txt;
-      //  notifyDataSetChanged();
+    public void setData(ArrayList<GroupModel> groupList, String typed) {
+        this.searchList = new SearchList(groupList);
+        this.typed = typed;
+        notifyDataSetChanged();
+
     }
+
 
 
     @Override
@@ -52,7 +57,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
          return new SearchHolder.ParentHolder(viewParent);
      }else {
          View viewChild = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_child,parent,false);
-         return new SearchHolder.ChildHolder(viewChild,context,txt);
+         return new SearchHolder.ChildHolder(viewChild, context, typed);
      }
 
 

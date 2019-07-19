@@ -1,9 +1,5 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,13 +14,16 @@ import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Search.ChildModel;
 import com.ali.rnp.khodemon.Search.GroupModel;
 import com.ali.rnp.khodemon.Search.SearchAdapter;
-import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class testUnit extends AppCompatActivity implements SearchAdapter.OnChildClickListener{
 
@@ -126,10 +125,10 @@ public class testUnit extends AppCompatActivity implements SearchAdapter.OnChild
                 @Override
                 public void OnSuccessSearch(ArrayList<GroupModel> groupModels) {
 
-                    SearchAdapter searchAdapter = new SearchAdapter(testUnit.this,groupModels);
-                    searchAdapter.setData(typed);
-                    searchAdapter.setOnChildClickListener(testUnit.this);
-                    rcv.setAdapter(searchAdapter);
+                    // SearchAdapter searchAdapter = new SearchAdapter(testUnit.this,groupModels);
+                    //searchAdapter.setData(typed);
+                    // searchAdapter.setOnChildClickListener(testUnit.this);
+                    // rcv.setAdapter(searchAdapter);
                 }
 
                 @Override
