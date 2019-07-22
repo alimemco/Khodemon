@@ -2,13 +2,18 @@ package com.ali.rnp.khodemon.Helper;
 
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 
 public class StringHighlight {
+
+    private static final String TAG = "StringHighlight";
 
     public static SpannableStringBuilder highlight(
             String text1, String text2,
             int highlightColor
     ) {
+
+        Log.i(TAG, "highlight: "+text1+" "+text2);
 
         String lcs = lcs(text1.toLowerCase(), text2.toLowerCase());
         String tLower = text1.toLowerCase();

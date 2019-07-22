@@ -1,6 +1,7 @@
 package com.ali.rnp.khodemon.Search;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import com.ali.rnp.khodemon.Helper.StringHighlight;
@@ -51,12 +52,12 @@ class SearchHolder {
         CircleImageView imageView;
         MyTextView ad;
         Context context;
-         String txt;
+        // String typed;
 
-        public ChildHolder(@NonNull View itemView, Context context,String txt) {
+        public ChildHolder(@NonNull View itemView, Context context) {
             super(itemView);
             this.context = context;
-            this.txt = txt ;
+           // this.typed = typed ;
 
             nameTv = itemView.findViewById(R.id.rcv_search_category_nameTv);
             categoryTv = itemView.findViewById(R.id.rcv_search_category_categoryTv);
@@ -65,11 +66,14 @@ class SearchHolder {
         }
 
 
-        void bind(ChildModel childModel){
+        void bind(ChildModel childModel,String typed){
 
           //  nameTv.setText(childModel.getName());
+            if (typed != null){
+                typed = "";
+            }
 
-            nameTv.setText(StringHighlight.highlight(childModel.getName(), txt,
+            nameTv.setText(StringHighlight.highlight(childModel.getName(), typed,
                     ContextCompat.getColor(context,R.color.red400)));
 
             categoryTv.setText(childModel.getCategory());

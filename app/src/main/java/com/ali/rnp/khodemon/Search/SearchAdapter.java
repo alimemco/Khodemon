@@ -1,6 +1,7 @@
 package com.ali.rnp.khodemon.Search;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final String TAG = "SearchAdapter";
     private SearchList searchList;
     private OnChildClickListener onChildClickListener;
-    private Context context;
-    private String txt;
+   // private Context context;
+   // private String txt;
     private String typed;
 
     /*public SearchAdapter( Context context ,ArrayList<GroupModel> groupList) {
@@ -27,15 +28,23 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
 
     }*/
-    public SearchAdapter(Context context) {
-        this.context = context;
+    public SearchAdapter() {
+      //  this.context = context;
 
     }
 
-    public void setData(ArrayList<GroupModel> groupList, String typed) {
+    public void setData(ArrayList<GroupModel> groupList) {
         this.searchList = new SearchList(groupList);
+       // this.typed = typed;
+        notifyDataSetChanged();
+
+    }
+
+    public void setTyped(String typed) {
         this.typed = typed;
         notifyDataSetChanged();
+
+        Log.i("StringHighlight", "setTyped: "+this.typed);
 
     }
 
@@ -57,7 +66,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
          return new SearchHolder.ParentHolder(viewParent);
      }else {
          View viewChild = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_child,parent,false);
-         return new SearchHolder.ChildHolder(viewChild, context, typed);
+         return new SearchHolder.ChildHolder(viewChild, parent.getContext());
      }
 
 
@@ -79,7 +88,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case SearchListPosition.CHILD:
                 ChildModel childModel = group.getItems().get(listPos.childPos);
                 SearchHolder.ChildHolder mHolderChild = (SearchHolder.ChildHolder) holder;
-                mHolderChild.bind(childModel);
+                mHolderChild.bind(childModel,typed);
 
                 mHolderChild.itemView.setOnClickListener(v -> {
                     if(onChildClickListener != null){

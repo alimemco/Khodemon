@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,7 @@ public class FragmentSearchTwo extends Fragment implements
 
     private void initRcv() {
         rcv.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false));
-        searchAdapter = new SearchAdapter(view.getContext());
+        searchAdapter = new SearchAdapter();
         searchAdapter.setOnChildClickListener(this);
         rcv.setAdapter(searchAdapter);
     }
@@ -111,12 +112,17 @@ public class FragmentSearchTwo extends Fragment implements
         categoryChip.setCloseIconVisible(true);
         categoryChip.setOnCloseIconClickListener(v -> {
             chipGroup.removeView(categoryChip);
-            category = "";
+
+           // removeJsonCategory();
+            putJsonCategory(null);
+
+            apiService.searchCategory(jsonObject,this);
+
         });
 
         chipGroup.addView(categoryChip);
 
-        putJsonCategory(category);
+
 
     }
 
@@ -150,7 +156,12 @@ public class FragmentSearchTwo extends Fragment implements
     @Override
     public void afterTextChanged(Editable s) {
 
+
         typed = s.toString();
+
+        searchAdapter.setTyped(typed);
+
+        //Log.i("StringHighlight", "afterTextChanged: "+typed);
 
         if (!typed.equals("")) {
 
@@ -158,7 +169,7 @@ public class FragmentSearchTwo extends Fragment implements
             apiService.searchCategory(jsonObject, this);
 
         } else {
-            Toast.makeText(view.getContext(), "isEmpty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "isEmptyInput", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -182,12 +193,30 @@ public class FragmentSearchTwo extends Fragment implements
             e.printStackTrace();
         }
     }
+/*
+    private void removeJsonCategory() {
 
+        try {
+            category = null;
+            jsonObject.put(ProvidersApp.KEY_CATEGORY, category);
+            apiService.searchCategory(jsonObject,this);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+*/
     @Override
     public void OnSuccessSearch(ArrayList<GroupModel> groupModels) {
+
+
         if (groupModels != null) {
 
-            searchAdapter.setData(groupModels, typed);
+            searchAdapter.setData(groupModels);
+            Log.i(TAG, "OnSuccessSearch: "+groupModels.size());
+        }else {
+            Log.i(TAG, "OnSuccessSearch: empty");
         }
     }
 
@@ -211,7 +240,12 @@ public class FragmentSearchTwo extends Fragment implements
 
             if (data != null) {
                 category = data.getStringExtra(ProvidersApp.KEY_CATEGORY);
+
+                putJsonCategory(category);
                 categoryCheck(category);
+                apiService.searchCategory(jsonObject,this);
+
+
             }
         }
     }
