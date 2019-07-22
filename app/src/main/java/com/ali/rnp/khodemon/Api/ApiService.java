@@ -25,7 +25,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1169,6 +1168,8 @@ public class ApiService {
 
             JSONObject jsonObject = new JSONObject(response.toString());
             JSONArray arrResult = jsonObject.getJSONArray("result");
+
+
             for (int i = 0; i < arrResult.length(); i++) {
 
                 JSONObject objCategory = arrResult.getJSONObject(i);
@@ -1181,14 +1182,11 @@ public class ApiService {
                     JSONArray arrItems = objData.getJSONArray("items");
 
                     childModels = new ArrayList<>();
+
                     for (int j = 0; j < arrItems.length(); j++) {
 
                         JSONObject objItem = arrItems.getJSONObject(j);
-                       // String name = ;
-                      //  String category = ;
 
-
-                        //childModels.add(new ChildModel(name, category));
                         childModels.add(new ChildModel.Builder()
                                 .setId(objItem.getInt("ID"))
                                 .setName(objItem.getString("nameLocPeo"))
@@ -1199,19 +1197,15 @@ public class ApiService {
                                 .setThumb_pic(objItem.getString("thumb_pic"))
                                 .create());
 
+
                     }
                     groupModels.add(new GroupModel(titleGroup, childModels));
-
+                    onSearchCategory.OnSuccessSearch(groupModels);
                 } else {
                     onSearchCategory.OnErrorSearch(objData.getString("message"));
                 }
 
-
-
             }
-
-            onSearchCategory.OnSuccessSearch(groupModels);
-
 
         } catch (JSONException e) {
             onSearchCategory.OnErrorSearch(e);

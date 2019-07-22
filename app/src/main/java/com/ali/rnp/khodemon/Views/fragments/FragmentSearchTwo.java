@@ -205,36 +205,17 @@ public class FragmentSearchTwo extends Fragment implements
         progressBar.setVisibility(View.INVISIBLE);
 
         if (groupModels != null) {
-            //searchAdapter.setData(groupModels,false);
             searchAdapter.setData(groupModels);
+
         }
     }
 
     @Override
     public void OnErrorSearch(Object error) {
         progressBar.setVisibility(View.INVISIBLE);
-
-        // Toast.makeText(view.getContext(), error.toString(), Toast.LENGTH_SHORT).show();
-
-        //searchAdapter.setData(emptySearch("Sea"),true);
-        // searchAdapter.setData(emptySearch("Sea"));
         searchAdapter.isEmpty();
-
-
     }
 
-    private ArrayList<GroupModel> emptySearch(String title) {
-        ArrayList<GroupModel> groupModels = new ArrayList<>();
-        ArrayList<ChildModel> childModels = new ArrayList<>();
-
-        //ChildModel childModel =
-        childModels.add(new ChildModel.Builder().setName("موردی یافت نشد").create());
-
-        // GroupModel groupModel = ;
-        groupModels.add(new GroupModel(title, childModels));
-
-        return groupModels;
-    }
 
     @Override
     public void onChildClick(ChildModel childModel) {

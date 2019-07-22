@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = "SearchAdapter";
+
     private SearchList searchList;
     private OnChildClickListener onChildClickListener;
     private String typed;
@@ -22,16 +22,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     public SearchAdapter() {
-
     }
-/*
-    public void setData(ArrayList<GroupModel> groupList , boolean isEmpty) {
-        this.searchList = new SearchList(groupList);
-        this.isEmpty = isEmpty;
-        notifyDataSetChanged();
-
-    }*/
-
 
     public void setData(ArrayList<GroupModel> groupList) {
         this.searchList = new SearchList(groupList);
@@ -77,14 +68,15 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (viewType == SearchListPosition.GROUP) {
             View viewParent = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_parent, parent, false);
             return new SearchHolder.ParentHolder(viewParent);
+
         } else if (viewType == SearchListPosition.EMPTY) {
             View viewEmpty = LayoutInflater.from(parent.getContext()).inflate(R.layout.rcv_search_empty, parent, false);
             return new SearchHolder.EmptyHolder(viewEmpty, parent.getContext());
+
         } else {
             View viewChild = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_child, parent, false);
             return new SearchHolder.ChildHolder(viewChild, parent.getContext());
         }
-
 
     }
 
@@ -106,9 +98,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ChildModel childModel = group.getItems().get(listPos.childPos);
                     SearchHolder.ChildHolder mHolderChild = (SearchHolder.ChildHolder) holder;
 
-
                     mHolderChild.bind(childModel, typed, isEmpty);
-
 
                     mHolderChild.itemView.setOnClickListener(v -> {
                         if (onChildClickListener != null) {
@@ -120,7 +110,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
     }
-
 
     public void setOnChildClickListener(OnChildClickListener onChildClickListener) {
         this.onChildClickListener = onChildClickListener;

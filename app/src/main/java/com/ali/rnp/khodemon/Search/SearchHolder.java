@@ -102,10 +102,6 @@ class SearchHolder {
 
         }
 
-/*
-        void bind(String title){
-                titleTv.setText(title);
-        }*/
 
 
     }
