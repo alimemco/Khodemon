@@ -9,8 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content">
 
         <com.ali.rnp.khodemon.MyLibrary.MyEditText
             android:id="@+id/fragment_search_two_ediText"
@@ -62,7 +61,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="8dp"
-
             android:background="@drawable/bg_right_button"
             android:drawableLeft="@drawable/ic_add"
             android:paddingLeft="@dimen/standard_margin"
@@ -77,7 +75,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_margin"
-            android:layout_marginBottom="@dimen/standard_margin"
             app:chipSpacing="@dimen/standard_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/fragment_search_two_ediText"
@@ -87,13 +84,17 @@
         </com.google.android.material.chip.ChipGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/fragment_search_two_progressBar"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:visibility="invisible"
-        app:mpb_progressStyle="horizontal" />
+        app:mpb_indeterminateTint="@color/gray_500"
+        app:mpb_progressStyle="horizontal"
+        app:mpb_secondaryProgressTint="@color/greenH500" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_search_two_rcv"

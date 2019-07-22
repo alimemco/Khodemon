@@ -11,12 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.Adapter.SearchAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
-import com.ali.rnp.khodemon.MyLibrary.MyButtonDrawable;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -234,11 +231,12 @@ MyButton.DrawableClickListener{
         }
     }
 
+
     private void checkCategoryExist() {
 
         if (category.equals("")) {
             chooseCategory.setText(R.string.chooseCategory);
-           chooseCategory.setCompoundDrawablesWithIntrinsicBounds( 0, 0, R.drawable.ic_add, 0);
+            chooseCategory.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_add, 0);
 
             sendJson(true);
         } else {
@@ -253,10 +251,6 @@ MyButton.DrawableClickListener{
 
 
     }
-
-
-
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

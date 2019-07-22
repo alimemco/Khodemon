@@ -1,28 +1,23 @@
 package com.ali.rnp.khodemon.Search;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import com.ali.rnp.khodemon.Helper.StringHighlight;
-import com.ali.rnp.khodemon.Library.CircularImageView;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
-import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 class SearchHolder {
 
-     Context context;
 
-    public SearchHolder(Context context) {
-        this.context = context;
+    public SearchHolder() {
+
     }
 
     static class ParentHolder extends RecyclerView.ViewHolder {
@@ -52,12 +47,12 @@ class SearchHolder {
         CircleImageView imageView;
         MyTextView ad;
         Context context;
-        // String typed;
 
-        public ChildHolder(@NonNull View itemView, Context context) {
+
+        ChildHolder(@NonNull View itemView, Context context) {
             super(itemView);
             this.context = context;
-           // this.typed = typed ;
+
 
             nameTv = itemView.findViewById(R.id.rcv_search_category_nameTv);
             categoryTv = itemView.findViewById(R.id.rcv_search_category_categoryTv);
@@ -66,30 +61,52 @@ class SearchHolder {
         }
 
 
-        void bind(ChildModel childModel,String typed){
+        void bind(ChildModel childModel, String typed, boolean isEmpty) {
 
-          //  nameTv.setText(childModel.getName());
-            if (typed != null){
+            if (typed == null) {
                 typed = "";
             }
 
-            nameTv.setText(StringHighlight.highlight(childModel.getName(), typed,
-                    ContextCompat.getColor(context,R.color.red400)));
+            if (isEmpty) {
+                nameTv.setText(childModel.getName());
 
-            categoryTv.setText(childModel.getCategory());
-            /*
-            if(childModel.isAd().equals("true")){
-                ad.setVisibility(View.VISIBLE);
             }else {
-                ad.setVisibility(View.INVISIBLE);
-            }*/
+                nameTv.setText(StringHighlight.highlight(childModel.getName(), typed,
+                        ContextCompat.getColor(context, R.color.red400)));
 
-            ad.setVisibility(childModel.isAd().equals("true") ? View.VISIBLE : View.INVISIBLE);
+                categoryTv.setText(childModel.getCategory());
 
-            UtilsApp.getImageResize(childModel.getOriginalPic(),childModel.getThumb_pic(),imageView);
+                ad.setVisibility(childModel.isAd().equals("true") ? View.VISIBLE : View.INVISIBLE);
+
+                UtilsApp.getImageResize(childModel.getOriginalPic(), childModel.getThumb_pic(), imageView);
+
+            }
 
 
 
         }
+
+
+    }
+
+    static class EmptyHolder extends RecyclerView.ViewHolder {
+        MyTextView titleTv;
+        Context context;
+
+
+        EmptyHolder(@NonNull View itemView, Context context) {
+            super(itemView);
+            this.context = context;
+
+            titleTv = itemView.findViewById(R.id.rcv_search_empty_title);
+
+        }
+
+/*
+        void bind(String title){
+                titleTv.setText(title);
+        }*/
+
+
     }
 }

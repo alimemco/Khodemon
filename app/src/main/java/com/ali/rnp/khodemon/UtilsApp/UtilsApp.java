@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -178,7 +177,7 @@ public class UtilsApp {
 
     public static void getImageResize( String url , String thumb, ImageView imgV) {
 
-
+        if (thumb != null && url != null) {
             Picasso.get()
                     .load(thumb)
                     .placeholder(R.drawable.holder_banner)
@@ -201,6 +200,9 @@ public class UtilsApp {
                         }
 
                     });
+        }
+
+
 
 
     }

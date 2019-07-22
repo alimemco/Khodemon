@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class FragmentSearchTwo extends Fragment implements
         View.OnClickListener,
@@ -47,9 +47,8 @@ public class FragmentSearchTwo extends Fragment implements
     private ApiService apiService;
     private SearchAdapter searchAdapter;
     private JSONObject jsonObject;
+    private MaterialProgressBar progressBar;
 
-    private String typed;
-    private String category;
     private Chip categoryChip;
 
     private View view;
@@ -95,6 +94,7 @@ public class FragmentSearchTwo extends Fragment implements
         MyButton sortBtn = view.findViewById(R.id.fragment_search_two_sortBtn);
         chipGroup = view.findViewById(R.id.fragment_search_two_chipGroup);
         rcv = view.findViewById(R.id.fragment_search_two_rcv);
+        progressBar = view.findViewById(R.id.fragment_search_two_progressBar);
 
         filterBtn.setOnClickListener(this);
         sortBtn.setOnClickListener(this);
@@ -116,7 +116,7 @@ public class FragmentSearchTwo extends Fragment implements
            // removeJsonCategory();
             putJsonCategory(null);
 
-            apiService.searchCategory(jsonObject,this);
+            getResult();
 
         });
 
@@ -124,6 +124,13 @@ public class FragmentSearchTwo extends Fragment implements
 
 
 
+    }
+
+    private void getResult() {
+
+        apiService.searchCategory(jsonObject, this);
+
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -157,16 +164,15 @@ public class FragmentSearchTwo extends Fragment implements
     public void afterTextChanged(Editable s) {
 
 
-        typed = s.toString();
+        String typed = s.toString();
 
         searchAdapter.setTyped(typed);
-
-        //Log.i("StringHighlight", "afterTextChanged: "+typed);
 
         if (!typed.equals("")) {
 
             putJsonKeyword(s.toString());
-            apiService.searchCategory(jsonObject, this);
+
+            getResult();
 
         } else {
             Toast.makeText(view.getContext(), "isEmptyInput", Toast.LENGTH_SHORT).show();
@@ -193,36 +199,41 @@ public class FragmentSearchTwo extends Fragment implements
             e.printStackTrace();
         }
     }
-/*
-    private void removeJsonCategory() {
 
-        try {
-            category = null;
-            jsonObject.put(ProvidersApp.KEY_CATEGORY, category);
-            apiService.searchCategory(jsonObject,this);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-*/
     @Override
     public void OnSuccessSearch(ArrayList<GroupModel> groupModels) {
-
+        progressBar.setVisibility(View.INVISIBLE);
 
         if (groupModels != null) {
-
+            //searchAdapter.setData(groupModels,false);
             searchAdapter.setData(groupModels);
-            Log.i(TAG, "OnSuccessSearch: "+groupModels.size());
-        }else {
-            Log.i(TAG, "OnSuccessSearch: empty");
         }
     }
 
     @Override
     public void OnErrorSearch(Object error) {
-        Toast.makeText(view.getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+        progressBar.setVisibility(View.INVISIBLE);
+
+        // Toast.makeText(view.getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+
+        //searchAdapter.setData(emptySearch("Sea"),true);
+        // searchAdapter.setData(emptySearch("Sea"));
+        searchAdapter.isEmpty();
+
+
+    }
+
+    private ArrayList<GroupModel> emptySearch(String title) {
+        ArrayList<GroupModel> groupModels = new ArrayList<>();
+        ArrayList<ChildModel> childModels = new ArrayList<>();
+
+        //ChildModel childModel =
+        childModels.add(new ChildModel.Builder().setName("موردی یافت نشد").create());
+
+        // GroupModel groupModel = ;
+        groupModels.add(new GroupModel(title, childModels));
+
+        return groupModels;
     }
 
     @Override
@@ -239,13 +250,11 @@ public class FragmentSearchTwo extends Fragment implements
         if (resultCode == Activity.RESULT_OK && requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY) {
 
             if (data != null) {
-                category = data.getStringExtra(ProvidersApp.KEY_CATEGORY);
+                String category = data.getStringExtra(ProvidersApp.KEY_CATEGORY);
 
                 putJsonCategory(category);
                 categoryCheck(category);
-                apiService.searchCategory(jsonObject,this);
-
-
+                getResult();
             }
         }
     }
