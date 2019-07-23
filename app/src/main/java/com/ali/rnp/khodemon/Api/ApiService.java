@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.ali.rnp.khodemon.DataModel.Category;
 import com.ali.rnp.khodemon.DataModel.City;
+import com.ali.rnp.khodemon.DataModel.Filter;
 import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
@@ -36,9 +37,14 @@ import java.util.List;
 
 public class ApiService {
 
+    public static final int STATUS_REGISTER_ERROR = 616;
+    public static final int STATUS_Login_ERROR = 717;
+    public static final String GROUP_NAME_LOCATION = "LOCATION";
+    public static final String GROUP_NAME_PEOPLE = "PEOPLE";
+    public static final int LOCATION_GROUP_KEY = 1;
+    public static final int PEOPLE_GROUP_KEY = 2;
     private final static String SITE = "http://khodemon.ir/";
     private final static String FOLDER = "androidConnector/";
-
     private final static String API_REGISTER_USER = SITE + FOLDER + "registerUser.php";
     private final static String API_LOGIN_USER = SITE + FOLDER + "loginUser.php";
     private final static String API_GET_HOME_ITEMS = SITE + FOLDER + "getHomeItems.php";
@@ -59,22 +65,11 @@ public class ApiService {
     private final static String API_GET_SEARCH_SUGGESTION = SITE + FOLDER + "searchSuggestion.php";
     private final static String API_GET_SEARCH_CATEGORY = SITE + FOLDER + "searchCategory.php";
     private final static String API_GET_ALL_ITEMS = SITE + FOLDER + "getAll.php";
+    private final static String API_GET_FILTER_OPTIONS = SITE + FOLDER + "filter.php";
     //JSON
     private final static String API_GET_PROVINCE = SITE + "json/Province.json";
     private final static String API_GET_CATEGORY = SITE + "json/Category.json";
-
     private static final String TAG = "ApiService";
-
-    public static final int STATUS_REGISTER_ERROR = 616;
-    public static final int STATUS_Login_ERROR = 717;
-
-
-    public static final String GROUP_NAME_LOCATION = "LOCATION";
-    public static final String GROUP_NAME_PEOPLE = "PEOPLE";
-
-    public static final int LOCATION_GROUP_KEY = 1;
-    public static final int PEOPLE_GROUP_KEY = 2;
-
     private JSONObject jsonObjectPhoto;
 
 
@@ -596,7 +591,15 @@ public class ApiService {
 
     public void getAllItems(OnGetAllItems onGetAllItems) {
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_ALL_ITEMS, null, response -> parseGetAllItems(response, onGetAllItems), error -> onGetAllItems.OnErrorSearch(error));
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_ALL_ITEMS, null, response -> parseGetAllItems(response, onGetAllItems), onGetAllItems::OnErrorSearch);
+        request.setRetryPolicy(new DefaultRetryPolicy());
+        Volley.newRequestQueue(context).add(request);
+
+    }
+
+    public void getFilterOptions(OnGetFilterOptions onGetFilterOptions) {
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_FILTER_OPTIONS, null, response -> parseGetFilterOptions(response, onGetFilterOptions), onGetFilterOptions::OnErrorFiler);
         request.setRetryPolicy(new DefaultRetryPolicy());
         Volley.newRequestQueue(context).add(request);
 
@@ -1144,17 +1147,41 @@ public class ApiService {
                     locationPeopleList.add(locationPeople);
                 }
 
-               // onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locationPeopleList, null);
+                // onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locationPeopleList, null);
                 onGetAllItems.OnSuccessSearch(locationPeopleList);
 
             } else {
                 String msg = jsonObjectRes.getString("message");
-              //  onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
+                //  onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_SERVER_ERROR, null, msg);
                 onGetAllItems.OnErrorSearch(msg);
             }
         } catch (JSONException e) {
-           // onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, e.toString());
+            // onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, e.toString());
             onGetAllItems.OnErrorSearch(e);
+
+        }
+    }
+
+    private void parseGetFilterOptions(JSONObject response, OnGetFilterOptions onGetFilterOptions) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(response.toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("result");
+
+            ArrayList<Filter> filterList = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsObjResult = jsonArray.getJSONObject(i);
+                String title = jsObjResult.getString("title");
+                String address = jsObjResult.getString("data");
+
+                filterList.add(new Filter(title, address));
+            }
+
+            onGetFilterOptions.OnSuccessFilter(filterList);
+
+
+        } catch (JSONException e) {
+            onGetFilterOptions.OnErrorFiler(e);
 
         }
     }
@@ -1348,6 +1375,12 @@ public class ApiService {
         void OnSuccessSearch(ArrayList<LocationPeople> locationPeopleList);
 
         void OnErrorSearch(Object error);
+    }
+
+    public interface OnGetFilterOptions {
+        void OnSuccessFilter(ArrayList<Filter> filterList);
+
+        void OnErrorFiler(Object error);
     }
 
 

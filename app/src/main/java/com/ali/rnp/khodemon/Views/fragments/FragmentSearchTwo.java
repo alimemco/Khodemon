@@ -18,7 +18,7 @@ import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Search.ChildModel;
 import com.ali.rnp.khodemon.Search.GroupModel;
 import com.ali.rnp.khodemon.Search.SearchAdapter;
-import com.ali.rnp.khodemon.Views.Activities.ChooseCategoryActivity;
+import com.ali.rnp.khodemon.Views.Activities.FilterActivity;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -139,7 +139,8 @@ public class FragmentSearchTwo extends Fragment implements
             case R.id.fragment_search_two_filterBtn:
 
                 if (getActivity() != null)
-                    getActivity().startActivityForResult(new Intent(getActivity(), ChooseCategoryActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY);
+                    // getActivity().startActivityForResult(new Intent(getActivity(), ChooseCategoryActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY);
+                    getActivity().startActivityForResult(new Intent(getActivity(), FilterActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY);
 
 
                 break;
