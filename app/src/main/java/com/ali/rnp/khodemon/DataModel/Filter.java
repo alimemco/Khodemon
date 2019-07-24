@@ -9,6 +9,7 @@ public class Filter {
     public Filter(String title, String address) {
         this.title = title;
         this.address = address;
+        this.selected = false ;
     }
 
     public String getTitle() {

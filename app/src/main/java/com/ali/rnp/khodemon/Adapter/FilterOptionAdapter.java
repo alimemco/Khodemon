@@ -44,13 +44,9 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void changeState(int position) {
-        for (int i = 0; i < filterList.size(); i++) {
-            if (i == position) {
-                filterList.get(position).setSelected(true);
-            } else {
-                filterList.get(position).setSelected(false);
-            }
 
+        for (int i = 0; i < filterList.size(); i++) {
+            this.filterList.get(i).setSelected(i == position);
         }
 
         notifyDataSetChanged();
