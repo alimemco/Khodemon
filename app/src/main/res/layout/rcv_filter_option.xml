@@ -11,6 +11,8 @@
         android:layout_margin="@dimen/standard_margin_2x"
         android:text="@string/app_name"
         android:textSize="@dimen/normal_textSize_sp"
+        android:background="@drawable/bg_selector"
+        android:focusable="true"
         app:layout_constraintLeft_toRightOf="@id/rcv_filter_count"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

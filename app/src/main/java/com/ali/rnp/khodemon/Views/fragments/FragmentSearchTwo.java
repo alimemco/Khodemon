@@ -45,6 +45,7 @@ public class FragmentSearchTwo extends Fragment implements
     private ChipGroup chipGroup;
     private RecyclerView rcv;
     private ApiService apiService;
+    private String typed;
     private SearchAdapter searchAdapter;
     private JSONObject jsonObject;
     private MaterialProgressBar progressBar;
@@ -113,7 +114,7 @@ public class FragmentSearchTwo extends Fragment implements
         categoryChip.setOnCloseIconClickListener(v -> {
             chipGroup.removeView(categoryChip);
 
-           // removeJsonCategory();
+            // removeJsonCategory();
             putJsonCategory(null);
 
             getResult();
@@ -121,7 +122,6 @@ public class FragmentSearchTwo extends Fragment implements
         });
 
         chipGroup.addView(categoryChip);
-
 
 
     }
@@ -147,6 +147,7 @@ public class FragmentSearchTwo extends Fragment implements
 
             case R.id.fragment_search_two_sortBtn:
 
+
                 break;
         }
     }
@@ -165,7 +166,7 @@ public class FragmentSearchTwo extends Fragment implements
     public void afterTextChanged(Editable s) {
 
 
-        String typed = s.toString();
+        typed = s.toString();
 
         searchAdapter.setTyped(typed);
 
@@ -176,7 +177,7 @@ public class FragmentSearchTwo extends Fragment implements
             getResult();
 
         } else {
-            Toast.makeText(view.getContext(), "isEmptyInput", Toast.LENGTH_SHORT).show();
+            searchAdapter.isEmpty();
         }
 
     }
@@ -199,22 +200,6 @@ public class FragmentSearchTwo extends Fragment implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void OnSuccessSearch(ArrayList<GroupModel> groupModels) {
-        progressBar.setVisibility(View.INVISIBLE);
-
-        if (groupModels != null) {
-            searchAdapter.setData(groupModels);
-
-        }
-    }
-
-    @Override
-    public void OnErrorSearch(Object error) {
-        progressBar.setVisibility(View.INVISIBLE);
-        searchAdapter.isEmpty();
     }
 
 
@@ -250,5 +235,25 @@ public class FragmentSearchTwo extends Fragment implements
             addCategoryChip(category);
         }
 
+    }
+
+
+    @Override
+    public void OnSuccessSearch(ArrayList<GroupModel> groupModels) {
+        progressBar.setVisibility(View.INVISIBLE);
+
+        if (groupModels != null && !typed.equals("")) {
+            searchAdapter.setData(groupModels);
+
+        } else {
+            searchAdapter.isEmpty();
+        }
+
+    }
+
+    @Override
+    public void OnErrorSearch(Object error) {
+        progressBar.setVisibility(View.INVISIBLE);
+        searchAdapter.isEmpty();
     }
 }

@@ -33,7 +33,7 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         FilterOptionHolder mHolder = (FilterOptionHolder) holder;
-        mHolder.bind(filterList.get(position));
+        mHolder.bind(position);
 
 
     }
@@ -43,9 +43,24 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return filterList == null ? 0 : filterList.size();
     }
 
+    private void changeState(int position) {
+        for (int i = 0; i < filterList.size(); i++) {
+            if (i == position) {
+                filterList.get(position).setSelected(true);
+            } else {
+                filterList.get(position).setSelected(false);
+            }
+
+        }
+
+        notifyDataSetChanged();
+
+    }
+
     class FilterOptionHolder extends RecyclerView.ViewHolder {
         private MyTextView titleTv;
         private MyTextView countTv;
+        private boolean isSelected = false;
 
         FilterOptionHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,9 +68,14 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             countTv = itemView.findViewById(R.id.rcv_filter_count);
         }
 
-        void bind(Filter filter) {
+        void bind(int position) {
+
+            Filter filter = filterList.get(position);
 
             titleTv.setText(filter.getTitle());
+            titleTv.setSelected(filter.getSelected());
+
+            titleTv.setOnClickListener(v -> changeState(position));
 
 
         }

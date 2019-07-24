@@ -4,6 +4,7 @@ public class Filter {
 
     private String title;
     private String address;
+    private boolean selected;
 
     public Filter(String title, String address) {
         this.title = title;
@@ -17,4 +18,14 @@ public class Filter {
     public String getAddress() {
         return address;
     }
+
+    public boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+
 }
