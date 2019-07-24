@@ -9,7 +9,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/rcv_search_category_imageView"
         android:layout_width="50dp"
-        android:layout_height="65dp"
+        android:layout_height="50dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
         android:layout_marginRight="16dp"
@@ -28,7 +28,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:textSize="@dimen/small_textSize_sp"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@id/rcv_search_category_isAd"
         app:layout_constraintRight_toLeftOf="@+id/rcv_search_category_imageView"
         app:layout_constraintTop_toTopOf="@+id/rcv_search_category_imageView"
@@ -37,13 +36,12 @@
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:id="@+id/rcv_search_category_categoryTv"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         tools:text="تخصص"
         android:textColor="@color/colorPrimaryS45"
         android:textSize="@dimen/very_small_textSize_sp"
         app:fontCustom="shp_iranSansMobile"
-        app:layout_constraintBottom_toBottomOf="@+id/rcv_search_category_imageView"
         app:layout_constraintRight_toRightOf="@+id/rcv_search_category_nameTv"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@id/rcv_search_category_nameTv"
@@ -61,4 +59,15 @@
         android:textColor="@color/gray_500"
         android:background="@drawable/bg_ad"
         android:text="ad"/>
+
+
+    <View
+        android:id="@+id/rcv_search_category_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:background="@color/gray_100"
+        app:layout_constraintLeft_toRightOf="@id/rcv_search_category_isAd"
+        app:layout_constraintRight_toLeftOf="@id/rcv_search_category_imageView"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

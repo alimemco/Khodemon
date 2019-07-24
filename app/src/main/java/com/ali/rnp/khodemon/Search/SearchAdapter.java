@@ -4,12 +4,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ali.rnp.khodemon.R;
 
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -18,21 +18,36 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private SearchList searchList;
     private OnChildClickListener onChildClickListener;
     private String typed;
-    private boolean isEmpty;
+    private static final int isDefault = 0;
+    private static final int isEmpty = 1;
+    private static final int isSearching = 2;
+    private static final int isSuccess = 29;
+    // private boolean isEmpty;
+    // private boolean isSearching;
+    // private int viewType;
+    private int state = isDefault;
 
 
     public SearchAdapter() {
+        state = isDefault;
     }
 
     public void setData(ArrayList<GroupModel> groupList) {
         this.searchList = new SearchList(groupList);
-        this.isEmpty = false;
+
+        state = isSuccess;
+
         notifyDataSetChanged();
 
     }
 
     public void isEmpty() {
-        this.isEmpty = true;
+        state = isEmpty;
+        notifyDataSetChanged();
+    }
+
+    public void isSearching() {
+        state = isSearching;
         notifyDataSetChanged();
     }
 
@@ -46,14 +61,28 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemViewType(int position) {
 
-        return isEmpty ? SearchListPosition.EMPTY : searchList.getUnflattenedPosition(position).type;
+        switch (state) {
+            case isEmpty:
+                return SearchListPosition.EMPTY;
+
+            case isSearching:
+                return SearchListPosition.SEARCHING;
+
+            case isSuccess:
+                return searchList.getUnflattenedPosition(position).type;
+
+            default:
+                return isDefault;
+        }
+
+
 
     }
 
     @Override
     public int getItemCount() {
 
-        if (isEmpty) {
+        if (state == isEmpty || state == isSearching) {
             return 1;
         } else {
             return searchList == null ? 0 : searchList.getItemCount();
@@ -71,7 +100,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else if (viewType == SearchListPosition.EMPTY) {
             View viewEmpty = LayoutInflater.from(parent.getContext()).inflate(R.layout.rcv_search_empty, parent, false);
-            return new SearchHolder.EmptyHolder(viewEmpty, parent.getContext());
+            return new SearchHolder.EmptyHolder(viewEmpty);
+
+        } else if (viewType == SearchListPosition.SEARCHING) {
+            View viewEmpty = LayoutInflater.from(parent.getContext()).inflate(R.layout.rcv_searching, parent, false);
+            return new SearchHolder.EmptyHolder(viewEmpty);
 
         } else {
             View viewChild = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_child, parent, false);
@@ -83,7 +116,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        if (!isEmpty) {
+        if (state == isSuccess) {
             SearchListPosition listPos = searchList.getUnflattenedPosition(position);
 
             GroupModel group = searchList.getGroup(listPos);
@@ -96,9 +129,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     break;
                 case SearchListPosition.CHILD:
                     ChildModel childModel = group.getItems().get(listPos.childPos);
+
                     SearchHolder.ChildHolder mHolderChild = (SearchHolder.ChildHolder) holder;
 
-                    mHolderChild.bind(childModel, typed, isEmpty);
+
+                    mHolderChild.bind(childModel, typed, listPos.childPos == 0);
 
                     mHolderChild.itemView.setOnClickListener(v -> {
                         if (onChildClickListener != null) {

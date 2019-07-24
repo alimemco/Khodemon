@@ -49,9 +49,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_filter_appBar" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/activity_filter_txt"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:gravity="center"
+        android:scrollHorizontally="true"
+        android:text="ex"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@id/activity_filter_line"

@@ -6,28 +6,36 @@
     android:orientation="horizontal"
     android:gravity="center"
     android:layoutDirection="rtl"
+    android:background="@color/gray_200"
     tools:targetApi="jelly_bean_mr1">
-
-    <com.ali.rnp.khodemon.MyLibrary.MyTextView
-        android:id="@+id/search_parent_status_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        tools:text="وضعیت" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_weight="1"
-        android:background="@color/gray_300"
- />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:id="@+id/search_parent_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="2dp"
         android:textSize="@dimen/small_textSize_sp"
         tools:text="نام گروه" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/gray_300"
+ />
+
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/search_parent_status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="2dp"
+        tools:text="وضعیت" />
 
 </LinearLayout>

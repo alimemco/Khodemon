@@ -3,23 +3,25 @@ package com.ali.rnp.khodemon.Views.Activities;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.ali.rnp.khodemon.Adapter.FilterOptionAdapter;
-import com.ali.rnp.khodemon.Api.ApiService;
-import com.ali.rnp.khodemon.DataModel.Filter;
-import com.ali.rnp.khodemon.R;
-
-import java.util.ArrayList;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ali.rnp.khodemon.Adapter.FilterOptionAdapter;
+import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.DataModel.Filter;
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.R;
+
+import java.util.ArrayList;
+
 public class FilterActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private MyTextView txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,15 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void OnSuccessFilter(ArrayList<Filter> filterList) {
                 if (filterList != null) {
-                    // Toast.makeText(FilterActivity.this, String.valueOf(filterList.size()), Toast.LENGTH_SHORT).show();
                     FilterOptionAdapter adapter = new FilterOptionAdapter(filterList);
+
+                    adapter.setOnItemClicked(new FilterOptionAdapter.OnItemClicked() {
+                        @Override
+                        public void onItemClicked(Filter filter) {
+                            txt.setText(filter.getJsonObject().toString());
+                        }
+                    });
+
                     recyclerView.setAdapter(adapter);
                 }
             }
@@ -63,6 +72,7 @@ public class FilterActivity extends AppCompatActivity {
 
     private void initViews() {
         toolbar = findViewById(R.id.activity_filter_toolbar);
+        txt = findViewById(R.id.activity_filter_txt);
         recyclerView = findViewById(R.id.activity_filter_rcv_options);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));

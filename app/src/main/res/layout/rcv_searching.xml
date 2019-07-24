@@ -2,29 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layoutDirection="rtl"
     android:orientation="horizontal"
     android:padding="@dimen/standard_margin_2x"
     tools:targetApi="jelly_bean_mr1">
 
-
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
-        app:srcCompat="@drawable/ic_clock" />
+        app:srcCompat="@drawable/ic_magnifying_glass" />
+
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/standard_margin_2x"
         android:layout_marginRight="@dimen/standard_margin_2x"
         android:layout_weight="1"
         android:gravity="right|center_vertical"
-        android:text="@string/notFound"
-        android:layout_marginLeft="@dimen/standard_margin_2x"
+        android:text="@string/searching"
         android:textSize="@dimen/small_textSize_sp" />
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/standard_margin_2x"
+        android:gravity="center"
+        app:mpb_progressTint="@color/colorPrimary" />
 
 
 </LinearLayout>

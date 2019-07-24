@@ -85,21 +85,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/fragment_search_two_progressBar"
-        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="invisible"
-        app:mpb_indeterminateTint="@color/gray_500"
-        app:mpb_progressStyle="horizontal"
-        app:mpb_secondaryProgressTint="@color/greenH500" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_search_two_rcv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

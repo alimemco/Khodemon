@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRadioButton;
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
+
 import java.util.ArrayList;
 
 
@@ -19,6 +19,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<String> models;
     private Context context;
+
 
     public SortAdapter( ArrayList<String> models) {
         this.models = models;
@@ -68,4 +69,6 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
     }
+
+
 }

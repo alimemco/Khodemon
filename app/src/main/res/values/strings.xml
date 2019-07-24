@@ -38,5 +38,7 @@
     <string name="day_open">باز است</string>
 
     <string name="chooseCategory">انتخاب دسته بندی</string>
+    <string name="searching">در حال جست و جو</string>
+    <string name="notFound">موردی یافت نشد</string>
 
 </resources>

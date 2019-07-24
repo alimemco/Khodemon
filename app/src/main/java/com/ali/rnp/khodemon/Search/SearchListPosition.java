@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class SearchListPosition {
 
+    public final static int SEARCHING = 4;
+
     public final static int EMPTY = 3;
 
     public final static int GROUP = 2;

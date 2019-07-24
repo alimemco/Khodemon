@@ -10,6 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
@@ -27,13 +33,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-
 public class FragmentSearchTwo extends Fragment implements
         View.OnClickListener,
         TextWatcher,
@@ -48,7 +47,6 @@ public class FragmentSearchTwo extends Fragment implements
     private String typed;
     private SearchAdapter searchAdapter;
     private JSONObject jsonObject;
-    private MaterialProgressBar progressBar;
 
     private Chip categoryChip;
 
@@ -95,7 +93,6 @@ public class FragmentSearchTwo extends Fragment implements
         MyButton sortBtn = view.findViewById(R.id.fragment_search_two_sortBtn);
         chipGroup = view.findViewById(R.id.fragment_search_two_chipGroup);
         rcv = view.findViewById(R.id.fragment_search_two_rcv);
-        progressBar = view.findViewById(R.id.fragment_search_two_progressBar);
 
         filterBtn.setOnClickListener(this);
         sortBtn.setOnClickListener(this);
@@ -130,7 +127,6 @@ public class FragmentSearchTwo extends Fragment implements
 
         apiService.searchCategory(jsonObject, this);
 
-        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -175,6 +171,7 @@ public class FragmentSearchTwo extends Fragment implements
             putJsonKeyword(s.toString());
 
             getResult();
+            searchAdapter.isSearching();
 
         } else {
             searchAdapter.isEmpty();
@@ -240,7 +237,6 @@ public class FragmentSearchTwo extends Fragment implements
 
     @Override
     public void OnSuccessSearch(ArrayList<GroupModel> groupModels) {
-        progressBar.setVisibility(View.INVISIBLE);
 
         if (groupModels != null && !typed.equals("")) {
             searchAdapter.setData(groupModels);
@@ -253,7 +249,6 @@ public class FragmentSearchTwo extends Fragment implements
 
     @Override
     public void OnErrorSearch(Object error) {
-        progressBar.setVisibility(View.INVISIBLE);
         searchAdapter.isEmpty();
     }
 }

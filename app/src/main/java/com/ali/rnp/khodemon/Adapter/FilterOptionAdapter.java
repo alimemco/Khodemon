@@ -4,18 +4,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ali.rnp.khodemon.DataModel.Filter;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Filter> filterList;
+    private OnItemClicked onItemClicked;
 
     public FilterOptionAdapter(ArrayList<Filter> filterList) {
         this.filterList = filterList;
@@ -53,10 +54,19 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
+    public void setOnItemClicked(OnItemClicked onItemClicked) {
+        this.onItemClicked = onItemClicked;
+    }
+
+
+    public interface OnItemClicked {
+        void onItemClicked(Filter filter);
+    }
+
     class FilterOptionHolder extends RecyclerView.ViewHolder {
         private MyTextView titleTv;
         private MyTextView countTv;
-        private boolean isSelected = false;
+        ///private boolean isSelected = false;
 
         FilterOptionHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,10 +79,13 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Filter filter = filterList.get(position);
 
             titleTv.setText(filter.getTitle());
-            titleTv.setSelected(filter.getSelected());
-
-            titleTv.setOnClickListener(v -> changeState(position));
-
+            itemView.setSelected(filter.getSelected());
+            titleTv.setOnClickListener(v -> {
+                changeState(position);
+                if (onItemClicked != null) {
+                    onItemClicked.onItemClicked(filter);
+                }
+            });
 
         }
     }
