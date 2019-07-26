@@ -3,15 +3,14 @@ package com.ali.rnp.khodemon.ExpandableSingleItems;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.ali.rnp.khodemon.MyLibrary.MyTextView;
-import com.ali.rnp.khodemon.R;
-import com.squareup.picasso.Picasso;
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
-import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import androidx.appcompat.app.AppCompatDelegate;
+
+import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGroup;
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
+import com.ali.rnp.khodemon.R;
+import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
+import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
@@ -36,7 +35,16 @@ public class ParentViewHolderExp extends GroupViewHolder {
 
             groupName.setText(group.getTitle());
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
+//        icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
+
+        if (group instanceof SingleCheckItemsExp) {
+            icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
+
+        } else if (group instanceof MultiCheckGroup) {
+            icon.setBackgroundResource(((MultiCheckGroup) group).getIconResId());
+
+        }
+        //TODO Cast Class Expetion
 
 
 

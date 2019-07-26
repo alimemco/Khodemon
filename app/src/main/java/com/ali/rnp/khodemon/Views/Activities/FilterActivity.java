@@ -12,15 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ali.rnp.khodemon.Adapter.FilterOptionAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.Filter;
+import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
+import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGenreAdapter;
+import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGroup;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class FilterActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+    private RecyclerView rcvOptions;
+    private RecyclerView rcvValues;
     private MyTextView txt;
 
     @Override
@@ -36,6 +45,16 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void OnSuccessFilter(ArrayList<Filter> filterList) {
                 if (filterList != null) {
+
+                    txt.setText(filterList.get(0).getJsonObject().toString());
+
+                    parseJson(filterList.get(0).getJsonObject());
+                    /*
+                    MultiCheckGenreAdapter multiCheckGenreAdapter = new MultiCheckGenreAdapter(GenreDataFactory.makeMultiCheckGenres());
+
+                    rcvValues.setAdapter(multiCheckGenreAdapter);
+*/
+
                     FilterOptionAdapter adapter = new FilterOptionAdapter(filterList);
 
                     adapter.setOnItemClicked(new FilterOptionAdapter.OnItemClicked() {
@@ -45,7 +64,7 @@ public class FilterActivity extends AppCompatActivity {
                         }
                     });
 
-                    recyclerView.setAdapter(adapter);
+                    rcvOptions.setAdapter(adapter);
                 }
             }
 
@@ -55,6 +74,7 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void initToolbar() {
         setSupportActionBar(toolbar);
@@ -73,9 +93,55 @@ public class FilterActivity extends AppCompatActivity {
     private void initViews() {
         toolbar = findViewById(R.id.activity_filter_toolbar);
         txt = findViewById(R.id.activity_filter_txt);
-        recyclerView = findViewById(R.id.activity_filter_rcv_options);
+        rcvOptions = findViewById(R.id.activity_filter_rcv_options);
+        rcvValues = findViewById(R.id.activity_filter_rcv_values);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        rcvOptions.setLayoutManager(new LinearLayoutManager(this));
+        rcvValues.setLayoutManager(new LinearLayoutManager(this));
+
+
+    }
+
+    private void parseJson(JSONObject jsonObject) {
+
+        List<ChildExp> childList;
+        List<MultiCheckGroup> multiCheckGroups = new ArrayList<>();
+
+        try {
+
+            boolean hasChild = jsonObject.getBoolean("hasChild");
+
+            if (hasChild) {
+                JSONArray jsAryItems = jsonObject.getJSONArray("items");
+
+                for (int i = 0; i < jsAryItems.length(); i++) {
+                    JSONObject jsObjGroup = jsAryItems.getJSONObject(i);
+                    String titleGroup = jsObjGroup.getString("title");
+                    JSONArray jsAryChild = jsObjGroup.getJSONArray("child");
+
+                    childList = new ArrayList<>();
+
+                    for (int j = 0; j < jsAryChild.length(); j++) {
+                        JSONObject jsObjChild = jsAryChild.getJSONObject(j);
+                        String titleChild = jsObjChild.getString("title");
+
+                        ChildExp child = new ChildExp();
+                        child.setData(titleChild, false);
+                        childList.add(child);
+
+                    }
+                    MultiCheckGroup makeSingleCheckChild = new MultiCheckGroup(titleGroup, childList, R.drawable.ic_location_name);
+                    multiCheckGroups.add(makeSingleCheckChild);
+
+                }
+            }
+
+            MultiCheckGenreAdapter multiCheckGenreAdapter = new MultiCheckGenreAdapter(multiCheckGroups);
+            rcvValues.setAdapter(multiCheckGenreAdapter);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -85,4 +151,6 @@ public class FilterActivity extends AppCompatActivity {
         finish();
         return super.onSupportNavigateUp();
     }
+
+
 }

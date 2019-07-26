@@ -1,10 +1,12 @@
-package com.ali.rnp.khodemon.ExpandableSingleItems;
+package com.ali.rnp.khodemon.MultiCheckExpand;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
+import com.ali.rnp.khodemon.ExpandableSingleItems.ChildViewHolderExp;
+import com.ali.rnp.khodemon.ExpandableSingleItems.ParentViewHolderExp;
 import com.ali.rnp.khodemon.R;
 import com.thoughtbot.expandablecheckrecyclerview.CheckableChildRecyclerViewAdapter;
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
@@ -12,32 +14,26 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.List;
 
-public class AdapterSingleExp extends CheckableChildRecyclerViewAdapter<ParentViewHolderExp,ChildViewHolderExp> {
 
-    private Context context;
+public class MultiCheckGenreAdapter extends
+        CheckableChildRecyclerViewAdapter<ParentViewHolderExp, ChildViewHolderExp> {
 
-    private static final String TAG = "AdapterSingleExp";
-
-    public AdapterSingleExp(List<SingleCheckItemsExp> groups, Context context) {
+    public MultiCheckGenreAdapter(List<MultiCheckGroup> groups) {
         super(groups);
-        this.context = context;
     }
-
 
     @Override
     public ChildViewHolderExp onCreateCheckChildViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_child_exp, parent, false);
-        return new ChildViewHolderExp(view,context);
+                .inflate(R.layout.list_item_child_multi_exp, parent, false);
+        return new ChildViewHolderExp(view, parent.getContext());
     }
 
     @Override
     public void onBindCheckChildViewHolder(ChildViewHolderExp holder, int position,
                                            CheckedExpandableGroup group, int childIndex) {
-        final ChildExp childExp = (ChildExp) group.getItems().get(childIndex);
-        holder.setName(childExp.getName());
-
-
+        final ChildExp child = (ChildExp) group.getItems().get(childIndex);
+        holder.setName(child.getName());
     }
 
     @Override
@@ -51,8 +47,5 @@ public class AdapterSingleExp extends CheckableChildRecyclerViewAdapter<ParentVi
     public void onBindGroupViewHolder(ParentViewHolderExp holder, int flatPosition,
                                       ExpandableGroup group) {
         holder.setGroupingTitle(group);
-
-
     }
-
 }

@@ -26,7 +26,6 @@
         <activity android:name=".Views.Activities.ChooseScaleActivity" />
         <activity android:name=".Views.Activities.ScaleActivity" />
         <activity android:name=".Views.Activities.HoursChooseActivity" />
-        <activity android:name=".Views.Activities.CityChooseActivityNew" />
         <activity
             android:name=".Views.Activities.DetailActivity"
             android:theme="@style/statusBarTranslucent" />

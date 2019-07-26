@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ali.rnp.khodemon.DataModel.Filter;
@@ -19,6 +20,9 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private OnItemClicked onItemClicked;
 
     public FilterOptionAdapter(ArrayList<Filter> filterList) {
+
+        filterList.get(0).setSelected(true);
+
         this.filterList = filterList;
     }
 
@@ -64,14 +68,16 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     class FilterOptionHolder extends RecyclerView.ViewHolder {
+
         private MyTextView titleTv;
-        private MyTextView countTv;
-        ///private boolean isSelected = false;
+        private AppCompatImageView arrowImv;
+        private View line;
 
         FilterOptionHolder(@NonNull View itemView) {
             super(itemView);
             titleTv = itemView.findViewById(R.id.rcv_filter_title);
-            countTv = itemView.findViewById(R.id.rcv_filter_count);
+            arrowImv = itemView.findViewById(R.id.rcv_filter_arrow);
+            line = itemView.findViewById(R.id.rcv_filter_line);
         }
 
         void bind(int position) {
@@ -79,8 +85,13 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Filter filter = filterList.get(position);
 
             titleTv.setText(filter.getTitle());
+
+            line.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
+            arrowImv.setVisibility(filter.getSelected() ? View.VISIBLE : View.INVISIBLE);
+
             itemView.setSelected(filter.getSelected());
-            titleTv.setOnClickListener(v -> {
+
+            itemView.setOnClickListener(v -> {
                 changeState(position);
                 if (onItemClicked != null) {
                     onItemClicked.onItemClicked(filter);

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.ali.rnp.khodemon.DataModel.DataGenerator;
-import com.ali.rnp.khodemon.DataModel.LocationCity;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.DataModel.User;
 
@@ -35,7 +34,7 @@ public class SharedPrefManager {
     public LocationPeople getSharedCity() {
         LocationPeople locationPeople = new LocationPeople();
         locationPeople.setId(sharedPreferences.getInt(SHARED_PREF_CITY_ID, 1));
-        locationPeople.setCity(sharedPreferences.getString(SHARED_PREF_CITY_NAME, DataGenerator.BESAST_TOWN_CITY));
+        locationPeople.setCity(sharedPreferences.getString(SHARED_PREF_CITY_NAME, DataGenerator.TEHRAN_CITY));
         locationPeople.setProvince(sharedPreferences.getString(SHARED_PREF_CITY_PROVINCE_NAME, DataGenerator.KHUZESTAN_PROVINCE));
         return locationPeople;
     }

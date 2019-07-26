@@ -7,6 +7,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ali.rnp.khodemon.Adapter.CityAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.City;
@@ -16,29 +22,19 @@ import com.ali.rnp.khodemon.ExpandableSingleItems.SingleCheckItemsExp;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.fragments.FragmentAddLevelTwo;
 import com.android.volley.VolleyError;
-import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
-import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class CityChooseActivity extends AppCompatActivity implements
-        TextWatcher {
+        TextWatcher,
+        ApiService.OnProvinceReceived {
 
-    private RecyclerView recyclerViewCity;
-    private Toolbar toolbar;
-    private MyEditText searchEditText;
+    private RecyclerView rcv;
     private AdapterSingleExp adapterSingleExp;
-    private CityAdapter cityAdapter;
     private MaterialProgressBar progressBar;
 
     private List<City> cityList;
@@ -46,14 +42,8 @@ public class CityChooseActivity extends AppCompatActivity implements
 
 
 
-
-    private boolean isFromFragmentAddTwo = false ;
-
     private String provinceName;
     private String cityName;
-
-    private static final String TAG = "CityChooseActivity";
-
 
 
 
@@ -62,40 +52,20 @@ public class CityChooseActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_choose);
 
-
-        initViews ();
-        getDataFromIntent();
+        initViews();
         setupToolbar();
-        setupRecViewForCity();
-
-
-
-
-
-        progressBar = findViewById(R.id.activity_city_choose_progressBar);
-
-        searchEditText = findViewById(R.id.activity_city_choose_cityAutoCompleteTextView);
-        searchEditText.addTextChangedListener(this);
-
+        setupRecView();
 
     }
 
     private void initViews() {
-        cityAdapter = new CityAdapter(CityChooseActivity.this);
+        progressBar = findViewById(R.id.activity_city_choose_progressBar);
+
+        MyEditText searchEditText = findViewById(R.id.activity_city_choose_cityAutoCompleteTextView);
+        searchEditText.addTextChangedListener(this);
+
+        //  cityAdapter = new CityAdapter(CityChooseActivity.this);
     }
-
-    private void getDataFromIntent() {
-
-        int requestCode = getIntent().getIntExtra(ProvidersApp.KEY_CHOOSE_CITY_FRG_ADD_LVL_TWO,0);
-
-        isFromFragmentAddTwo = requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CITY_FRG_ADD_LVL_TWO;
-
-        cityAdapter.setIsFromFragmentAddTwo(isFromFragmentAddTwo);
-
-    }
-
-
-
 
     public void sendCityData() {
         Intent intent = new Intent();
@@ -103,13 +73,12 @@ public class CityChooseActivity extends AppCompatActivity implements
         intent.putExtra(ProvidersApp.KEY_PROVINCE_NAME, provinceName);
         setResult(RESULT_OK, intent);
 
-
         finish();
 
     }
 
     private void setupToolbar() {
-        toolbar = findViewById(R.id.activity_city_choose_toolbar);
+        Toolbar toolbar = findViewById(R.id.activity_city_choose_toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -124,77 +93,35 @@ public class CityChooseActivity extends AppCompatActivity implements
     }
 
 
+    private void setupRecView() {
 
-    private void setupRecViewForCity() {
-
-        recyclerViewCity = findViewById(R.id.activity_city_choose_recView);
-        recyclerViewCity.setLayoutManager(new LinearLayoutManager(this));
-
-
+        rcv = findViewById(R.id.activity_city_choose_recView);
+        rcv.setLayoutManager(new LinearLayoutManager(this));
 
         ApiService apiService = new ApiService(CityChooseActivity.this);
 
-        apiService.getProvince(new ApiService.OnProvinceReceived() {
-            @Override
-            public void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent,List<City> cities, VolleyError error) {
-
-                progressBar.setVisibility(View.INVISIBLE);
-                if (makeSingleCheckParent != null && cities != null && error == null){
-
-                    cityList = new ArrayList<>();
-                    cityList.addAll(cities);
-
-                    makeSingleCheckParentList = new ArrayList<>();
-                    makeSingleCheckParentList.addAll(makeSingleCheckParent);
-
-                    setupRecWithExpandable(makeSingleCheckParent);
-
-
-                }else if (error != null){
-                    Toast.makeText(CityChooseActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-
+        apiService.getProvince(this);
 
     }
 
-    private void setupRecWithExpandable(List<SingleCheckItemsExp> makeSingleCheckParent){
+    private void setupRecWithExpandable(List<SingleCheckItemsExp> makeSingleCheckParent) {
+
         adapterSingleExp = new AdapterSingleExp(makeSingleCheckParent, CityChooseActivity.this);
-        recyclerViewCity.setAdapter(adapterSingleExp);
+        rcv.setAdapter(adapterSingleExp);
 
-        adapterSingleExp.setChildClickListener(new OnCheckChildClickListener() {
-            @Override
-            public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
-                adapterSingleExp.clearChoices();
-                group.checkChild(childIndex);
-                ChildExp childExp = (ChildExp) group.getItems().get(childIndex);
-               // Toast.makeText(CityChooseActivity.this, childExp.getName(), Toast.LENGTH_SHORT).show();
+        adapterSingleExp.setChildClickListener((v, checked, group, childIndex) -> {
+            adapterSingleExp.clearChoices();
+            group.checkChild(childIndex);
+            ChildExp childExp = (ChildExp) group.getItems().get(childIndex);
 
-                provinceName = group.getTitle();
-                cityName = childExp.getName();
+            provinceName = group.getTitle();
+            cityName = childExp.getName();
 
-                sendCityData();
+            sendCityData();
 
-
-
-            }
         });
 
     }
-/*
-    public void detectDataForFragment(OnCityChooseClick onCityChooseClick) {
-        onCityChooseClick.OnCityClick(provinceName,cityName);
-    }
-*/
-    private void setupRecForSearch(){
-
-                    cityAdapter.setupCityAdapter(cityList);
-                    recyclerViewCity.setAdapter(cityAdapter);
-
-    }
-
 
 
 
@@ -211,41 +138,56 @@ public class CityChooseActivity extends AppCompatActivity implements
     @Override
     public void afterTextChanged(Editable s) {
 
-        if (s.toString().equals("")){
-            if (makeSingleCheckParentList != null){
+        if (s.toString().equals("")) {
+            if (makeSingleCheckParentList != null) {
                 setupRecWithExpandable(makeSingleCheckParentList);
             }
 
 
-        }else {
-            if (cityList != null){
-                setupRecForSearch();
-                filter(s.toString());
-            }
+        } else {
+            if (cityList != null) {
 
+                filterCity(s.toString());
+
+            }
 
         }
 
     }
 
 
-    private void filter(String text) {
+    private void filterCity(String text) {
 
-        List<City> filterCity = new ArrayList<>();
-
+        List<City> filteredCity = new ArrayList<>();
 
         for (City s : cityList) {
 
             if (s.getCityName().contains(text)) {
-                filterCity.add(s);
+                filteredCity.add(s);
             }
         }
 
-
-        cityAdapter.filterList(filterCity);
+        CityAdapter cityAdapter = new CityAdapter(filteredCity);
+        rcv.setAdapter(cityAdapter);
     }
 
 
+    @Override
+    public void onReceived(List<SingleCheckItemsExp> makeSingleCheckParent, List<City> cities, VolleyError error) {
+        progressBar.setVisibility(View.INVISIBLE);
+        if (makeSingleCheckParent != null && cities != null && error == null) {
+
+            cityList = new ArrayList<>();
+            cityList.addAll(cities);
+
+            makeSingleCheckParentList = new ArrayList<>();
+            makeSingleCheckParentList.addAll(makeSingleCheckParent);
+
+            setupRecWithExpandable(makeSingleCheckParent);
 
 
+        } else if (error != null) {
+            Toast.makeText(CityChooseActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
 }

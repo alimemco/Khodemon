@@ -12,9 +12,9 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        app:srcCompat="@drawable/ic_clock" />
+        app:srcCompat="@drawable/ic_sad" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="0dp"

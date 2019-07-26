@@ -78,6 +78,8 @@ public class ProvidersApp {
 
     public static final String KEY_KEYWORD = "keyword";
     public static final String KEY_CATEGORY = "category";
+    public static final String KEY_CITY_USER = "cityUser";
+    public static final String KEY_CITY_FILTER = "cityFilter";
 
     public static final String KEY_LOCATION_PEOPLE = "LOCATION_PEOPLE";
 

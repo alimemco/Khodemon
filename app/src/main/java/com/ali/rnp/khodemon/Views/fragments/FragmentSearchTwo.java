@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.Dialogs.SortDialog;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -24,6 +25,7 @@ import com.ali.rnp.khodemon.R;
 import com.ali.rnp.khodemon.Search.ChildModel;
 import com.ali.rnp.khodemon.Search.GroupModel;
 import com.ali.rnp.khodemon.Search.SearchAdapter;
+import com.ali.rnp.khodemon.SharedPrefManager;
 import com.ali.rnp.khodemon.Views.Activities.FilterActivity;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -40,6 +42,11 @@ public class FragmentSearchTwo extends Fragment implements
         SearchAdapter.OnChildClickListener {
 
     private static final String TAG = "FragmentSearchTwo";
+
+    private static final int keywordKey = 0;
+    private static final int categoryKey = 1;
+    private static final int cityUserKey = 2;
+    private static final int cityFilterKey = 3;
 
     private ChipGroup chipGroup;
     private RecyclerView rcv;
@@ -74,8 +81,17 @@ public class FragmentSearchTwo extends Fragment implements
 
         initViews();
         initRcv();
+        initUserCity();
 
         return view;
+    }
+
+    private void initUserCity() {
+        if (getContext() != null) {
+            putIntoJson(null, null, new SharedPrefManager(getContext()).getSharedCity().getCity(), null);
+        }
+
+
     }
 
     private void initRcv() {
@@ -112,7 +128,7 @@ public class FragmentSearchTwo extends Fragment implements
             chipGroup.removeView(categoryChip);
 
             // removeJsonCategory();
-            putJsonCategory(null);
+            removeJson(categoryKey);
 
             getResult();
 
@@ -143,7 +159,16 @@ public class FragmentSearchTwo extends Fragment implements
 
             case R.id.fragment_search_two_sortBtn:
 
+                SortDialog dialog = new SortDialog();
 
+                dialog.show(getChildFragmentManager(), "SortDialog");
+              /*  dialog.getAdapter().setOnItemSortClick(new SortAdapter.OnItemSortClick() {
+                    @Override
+                    public void OnSortClick(String name) {
+                        Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });*/
                 break;
         }
     }
@@ -168,7 +193,7 @@ public class FragmentSearchTwo extends Fragment implements
 
         if (!typed.equals("")) {
 
-            putJsonKeyword(s.toString());
+            putIntoJson(s.toString(), null, null, null);
 
             getResult();
             searchAdapter.isSearching();
@@ -178,7 +203,7 @@ public class FragmentSearchTwo extends Fragment implements
         }
 
     }
-
+/*
     private void putJsonKeyword(String typed) {
 
         try {
@@ -193,6 +218,58 @@ public class FragmentSearchTwo extends Fragment implements
 
         try {
             jsonObject.put(ProvidersApp.KEY_CATEGORY, category);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    private void putIntoJson(String keyword, String category, String cityUser, String cityFilter) {
+        try {
+
+            if (keyword != null) {
+                jsonObject.put(ProvidersApp.KEY_KEYWORD, keyword);
+            }
+
+            if (category != null) {
+                jsonObject.put(ProvidersApp.KEY_CATEGORY, category);
+            }
+
+            if (cityUser != null) {
+                jsonObject.put(ProvidersApp.KEY_CITY_USER, cityUser);
+            }
+
+            if (cityFilter != null) {
+                jsonObject.put(ProvidersApp.KEY_CITY_FILTER, cityFilter);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeJson(int toRemove) {
+        try {
+            switch (toRemove) {
+                case keywordKey:
+                    jsonObject.put(ProvidersApp.KEY_KEYWORD, null);
+                    break;
+
+                case categoryKey:
+                    jsonObject.put(ProvidersApp.KEY_CATEGORY, null);
+                    break;
+
+                case cityUserKey:
+                    jsonObject.put(ProvidersApp.KEY_CITY_USER, null);
+                    break;
+
+                case cityFilterKey:
+                    jsonObject.put(ProvidersApp.KEY_CITY_FILTER, null);
+                    break;
+
+            }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -216,7 +293,7 @@ public class FragmentSearchTwo extends Fragment implements
             if (data != null) {
                 String category = data.getStringExtra(ProvidersApp.KEY_CATEGORY);
 
-                putJsonCategory(category);
+                putIntoJson(null, category, null, null);
                 categoryCheck(category);
                 getResult();
             }

@@ -19,6 +19,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<String> models;
     private Context context;
+    private OnItemSortClick onItemSortClick;
 
 
     public SortAdapter( ArrayList<String> models) {
@@ -30,7 +31,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
 
-        View view = LayoutInflater.from(context).inflate(R.layout.rcv_choose_scale_adapter, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.rcv_sort, parent, false);
         return new SortHolder(view);
     }
 
@@ -41,25 +42,38 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mHolder.bind(position);
 
     }
-    public ArrayList<String> getModels() {
-        return models;
-    }
 
     @Override
     public int getItemCount() {
         return models == null ? 0  : models.size();
     }
 
+    public void setOnItemSortClick(OnItemSortClick onItemSortClick) {
+        this.onItemSortClick = onItemSortClick;
+    }
+
+    public interface OnItemSortClick {
+        void OnSortClick(String name);
+    }
 
     class SortHolder extends RecyclerView.ViewHolder {
 
         AppCompatRadioButton titleRdBtn;
 
-        public SortHolder(View itemView) {
+        SortHolder(View itemView) {
             super(itemView);
 
             titleRdBtn = itemView.findViewById(R.id.rcv_sort_titleRdBtn);
             titleRdBtn.setTypeface(MyApplication.getShpIranSansMoblie(context));
+
+            titleRdBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemSortClick != null) {
+                        onItemSortClick.OnSortClick(titleRdBtn.getText().toString());
+                    }
+                }
+            });
 
         }
 

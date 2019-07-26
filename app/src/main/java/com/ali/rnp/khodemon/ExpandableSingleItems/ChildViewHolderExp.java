@@ -18,7 +18,7 @@ public class ChildViewHolderExp extends CheckableChildViewHolder {
     public ChildViewHolderExp(View itemView, Context context) {
         super(itemView);
         this.context = context;
-        childCheckedTextView = itemView.findViewById(R.id.list_item_singleCheck_child_name);
+        childCheckedTextView = itemView.findViewById(R.id.list_item_multiCheck_child_name);
         childCheckedTextView.setTypeface(MyApplication.getShpIranSansMoblie(context));
 
 
@@ -30,8 +30,8 @@ public class ChildViewHolderExp extends CheckableChildViewHolder {
     }
 
 
-    public void setExpertName(String expertName) {
+    public void setName(String name) {
 
-        childCheckedTextView.setText(expertName);
+        childCheckedTextView.setText(name);
     }
 }
