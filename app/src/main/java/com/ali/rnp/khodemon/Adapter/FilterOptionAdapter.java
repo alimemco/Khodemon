@@ -20,9 +20,6 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private OnItemClicked onItemClicked;
 
     public FilterOptionAdapter(ArrayList<Filter> filterList) {
-
-        filterList.get(0).setSelected(true);
-
         this.filterList = filterList;
     }
 
@@ -60,6 +57,14 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void setOnItemClicked(OnItemClicked onItemClicked) {
         this.onItemClicked = onItemClicked;
+
+        if (this.onItemClicked != null && filterList != null) {
+            this.onItemClicked.onItemClicked(filterList.get(0));
+            filterList.get(0).setSelected(true);
+        } else
+            throw new IllegalArgumentException("add item click listener in [ FilterOptionAdapter.java ]");
+
+        notifyDataSetChanged();
     }
 
 

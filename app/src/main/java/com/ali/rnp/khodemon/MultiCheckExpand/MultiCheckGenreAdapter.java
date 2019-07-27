@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
-import com.ali.rnp.khodemon.ExpandableSingleItems.ChildViewHolderExp;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ParentViewHolderExp;
 import com.ali.rnp.khodemon.R;
 import com.thoughtbot.expandablecheckrecyclerview.CheckableChildRecyclerViewAdapter;
@@ -16,21 +15,21 @@ import java.util.List;
 
 
 public class MultiCheckGenreAdapter extends
-        CheckableChildRecyclerViewAdapter<ParentViewHolderExp, ChildViewHolderExp> {
+        CheckableChildRecyclerViewAdapter<ParentViewHolderExp, ChildViewHolderMultiExp> {
 
     public MultiCheckGenreAdapter(List<MultiCheckGroup> groups) {
         super(groups);
     }
 
     @Override
-    public ChildViewHolderExp onCreateCheckChildViewHolder(ViewGroup parent, int viewType) {
+    public ChildViewHolderMultiExp onCreateCheckChildViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_child_multi_exp, parent, false);
-        return new ChildViewHolderExp(view, parent.getContext());
+        return new ChildViewHolderMultiExp(view, parent.getContext());
     }
 
     @Override
-    public void onBindCheckChildViewHolder(ChildViewHolderExp holder, int position,
+    public void onBindCheckChildViewHolder(ChildViewHolderMultiExp holder, int position,
                                            CheckedExpandableGroup group, int childIndex) {
         final ChildExp child = (ChildExp) group.getItems().get(childIndex);
         holder.setName(child.getName());

@@ -31,6 +31,12 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
+
+    defaultConfig {
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false

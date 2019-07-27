@@ -5,6 +5,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGroup;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -18,13 +19,14 @@ public class ParentViewHolderExp extends GroupViewHolder {
 
     private MyTextView groupName;
     private ImageView arrow;
-    private ImageView icon;
+    private AppCompatImageView icon;
 
     public ParentViewHolderExp(View itemView) {
         super(itemView);
         groupName =  itemView.findViewById(R.id.list_item_parent_exp_name);
         arrow =  itemView.findViewById(R.id.list_item_parent_exp_arrow);
         icon =  itemView.findViewById(R.id.list_item_parent_exp_icon);
+        icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
@@ -34,8 +36,6 @@ public class ParentViewHolderExp extends GroupViewHolder {
 
 
             groupName.setText(group.getTitle());
-            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-//        icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
 
         if (group instanceof SingleCheckItemsExp) {
             icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
@@ -44,8 +44,6 @@ public class ParentViewHolderExp extends GroupViewHolder {
             icon.setBackgroundResource(((MultiCheckGroup) group).getIconResId());
 
         }
-        //TODO Cast Class Expetion
-
 
 
     }

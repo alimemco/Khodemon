@@ -35,7 +35,7 @@
         app:fontCustom="shp_iranSansMobile"/>
 
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/list_item_parent_exp_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

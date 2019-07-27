@@ -52,18 +52,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_filter_appBar" />
 
-    <com.ali.rnp.khodemon.MyLibrary.MyTextView
-        android:id="@+id/activity_filter_txt"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:scrollHorizontally="true"
-        android:text="ex"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@id/activity_filter_line"
-        app:layout_constraintTop_toBottomOf="@id/activity_filter_appBar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_filter_rcv_values"

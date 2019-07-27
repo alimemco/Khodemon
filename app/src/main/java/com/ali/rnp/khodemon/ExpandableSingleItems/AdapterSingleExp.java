@@ -28,7 +28,7 @@ public class AdapterSingleExp extends CheckableChildRecyclerViewAdapter<ParentVi
     public ChildViewHolderExp onCreateCheckChildViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_child_exp, parent, false);
-        return new ChildViewHolderExp(view,context);
+        return new ChildViewHolderExp(view, parent.getContext());
     }
 
     @Override

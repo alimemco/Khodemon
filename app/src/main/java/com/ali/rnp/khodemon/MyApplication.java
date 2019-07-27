@@ -4,11 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
 
-import androidx.multidex.MultiDex;
 import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends Application {
@@ -28,6 +28,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     @Override

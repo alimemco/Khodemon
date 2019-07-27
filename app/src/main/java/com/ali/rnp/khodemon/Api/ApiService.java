@@ -45,6 +45,7 @@ public class ApiService {
     public static final int PEOPLE_GROUP_KEY = 2;
     private final static String SITE = "http://khodemon.ir/";
     private final static String FOLDER = "androidConnector/";
+    private final static String JSON_FOLDER = "json/";
     private final static String API_REGISTER_USER = SITE + FOLDER + "registerUser.php";
     private final static String API_LOGIN_USER = SITE + FOLDER + "loginUser.php";
     private final static String API_GET_HOME_ITEMS = SITE + FOLDER + "getHomeItems.php";
@@ -67,8 +68,8 @@ public class ApiService {
     private final static String API_GET_ALL_ITEMS = SITE + FOLDER + "getAll.php";
     private final static String API_GET_FILTER_OPTIONS = SITE + FOLDER + "filter.php";
     //JSON
-    private final static String API_GET_PROVINCE = SITE + "json/Province.json";
-    private final static String API_GET_CATEGORY = SITE + "json/Category.json";
+    private final static String API_GET_PROVINCE = SITE + FOLDER + JSON_FOLDER + "city.json";
+    private final static String API_GET_CATEGORY = SITE + "json/category.json  ";
     private static final String TAG = "ApiService";
     private JSONObject jsonObjectPhoto;
 
@@ -213,22 +214,9 @@ public class ApiService {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API_GET_PROVINCE, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                parseJsonProvince(response, onProvinceReceived);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                onProvinceReceived.onReceived(null, null, error);
-
-            }
-        });
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API_GET_PROVINCE, null, response -> parseJsonProvince(response, onProvinceReceived), error -> onProvinceReceived.onReceived(null, null, error));
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        // Volley.newRequestQueue(context).add(request);
         requestQueue.add(request);
     }
 
@@ -768,23 +756,25 @@ public class ApiService {
 
     }
 
-    private void parseJsonProvince(JSONArray response, OnProvinceReceived onProvinceReceived) {
+    private void parseJsonProvince(JSONObject response, OnProvinceReceived onProvinceReceived) {
 
         List<City> cities = new ArrayList<>();
         List<SingleCheckItemsExp> makeSingleCheckParent = new ArrayList<>();
 
+        try {
+            JSONArray jsAryItems = response.getJSONArray("items");
 
-        for (int i = 0; i < response.length(); i++) {
+            for (int i = 0; i < jsAryItems.length(); i++) {
 
-            try {
-                JSONObject jsonObject = response.getJSONObject(i);
-                String provinceName = jsonObject.getString("name");
-                JSONArray jsonArrayCities = jsonObject.getJSONArray("Cities");
+                JSONObject jsonObject = jsAryItems.getJSONObject(i);
+                String provinceName = jsonObject.getString("title");
+                JSONArray jsonArrayCities = jsonObject.getJSONArray("child");
 
                 List<ChildExp> makeChild = new ArrayList<>();
+
                 for (int j = 0; j < jsonArrayCities.length(); j++) {
                     JSONObject jsonObjectCity = jsonArrayCities.getJSONObject(j);
-                    String cityName = jsonObjectCity.getString("name");
+                    String cityName = jsonObjectCity.getString("title");
 
                     City city = new City();
                     city.setCityName(cityName);
@@ -801,11 +791,11 @@ public class ApiService {
                 makeSingleCheckParent.add(makeSingleCheckChild);
 
 
-            } catch (JSONException e) {
+            }
+        } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-        }
 
         onProvinceReceived.onReceived(makeSingleCheckParent, cities, null);
 

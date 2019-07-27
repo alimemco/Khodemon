@@ -15,7 +15,6 @@ import com.ali.rnp.khodemon.DataModel.Filter;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGenreAdapter;
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGroup;
-import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 
 import org.json.JSONArray;
@@ -25,12 +24,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterActivity extends AppCompatActivity {
+public class FilterActivity extends AppCompatActivity implements
+        FilterOptionAdapter.OnItemClicked,
+        ApiService.OnGetFilterOptions {
 
     private Toolbar toolbar;
     private RecyclerView rcvOptions;
     private RecyclerView rcvValues;
-    private MyTextView txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,38 +41,7 @@ public class FilterActivity extends AppCompatActivity {
         initToolbar();
 
         ApiService apiService = new ApiService(this);
-        apiService.getFilterOptions(new ApiService.OnGetFilterOptions() {
-            @Override
-            public void OnSuccessFilter(ArrayList<Filter> filterList) {
-                if (filterList != null) {
-
-                    txt.setText(filterList.get(0).getJsonObject().toString());
-
-                    parseJson(filterList.get(0).getJsonObject());
-                    /*
-                    MultiCheckGenreAdapter multiCheckGenreAdapter = new MultiCheckGenreAdapter(GenreDataFactory.makeMultiCheckGenres());
-
-                    rcvValues.setAdapter(multiCheckGenreAdapter);
-*/
-
-                    FilterOptionAdapter adapter = new FilterOptionAdapter(filterList);
-
-                    adapter.setOnItemClicked(new FilterOptionAdapter.OnItemClicked() {
-                        @Override
-                        public void onItemClicked(Filter filter) {
-                            txt.setText(filter.getJsonObject().toString());
-                        }
-                    });
-
-                    rcvOptions.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void OnErrorFiler(Object error) {
-                Toast.makeText(FilterActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        apiService.getFilterOptions(FilterActivity.this);
     }
 
 
@@ -92,14 +61,11 @@ public class FilterActivity extends AppCompatActivity {
 
     private void initViews() {
         toolbar = findViewById(R.id.activity_filter_toolbar);
-        txt = findViewById(R.id.activity_filter_txt);
         rcvOptions = findViewById(R.id.activity_filter_rcv_options);
         rcvValues = findViewById(R.id.activity_filter_rcv_values);
 
         rcvOptions.setLayoutManager(new LinearLayoutManager(this));
         rcvValues.setLayoutManager(new LinearLayoutManager(this));
-
-
     }
 
     private void parseJson(JSONObject jsonObject) {
@@ -153,4 +119,26 @@ public class FilterActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void OnSuccessFilter(ArrayList<Filter> filterList) {
+        if (filterList != null) {
+
+            FilterOptionAdapter adapter = new FilterOptionAdapter(filterList);
+
+            adapter.setOnItemClicked(FilterActivity.this);
+
+            rcvOptions.setAdapter(adapter);
+
+        }
+    }
+
+    @Override
+    public void OnErrorFiler(Object error) {
+        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClicked(Filter filter) {
+        parseJson(filter.getJsonObject());
+    }
 }
