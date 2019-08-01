@@ -9,8 +9,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ali.rnp.khodemon.Adapter.FilterNormalAdapter;
 import com.ali.rnp.khodemon.Adapter.FilterOptionAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.DataModel.CheckModel;
 import com.ali.rnp.khodemon.DataModel.Filter;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGenreAdapter;
@@ -70,46 +72,75 @@ public class FilterActivity extends AppCompatActivity implements
 
     private void parseJson(JSONObject jsonObject) {
 
-        List<ChildExp> childList;
-        List<MultiCheckGroup> multiCheckGroups = new ArrayList<>();
+
 
         try {
 
             boolean hasChild = jsonObject.getBoolean("hasChild");
 
             if (hasChild) {
-                JSONArray jsAryItems = jsonObject.getJSONArray("items");
 
-                for (int i = 0; i < jsAryItems.length(); i++) {
-                    JSONObject jsObjGroup = jsAryItems.getJSONObject(i);
-                    String titleGroup = jsObjGroup.getString("title");
-                    JSONArray jsAryChild = jsObjGroup.getJSONArray("child");
+                Expandable(jsonObject);
 
-                    childList = new ArrayList<>();
+            } else {
 
-                    for (int j = 0; j < jsAryChild.length(); j++) {
-                        JSONObject jsObjChild = jsAryChild.getJSONObject(j);
-                        String titleChild = jsObjChild.getString("title");
+                NonExpandable(jsonObject);
 
-                        ChildExp child = new ChildExp();
-                        child.setData(titleChild, false);
-                        childList.add(child);
-
-                    }
-                    MultiCheckGroup makeSingleCheckChild = new MultiCheckGroup(titleGroup, childList, R.drawable.ic_location_name);
-                    multiCheckGroups.add(makeSingleCheckChild);
-
-                }
             }
 
-            MultiCheckGenreAdapter multiCheckGenreAdapter = new MultiCheckGenreAdapter(multiCheckGroups);
-            rcvValues.setAdapter(multiCheckGenreAdapter);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
 
+    }
+
+    private void NonExpandable(JSONObject jsonObject) throws JSONException {
+        ArrayList<CheckModel> checkList = new ArrayList<>();
+
+        JSONArray jsAryItems = jsonObject.getJSONArray("items");
+
+        for (int i = 0; i < jsAryItems.length(); i++) {
+            JSONObject jsObjItem = jsAryItems.getJSONObject(i);
+
+            checkList.add(new CheckModel(jsObjItem.getString("title")));
+        }
+
+        FilterNormalAdapter filterNormalAdapter = new FilterNormalAdapter(checkList);
+
+
+        rcvValues.setAdapter(filterNormalAdapter);
+    }
+
+    private void Expandable(JSONObject jsonObject) throws JSONException {
+        List<ChildExp> childList;
+        List<MultiCheckGroup> multiCheckGroups = new ArrayList<>();
+
+        JSONArray jsAryItems = jsonObject.getJSONArray("items");
+
+        for (int i = 0; i < jsAryItems.length(); i++) {
+            JSONObject jsObjGroup = jsAryItems.getJSONObject(i);
+            String titleGroup = jsObjGroup.getString("title");
+            JSONArray jsAryChild = jsObjGroup.getJSONArray("child");
+
+            childList = new ArrayList<>();
+
+            for (int j = 0; j < jsAryChild.length(); j++) {
+                JSONObject jsObjChild = jsAryChild.getJSONObject(j);
+                String titleChild = jsObjChild.getString("title");
+
+                ChildExp child = new ChildExp();
+                child.setData(titleChild, false);
+                childList.add(child);
+
+            }
+            MultiCheckGroup makeSingleCheckChild = new MultiCheckGroup(titleGroup, childList, R.drawable.ic_location_name);
+            multiCheckGroups.add(makeSingleCheckChild);
+
+        }
+        MultiCheckGenreAdapter multiCheckGenreAdapter = new MultiCheckGenreAdapter(multiCheckGroups);
+        rcvValues.setAdapter(multiCheckGenreAdapter);
     }
 
     @Override

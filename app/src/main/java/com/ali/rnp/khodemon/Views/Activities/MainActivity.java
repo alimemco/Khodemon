@@ -21,9 +21,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Dialogs.DialogCompleteAdd;
-import com.ali.rnp.khodemon.DiscreteScrollView.WeatherActivity;
 import com.ali.rnp.khodemon.Interface.OnLoginListener;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
@@ -47,18 +59,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements
@@ -132,9 +132,6 @@ FragmentUserInfo.OnLogOut{
                         break;
 
                     case R.id.navigation_menu_about:
-                       // Toast.makeText(MainActivity.this, item.getDescription(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this, WeatherActivity.class));
-
 
 
                         break;

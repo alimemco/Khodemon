@@ -41,6 +41,8 @@ public class Glide4Engine implements ImageEngine {
                         .placeholder(placeholder)
                         .centerCrop())
                 .into(imageView);
+
+
     }
 
     @Override
@@ -77,6 +79,8 @@ public class Glide4Engine implements ImageEngine {
                         .priority(Priority.HIGH)
                         .fitCenter())
                 .into(imageView);
+
+
     }
 
     @Override

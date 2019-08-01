@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <CheckedTextView
+        android:id="@+id/rcv_filter_normal_titleChTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/standard_margin_2x"
+        android:layout_marginTop="@dimen/standard_margin_2x"
+        android:layout_marginRight="@dimen/standard_margin_2x"
+        android:layout_marginBottom="@dimen/standard_margin_2x"
+        android:checkMark="?android:attr/listChoiceIndicatorSingle"
+        android:gravity="center_vertical|right"
+        android:textAlignment="gravity"
+        android:textAllCaps="true"
+        tools:text="title" />
+
+
+</LinearLayout>

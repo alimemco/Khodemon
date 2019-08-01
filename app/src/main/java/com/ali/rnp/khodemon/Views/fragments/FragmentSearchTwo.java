@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ali.rnp.khodemon.Api.ApiService;
-import com.ali.rnp.khodemon.Dialogs.SortDialog;
+import com.ali.rnp.khodemon.BottomSheet.SortBottomSheet;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -151,7 +151,6 @@ public class FragmentSearchTwo extends Fragment implements
             case R.id.fragment_search_two_filterBtn:
 
                 if (getActivity() != null)
-                    // getActivity().startActivityForResult(new Intent(getActivity(), ChooseCategoryActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY);
                     getActivity().startActivityForResult(new Intent(getActivity(), FilterActivity.class), ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY);
 
 
@@ -159,16 +158,13 @@ public class FragmentSearchTwo extends Fragment implements
 
             case R.id.fragment_search_two_sortBtn:
 
-                SortDialog dialog = new SortDialog();
+              /*  SortDialog dialog = new SortDialog();
 
-                dialog.show(getChildFragmentManager(), "SortDialog");
-              /*  dialog.getAdapter().setOnItemSortClick(new SortAdapter.OnItemSortClick() {
-                    @Override
-                    public void OnSortClick(String name) {
-                        Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                });*/
+                dialog.show(getChildFragmentManager(), "SortDialog");*/
+
+                SortBottomSheet sortBottomSheet = SortBottomSheet.newInstance();
+                sortBottomSheet.show(getChildFragmentManager(), "SortBottomSheet");
+
                 break;
         }
     }

@@ -1,38 +1,29 @@
 package com.ali.rnp.khodemon.Views.fragments;
 
 
-import android.annotation.SuppressLint;
-import android.graphics.Matrix;
-import android.graphics.PointF;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
-import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
+
 
 
 public class FragmentImageGalley extends Fragment{
 
-    private ImageViewTouch imageView;
+    // private ImageViewTouch imageView;
+
+    //TODO ImageView Removed for fix bug
+
    // private ImageView imageView;
    // private String IMG_ADDRESS = "";
     private ArrayList<PictureUpload> pictureUploadList;
@@ -67,10 +58,8 @@ public class FragmentImageGalley extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_image_galley, container, false);
-
+/*
         imageView = rootView.findViewById(R.id.fragment_image_gallery_imageView_show);
-
-
 
         if (!pictureUploadList.get(position).getPic_address().equals("")) {
 
@@ -108,7 +97,7 @@ public class FragmentImageGalley extends Fragment{
                     });
 
         }
-
+*/
 
         return rootView;
     }

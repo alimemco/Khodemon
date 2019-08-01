@@ -1,13 +1,12 @@
 package com.ali.rnp.khodemon.Adapter;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.R;
@@ -15,10 +14,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
 public class ImageGalleryRcvAdapter extends RecyclerView.Adapter<ImageGalleryRcvAdapter.ImageGalleryHolder>
      {

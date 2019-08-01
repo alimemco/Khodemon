@@ -29,7 +29,7 @@
         <activity
             android:name=".Views.Activities.DetailActivity"
             android:theme="@style/statusBarTranslucent" />
-        <activity android:name=".DiscreteScrollView.WeatherActivity" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -46,11 +46,6 @@
             android:name=".Views.Activities.GoogleMapsActivity"
             android:label="@string/title_activity_google_maps" />
         <activity android:name=".Views.Activities.ChooseCategoryActivity" />
-        <activity android:name=".ExpandableRecylerView.expand.ExpandActivity" />
-        <activity android:name=".ExpandableRecylerView.multicheck.MultiCheckActivity" />
-        <activity android:name=".ExpandableRecylerView.multitype.MultiTypeActivity" />
-        <activity android:name=".ExpandableRecylerView.multitypeandcheck.MultiTypeCheckGenreActivity" />
-        <activity android:name=".ExpandableRecylerView.singlecheck.SingleCheckActivity" />
         <activity
             android:name=".Views.Activities.AddRule"
             android:label="@string/title_activity_add_rule"
