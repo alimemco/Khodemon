@@ -1,6 +1,8 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -9,7 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ali.rnp.khodemon.Adapter.FilterNormalAdapter;
+import com.ali.rnp.khodemon.Adapter.FilterNonExpandAdapter;
 import com.ali.rnp.khodemon.Adapter.FilterOptionAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.CheckModel;
@@ -17,6 +19,7 @@ import com.ali.rnp.khodemon.DataModel.Filter;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGenreAdapter;
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGroup;
+import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.R;
 
 import org.json.JSONArray;
@@ -28,11 +31,14 @@ import java.util.List;
 
 public class FilterActivity extends AppCompatActivity implements
         FilterOptionAdapter.OnItemClicked,
-        ApiService.OnGetFilterOptions {
+        ApiService.OnGetFilterOptions,
+        TextWatcher {
 
     private Toolbar toolbar;
     private RecyclerView rcvOptions;
     private RecyclerView rcvValues;
+    private String typed;
+    private ArrayList<CheckModel> models;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +47,17 @@ public class FilterActivity extends AppCompatActivity implements
 
         initViews();
         initToolbar();
+        initSearch();
 
         ApiService apiService = new ApiService(this);
         apiService.getFilterOptions(FilterActivity.this);
+    }
+
+    private void initSearch() {
+
+        MyEditText searchEdTxt = findViewById(R.id.activity_filter_search);
+
+        searchEdTxt.addTextChangedListener(this);
     }
 
 
@@ -72,8 +86,6 @@ public class FilterActivity extends AppCompatActivity implements
 
     private void parseJson(JSONObject jsonObject) {
 
-
-
         try {
 
             boolean hasChild = jsonObject.getBoolean("hasChild");
@@ -98,6 +110,7 @@ public class FilterActivity extends AppCompatActivity implements
 
     private void NonExpandable(JSONObject jsonObject) throws JSONException {
         ArrayList<CheckModel> checkList = new ArrayList<>();
+        models = new ArrayList<>();
 
         JSONArray jsAryItems = jsonObject.getJSONArray("items");
 
@@ -107,15 +120,19 @@ public class FilterActivity extends AppCompatActivity implements
             checkList.add(new CheckModel(jsObjItem.getString("title")));
         }
 
-        FilterNormalAdapter filterNormalAdapter = new FilterNormalAdapter(checkList);
 
+        FilterNonExpandAdapter filterNonExpandAdapter = new FilterNonExpandAdapter(checkList);
+        models.addAll(checkList);
 
-        rcvValues.setAdapter(filterNormalAdapter);
+        rcvValues.setAdapter(filterNonExpandAdapter);
     }
 
     private void Expandable(JSONObject jsonObject) throws JSONException {
+
         List<ChildExp> childList;
         List<MultiCheckGroup> multiCheckGroups = new ArrayList<>();
+
+        models = new ArrayList<>();
 
         JSONArray jsAryItems = jsonObject.getJSONArray("items");
 
@@ -134,13 +151,62 @@ public class FilterActivity extends AppCompatActivity implements
                 child.setData(titleChild, false);
                 childList.add(child);
 
+                models.add(new CheckModel(titleChild));
+
             }
+
+
             MultiCheckGroup makeSingleCheckChild = new MultiCheckGroup(titleGroup, childList, R.drawable.ic_location_name);
             multiCheckGroups.add(makeSingleCheckChild);
 
         }
         MultiCheckGenreAdapter multiCheckGenreAdapter = new MultiCheckGenreAdapter(multiCheckGroups);
         rcvValues.setAdapter(multiCheckGenreAdapter);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+        typed = s.toString();
+
+        FilterNonExpandAdapter filterNonExpandAdapter;
+
+        if (!typed.equals("")) {
+
+            filterNonExpandAdapter = new FilterNonExpandAdapter(filterSearch(typed));
+
+        } else {
+
+            filterNonExpandAdapter = new FilterNonExpandAdapter(models);
+
+        }
+
+        rcvValues.setAdapter(filterNonExpandAdapter);
+
+    }
+
+    private ArrayList<CheckModel> filterSearch(String text) {
+
+        ArrayList<CheckModel> filtered = new ArrayList<>();
+
+        for (CheckModel s : models) {
+
+            if (s.getTitle().contains(text)) {
+                filtered.add(s);
+            }
+        }
+
+        return filtered;
     }
 
     @Override
@@ -170,6 +236,9 @@ public class FilterActivity extends AppCompatActivity implements
 
     @Override
     public void onItemClicked(Filter filter) {
+
         parseJson(filter.getJsonObject());
     }
+
+
 }

@@ -15,12 +15,12 @@ import com.ali.rnp.khodemon.R;
 import java.util.ArrayList;
 
 
-public class FilterNormalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "FilterNormalAdapter";
+public class FilterNonExpandAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "FilterNonExpandAdapter";
     private ArrayList<CheckModel> models;
 
 
-    public FilterNormalAdapter(ArrayList<CheckModel> models) {
+    public FilterNonExpandAdapter(ArrayList<CheckModel> models) {
         this.models = models;
     }
 

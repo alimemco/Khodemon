@@ -3,29 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".BottomSheet.BottomSheetAddPersonnel">
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableRight="@drawable/ic_sort"
+        android:text="مرتب کردن بر اساس..."
         android:drawablePadding="25dp"
         android:padding="15dp"
-        android:text="مرتب کردن"
+        app:drawableRightCompat="@drawable/ic_sort"
         android:textSize="@dimen/small_textSize_sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray_200" />
+        android:background="@color/gray_300" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_primary"
         android:clickable="true"
-        android:drawableRight="@drawable/ic_add"
+        app:drawableRightCompat="@drawable/ic_add"
         android:drawablePadding="25dp"
         android:focusable="true"
         android:padding="15dp"
@@ -38,7 +39,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_primary"
         android:clickable="true"
-        android:drawableRight="@drawable/ic_double_click"
+        app:drawableRightCompat="@drawable/ic_double_click"
         android:drawablePadding="25dp"
         android:focusable="true"
         android:padding="15dp"
@@ -50,7 +51,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_primary"
         android:clickable="true"
-        android:drawableRight="@drawable/ic_double_click"
+        app:drawableRightCompat="@drawable/ic_double_click"
         android:drawablePadding="25dp"
         android:focusable="true"
         android:padding="15dp"
