@@ -3,6 +3,7 @@ package com.ali.rnp.khodemon.Views.Activities;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -19,6 +20,7 @@ import com.ali.rnp.khodemon.DataModel.Filter;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGenreAdapter;
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGroup;
+import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.R;
 
@@ -32,13 +34,18 @@ import java.util.List;
 public class FilterActivity extends AppCompatActivity implements
         FilterOptionAdapter.OnItemClicked,
         ApiService.OnGetFilterOptions,
+        View.OnClickListener,
         TextWatcher {
 
     private Toolbar toolbar;
     private RecyclerView rcvOptions;
     private RecyclerView rcvValues;
-    private String typed;
     private ArrayList<CheckModel> models;
+
+    private FilterNonExpandAdapter filterNonExpandAdapter;
+    private MultiCheckGenreAdapter multiCheckGenreAdapter;
+
+    private StateAdapter state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,6 @@ public class FilterActivity extends AppCompatActivity implements
         searchEdTxt.addTextChangedListener(this);
     }
 
-
     private void initToolbar() {
         setSupportActionBar(toolbar);
 
@@ -79,9 +85,13 @@ public class FilterActivity extends AppCompatActivity implements
         toolbar = findViewById(R.id.activity_filter_toolbar);
         rcvOptions = findViewById(R.id.activity_filter_rcv_options);
         rcvValues = findViewById(R.id.activity_filter_rcv_values);
+        MyButton clearBtn = findViewById(R.id.activity_filter_clear_btn);
+
+        clearBtn.setOnClickListener(this);
 
         rcvOptions.setLayoutManager(new LinearLayoutManager(this));
         rcvValues.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     private void parseJson(JSONObject jsonObject) {
@@ -93,10 +103,12 @@ public class FilterActivity extends AppCompatActivity implements
             if (hasChild) {
 
                 Expandable(jsonObject);
+                state = StateAdapter.EXPANDABLE;
 
             } else {
 
                 NonExpandable(jsonObject);
+                state = StateAdapter.NON_EXPANDABLE;
 
             }
 
@@ -121,10 +133,12 @@ public class FilterActivity extends AppCompatActivity implements
         }
 
 
-        FilterNonExpandAdapter filterNonExpandAdapter = new FilterNonExpandAdapter(checkList);
+        filterNonExpandAdapter = new FilterNonExpandAdapter(checkList);
         models.addAll(checkList);
 
         rcvValues.setAdapter(filterNonExpandAdapter);
+
+
     }
 
     private void Expandable(JSONObject jsonObject) throws JSONException {
@@ -160,7 +174,7 @@ public class FilterActivity extends AppCompatActivity implements
             multiCheckGroups.add(makeSingleCheckChild);
 
         }
-        MultiCheckGenreAdapter multiCheckGenreAdapter = new MultiCheckGenreAdapter(multiCheckGroups);
+        multiCheckGenreAdapter = new MultiCheckGenreAdapter(multiCheckGroups);
         rcvValues.setAdapter(multiCheckGenreAdapter);
     }
 
@@ -177,7 +191,7 @@ public class FilterActivity extends AppCompatActivity implements
     @Override
     public void afterTextChanged(Editable s) {
 
-        typed = s.toString();
+        String typed = s.toString();
 
         FilterNonExpandAdapter filterNonExpandAdapter;
 
@@ -215,7 +229,6 @@ public class FilterActivity extends AppCompatActivity implements
         return super.onSupportNavigateUp();
     }
 
-
     @Override
     public void OnSuccessFilter(ArrayList<Filter> filterList) {
         if (filterList != null) {
@@ -236,8 +249,27 @@ public class FilterActivity extends AppCompatActivity implements
 
     @Override
     public void onItemClicked(Filter filter) {
-
         parseJson(filter.getJsonObject());
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.activity_filter_clear_btn) {
+
+            if (state == StateAdapter.EXPANDABLE) {
+
+                multiCheckGenreAdapter.clearChoices();
+
+            } else {
+                filterNonExpandAdapter.clearChoices();
+            }
+
+        }
+    }
+
+    private enum StateAdapter {
+        EXPANDABLE,
+        NON_EXPANDABLE
     }
 
 

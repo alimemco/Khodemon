@@ -67,6 +67,15 @@ public class FilterNonExpandAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return models == null ? 0 : models.size();
     }
 
+    public void clearChoices() {
+
+        for (int i = 0; i < models.size(); i++) {
+            models.get(i).setChecked(false);
+        }
+
+        notifyDataSetChanged();
+    }
+
     public static class FilterNormalHolder extends RecyclerView.ViewHolder {
 
         CheckedTextView titleChTv;
@@ -78,7 +87,6 @@ public class FilterNonExpandAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             titleChTv.setTypeface(MyApplication.getShpIranSansMoblie(itemView.getContext()));
 
         }
-
 
     }
 

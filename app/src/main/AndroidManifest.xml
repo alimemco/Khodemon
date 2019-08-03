@@ -55,7 +55,8 @@
             android:name=".Views.Activities.TestPlace"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Views.Activities.MainActivity" />
+            android:name=".Views.Activities.MainActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
             android:name=".Views.SplashScreen"
             android:theme="@style/SplashTheme">

@@ -78,7 +78,7 @@
         android:id="@+id/activity_city_choose_recView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/ripple_primary"
+        android:background="@drawable/click_primary"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"

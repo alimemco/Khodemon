@@ -12,6 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionInflater;
+
 import com.ali.rnp.khodemon.Adapter.SearchAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
@@ -27,19 +34,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.TransitionInflater;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 
 public class FragmentSearch extends Fragment implements TextWatcher,
         View.OnClickListener,
-        ApiService.OnReceivedSearch,
-MyButton.DrawableClickListener{
+        ApiService.OnReceivedSearch {
 
     private RecyclerView rcvSearch;
     private ApiService apiService;
@@ -108,7 +108,7 @@ MyButton.DrawableClickListener{
         chooseCity.setOnClickListener(this);
 
         chooseCategory.setOnClickListener(this);
-        chooseCategory.setDrawableClickListener(this);
+        //  chooseCategory.setDrawableClickListener(this);
 
     }
 
@@ -256,11 +256,11 @@ MyButton.DrawableClickListener{
         super.onAttach(context);
         this.context = context;
     }
-
+/*
     @Override
     public void onClick(DrawablePosition target) {
         category = "";
         checkCategoryExist();
-    }
+    }*/
 
 }

@@ -25,8 +25,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/standard_margin_2x"
                 android:gravity="right"
-                android:text="فیلتر کردن"
-                android:textSize="@dimen/normal_textSize_sp" />
+                android:text="@string/filtering"
+                android:textSize="@dimen/normal_textSize_sp"
+                tools:ignore="RtlHardcoded" />
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -47,6 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/activity_filter_line"
         app:layout_constraintRight_toRightOf="parent"
@@ -57,9 +59,9 @@
         android:id="@+id/activity_filter_rcv_values"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center"
         android:layout_marginTop="@dimen/standard_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/activity_filter_clear_btn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@id/activity_filter_line"
         app:layout_constraintTop_toBottomOf="@id/activity_filter_search" />
@@ -70,12 +72,27 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/standard_margin"
-
+        android:gravity="right|center_vertical"
         android:background="@drawable/shape_search_choose_city_edit_text"
-        android:gravity="center"
-        android:hint="جست و جو"
+        android:hint="@string/search"
+        android:maxLines="1"
+        android:paddingLeft="@dimen/standard_margin"
+        android:paddingRight="@dimen/standard_margin"
+        android:textSize="@dimen/small_textSize_sp"
+        app:drawableLeftCompat="@drawable/ic_search"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@id/activity_filter_line"
-        app:layout_constraintTop_toBottomOf="@id/activity_filter_appBar" />
+        app:layout_constraintTop_toBottomOf="@id/activity_filter_appBar"
+        tools:ignore="RtlHardcoded" />
 
+    <com.ali.rnp.khodemon.MyLibrary.MyButton
+        android:id="@+id/activity_filter_clear_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_100"
+        android:text="@string/clear"
+        app:drawableLeftCompat="@drawable/ic_sort"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/activity_filter_line" />
 </androidx.constraintlayout.widget.ConstraintLayout>

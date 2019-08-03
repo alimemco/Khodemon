@@ -9,7 +9,7 @@
     app:cardUseCompatPadding="true"
     app:cardElevation="2dp"
     app:cardCornerRadius="2dp"
-    android:background="@drawable/ripple_primary"
+    android:background="@drawable/click_primary"
 >
 
     <androidx.constraintlayout.widget.ConstraintLayout

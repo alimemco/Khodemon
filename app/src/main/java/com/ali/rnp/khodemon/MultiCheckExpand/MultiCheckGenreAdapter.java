@@ -21,6 +21,7 @@ public class MultiCheckGenreAdapter extends
         super(groups);
     }
 
+
     @Override
     public ChildViewHolderMultiExp onCreateCheckChildViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

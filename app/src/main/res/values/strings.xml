@@ -40,5 +40,8 @@
     <string name="chooseCategory">انتخاب دسته بندی</string>
     <string name="searching">در حال جست و جو</string>
     <string name="notFound">موردی یافت نشد</string>
+    <string name="clear">پاک کردن</string>
+    <string name="search">جستجو</string>
+    <string name="filtering">فیلتر کردن</string>
 
 </resources>

@@ -24,7 +24,7 @@
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ripple_primary"
+        android:background="@drawable/click_primary"
         android:clickable="true"
         app:drawableRightCompat="@drawable/ic_add"
         android:drawablePadding="25dp"
@@ -37,7 +37,7 @@
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ripple_primary"
+        android:background="@drawable/click_primary"
         android:clickable="true"
         app:drawableRightCompat="@drawable/ic_double_click"
         android:drawablePadding="25dp"
@@ -49,7 +49,7 @@
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ripple_primary"
+        android:background="@drawable/click_primary"
         android:clickable="true"
         app:drawableRightCompat="@drawable/ic_double_click"
         android:drawablePadding="25dp"
