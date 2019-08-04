@@ -1162,9 +1162,10 @@ public class ApiService {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsObjResult = jsonArray.getJSONObject(i);
                 String title = jsObjResult.getString("title");
+                String tag = jsObjResult.getString("tag");
                 JSONObject jsObjData = jsObjResult.getJSONObject("data");
 
-                filterList.add(new Filter(title, jsObjData));
+                filterList.add(new Filter(i, title, tag, jsObjData));
             }
 
             onGetFilterOptions.OnSuccessFilter(filterList);

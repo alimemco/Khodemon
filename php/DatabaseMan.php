@@ -29,7 +29,7 @@ class DatabaseMan
 
 
         $mySql = "CREATE TABLE users (
-      ID INT AUTO_INCREMENT  PRIMARY KEY,
+      position INT AUTO_INCREMENT  PRIMARY KEY,
       user_name VARCHAR(20) NOT NULL,
       user_pass VARCHAR(40) NOT NULL,
       user_email VARCHAR(20) DEFAULT '',
@@ -60,7 +60,7 @@ class DatabaseMan
 
 
         $mySql = "CREATE TABLE locationPeople (
-      ID INT AUTO_INCREMENT  PRIMARY KEY,
+      position INT AUTO_INCREMENT  PRIMARY KEY,
       group_name TEXT NOT NULL,
       confirmed INT DEFAULT 0,
       nameLocPeo TEXT,
@@ -114,7 +114,7 @@ class DatabaseMan
 
 
         $mySql = "CREATE TABLE pictures (
-      ID INT AUTO_INCREMENT  PRIMARY KEY,
+      position INT AUTO_INCREMENT  PRIMARY KEY,
       Post_ID INT NOT NULL,
       is_original  TEXT,
       pic_id INT NOT NULL ,
@@ -143,7 +143,7 @@ class DatabaseMan
 
 
         $mySql = "CREATE TABLE open (
-      ID INT AUTO_INCREMENT  PRIMARY KEY,
+      position INT AUTO_INCREMENT  PRIMARY KEY,
       location_ID INT NOT NULL,
       days  TEXT,
       is_24  INT DEFAULT 0,
@@ -172,7 +172,7 @@ class DatabaseMan
 
 
         $mySql = "CREATE TABLE tags (
-      ID INT AUTO_INCREMENT  PRIMARY KEY,
+      position INT AUTO_INCREMENT  PRIMARY KEY,
       Post_ID INT NOT NULL,
       tags_key  INT NOT NULL,
       tags_value  VARCHAR(30) DEFAULT ''
@@ -197,7 +197,7 @@ class DatabaseMan
 
 
         $mySql = "CREATE TABLE personnel (
-      ID INT AUTO_INCREMENT  PRIMARY KEY,
+      position INT AUTO_INCREMENT  PRIMARY KEY,
       LOCATION_ID INT NOT NULL,
       PEOPLE_ID INT NOT NULL,
       TagPeople  TEXT,
@@ -345,7 +345,7 @@ class DatabaseMan
         if ($res->num_rows > 0) {
 
             $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
-            $masterID = $row['ID'];
+            $masterID = $row['position'];
             $masterUserName = $row['user_name'];
 
 
@@ -405,7 +405,7 @@ class DatabaseMan
 
         while ($res = $result->fetch_assoc()) {
             $rows[] = array(
-                "ID" => $res['ID'],
+                "position" => $res['position'],
                 "group_name" => $res['group_name'],
                 "name" => $res['nameLocPeo'],
                 "tagLoc" => $res['tagLoc'],
@@ -451,7 +451,7 @@ class DatabaseMan
         if ($group == DatabaseMan::GROUP_NAME_LOCATION) {
             while ($res = $result->fetch_assoc()) {
                 $rows[] = array(
-                    "ID" => $res['ID'],
+                    "position" => $res['position'],
                     "group_name" => $res['group_name'],
                     "name" => $res['nameLocPeo'],
                     "tagLocPeo" => $res['tagLocPeo'],
@@ -466,7 +466,7 @@ class DatabaseMan
         } else if ($group == DatabaseMan::GROUP_NAME_PEOPLE) {
             while ($res = $result->fetch_assoc()) {
                 $rows[] = array(
-                    "ID" => $res['ID'],
+                    "position" => $res['position'],
                     "group_name" => $res['group_name'],
                     "name" => $res['nameLocPeo'],
                     "tagLocPeo" => $res['tagLocPeo'],
@@ -511,7 +511,7 @@ class DatabaseMan
 
         while ($res = $result->fetch_assoc()) {
             $rows[] = array(
-                "ID" => $res['ID'],
+                "position" => $res['position'],
                 "group_name" => $res['group_name'],
                 "name" => $res['nameLocPeo'],
                 "tag" => $res['tagLocPeo'],
@@ -525,7 +525,7 @@ class DatabaseMan
 
         while ($resPeople = $resultPeople->fetch_assoc()) {
             $rowsPeople[] = array(
-                "ID" => $resPeople['ID'],
+                "position" => $resPeople['position'],
                 "group_name" => $resPeople['group_name'],
                 "name" => $resPeople['nameLocPeo'],
                 "tag" => $resPeople['tagLocPeo'],
@@ -629,7 +629,7 @@ class DatabaseMan
         }
         mysqli_query($conn, "SET NAMES utf8");
 
-        $mySql = "SELECT * FROM `locationPeople` WHERE `ID`='$Post_ID' ";
+        $mySql = "SELECT * FROM `locationPeople` WHERE `position`='$Post_ID' ";
 
 
         //$result = array();
@@ -717,7 +717,7 @@ class DatabaseMan
         }
         mysqli_query($conn, "SET NAMES utf8");
 
-        $mySql = "SELECT * FROM `locationPeople` WHERE `ID`='$Post_ID' ";
+        $mySql = "SELECT * FROM `locationPeople` WHERE `position`='$Post_ID' ";
 
 
         $merge = array();
@@ -882,7 +882,7 @@ class DatabaseMan
                 while ($res = $result->fetch_assoc()) {
                     $rows[] = array(
 
-                        "ID" => $res['ID'],
+                        "position" => $res['position'],
                         "nameLocPeo" => $res['nameLocPeo'],
                         "tagLocPeo" => $res['tagLocPeo'],
                         "original_pic" => $res['original_pic'],
@@ -942,7 +942,7 @@ class DatabaseMan
                 while ($res = $result->fetch_assoc()) {
                     $rows[] = array(
 
-                        "ID" => $res['ID'],
+                        "position" => $res['position'],
                         "nameLocPeo" => $res['nameLocPeo'],
 
                         "tagLocPeo" => $res['tagLocPeo'],
@@ -989,7 +989,7 @@ class DatabaseMan
         $conn = new mysqli(DatabaseMan::DB_HOST, DatabaseMan::DB_USER, DatabaseMan::DB_PASSWORD, DatabaseMan::DB_NAME);
         mysqli_query($conn, "SET NAMES utf8");
 
-        $mysqlFetch = "SELECT * FROM `locationPeople` WHERE `ID`='$PEOPLE_ID'";
+        $mysqlFetch = "SELECT * FROM `locationPeople` WHERE `position`='$PEOPLE_ID'";
 
 
         if ($resQueryFetch = $conn->query($mysqlFetch)) {
@@ -1099,7 +1099,7 @@ class DatabaseMan
                 while ($res = $result->fetch_assoc()) {
                     $rows[] = array(
 
-                        "ID" => $res['ID'],
+                        "position" => $res['position'],
                         "PEOPLE_ID" => $res['PEOPLE_ID'],
                         "personnelName" => $res['personnelName'],
                         "TagPeople" => $res['TagPeople'],
@@ -1166,7 +1166,7 @@ class DatabaseMan
                 while ($res = $result->fetch_assoc()) {
                     $rows[] = array(
 
-                        "ID" => $res['ID'],
+                        "position" => $res['position'],
                         "nameLocPeo" => $res['nameLocPeo'],
                         "tagLocPeo" => $res['tagLocPeo'],
                         "original_pic" => $res['original_pic'],
@@ -1270,7 +1270,7 @@ class DatabaseMan
                 while ($res = $result->fetch_assoc()) {
                     $rows[] = array(
 
-                        "ID" => $res['ID'],
+                        "position" => $res['position'],
                         "nameLocPeo" => $res['nameLocPeo'],
                         "tagLocPeo" => $res['tagLocPeo'],
                         "city" => $res['city'],
@@ -1374,7 +1374,7 @@ class DatabaseMan
                 while ($res = $result->fetch_assoc()) {
                     $rows[] = array(
 
-                        "ID" => $res['ID'],
+                        "position" => $res['position'],
                         "nameLocPeo" => $res['nameLocPeo'],
                         "tagLocPeo" => $res['tagLocPeo'],
                         "city" => $res['city'],
@@ -1462,7 +1462,7 @@ class DatabaseMan
                 while ($res = $result->fetch_assoc()) {
                     $rows[] = array(
 
-                        "ID" => $res['ID'],
+                        "position" => $res['position'],
                         "nameLocPeo" => $res['nameLocPeo'],
                         "tagLocPeo" => $res['tagLocPeo'],
                         "city" => $res['city'],
@@ -1486,7 +1486,7 @@ class DatabaseMan
                     while ($res = $result->fetch_assoc()) {
                         $rows[] = array(
 
-                            "ID" => $res['ID'],
+                            "position" => $res['position'],
                             "nameLocPeo" => $res['nameLocPeo'],
                             "tagLocPeo" => $res['tagLocPeo'],
                             "city" => $res['city'],
@@ -1568,7 +1568,7 @@ class DatabaseMan
                 while ($res = $result->fetch_assoc()) {
                     $rows[] = array(
 
-                        "ID" => $res['ID'],
+                        "position" => $res['position'],
                         "nameLocPeo" => $res['nameLocPeo'],
                         "tagLocPeo" => $res['tagLocPeo'],
                         "city" => $res['city'],

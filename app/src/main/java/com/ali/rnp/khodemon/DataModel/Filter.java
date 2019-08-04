@@ -4,13 +4,18 @@ import org.json.JSONObject;
 
 public class Filter {
 
+    private int position;
     private String title;
     private JSONObject jsonObject;
+    private String tag;
     private boolean selected;
 
-    public Filter(String title, JSONObject jsonObject) {
+    public Filter(int position, String title, String tag, JSONObject jsonObject) {
+        this.position = position;
         this.title = title;
+        this.tag = tag;
         this.jsonObject = jsonObject;
+
     }
 
     public String getTitle() {
@@ -29,5 +34,11 @@ public class Filter {
         this.selected = selected;
     }
 
+    public String getTag() {
+        return tag;
+    }
 
+    public int getPosition() {
+        return position;
+    }
 }

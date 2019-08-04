@@ -46,6 +46,7 @@ public class FilterActivity extends AppCompatActivity implements
     private MultiCheckGenreAdapter multiCheckGenreAdapter;
 
     private StateAdapter state;
+    private ArrayList<Filter> filterList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +206,7 @@ public class FilterActivity extends AppCompatActivity implements
 
         }
 
+
         rcvValues.setAdapter(filterNonExpandAdapter);
 
     }
@@ -232,6 +234,8 @@ public class FilterActivity extends AppCompatActivity implements
     @Override
     public void OnSuccessFilter(ArrayList<Filter> filterList) {
         if (filterList != null) {
+            this.filterList = new ArrayList<>();
+            this.filterList.addAll(filterList);
 
             FilterOptionAdapter adapter = new FilterOptionAdapter(filterList);
 
@@ -248,8 +252,9 @@ public class FilterActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onItemClicked(Filter filter) {
-        parseJson(filter.getJsonObject());
+    public void onItemClicked(int position) {
+
+        parseJson(filterList.get(position).getJsonObject());
     }
 
     @Override
@@ -271,6 +276,5 @@ public class FilterActivity extends AppCompatActivity implements
         EXPANDABLE,
         NON_EXPANDABLE
     }
-
 
 }
