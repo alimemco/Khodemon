@@ -1,6 +1,5 @@
 package com.ali.rnp.khodemon.ExpandableSingleItems;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +13,13 @@ import java.util.List;
 
 public class AdapterSingleExp extends CheckableChildRecyclerViewAdapter<ParentViewHolderExp,ChildViewHolderExp> {
 
-    private Context context;
+    // private Context context;
 
     private static final String TAG = "AdapterSingleExp";
 
-    public AdapterSingleExp(List<SingleCheckItemsExp> groups, Context context) {
+    public AdapterSingleExp(List<SingleCheckItemsExp> groups) {
         super(groups);
-        this.context = context;
     }
-
 
     @Override
     public ChildViewHolderExp onCreateCheckChildViewHolder(ViewGroup parent, int viewType) {

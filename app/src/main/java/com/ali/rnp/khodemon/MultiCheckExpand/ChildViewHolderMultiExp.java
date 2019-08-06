@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Checkable;
 import android.widget.CheckedTextView;
 
+import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.MyApplication;
 import com.ali.rnp.khodemon.R;
 import com.thoughtbot.expandablecheckrecyclerview.viewholders.CheckableChildViewHolder;
@@ -12,6 +13,8 @@ import com.thoughtbot.expandablecheckrecyclerview.viewholders.CheckableChildView
 public class ChildViewHolderMultiExp extends CheckableChildViewHolder {
 
     private CheckedTextView childCheckedTextView;
+    private static final String TAG = "ChildViewHolderMultiExp";
+
 
 
     public ChildViewHolderMultiExp(View itemView, Context context) {
@@ -29,8 +32,11 @@ public class ChildViewHolderMultiExp extends CheckableChildViewHolder {
     }
 
 
-    public void setName(String name) {
+    public void setName(ChildExp child) {
 
-        childCheckedTextView.setText(name);
+        childCheckedTextView.setText(child.getName());
+
+
+
     }
 }

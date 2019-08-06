@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class ChildExp implements Parcelable {
     private String name;
     private boolean isFavorite;
+    ;
 
     public ChildExp() {
     }
@@ -72,4 +73,6 @@ public class ChildExp implements Parcelable {
             return new ChildExp[size];
         }
     };
+
+
 }

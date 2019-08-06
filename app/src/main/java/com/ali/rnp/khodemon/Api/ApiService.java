@@ -74,7 +74,7 @@ public class ApiService {
     private JSONObject jsonObjectPhoto;
 
 
-    private int retryTime = 10000;
+    private int retryTime = 15000;
     private Context context;
 
 

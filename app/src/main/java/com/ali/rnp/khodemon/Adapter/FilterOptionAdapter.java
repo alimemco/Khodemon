@@ -23,6 +23,11 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.filterList = filterList;
     }
 
+    public void changedItemValue(ArrayList<Filter> filterList) {
+        this.filterList = filterList;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,6 +35,7 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         return new FilterOptionHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
@@ -69,7 +75,7 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     public interface OnItemClicked {
-        void onItemClicked(int ID);
+        void onItemClicked(int position);
     }
 
     class FilterOptionHolder extends RecyclerView.ViewHolder {
@@ -77,12 +83,14 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private MyTextView titleTv;
         private AppCompatImageView arrowImv;
         private View line;
+        private MyTextView count;
 
         FilterOptionHolder(@NonNull View itemView) {
             super(itemView);
             titleTv = itemView.findViewById(R.id.rcv_filter_title);
             arrowImv = itemView.findViewById(R.id.rcv_filter_arrow);
             line = itemView.findViewById(R.id.rcv_filter_line);
+            count = itemView.findViewById(R.id.rcv_filter_count);
         }
 
         void bind(int position) {
@@ -96,8 +104,25 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             itemView.setSelected(filter.getSelected());
 
+
+            if (filter.getFiltered() == null) {
+                count.setVisibility(View.INVISIBLE);
+            } else {
+                if (filter.getFiltered().size() == 0) {
+                    count.setVisibility(View.INVISIBLE);
+                } else {
+                    count.setVisibility(View.VISIBLE);
+                    count.setText(String.valueOf(filter.getFiltered().size()));
+                }
+            }
+
+
+
+
             itemView.setOnClickListener(v -> {
                 changeState(position);
+
+
                 if (onItemClicked != null) {
                     onItemClicked.onItemClicked(filter.getPosition());
                 }

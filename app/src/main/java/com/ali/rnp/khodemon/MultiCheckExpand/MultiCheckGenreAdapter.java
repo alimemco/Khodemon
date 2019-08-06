@@ -1,5 +1,6 @@
 package com.ali.rnp.khodemon.MultiCheckExpand;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.List;
 public class MultiCheckGenreAdapter extends
         CheckableChildRecyclerViewAdapter<ParentViewHolderExp, ChildViewHolderMultiExp> {
 
+    public List<? extends Parcelable> groups;
+
     public MultiCheckGenreAdapter(List<MultiCheckGroup> groups) {
         super(groups);
     }
@@ -33,7 +36,10 @@ public class MultiCheckGenreAdapter extends
     public void onBindCheckChildViewHolder(ChildViewHolderMultiExp holder, int position,
                                            CheckedExpandableGroup group, int childIndex) {
         final ChildExp child = (ChildExp) group.getItems().get(childIndex);
-        holder.setName(child.getName());
+
+        holder.setName(child);
+
+
     }
 
     @Override

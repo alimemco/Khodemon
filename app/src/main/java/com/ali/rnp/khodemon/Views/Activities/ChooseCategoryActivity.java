@@ -5,6 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.Category;
 import com.ali.rnp.khodemon.ExpandableSingleItems.AdapterSingleExp;
@@ -16,12 +22,6 @@ import com.ali.rnp.khodemon.R;
 import com.android.volley.VolleyError;
 
 import java.util.List;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 
 public class ChooseCategoryActivity extends AppCompatActivity {
@@ -107,7 +107,7 @@ public class ChooseCategoryActivity extends AppCompatActivity {
             private void setupRecView(List<SingleCheckItemsExp> makeSingleCheckParent) {
 
 
-                adapterSingleExp = new AdapterSingleExp(makeSingleCheckParent, ChooseCategoryActivity.this);
+                adapterSingleExp = new AdapterSingleExp(makeSingleCheckParent);
                 recyclerView.setAdapter(adapterSingleExp);
 
                 adapterSingleExp.setChildClickListener((v, checked, group, childIndex) -> {

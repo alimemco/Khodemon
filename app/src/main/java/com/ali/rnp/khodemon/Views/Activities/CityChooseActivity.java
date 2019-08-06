@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -41,20 +44,29 @@ public class CityChooseActivity extends AppCompatActivity implements
     private List<SingleCheckItemsExp> makeSingleCheckParentList;
 
 
-
     private String provinceName;
     private String cityName;
 
-
+    private static final String TAG = "CityChooseActivity";
+    boolean isSave = true;
+    private Bundle mBundle;
+    private Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_choose);
 
+        mBundle = savedInstanceState;
+
         initViews();
         setupToolbar();
         setupRecView();
+
+        btn = findViewById(R.id.city_btn);
+        
+        
+
 
     }
 
@@ -102,11 +114,12 @@ public class CityChooseActivity extends AppCompatActivity implements
 
         apiService.getProvince(this);
 
+
     }
 
     private void setupRecWithExpandable(List<SingleCheckItemsExp> makeSingleCheckParent) {
 
-        adapterSingleExp = new AdapterSingleExp(makeSingleCheckParent, CityChooseActivity.this);
+        adapterSingleExp = new AdapterSingleExp(makeSingleCheckParent);
         rcv.setAdapter(adapterSingleExp);
 
         adapterSingleExp.setChildClickListener((v, checked, group, childIndex) -> {
@@ -121,8 +134,46 @@ public class CityChooseActivity extends AppCompatActivity implements
 
         });
 
-    }
 
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSave) {
+
+
+                    // onSaveInstanceState(mBundle);
+                    saveList();
+
+                    Log.i(TAG, "onClick: saveee");
+                } else {
+
+                    // onCreate(mBundle);
+                    Log.i(TAG, "onClick: get");
+
+                    restoreList();
+
+                    if (mBundle != null) {
+
+                        //  adapterSingleExp.onRestoreInstanceState(mBundle);
+
+                    }
+
+                }
+
+                isSave = !isSave;
+
+
+            }
+        });
+
+        if (mBundle != null) {
+
+            adapterSingleExp.onRestoreInstanceState(mBundle);
+
+        }
+
+
+    }
 
 
     @Override
@@ -148,7 +199,6 @@ public class CityChooseActivity extends AppCompatActivity implements
             if (cityList != null) {
 
                 filterCity(s.toString());
-
             }
 
         }
@@ -190,4 +240,35 @@ public class CityChooseActivity extends AppCompatActivity implements
             Toast.makeText(CityChooseActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        adapterSingleExp.onSaveInstanceState(outState);
+
+
+    }
+
+    private void saveList() {
+        mBundle = new Bundle();
+        // mBundle.putParcelableArrayList("ali", new ArrayList(adapterSingleExp.getGroups()));
+        adapterSingleExp.onSaveInstanceState(mBundle);
+    }
+
+    private void restoreList() {
+        if (mBundle == null || !mBundle.containsKey("child_check_controller_checked_state_map")) {
+            Log.i(TAG, "restoreList: null");
+        } else {
+            adapterSingleExp = new AdapterSingleExp(mBundle.getParcelableArrayList("child_check_controller_checked_state_map"));
+            rcv.setAdapter(adapterSingleExp);
+            Log.i(TAG, "restoreList: ");
+
+        }
+
+
+    }
+
+
+
 }

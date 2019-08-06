@@ -1,11 +1,13 @@
 package com.ali.rnp.khodemon.Views.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,7 +24,10 @@ import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGenreAdapter;
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGroup;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
+import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,18 +40,25 @@ public class FilterActivity extends AppCompatActivity implements
         FilterOptionAdapter.OnItemClicked,
         ApiService.OnGetFilterOptions,
         View.OnClickListener,
+        OnCheckChildClickListener,
+        FilterNonExpandAdapter.OnCheckChildNonExpand,
         TextWatcher {
 
+    private static final String TAG = "FilterActivityApp";
     private Toolbar toolbar;
     private RecyclerView rcvOptions;
     private RecyclerView rcvValues;
     private ArrayList<CheckModel> models;
-
     private FilterNonExpandAdapter filterNonExpandAdapter;
     private MultiCheckGenreAdapter multiCheckGenreAdapter;
-
     private StateAdapter state;
+    private int optionPosition;
+    private int lastOptionPosition = -1;
+    private ArrayList<String> filtered;
     private ArrayList<Filter> filterList;
+    private FilterOptionAdapter filterOptionAdapter;
+
+    // private List<MultiCheckGroup> multiCheckGroups;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +99,10 @@ public class FilterActivity extends AppCompatActivity implements
         rcvOptions = findViewById(R.id.activity_filter_rcv_options);
         rcvValues = findViewById(R.id.activity_filter_rcv_values);
         MyButton clearBtn = findViewById(R.id.activity_filter_clear_btn);
+        MyButton filterBtn = findViewById(R.id.activity_filter_filter_btn);
 
         clearBtn.setOnClickListener(this);
+        filterBtn.setOnClickListener(this);
 
         rcvOptions.setLayoutManager(new LinearLayoutManager(this));
         rcvValues.setLayoutManager(new LinearLayoutManager(this));
@@ -135,6 +149,7 @@ public class FilterActivity extends AppCompatActivity implements
 
 
         filterNonExpandAdapter = new FilterNonExpandAdapter(checkList);
+        filterNonExpandAdapter.setOnCheckChildNonExpand(this);
         models.addAll(checkList);
 
         rcvValues.setAdapter(filterNonExpandAdapter);
@@ -175,7 +190,9 @@ public class FilterActivity extends AppCompatActivity implements
             multiCheckGroups.add(makeSingleCheckChild);
 
         }
+
         multiCheckGenreAdapter = new MultiCheckGenreAdapter(multiCheckGroups);
+        multiCheckGenreAdapter.setChildClickListener(this);
         rcvValues.setAdapter(multiCheckGenreAdapter);
     }
 
@@ -206,7 +223,7 @@ public class FilterActivity extends AppCompatActivity implements
 
         }
 
-
+        filterNonExpandAdapter.setOnCheckChildNonExpand(this);
         rcvValues.setAdapter(filterNonExpandAdapter);
 
     }
@@ -237,11 +254,11 @@ public class FilterActivity extends AppCompatActivity implements
             this.filterList = new ArrayList<>();
             this.filterList.addAll(filterList);
 
-            FilterOptionAdapter adapter = new FilterOptionAdapter(filterList);
+            filterOptionAdapter = new FilterOptionAdapter(filterList);
 
-            adapter.setOnItemClicked(FilterActivity.this);
+            filterOptionAdapter.setOnItemClicked(FilterActivity.this);
 
-            rcvOptions.setAdapter(adapter);
+            rcvOptions.setAdapter(filterOptionAdapter);
 
         }
     }
@@ -252,25 +269,107 @@ public class FilterActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.activity_filter_clear_btn:
+                filterList.get(optionPosition).setFiltered(new ArrayList<>());
+                filterOptionAdapter.changedItemValue(filterList);
+
+                if (state == StateAdapter.EXPANDABLE) {
+
+                    multiCheckGenreAdapter.clearChoices();
+
+                } else {
+
+                    filterNonExpandAdapter.clearChoices();
+                }
+                break;
+
+            case R.id.activity_filter_filter_btn:
+                Intent intent = new Intent();
+                intent.putParcelableArrayListExtra(ProvidersApp.KEY_FILTER_LIST, filterList);
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
+        }
+    }
+
+
+    @Override
     public void onItemClicked(int position) {
 
+
+        optionPosition = position;
+/*
+        if (lastOptionPosition != -1) {
+            List grp = multiCheckGenreAdapter.getGroups();
+            filterList.get(lastOptionPosition).setStateList(grp);
+
+            if (filterList.get(position).getStateList() != null) {
+                Log.i(TAG, "onItemClicked: " + filterList.get(position).getStateList().size());
+              //  multiCheckGenreAdapter = new MultiCheckGenreAdapter(filterList.get(position).getStateList());
+
+
+            }
+
+
+        }*/
+
+
+        if (filterList.get(position).getFiltered() == null) {
+            filtered = new ArrayList<>();
+        } else {
+            filtered = filterList.get(position).getFiltered();
+        }
+
+
         parseJson(filterList.get(position).getJsonObject());
+
+
+    }
+
+
+    @Override
+    public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
+
+        ChildExp child = (ChildExp) group.getItems().get(childIndex);
+        changeValueFiltered(checked, child.getName());
+
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.activity_filter_clear_btn) {
+    public void OnCheckNonExpand(boolean checked, String title) {
+        changeValueFiltered(checked, title);
+    }
 
-            if (state == StateAdapter.EXPANDABLE) {
 
-                multiCheckGenreAdapter.clearChoices();
+    private void changeValueFiltered(boolean checked, String title) {
+        if (checked) {
 
-            } else {
-                filterNonExpandAdapter.clearChoices();
-            }
+            filtered.add(title);
+            filterList.get(optionPosition).setFiltered(filtered);
 
+            filterOptionAdapter.changedItemValue(filterList);
+        } else {
+
+            filtered.remove(title);
+            filterList.get(optionPosition).setFiltered(filtered);
+
+            filterOptionAdapter.changedItemValue(filterList);
         }
     }
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+    }
+
+
+
 
     private enum StateAdapter {
         EXPANDABLE,

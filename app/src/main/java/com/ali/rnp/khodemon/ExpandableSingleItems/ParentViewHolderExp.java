@@ -4,7 +4,6 @@ import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGroup;
@@ -28,14 +27,14 @@ public class ParentViewHolderExp extends GroupViewHolder {
         icon =  itemView.findViewById(R.id.list_item_parent_exp_icon);
         icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
 
     }
 
     public void setGroupingTitle(ExpandableGroup group) {
 
-
             groupName.setText(group.getTitle());
+
 
         if (group instanceof SingleCheckItemsExp) {
             icon.setBackgroundResource(((SingleCheckItemsExp) group).getIconResId());
@@ -47,7 +46,6 @@ public class ParentViewHolderExp extends GroupViewHolder {
 
 
     }
-
 
 
     @Override

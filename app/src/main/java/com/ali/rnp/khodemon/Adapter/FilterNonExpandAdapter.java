@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class FilterNonExpandAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "FilterNonExpandAdapter";
     private ArrayList<CheckModel> models;
+    private OnCheckChildNonExpand onCheckChildNonExpand;
 
 
     public FilterNonExpandAdapter(ArrayList<CheckModel> models) {
@@ -58,6 +59,10 @@ public class FilterNonExpandAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             notifyDataSetChanged();
 
+            if (onCheckChildNonExpand != null) {
+                onCheckChildNonExpand.OnCheckNonExpand(checkModel.getChecked(), checkModel.getTitle());
+            }
+
         });
     }
 
@@ -88,6 +93,14 @@ public class FilterNonExpandAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         }
 
+    }
+
+    public void setOnCheckChildNonExpand(OnCheckChildNonExpand onCheckChildNonExpand) {
+        this.onCheckChildNonExpand = onCheckChildNonExpand;
+    }
+
+    public interface OnCheckChildNonExpand {
+        void OnCheckNonExpand(boolean checked, String title);
     }
 
 

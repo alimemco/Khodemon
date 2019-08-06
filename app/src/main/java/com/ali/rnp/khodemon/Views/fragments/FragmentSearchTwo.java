@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.BottomSheet.SortBottomSheet;
+import com.ali.rnp.khodemon.DataModel.Filter;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.ProvidersApp;
@@ -287,13 +289,66 @@ public class FragmentSearchTwo extends Fragment implements
         if (resultCode == Activity.RESULT_OK && requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY) {
 
             if (data != null) {
+               /*
                 String category = data.getStringExtra(ProvidersApp.KEY_CATEGORY);
 
                 putIntoJson(null, category, null, null);
                 categoryCheck(category);
-                getResult();
+                getResult();*/
+
+                ArrayList<Filter> filterList = data.getParcelableArrayListExtra(ProvidersApp.KEY_FILTER_LIST);
+
+                if (filterList != null) {
+                    Toast.makeText(getContext(), String.valueOf(filterList.size()), Toast.LENGTH_SHORT).show();
+
+                    createFilterChip(filterList);
+
+
+                }
+
             }
         }
+    }
+
+    private void createFilterChip(ArrayList<Filter> filterList) {
+        for (int i = 0; i < filterList.size(); i++) {
+            Filter filter = filterList.get(i);
+            if (filter.getFiltered() != null) {
+                String tag = filter.getTag();
+                Log.i(TAG, "onActivityResult: " + tag);
+                ArrayList<String> filtered = filter.getFiltered();
+
+                if (filtered != null) {
+                    for (int j = 0; j < filtered.size(); j++) {
+                        createChip(filtered.get(j));
+                    }
+                }
+
+                //TODO test
+            }
+        }
+    }
+
+    private void createChip(String title) {
+
+        categoryChip = new Chip(view.getContext());
+        categoryChip.setText(title);
+
+        categoryChip.setCloseIconVisible(true);
+        categoryChip.setOnCloseIconClickListener(v -> {
+            chipGroup.removeView(categoryChip);
+
+            /*
+            removeJson(categoryKey);
+
+            getResult();*/
+
+        });
+
+        chipGroup.addView(categoryChip);
+
+
+
     }
 
     private void categoryCheck(String category) {

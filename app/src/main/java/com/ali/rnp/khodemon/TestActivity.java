@@ -1,35 +1,38 @@
 package com.ali.rnp.khodemon;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TestActivity extends AppCompatActivity {
 
-    boolean isSelected;
+    private static final String TAG = "TestActivityApp";
+    
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        TextView txt = findViewById(R.id.testActivity_txt);
+    }
 
-        isSelected = false;
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-        txt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isSelected = !isSelected;
-                txt.setSelected(isSelected);
-            }
-        });
+        outState.putString("key", "ali moghadam");
+    }
 
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
 
-
+        if (savedInstanceState != null) {
+            Log.i(TAG, "onRestoreInstanceState: " + savedInstanceState.getString("key"));
+        }
     }
 }

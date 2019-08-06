@@ -43,5 +43,6 @@
     <string name="clear">پاک کردن</string>
     <string name="search">جستجو</string>
     <string name="filtering">فیلتر کردن</string>
+    <string name="filter_now">فیلتر کن</string>
 
 </resources>
