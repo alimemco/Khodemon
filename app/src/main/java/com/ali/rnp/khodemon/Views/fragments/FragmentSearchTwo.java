@@ -33,6 +33,7 @@ import com.ali.rnp.khodemon.Views.Activities.FilterActivity;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,12 +46,12 @@ public class FragmentSearchTwo extends Fragment implements
         SearchAdapter.OnChildClickListener {
 
     private static final String TAG = "FragmentSearchTwo";
-
-    private static final int keywordKey = 0;
-    private static final int categoryKey = 1;
-    private static final int cityUserKey = 2;
-    private static final int cityFilterKey = 3;
-
+    /*
+        private static final int keywordKey = 0;
+        private static final int categoryKey = 1;
+        private static final int cityUserKey = 2;
+        private static final int cityFilterKey = 3;
+    */
     private ChipGroup chipGroup;
     private RecyclerView rcv;
     private ApiService apiService;
@@ -121,27 +122,28 @@ public class FragmentSearchTwo extends Fragment implements
 
     }
 
-    private void addCategoryChip(String name) {
+    /*
+        private void addCategoryChip(String name) {
 
-        categoryChip = new Chip(view.getContext());
-        categoryChip.setText(name);
+            categoryChip = new Chip(view.getContext());
+            categoryChip.setText(name);
 
-        categoryChip.setCloseIconVisible(true);
-        categoryChip.setOnCloseIconClickListener(v -> {
-            chipGroup.removeView(categoryChip);
+            categoryChip.setCloseIconVisible(true);
+            categoryChip.setOnCloseIconClickListener(v -> {
+                chipGroup.removeView(categoryChip);
 
-            // removeJsonCategory();
-            removeJson(categoryKey);
+                // removeJsonCategory();
+                removeJson(categoryKey);
 
-            getResult();
+                getResult();
 
-        });
+            });
 
-        chipGroup.addView(categoryChip);
+            chipGroup.addView(categoryChip);
 
 
-    }
-
+        }
+    */
     private void getResult() {
 
         apiService.searchCategory(jsonObject, this);
@@ -161,12 +163,15 @@ public class FragmentSearchTwo extends Fragment implements
 
             case R.id.fragment_search_two_sortBtn:
 
-              /*  SortDialog dialog = new SortDialog();
-
-                dialog.show(getChildFragmentManager(), "SortDialog");*/
 
                 SortBottomSheet sortBottomSheet = SortBottomSheet.newInstance();
+                /*
                 sortBottomSheet.show(getChildFragmentManager(), "SortBottomSheet");
+                */
+
+                // TODO Add dialog
+
+                Log.i(TAG, "onClick: " + jsonObject.toString());
 
                 break;
         }
@@ -248,6 +253,53 @@ public class FragmentSearchTwo extends Fragment implements
         }
     }
 
+    private void putIntoJsonTest(ArrayList<Filter> filterList) {
+
+
+        try {
+            for (int i = 0; i < filterList.size(); i++) {
+
+                Filter filter = filterList.get(i);
+
+                String tag = filter.getTag();
+
+                JSONObject jsObjIt = new JSONObject();
+
+
+                if (filter.getFiltered() != null) {
+                    JSONArray jsAryValue = new JSONArray();
+                    for (int j = 0; j < filter.getFiltered().size(); j++) {
+
+
+                        jsAryValue.put(j, filter.getFiltered().get(j).getTitle());
+
+                        jsObjIt.put("items", jsAryValue);
+
+                    }
+                    jsonObject.put(tag, jsObjIt);
+                }
+
+
+            }
+
+        } catch (JSONException e) {
+            Log.i(TAG, "putIntoJsonTest: " + e.toString());
+        }
+
+
+    }
+
+    private void removeFromJsonTest(ChipModel chipModel) {
+
+        if (chipModel != null) {
+
+            jsonObject.remove(chipModel.getKey());
+
+        }
+
+
+    }
+/*
     private void removeJson(int toRemove) {
         try {
             switch (toRemove) {
@@ -274,7 +326,7 @@ public class FragmentSearchTwo extends Fragment implements
             e.printStackTrace();
         }
     }
-
+*/
 
     @Override
     public void onChildClick(ChildModel childModel) {
@@ -297,11 +349,15 @@ public class FragmentSearchTwo extends Fragment implements
                 categoryCheck(category);
                 getResult();*/
 
+
                 ArrayList<Filter> filterList = data.getParcelableArrayListExtra(ProvidersApp.KEY_FILTER_LIST);
 
                 if (filterList != null) {
 
+                    chipGroup.removeAllViews();
+
                     createFilterChip(filterList);
+                    putIntoJsonTest(filterList);
 
 
                 }
@@ -311,20 +367,26 @@ public class FragmentSearchTwo extends Fragment implements
     }
 
     private void createFilterChip(ArrayList<Filter> filterList) {
+
+
         for (int i = 0; i < filterList.size(); i++) {
             Filter filter = filterList.get(i);
+
+
             if (filter.getFiltered() != null) {
-                String tag = filter.getTag();
-                Log.i(TAG, "onActivityResult: " + tag);
                 ArrayList<ChipModel> filtered = filter.getFiltered();
+
 
                 if (filtered != null) {
                     for (int j = 0; j < filtered.size(); j++) {
+
                         createChip(filtered.get(j));
+
+                        //TODO add json
+
                     }
                 }
 
-                //TODO test
             }
         }
     }
@@ -336,9 +398,11 @@ public class FragmentSearchTwo extends Fragment implements
 
         chip.setCloseIconVisible(true);
         chip.setOnCloseIconClickListener(v -> {
-            Log.i(TAG, "delete: " + chipModel.getTitle() + " ->  " + chipModel.getKey());
+            //  Log.i(TAG, "delete: " + chipModel.getTitle() + " ->  " + chipModel.getKey());
             chipGroup.removeView(chip);
 
+            removeFromJsonTest(chipModel);
+            //Log.i(TAG, "Remove Chip and Json: "+jsonObject.length());
             /*
             removeJson(categoryKey);
 
@@ -353,7 +417,7 @@ public class FragmentSearchTwo extends Fragment implements
 
 
     }
-
+/*
     private void categoryCheck(String category) {
 
         if (!category.equals("")) {
@@ -363,7 +427,7 @@ public class FragmentSearchTwo extends Fragment implements
             addCategoryChip(category);
         }
 
-    }
+    }*/
 
 
     @Override
