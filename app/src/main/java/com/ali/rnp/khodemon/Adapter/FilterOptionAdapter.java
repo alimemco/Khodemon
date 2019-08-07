@@ -100,9 +100,9 @@ public class FilterOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             titleTv.setText(filter.getTitle());
 
             line.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
-            arrowImv.setVisibility(filter.getSelected() ? View.VISIBLE : View.INVISIBLE);
+            arrowImv.setVisibility(filter.isSelected() ? View.VISIBLE : View.INVISIBLE);
 
-            itemView.setSelected(filter.getSelected());
+            itemView.setSelected(filter.isSelected());
 
 
             if (filter.getFiltered() == null) {

@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Filter implements Parcelable {
 
@@ -15,6 +14,7 @@ public class Filter implements Parcelable {
     private String title;
     private JSONObject jsonObject;
     private String tag;
+    private boolean selected;
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Filter> CREATOR = new Parcelable.Creator<Filter>() {
         @Override
@@ -27,8 +27,7 @@ public class Filter implements Parcelable {
             return new Filter[size];
         }
     };
-    private boolean selected;
-    private ArrayList<String> filtered;
+    private ArrayList<ChipModel> filtered;
 
     public Filter(int position, String title, String tag, JSONObject jsonObject) {
         this.position = position;
@@ -37,32 +36,6 @@ public class Filter implements Parcelable {
         this.jsonObject = jsonObject;
 
     }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public JSONObject getJsonObject() {
-        return jsonObject;
-    }
-
-    public boolean getSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    private List<Parcelable> stateList;
 
     protected Filter(Parcel in) {
         position = in.readInt();
@@ -73,34 +46,66 @@ public class Filter implements Parcelable {
             e.printStackTrace();
         }
         tag = in.readString();
+        selected = in.readByte() != 0x00;
         if (in.readByte() == 0x01) {
-            filtered = new ArrayList<String>();
-            in.readList(filtered, String.class.getClassLoader());
+            filtered = new ArrayList<ChipModel>();
+            in.readList(filtered, ChipModel.class.getClassLoader());
         } else {
             filtered = null;
         }
-        selected = in.readByte() != 0x00;
     }
 
-    public ArrayList<String> getFiltered() {
+    public String getTitle() {
+        return title;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public ArrayList<ChipModel> getFiltered() {
         return filtered;
-    }
-
-    public void setFiltered(ArrayList<String> filtered) {
-        this.filtered = filtered;
-    }
-
-    public List getStateList() {
-        return stateList;
-    }
-
-    public void setStateList(List stateList) {
-        this.stateList = stateList;
     }
 
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public void setFiltered(ArrayList<ChipModel> filtered) {
+        this.filtered = filtered;
     }
 
     @Override
@@ -114,12 +119,12 @@ public class Filter implements Parcelable {
             dest.writeString(jsonObject.toString());
         }
         dest.writeString(tag);
+        dest.writeByte((byte) (selected ? 0x01 : 0x00));
         if (filtered == null) {
             dest.writeByte((byte) (0x00));
         } else {
             dest.writeByte((byte) (0x01));
             dest.writeList(filtered);
         }
-        dest.writeByte((byte) (selected ? 0x01 : 0x00));
     }
 }

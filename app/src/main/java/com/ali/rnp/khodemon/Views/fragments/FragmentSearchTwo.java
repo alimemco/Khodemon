@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.BottomSheet.SortBottomSheet;
+import com.ali.rnp.khodemon.DataModel.ChipModel;
 import com.ali.rnp.khodemon.DataModel.Filter;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
@@ -299,7 +300,6 @@ public class FragmentSearchTwo extends Fragment implements
                 ArrayList<Filter> filterList = data.getParcelableArrayListExtra(ProvidersApp.KEY_FILTER_LIST);
 
                 if (filterList != null) {
-                    Toast.makeText(getContext(), String.valueOf(filterList.size()), Toast.LENGTH_SHORT).show();
 
                     createFilterChip(filterList);
 
@@ -316,7 +316,7 @@ public class FragmentSearchTwo extends Fragment implements
             if (filter.getFiltered() != null) {
                 String tag = filter.getTag();
                 Log.i(TAG, "onActivityResult: " + tag);
-                ArrayList<String> filtered = filter.getFiltered();
+                ArrayList<ChipModel> filtered = filter.getFiltered();
 
                 if (filtered != null) {
                     for (int j = 0; j < filtered.size(); j++) {
@@ -329,14 +329,15 @@ public class FragmentSearchTwo extends Fragment implements
         }
     }
 
-    private void createChip(String title) {
+    private void createChip(ChipModel chipModel) {
 
-        categoryChip = new Chip(view.getContext());
-        categoryChip.setText(title);
+        Chip chip = new Chip(view.getContext());
+        chip.setText(chipModel.getTitle());
 
-        categoryChip.setCloseIconVisible(true);
-        categoryChip.setOnCloseIconClickListener(v -> {
-            chipGroup.removeView(categoryChip);
+        chip.setCloseIconVisible(true);
+        chip.setOnCloseIconClickListener(v -> {
+            Log.i(TAG, "delete: " + chipModel.getTitle() + " ->  " + chipModel.getKey());
+            chipGroup.removeView(chip);
 
             /*
             removeJson(categoryKey);
@@ -345,7 +346,9 @@ public class FragmentSearchTwo extends Fragment implements
 
         });
 
-        chipGroup.addView(categoryChip);
+        //TODO
+
+        chipGroup.addView(chip);
 
 
 

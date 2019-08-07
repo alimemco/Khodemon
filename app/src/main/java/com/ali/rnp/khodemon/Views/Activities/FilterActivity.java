@@ -18,6 +18,7 @@ import com.ali.rnp.khodemon.Adapter.FilterNonExpandAdapter;
 import com.ali.rnp.khodemon.Adapter.FilterOptionAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.CheckModel;
+import com.ali.rnp.khodemon.DataModel.ChipModel;
 import com.ali.rnp.khodemon.DataModel.Filter;
 import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.MultiCheckExpand.MultiCheckGenreAdapter;
@@ -54,7 +55,7 @@ public class FilterActivity extends AppCompatActivity implements
     private StateAdapter state;
     private int optionPosition;
     private int lastOptionPosition = -1;
-    private ArrayList<String> filtered;
+    private ArrayList<ChipModel> filtered;
     private ArrayList<Filter> filterList;
     private FilterOptionAdapter filterOptionAdapter;
 
@@ -345,17 +346,25 @@ public class FilterActivity extends AppCompatActivity implements
 
 
     private void changeValueFiltered(boolean checked, String title) {
+        String key = filterList.get(optionPosition).getTag();
+
         if (checked) {
 
-            filtered.add(title);
-            filterList.get(optionPosition).setFiltered(filtered);
+            filtered.add(new ChipModel(key, title));
 
+            filterList.get(optionPosition).setFiltered(filtered);
             filterOptionAdapter.changedItemValue(filterList);
+
         } else {
 
-            filtered.remove(title);
-            filterList.get(optionPosition).setFiltered(filtered);
+            for (ChipModel chipModel : filtered) {
+                if (chipModel.getTitle().equals("title")) {
+                    filtered.remove(chipModel);
+                }
+            }
+            filtered.remove(new ChipModel(key, title));
 
+            filterList.get(optionPosition).setFiltered(filtered);
             filterOptionAdapter.changedItemValue(filterList);
         }
     }
