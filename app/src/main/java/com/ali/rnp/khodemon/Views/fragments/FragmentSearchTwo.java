@@ -255,32 +255,39 @@ public class FragmentSearchTwo extends Fragment implements
 
     private void putIntoJsonTest(ArrayList<Filter> filterList) {
 
-
         try {
+
+            JSONArray jsonAryFilter = new JSONArray();
+            JSONObject jsonObjPer;
+            JSONArray jsonAryValue;
+
             for (int i = 0; i < filterList.size(); i++) {
 
                 Filter filter = filterList.get(i);
 
                 String tag = filter.getTag();
 
-                JSONObject jsObjIt = new JSONObject();
-
+                jsonAryValue = new JSONArray();
+                jsonObjPer = new JSONObject();
 
                 if (filter.getFiltered() != null) {
-                    JSONArray jsAryValue = new JSONArray();
+
                     for (int j = 0; j < filter.getFiltered().size(); j++) {
 
-
-                        jsAryValue.put(j, filter.getFiltered().get(j).getTitle());
-
-                        jsObjIt.put("items", jsAryValue);
+                        jsonAryValue.put(j, filter.getFiltered().get(j).getTitle());
 
                     }
-                    jsonObject.put(tag, jsObjIt);
+
+                    jsonObjPer.put("key", tag);
+                    jsonObjPer.put(tag, jsonAryValue);
                 }
 
+                jsonAryFilter.put(jsonObjPer);
 
             }
+
+
+            jsonObject.put("filter", jsonAryFilter);
 
         } catch (JSONException e) {
             Log.i(TAG, "putIntoJsonTest: " + e.toString());
