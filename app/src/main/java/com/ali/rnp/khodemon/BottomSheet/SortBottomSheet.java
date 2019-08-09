@@ -8,10 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class SortBottomSheet extends BottomSheetDialogFragment {
+public class SortBottomSheet extends BottomSheetDialogFragment implements View.OnClickListener {
+
+    private View view;
+    private OnClickBottomSheet onClickBottomSheet;
 
     public static SortBottomSheet newInstance() {
 
@@ -31,12 +35,54 @@ public class SortBottomSheet extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.btm_sht_sort, container, false);
+        view = inflater.inflate(R.layout.btm_sht_sort, container, false);
         initViews();
         return view;
     }
 
     private void initViews() {
 
+        MyTextView nearestTv = view.findViewById(R.id.btm_sht_sort_nearest);
+        MyTextView scoreTv = view.findViewById(R.id.btm_sht_sort_score);
+        MyTextView seenTv = view.findViewById(R.id.btm_sht_sort_seen);
+
+        nearestTv.setOnClickListener(this);
+        scoreTv.setOnClickListener(this);
+        seenTv.setOnClickListener(this);
+
+
+    }
+
+    public void setOnClickBottomSheet(OnClickBottomSheet onClickBottomSheet) {
+        this.onClickBottomSheet = onClickBottomSheet;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if (onClickBottomSheet != null) {
+            MyTextView tv = (MyTextView) v;
+            onClickBottomSheet.OnClickSheet(tv.getText().toString());
+        }
+        /*
+        switch (v.getId()){
+            case R.id.btm_sht_sort_closest:
+
+                break;
+
+            case R.id.btm_sht_sort_score:
+
+                break;
+
+
+            case R.id.btm_sht_sort_seen:
+
+                break;
+        }
+        */
+    }
+
+    public interface OnClickBottomSheet {
+        void OnClickSheet(String title);
     }
 }

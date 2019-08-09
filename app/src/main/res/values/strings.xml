@@ -45,4 +45,8 @@
     <string name="filtering">فیلتر کردن</string>
     <string name="filter_now">فیلتر کن</string>
 
+    <string name="nearest">نزدیک ترین</string>
+    <string name="max_sore">بیشترین امتیاز</string>
+    <string name="max_seen">بیشترین بازدید</string>
+
 </resources>

@@ -10,9 +10,10 @@
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="مرتب کردن بر اساس..."
+        android:background="@color/gray_100"
         android:drawablePadding="25dp"
         android:padding="15dp"
+        android:text="مرتب کردن بر اساس ..."
         app:drawableRightCompat="@drawable/ic_sort"
         android:textSize="@dimen/small_textSize_sp" />
 
@@ -22,40 +23,43 @@
         android:background="@color/gray_300" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/btm_sht_sort_nearest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/click_primary"
         android:clickable="true"
-        app:drawableRightCompat="@drawable/ic_add"
+        android:text="@string/nearest"
         android:drawablePadding="25dp"
         android:focusable="true"
         android:padding="15dp"
-        android:text="نزدیک ترین"
+        app:drawableRightCompat="@drawable/ic_near"
         android:textSize="@dimen/small_textSize_sp" />
 
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/btm_sht_sort_score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/click_primary"
         android:clickable="true"
-        app:drawableRightCompat="@drawable/ic_double_click"
+        android:text="@string/max_sore"
         android:drawablePadding="25dp"
         android:focusable="true"
         android:padding="15dp"
-        android:text="بیشترین امتیاز"
+        app:drawableRightCompat="@drawable/ic_favorites"
         android:textSize="@dimen/small_textSize_sp" />
 
     <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/btm_sht_sort_seen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/click_primary"
         android:clickable="true"
-        app:drawableRightCompat="@drawable/ic_double_click"
+        android:text="@string/max_seen"
         android:drawablePadding="25dp"
         android:focusable="true"
         android:padding="15dp"
-        android:text="بیشترین بازدید"
+        app:drawableRightCompat="@drawable/ic_eye"
         android:textSize="@dimen/small_textSize_sp" />
 
 

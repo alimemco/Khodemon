@@ -1,7 +1,5 @@
 package com.ali.rnp.khodemon.Search;
 
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
-
 public class ChildModel  {
 
     private int id;
@@ -57,6 +55,14 @@ public class ChildModel  {
 
     public String isAd() {
         return isAd;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 

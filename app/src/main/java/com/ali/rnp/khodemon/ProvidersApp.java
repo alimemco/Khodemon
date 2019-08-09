@@ -84,6 +84,10 @@ public class ProvidersApp {
 
     public static final String KEY_LOCATION_PEOPLE = "LOCATION_PEOPLE";
 
+    //Filter
+    public static final String KEY_KEY = "key";
+    public static final String KEY_FILTER = "filter";
+
     //*** bundle ***//
     public static final String KEY_IMG = "IMAGE";
     public static final String KEY_BUNDLE_POSITION = "POSITION";

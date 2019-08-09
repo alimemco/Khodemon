@@ -46,20 +46,13 @@ public class FragmentSearchTwo extends Fragment implements
         SearchAdapter.OnChildClickListener {
 
     private static final String TAG = "FragmentSearchTwo";
-    /*
-        private static final int keywordKey = 0;
-        private static final int categoryKey = 1;
-        private static final int cityUserKey = 2;
-        private static final int cityFilterKey = 3;
-    */
+
     private ChipGroup chipGroup;
     private RecyclerView rcv;
     private ApiService apiService;
-    private String typed;
+    private String typed = "";
     private SearchAdapter searchAdapter;
     private JSONObject jsonObject;
-
-    private Chip categoryChip;
 
     private View view;
 
@@ -92,7 +85,7 @@ public class FragmentSearchTwo extends Fragment implements
 
     private void initUserCity() {
         if (getContext() != null) {
-            putIntoJson(null, null, new SharedPrefManager(getContext()).getSharedCity().getCity(), null);
+            putIntoJson(null, new SharedPrefManager(getContext()).getSharedCity().getCity());
         }
 
 
@@ -122,31 +115,10 @@ public class FragmentSearchTwo extends Fragment implements
 
     }
 
-    /*
-        private void addCategoryChip(String name) {
-
-            categoryChip = new Chip(view.getContext());
-            categoryChip.setText(name);
-
-            categoryChip.setCloseIconVisible(true);
-            categoryChip.setOnCloseIconClickListener(v -> {
-                chipGroup.removeView(categoryChip);
-
-                // removeJsonCategory();
-                removeJson(categoryKey);
-
-                getResult();
-
-            });
-
-            chipGroup.addView(categoryChip);
-
-
-        }
-    */
     private void getResult() {
 
-        apiService.searchCategory(jsonObject, this);
+        if (jsonObject != null)
+            apiService.searchCategory(jsonObject, this);
 
     }
 
@@ -163,13 +135,14 @@ public class FragmentSearchTwo extends Fragment implements
 
             case R.id.fragment_search_two_sortBtn:
 
-
                 SortBottomSheet sortBottomSheet = SortBottomSheet.newInstance();
-                /*
-                sortBottomSheet.show(getChildFragmentManager(), "SortBottomSheet");
-                */
+                sortBottomSheet.setOnClickBottomSheet(title -> {
+                    Toast.makeText(getContext(), title, Toast.LENGTH_SHORT).show();
+                    sortBottomSheet.dismiss();
+                });
 
-                // TODO Add dialog
+                sortBottomSheet.show(getChildFragmentManager(), "SortBottomSheet");
+                //TODO Add dialog
 
                 Log.i(TAG, "onClick: " + jsonObject.toString());
 
@@ -197,7 +170,7 @@ public class FragmentSearchTwo extends Fragment implements
 
         if (!typed.equals("")) {
 
-            putIntoJson(s.toString(), null, null, null);
+            putIntoJson(s.toString(), null);
 
             getResult();
             searchAdapter.isSearching();
@@ -207,44 +180,17 @@ public class FragmentSearchTwo extends Fragment implements
         }
 
     }
-/*
-    private void putJsonKeyword(String typed) {
 
-        try {
-            jsonObject.put(ProvidersApp.KEY_KEYWORD, typed);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void putJsonCategory(String category) {
-
-        try {
-            jsonObject.put(ProvidersApp.KEY_CATEGORY, category);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    private void putIntoJson(String keyword, String category, String cityUser, String cityFilter) {
+    private void putIntoJson(String keyword, String cityUser) {
         try {
 
             if (keyword != null) {
                 jsonObject.put(ProvidersApp.KEY_KEYWORD, keyword);
             }
 
-            if (category != null) {
-                jsonObject.put(ProvidersApp.KEY_CATEGORY, category);
-            }
-
             if (cityUser != null) {
                 jsonObject.put(ProvidersApp.KEY_CITY_USER, cityUser);
-            }
-
-            if (cityFilter != null) {
-                jsonObject.put(ProvidersApp.KEY_CITY_FILTER, cityFilter);
             }
 
 
@@ -253,10 +199,9 @@ public class FragmentSearchTwo extends Fragment implements
         }
     }
 
-    private void putIntoJsonTest(ArrayList<Filter> filterList) {
+    private void putFilterIntoJson(ArrayList<Filter> filterList) {
 
         try {
-
             JSONArray jsonAryFilter = new JSONArray();
             JSONObject jsonObjPer;
             JSONArray jsonAryValue;
@@ -278,66 +223,27 @@ public class FragmentSearchTwo extends Fragment implements
 
                     }
 
-                    jsonObjPer.put("key", tag);
+                    jsonObjPer.put(ProvidersApp.KEY_KEY, tag);
                     jsonObjPer.put(tag, jsonAryValue);
+
                 }
 
-                jsonAryFilter.put(jsonObjPer);
-
+                if (jsonObjPer.length() > 0) {
+                    jsonAryFilter.put(jsonObjPer);
+                }
             }
 
-
-            jsonObject.put("filter", jsonAryFilter);
-
-        } catch (JSONException e) {
-            Log.i(TAG, "putIntoJsonTest: " + e.toString());
-        }
-
-
-    }
-
-    private void removeFromJsonTest(ChipModel chipModel) {
-
-        if (chipModel != null) {
-
-            jsonObject.remove(chipModel.getKey());
-
-        }
-
-
-    }
-/*
-    private void removeJson(int toRemove) {
-        try {
-            switch (toRemove) {
-                case keywordKey:
-                    jsonObject.put(ProvidersApp.KEY_KEYWORD, null);
-                    break;
-
-                case categoryKey:
-                    jsonObject.put(ProvidersApp.KEY_CATEGORY, null);
-                    break;
-
-                case cityUserKey:
-                    jsonObject.put(ProvidersApp.KEY_CITY_USER, null);
-                    break;
-
-                case cityFilterKey:
-                    jsonObject.put(ProvidersApp.KEY_CITY_FILTER, null);
-                    break;
-
-            }
-
+            jsonObject.put(ProvidersApp.KEY_FILTER, jsonAryFilter);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.i(TAG, "putFilterIntoJson: " + e.toString());
         }
+
     }
-*/
 
     @Override
     public void onChildClick(ChildModel childModel) {
-        Toast.makeText(view.getContext(), childModel.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), childModel.getName() + " " + childModel.getId(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -345,17 +251,9 @@ public class FragmentSearchTwo extends Fragment implements
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
         if (resultCode == Activity.RESULT_OK && requestCode == ProvidersApp.REQUEST_CODE_CHOOSE_CATEGORY) {
 
             if (data != null) {
-               /*
-                String category = data.getStringExtra(ProvidersApp.KEY_CATEGORY);
-
-                putIntoJson(null, category, null, null);
-                categoryCheck(category);
-                getResult();*/
-
 
                 ArrayList<Filter> filterList = data.getParcelableArrayListExtra(ProvidersApp.KEY_FILTER_LIST);
 
@@ -364,8 +262,9 @@ public class FragmentSearchTwo extends Fragment implements
                     chipGroup.removeAllViews();
 
                     createFilterChip(filterList);
-                    putIntoJsonTest(filterList);
+                    putFilterIntoJson(filterList);
 
+                    getResult();
 
                 }
 
@@ -375,25 +274,19 @@ public class FragmentSearchTwo extends Fragment implements
 
     private void createFilterChip(ArrayList<Filter> filterList) {
 
-
         for (int i = 0; i < filterList.size(); i++) {
             Filter filter = filterList.get(i);
 
-
             if (filter.getFiltered() != null) {
                 ArrayList<ChipModel> filtered = filter.getFiltered();
-
 
                 if (filtered != null) {
                     for (int j = 0; j < filtered.size(); j++) {
 
                         createChip(filtered.get(j));
 
-                        //TODO add json
-
                     }
                 }
-
             }
         }
     }
@@ -405,42 +298,24 @@ public class FragmentSearchTwo extends Fragment implements
 
         chip.setCloseIconVisible(true);
         chip.setOnCloseIconClickListener(v -> {
-            //  Log.i(TAG, "delete: " + chipModel.getTitle() + " ->  " + chipModel.getKey());
+
             chipGroup.removeView(chip);
 
-            removeFromJsonTest(chipModel);
-            //Log.i(TAG, "Remove Chip and Json: "+jsonObject.length());
-            /*
-            removeJson(categoryKey);
+            removeFromJson(chipModel.getTitle());
 
-            getResult();*/
+            getResult();
 
         });
 
-        //TODO
-
         chipGroup.addView(chip);
-
-
-
     }
-/*
-    private void categoryCheck(String category) {
-
-        if (!category.equals("")) {
-
-            chipGroup.removeView(categoryChip);
-
-            addCategoryChip(category);
-        }
-
-    }*/
 
 
     @Override
     public void OnSuccessSearch(ArrayList<GroupModel> groupModels) {
 
         if (groupModels != null && !typed.equals("")) {
+
             searchAdapter.setData(groupModels);
 
         } else {
@@ -453,4 +328,39 @@ public class FragmentSearchTwo extends Fragment implements
     public void OnErrorSearch(Object error) {
         searchAdapter.isEmpty();
     }
+
+
+    private void removeFromJson(String title) {
+        try {
+
+            JSONArray newJsAry;
+            JSONArray jsonAryFilter = jsonObject.getJSONArray("filter");
+
+            for (int i = 0; i < jsonAryFilter.length(); i++) {
+                newJsAry = new JSONArray();
+                JSONObject jsObjPer = jsonAryFilter.getJSONObject(i);
+
+                String key = jsObjPer.getString("key");
+                JSONArray jsAryValue = jsObjPer.getJSONArray(key);
+
+
+                for (int j = 0; j < jsAryValue.length(); j++) {
+                    String value = jsAryValue.getString(j);
+                    if (!title.equals(value)) {
+                        newJsAry.put(value);
+                    }
+                }
+
+                jsObjPer.put(key, newJsAry);
+
+            }
+
+
+        } catch (JSONException e) {
+            Log.i(TAG, "error removeFromJson: " + e);
+        }
+
+
+    }
+
 }

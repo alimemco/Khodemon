@@ -91,7 +91,10 @@
         android:layout_height="wrap_content"
         android:background="@color/gray_200"
         android:text="@string/clear"
-        app:drawableLeftCompat="@drawable/ic_sort"
+        android:paddingLeft="@dimen/standard_margin_2x"
+        android:paddingRight="@dimen/standard_margin_2x"
+        app:drawableLeftCompat="@drawable/ic_recycle"
+        app:drawableTint="@color/gray_600"
         app:layout_constraintBottom_toTopOf="@id/activity_filter_filter_btn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/activity_filter_line" />

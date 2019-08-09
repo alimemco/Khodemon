@@ -54,12 +54,10 @@ public class FilterActivity extends AppCompatActivity implements
     private MultiCheckGenreAdapter multiCheckGenreAdapter;
     private StateAdapter state;
     private int optionPosition;
-    private int lastOptionPosition = -1;
     private ArrayList<ChipModel> filtered;
     private ArrayList<Filter> filterList;
     private FilterOptionAdapter filterOptionAdapter;
 
-    // private List<MultiCheckGroup> multiCheckGroups;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -302,20 +300,6 @@ public class FilterActivity extends AppCompatActivity implements
 
 
         optionPosition = position;
-/*
-        if (lastOptionPosition != -1) {
-            List grp = multiCheckGenreAdapter.getGroups();
-            filterList.get(lastOptionPosition).setStateList(grp);
-
-            if (filterList.get(position).getStateList() != null) {
-                Log.i(TAG, "onItemClicked: " + filterList.get(position).getStateList().size());
-              //  multiCheckGenreAdapter = new MultiCheckGenreAdapter(filterList.get(position).getStateList());
-
-
-            }
-
-
-        }*/
 
 
         if (filterList.get(position).getFiltered() == null) {
@@ -376,8 +360,6 @@ public class FilterActivity extends AppCompatActivity implements
 
 
     }
-
-
 
 
     private enum StateAdapter {
