@@ -185,7 +185,7 @@ public class FilterActivity extends AppCompatActivity implements
             }
 
 
-            MultiCheckGroup makeSingleCheckChild = new MultiCheckGroup(titleGroup, childList, R.drawable.ic_location_name);
+            MultiCheckGroup makeSingleCheckChild = new MultiCheckGroup(titleGroup, childList, R.drawable.ic_contrast);
             multiCheckGroups.add(makeSingleCheckChild);
 
         }
@@ -223,6 +223,7 @@ public class FilterActivity extends AppCompatActivity implements
         }
 
         filterNonExpandAdapter.setOnCheckChildNonExpand(this);
+        //TODO test
         rcvValues.setAdapter(filterNonExpandAdapter);
 
     }
@@ -272,12 +273,15 @@ public class FilterActivity extends AppCompatActivity implements
 
         switch (v.getId()) {
             case R.id.activity_filter_clear_btn:
-                filterList.get(optionPosition).setFiltered(new ArrayList<>());
+                //TODO
+                filtered = new ArrayList<>();
+                filterList.get(optionPosition).setFiltered(filtered);
                 filterOptionAdapter.changedItemValue(filterList);
 
                 if (state == StateAdapter.EXPANDABLE) {
 
                     multiCheckGenreAdapter.clearChoices();
+
 
                 } else {
 
@@ -298,9 +302,7 @@ public class FilterActivity extends AppCompatActivity implements
     @Override
     public void onItemClicked(int position) {
 
-
         optionPosition = position;
-
 
         if (filterList.get(position).getFiltered() == null) {
             filtered = new ArrayList<>();
@@ -342,7 +344,7 @@ public class FilterActivity extends AppCompatActivity implements
         } else {
 
             for (ChipModel chipModel : filtered) {
-                if (chipModel.getTitle().equals("title")) {
+                if (chipModel.getTitle().equals(title)) {
                     filtered.remove(chipModel);
                 }
             }

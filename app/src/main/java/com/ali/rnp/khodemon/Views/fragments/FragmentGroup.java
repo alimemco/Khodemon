@@ -10,10 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.ali.rnp.khodemon.Adapter.LocationAdapter;
 import com.ali.rnp.khodemon.Adapter.PeopleAdapter;
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
@@ -22,12 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 public class FragmentGroup extends Fragment {
@@ -86,9 +86,9 @@ public class FragmentGroup extends Fragment {
             public void run() {
                 ApiService apiService = new ApiService(getContext());
                 int groupInt = 0;
-                if (groupName.equals(ApiService.GROUP_NAME_LOCATION)){
+                if (groupName.equals(ProvidersApp.LOCATION_GROUP)) {
                     groupInt = ApiService.LOCATION_GROUP_KEY;
-                }else if (groupName.equals(ApiService.GROUP_NAME_PEOPLE)){
+                } else if (groupName.equals(ProvidersApp.PEOPLE_GROUP)) {
                     groupInt = ApiService.PEOPLE_GROUP_KEY;
                 }
                 apiService.getGroupItems(jsonObjectGroup,groupInt ,new ApiService.OnGroupItemReceived() {
@@ -102,12 +102,12 @@ public class FragmentGroup extends Fragment {
                         if (activity != null){
 
                             if (locationPeopleList != null && error == null ){
-                                if (groupName.equals(ApiService.GROUP_NAME_LOCATION)){
+                                if (groupName.equals(ProvidersApp.LOCATION_GROUP)) {
                                     LocationAdapter locationAdapter = new LocationAdapter(getContext());
                                     locationAdapter.setListDataForAdapter(locationPeopleList);
                                     recyclerView.setAdapter(locationAdapter);
 
-                                }else if (groupName.equals(ApiService.GROUP_NAME_PEOPLE)){
+                                } else if (groupName.equals(ProvidersApp.PEOPLE_GROUP)) {
                                     PeopleAdapter peopleAdapter = new PeopleAdapter(getContext());
                                     peopleAdapter.setListDataForAdapter(locationPeopleList);
                                     recyclerView.setAdapter(peopleAdapter);

@@ -38,9 +38,9 @@ import java.util.List;
 public class ApiService {
 
     public static final int STATUS_REGISTER_ERROR = 616;
-    public static final int STATUS_Login_ERROR = 717;
+    public static final int STATUS_Login_ERROR = 717;/*
     public static final String GROUP_NAME_LOCATION = "LOCATION";
-    public static final String GROUP_NAME_PEOPLE = "PEOPLE";
+    public static final String GROUP_NAME_PEOPLE = "PEOPLE";*/
     public static final int LOCATION_GROUP_KEY = 1;
     public static final int PEOPLE_GROUP_KEY = 2;
     private final static String SITE = "http://khodemon.ir/";
@@ -185,25 +185,33 @@ public class ApiService {
         Volley.newRequestQueue(context).add(request);
     }
 
+    /*
+        public void getHomeRecyclerListItems(final OnHomeListItemReceived onHomeListItemReceived) {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_LIST_ITEMS, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
 
-    public void getHomeRecyclerListItems(final OnHomeListItemReceived onHomeListItemReceived) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_LIST_ITEMS, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (response.length() > 0) {
-                    parseJsonHomeRecyclerListItems(response, onHomeListItemReceived);
-                } else {
-                    onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_SERVER_MISSING_ERROR, null, null, "server is missing");
+                        parseJsonHomeRecyclerListItems(response, onHomeListItemReceived);
+
                 }
+            },
+                    new Response.ErrorListener() {
+                        @Override
 
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, null, error.toString());
+                        public void onErrorResponse(VolleyError error) {
+                            onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, null, error.toString());
+                        }
                     }
-                }
+            );
+
+            request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Volley.newRequestQueue(context).add(request);
+        }
+        */
+    public void getHomeRecyclerListItems(final OnHomeItems onHomeItems) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_HOME_LIST_ITEMS, null,
+                response -> parseJsonHomeRecyclerListItems(response, onHomeItems),
+                error -> onHomeItems.onError(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, error)
         );
 
         request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -703,10 +711,10 @@ public class ApiService {
 
     }
 
-    private void parseJsonHomeRecyclerListItems(JSONObject response, OnHomeListItemReceived onHomeListItemReceived) {
-        List<LocationPeople> locationPeoplePerItem = new ArrayList<>();
-        try {
+    private void parseJsonHomeRecyclerListItems(JSONObject response, OnHomeItems onHomeItems) {
 
+        try {
+            List<LocationPeople> locationPeoplePerItem = new ArrayList<>();
             JSONObject jsonObject = new JSONObject(response.toString());
 
             JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
@@ -717,12 +725,10 @@ public class ApiService {
                 JSONObject jsonObjectGp = jsonArrayResult.getJSONObject(i);
                 JSONArray jsonArrayData = jsonObjectGp.getJSONArray("data");
 
-
                 locationPeoplePerItem = new ArrayList<>();
                 for (int j = 0; j < jsonArrayData.length(); j++) {
 
                     JSONObject jsonObjectGroup = jsonArrayData.getJSONObject(j);
-
 
                     LocationPeople locationPeople = new LocationPeople();
 
@@ -747,10 +753,11 @@ public class ApiService {
             }
 
 
-            onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_SUCCESSFULLY, locationPeopleListLayout, locationPeoplePerItem, null);
+            onHomeItems.onSuccess(locationPeopleListLayout, locationPeoplePerItem);
+
 
         } catch (JSONException e) {
-            onHomeListItemReceived.onItemReceived(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, null, null, e.toString());
+            onHomeItems.onError(ProvidersApp.STATUS_CODE_JSON_EXCEPTION_ERROR, e);
 
         }
 
@@ -793,8 +800,8 @@ public class ApiService {
 
             }
         } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
+        }
 
 
         onProvinceReceived.onReceived(makeSingleCheckParent, cities, null);
@@ -1209,6 +1216,7 @@ public class ApiService {
                                 .setId(objItem.getInt("ID"))
                                 .setName(objItem.getString("nameLocPeo"))
                                 .setCategory(objItem.getString("tagLocPeo"))
+                                .setGroup(objItem.getString("group_name"))
                                 .setCity(objItem.getString("city"))
                                 .setIsAd(objItem.getString("is_ad"))
                                 .setOriginalPic(objItem.getString("original_pic"))
@@ -1293,6 +1301,12 @@ public class ApiService {
 
     public interface OnHomeListItemReceived {
         void onItemReceived(int statusCode, List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList, String error);
+    }
+
+    public interface OnHomeItems {
+        void onSuccess(List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList);
+
+        void onError(int statusCode, Object error);
     }
 
     public interface OnGroupItemReceived {

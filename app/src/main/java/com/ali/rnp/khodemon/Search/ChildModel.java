@@ -6,6 +6,7 @@ public class ChildModel  {
     private String name;
     private String category;
     private String city;
+    private String group;
     private String province;
     private int work_experience;
     private String experts;
@@ -31,6 +32,7 @@ public class ChildModel  {
         this.originalPic = builder.originalPic;
         this.thumb_pic = builder.thumb_pic;
         this.isAd = builder.isAd;
+        this.group = builder.group;
     }
 
     public String getName() {
@@ -57,6 +59,10 @@ public class ChildModel  {
         return isAd;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
     public int getId() {
         return id;
     }
@@ -71,6 +77,7 @@ public class ChildModel  {
         private String name;
         private String category;
         private String city;
+        private String group;
         private String originalPic;
         private String thumb_pic;
         private String province;
@@ -125,6 +132,11 @@ public class ChildModel  {
         public Builder setIsAd(String isAd) {
             this.isAd = isAd;
             return this ;
+        }
+
+        public Builder setGroup(String group) {
+            this.group = group;
+            return this;
         }
 
         public ChildModel create(){

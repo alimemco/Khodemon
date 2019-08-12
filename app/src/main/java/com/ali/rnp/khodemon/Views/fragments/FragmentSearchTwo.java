@@ -244,6 +244,17 @@ public class FragmentSearchTwo extends Fragment implements
     @Override
     public void onChildClick(ChildModel childModel) {
         Toast.makeText(view.getContext(), childModel.getName() + " " + childModel.getId(), Toast.LENGTH_SHORT).show();
+/*
+        Intent intent = new Intent(context, DetailActivity.class);
+        //   intent.putExtra(ProvidersApp.KEY_POST_ID,postId);
+        intent.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE,locationPeopleList.get(position));
+        context.startActivity(intent);
+
+
+        */
+
+//TODO chasnge child to Liocatopn people
+
     }
 
 

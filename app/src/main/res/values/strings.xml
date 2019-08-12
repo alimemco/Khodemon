@@ -49,4 +49,15 @@
     <string name="max_sore">بیشترین امتیاز</string>
     <string name="max_seen">بیشترین بازدید</string>
 
+
+    <!-- Error Handling -->
+    <string name="TimeoutError">TimeoutError</string>
+    <string name="NoConnectionError">NoConnectionError</string>
+    <string name="AuthFailureError">AuthFailureError</string>
+    <string name="ServerError">ServerError</string>
+    <string name="NetworkError">NetworkError</string>
+    <string name="ParseError">ParseError</string>
+    <string name="JSONException">JSONException</string>
+    <string name="UNKNOWN">UNKNOWN</string>
+
 </resources>

@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,7 +49,6 @@ public class CityChooseActivity extends AppCompatActivity implements
     private static final String TAG = "CityChooseActivity";
     boolean isSave = true;
     private Bundle mBundle;
-    private Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +60,6 @@ public class CityChooseActivity extends AppCompatActivity implements
         initViews();
         setupToolbar();
         setupRecView();
-
-        btn = findViewById(R.id.city_btn);
-        
-        
 
 
     }
@@ -135,36 +129,6 @@ public class CityChooseActivity extends AppCompatActivity implements
         });
 
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSave) {
-
-
-                    // onSaveInstanceState(mBundle);
-                    saveList();
-
-                    Log.i(TAG, "onClick: saveee");
-                } else {
-
-                    // onCreate(mBundle);
-                    Log.i(TAG, "onClick: get");
-
-                    restoreList();
-
-                    if (mBundle != null) {
-
-                        //  adapterSingleExp.onRestoreInstanceState(mBundle);
-
-                    }
-
-                }
-
-                isSave = !isSave;
-
-
-            }
-        });
 
         if (mBundle != null) {
 

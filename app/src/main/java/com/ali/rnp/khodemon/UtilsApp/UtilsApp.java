@@ -10,20 +10,28 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
+import androidx.transition.Fade;
+import androidx.transition.Slide;
+import androidx.transition.TransitionManager;
+
 import com.ali.rnp.khodemon.DataModel.Info;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Random;
-
-import androidx.transition.Fade;
-import androidx.transition.Slide;
-import androidx.transition.TransitionManager;
 
 public class UtilsApp {
 
@@ -37,6 +45,37 @@ public class UtilsApp {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
 
+    }
+
+    public static String errorHandler(Context context, Object error) {
+
+        if (error instanceof NoConnectionError) {
+            return context.getString(R.string.NoConnectionError);
+
+        } else if (error instanceof TimeoutError) {
+            return context.getString(R.string.TimeoutError);
+
+        } else if (error instanceof AuthFailureError) {
+            return context.getString(R.string.AuthFailureError);
+
+        } else if (error instanceof ServerError) {
+            return context.getString(R.string.ServerError);
+
+        } else if (error instanceof NetworkError) {
+            return context.getString(R.string.NetworkError);
+
+        } else if (error instanceof ParseError) {
+            return context.getString(R.string.ParseError);
+
+        } else if (error instanceof JSONException) {
+            return context.getString(R.string.JSONException);
+
+        } else if (error instanceof String) {
+            return error.toString();
+
+        } else {
+            return context.getString(R.string.UNKNOWN);
+        }
     }
 
     public static void startAnimationViewsSlide(final View rootLayout, final View... views) {
@@ -175,7 +214,7 @@ public class UtilsApp {
         }
     }
 
-    public static void getImageResize( String url , String thumb, ImageView imgV) {
+    public static void getImageResize(String url, String thumb, ImageView imgV) {
 
         if (thumb != null && url != null) {
             Picasso.get()
@@ -201,8 +240,6 @@ public class UtilsApp {
 
                     });
         }
-
-
 
 
     }
@@ -246,7 +283,6 @@ public class UtilsApp {
     }
 
 
-
     public static String statusCodeToError(int statusCode, String error) {
         String msg = "";
         switch (statusCode) {
@@ -270,7 +306,7 @@ public class UtilsApp {
         return msg;
     }
 
-    public static int getMax(int[] numbers){
+    public static int getMax(int[] numbers) {
         int max = numbers[0];
         for (int number : numbers) {
             max = Math.max(max, number);
@@ -283,10 +319,10 @@ public class UtilsApp {
 
         public static Info validateInfo(Info info, String group, boolean isScale) {
 
-            validateBySubject(info, group,isScale);
+            validateBySubject(info, group, isScale);
             validateEmptyInfo(info);
 
-            if (isScale){
+            if (isScale) {
                 validateByBoolean(info);
             }
 
@@ -301,7 +337,7 @@ public class UtilsApp {
         private static void validateEmptyInfo(Info info) {
             String des = info.getDescription();
 
-            if (des.equals("") || des.equals("0")){
+            if (des.equals("") || des.equals("0")) {
                 info.setDescription("---");
             }
         }
@@ -314,18 +350,18 @@ public class UtilsApp {
 
             for (int i = 0; i < items.length; i++) {
                 sb.append(items[i]);
-                if(i+1 != items.length)
-                sb.append("\n");
+                if (i + 1 != items.length)
+                    sb.append("\n");
             }
 
             info.setDescription(sb.toString());
 
         }
 
-        private static void validateBySubject(Info info, String group,boolean isScale) {
+        private static void validateBySubject(Info info, String group, boolean isScale) {
 
-            if (!isScale){
-                if (info.getDescription().equals("") || info.getDescription().equals("0")){
+            if (!isScale) {
+                if (info.getDescription().equals("") || info.getDescription().equals("0")) {
                     info.setVisible(false);
                 }
             }
@@ -338,7 +374,7 @@ public class UtilsApp {
 
                     info.setSubject("مساحت مکان");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_dimensions);
+                        info.setIcon(R.drawable.ic_dimensions);
                     else
                         info.setIcon(0);
 
@@ -350,7 +386,7 @@ public class UtilsApp {
                     info.setDescription(exp);
                     info.setSubject("تجربه کاری");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_work_experience);
+                        info.setIcon(R.drawable.ic_work_experience);
                     else
                         info.setIcon(0);
 
@@ -365,17 +401,14 @@ public class UtilsApp {
                     if (group.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
                         info.setSubject("سال تاسیس");
                         if (!isScale)
-                        info.setIcon(R.drawable.ic_under_construction);
+                            info.setIcon(R.drawable.ic_under_construction);
                         else
                             info.setIcon(0);
-                    }
-
-
-                    else if (group.equals(ProvidersApp.GROUP_NAME_PEOPLE)) {
+                    } else if (group.equals(ProvidersApp.GROUP_NAME_PEOPLE)) {
 
                         info.setSubject("سن");
                         if (!isScale)
-                        info.setIcon(R.drawable.ic_birthday_cake);
+                            info.setIcon(R.drawable.ic_birthday_cake);
                         else
                             info.setIcon(0);
                     }
@@ -386,14 +419,14 @@ public class UtilsApp {
                 case ProvidersApp.KEY_HAS_CERTIFICATE:
                     info.setSubject("دارای مدرک");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_diploma);
+                        info.setIcon(R.drawable.ic_diploma);
                     else
                         info.setIcon(0);
                     break;
                 case ProvidersApp.KEY_IS_VERIFIED:
                     info.setSubject("تایید شده");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_verified);
+                        info.setIcon(R.drawable.ic_verified);
                     else
                         info.setIcon(0);
                     break;
@@ -401,7 +434,7 @@ public class UtilsApp {
                 case ProvidersApp.KEY_DEGREE_OF_EDUCATION:
                     info.setSubject("مدرک تحصیلی");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_diploma);
+                        info.setIcon(R.drawable.ic_diploma);
                     else
                         info.setIcon(0);
                     break;
@@ -419,13 +452,13 @@ public class UtilsApp {
                     if (!isScale)
                         info.setIcon(R.drawable.ic_skills);
                     else
-                    info.setIcon(0);
+                        info.setIcon(0);
                     break;
 
                 case ProvidersApp.KEY_PHONE_NUMBER:
                     info.setSubject("تلفن تماس");
                     if (!isScale)
-                    info.setIcon(R.drawable.ic_call_answer);
+                        info.setIcon(R.drawable.ic_call_answer);
                     else
                         info.setIcon(0);
 
@@ -443,7 +476,7 @@ public class UtilsApp {
                 //info.setDescription("");
                 if (description.equals("true")) {
                     info.setIcon(R.drawable.ic_true_circle);
-                } else  {
+                } else {
                     info.setIcon(R.drawable.ic_false_circle);
 
                 }
@@ -459,15 +492,15 @@ public class UtilsApp {
         private static String validateWorkExperience(String workExperience) {
             if (isNumber(workExperience)) {
                 int number = Integer.parseInt(workExperience);
-                float year = (float)(number / 12) ;
+                float year = (float) (number / 12);
 
-                if (year <= 0.5 ){
+                if (year <= 0.5) {
                     workExperience = "کمتر از 6 ماه";
-                }else if ( year >= 0.5 && year <= 1){
+                } else if (year >= 0.5 && year <= 1) {
                     workExperience = "کمتر از 1 سال";
-                }else if (year > 1){
+                } else if (year > 1) {
 
-                    workExperience =(int)year+" سال";
+                    workExperience = (int) year + " سال";
                 }
 /*
                 if (0 <= number && number <= 6) {
@@ -491,17 +524,17 @@ public class UtilsApp {
 
         private static String validateSince(String since, String group) {
             if (group.equals(ProvidersApp.GROUP_NAME_LOCATION)) {
-                if(isNumber(since)){
-                            if(Integer.parseInt(since) == 0){
-                                return "---";
-                            }
+                if (isNumber(since)) {
+                    if (Integer.parseInt(since) == 0) {
+                        return "---";
+                    }
                 }
                 return " سال " + since;
             } else if (group.equals(ProvidersApp.GROUP_NAME_PEOPLE)) {
                 int ageInt = 0;
                 if (isNumber(since)) {
                     int userYear = Integer.parseInt(since);
-                    if (userYear == 0){
+                    if (userYear == 0) {
                         return "---";
                     }
                     int cYear = Calendar.getInstance().get(Calendar.YEAR);

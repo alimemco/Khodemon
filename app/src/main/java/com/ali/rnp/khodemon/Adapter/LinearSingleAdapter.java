@@ -1,32 +1,26 @@
 package com.ali.rnp.khodemon.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Views.Activities.DetailActivity;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapter.LinearSingleAdapterHolder> {
 
     private List<ListLayout> listLayout;
     private Context context;
-    private static SingleItemAdapter singleItemAdapter;
+    private SingleItemAdapter singleItemAdapter;
     private static final String TAG = "LinearSingleAdapter";
 
     private ItemClickListenerRecyclerList onItemClickListenerRecyclerList;
@@ -80,8 +74,7 @@ public class LinearSingleAdapter extends RecyclerView.Adapter<LinearSingleAdapte
     }
 
 
-
-    public static class LinearSingleAdapterHolder extends RecyclerView.ViewHolder {
+    public class LinearSingleAdapterHolder extends RecyclerView.ViewHolder {
 
         MyTextView nameTextView ;
         MyTextView moreTextView ;

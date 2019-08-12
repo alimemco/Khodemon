@@ -1,31 +1,14 @@
 package com.ali.rnp.khodemon.Views.fragments;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.ali.rnp.khodemon.Adapter.LinearSingleAdapter;
-import com.ali.rnp.khodemon.Adapter.SingleItemAdapter;
-import com.ali.rnp.khodemon.Api.ApiService;
-import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
-import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
-import com.ali.rnp.khodemon.MyLibrary.MyEditText;
-import com.ali.rnp.khodemon.ProvidersApp;
-import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
-import com.ali.rnp.khodemon.Views.Activities.MainActivity;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -39,13 +22,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.transition.TransitionInflater;
+
+import com.ali.rnp.khodemon.Adapter.LinearSingleAdapter;
+import com.ali.rnp.khodemon.Api.ApiService;
+import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
+import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
+import com.ali.rnp.khodemon.DataModel.ListLayout;
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.MyLibrary.MyEditText;
+import com.ali.rnp.khodemon.ProvidersApp;
+import com.ali.rnp.khodemon.R;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
+import com.ali.rnp.khodemon.Views.Activities.MainActivity;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+
+import java.util.List;
+import java.util.Objects;
+
 import ss.com.bannerslider.Slider;
 
 
 public class FragmentHome extends Fragment implements
         View.OnClickListener,
-        LinearSingleAdapter.ItemClickListenerRecyclerList {
+        LinearSingleAdapter.ItemClickListenerRecyclerList,
+        ApiService.OnHomeItems {
 
+    public static final String GROUP_KEY = "GROUP_KEY";
+    private static final String TAG = "FragmentHome";
+    SwipeRefreshLayout swipeRefreshLayout;
     private Slider slider;
     private ProgressBar progressBar;
     private CoordinatorLayout rootLayout;
@@ -55,32 +59,18 @@ public class FragmentHome extends Fragment implements
     private AHBottomNavigation bottomNavigation;
     private CardView peopleCardView;
     private CardView locationCardView;
-
     private ConstraintLayout locationConstraintLayout;
     private ConstraintLayout peopleConstraintLayout;
-
     private FragmentManager fragmentManager;
     private FragmentGroup fragmentGroup;
     private FragmentTransaction fragmentTrGroup;
-
-    SwipeRefreshLayout swipeRefreshLayout;
-
-    public static final String GROUP_KEY = "GROUP_KEY";
-
     private Context context;
-
-
-    private static final String TAG = "FragmentHome";
 
 
     public FragmentHome() {
 
     }
 
-    @SuppressLint("ValidFragment")
-    public FragmentHome(Context context) {
-        this.context = context;
-    }
 
     public static FragmentHome newInstance() {
         return new FragmentHome();
@@ -99,7 +89,7 @@ public class FragmentHome extends Fragment implements
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
@@ -132,14 +122,18 @@ public class FragmentHome extends Fragment implements
 
         ApiService apiService = new ApiService(context);
         //final SingleItemAdapter singleItemAdapter = new SingleItemAdapter(context);
-        final LinearSingleAdapter linearSingleAdapter = new LinearSingleAdapter(context, this);
+        // final LinearSingleAdapter linearSingleAdapter = new LinearSingleAdapter(context, this);
 
+        apiService.getHomeRecyclerListItems(this);
+
+
+        /*
         new Handler().postDelayed(() -> {
 
             apiService.getHomeRecyclerListItems((statusCode, homeLists, locationPeopleList, error) -> {
 
                 progressBar.setVisibility(View.INVISIBLE);
-
+//TODO inja
 
                     if (statusCode == ProvidersApp.STATUS_CODE_SUCCESSFULLY){
                         if (getActivity() != null &&
@@ -153,14 +147,20 @@ public class FragmentHome extends Fragment implements
 
 
                         }
-                    }else {
+                    }else if (statusCode == ProvidersApp.STATUS_CODE_SERVER_DOWN){
+                        Toast.makeText(context, "SERVER IS DOWN", Toast.LENGTH_LONG).show();
+                    }
+                    else {
                         Toast.makeText(context, UtilsApp.statusCodeToError(statusCode,error), Toast.LENGTH_SHORT).show();
+                   
                     }
 
 
             });
 
         }, 1);
+   */
+
     }
 
 
@@ -177,7 +177,7 @@ public class FragmentHome extends Fragment implements
     private void initViews(View rootView) {
 
         recyclerView = rootView.findViewById(R.id.fragment_home_recyclerView_homeItems);
-         swipeRefreshLayout = rootView.findViewById(R.id.fragment_home_swipeRefreshLayout);
+        swipeRefreshLayout = rootView.findViewById(R.id.fragment_home_swipeRefreshLayout);
         searchEditText = rootView.findViewById(R.id.fragment_home_editText_search);
         progressBar = rootView.findViewById(R.id.fragment_home_progress_bar);
         locationCardView = rootView.findViewById(R.id.fragment_home_location_cardView);
@@ -195,12 +195,7 @@ public class FragmentHome extends Fragment implements
         locationConstraintLayout.setOnClickListener(this);
         peopleConstraintLayout.setOnClickListener(this);
 
-        locationCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         peopleCardView.setOnClickListener(this);
 
@@ -233,7 +228,7 @@ public class FragmentHome extends Fragment implements
 
             case R.id.fragment_home_location_constraintLayout:
                 Bundle argsLocation = new Bundle();
-                argsLocation.putString(GROUP_KEY, ApiService.GROUP_NAME_LOCATION);
+                argsLocation.putString(GROUP_KEY, ProvidersApp.LOCATION_GROUP);
                 fragmentGroup.setArguments(argsLocation);
                 fragmentGroup.setArguments(argsLocation);
 
@@ -243,7 +238,7 @@ public class FragmentHome extends Fragment implements
 
             case R.id.fragment_home_people_constraintLayout:
                 Bundle argsPeople = new Bundle();
-                argsPeople.putString(GROUP_KEY, ApiService.GROUP_NAME_PEOPLE);
+                argsPeople.putString(GROUP_KEY, ProvidersApp.PEOPLE_GROUP);
                 fragmentGroup.setArguments(argsPeople);
 
                 fragmentGroupReplace();
@@ -302,18 +297,18 @@ public class FragmentHome extends Fragment implements
     @Override
     public void onItemClick(int position, String group) {
         switch (group) {
-            case ApiService.GROUP_NAME_LOCATION:
+            case ProvidersApp.LOCATION_GROUP:
                 Bundle argsLocation = new Bundle();
-                argsLocation.putString(GROUP_KEY, ApiService.GROUP_NAME_LOCATION);
+                argsLocation.putString(GROUP_KEY, ProvidersApp.LOCATION_GROUP);
                 fragmentGroup.setArguments(argsLocation);
-                fragmentGroup.setArguments(argsLocation);
+                //fragmentGroup.setArguments(argsLocation);
 
                 fragmentGroupReplace();
                 break;
 
-            case ApiService.GROUP_NAME_PEOPLE:
+            case ProvidersApp.PEOPLE_GROUP:
                 Bundle argsPeople = new Bundle();
-                argsPeople.putString(GROUP_KEY, ApiService.GROUP_NAME_PEOPLE);
+                argsPeople.putString(GROUP_KEY, ProvidersApp.PEOPLE_GROUP);
                 fragmentGroup.setArguments(argsPeople);
 
                 fragmentGroupReplace();
@@ -321,5 +316,32 @@ public class FragmentHome extends Fragment implements
 
 
         }
+    }
+
+    @Override
+    public void onSuccess(List<ListLayout> listLayouts, List<LocationPeople> locationPeopleList) {
+        progressBar.setVisibility(View.INVISIBLE);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+
+        final LinearSingleAdapter linearSingleAdapter = new LinearSingleAdapter(context, this);
+
+
+        if (getActivity() != null &&
+                listLayouts != null &&
+                locationPeopleList != null) {
+
+            linearSingleAdapter.setListDataForAdapter(listLayouts);
+
+            recyclerView.setAdapter(linearSingleAdapter);
+        }
+
+    }
+
+    @Override
+    public void onError(int statusCode, Object error) {
+        progressBar.setVisibility(View.INVISIBLE);
+
+        Toast.makeText(context, UtilsApp.errorHandler(context, error), Toast.LENGTH_LONG).show();
+
     }
 }
