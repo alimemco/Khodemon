@@ -29,6 +29,7 @@ import com.ali.rnp.khodemon.Search.ChildModel;
 import com.ali.rnp.khodemon.Search.GroupModel;
 import com.ali.rnp.khodemon.Search.SearchAdapter;
 import com.ali.rnp.khodemon.SharedPrefManager;
+import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
 import com.ali.rnp.khodemon.Views.Activities.FilterActivity;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -338,6 +339,9 @@ public class FragmentSearchTwo extends Fragment implements
     @Override
     public void OnErrorSearch(Object error) {
         searchAdapter.isEmpty();
+
+        Toast.makeText(getContext(), UtilsApp.errorHandler(getContext(), error), Toast.LENGTH_SHORT).show();
+
     }
 
 

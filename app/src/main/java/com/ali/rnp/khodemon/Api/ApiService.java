@@ -604,7 +604,7 @@ public class ApiService {
     public void searchCategory(JSONObject jsonObject, OnSearchCategory onSearchCategory) {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH_CATEGORY, jsonObject, response -> parseJsonSearchCategory(response, onSearchCategory), onSearchCategory::OnErrorSearch);
-        request.setRetryPolicy(new DefaultRetryPolicy());
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
     }
 
@@ -1188,7 +1188,7 @@ public class ApiService {
 
         try {
             ArrayList<GroupModel> groupModels = new ArrayList<>();
-            ArrayList<ChildModel> childModels = new ArrayList<>();
+            ArrayList<ChildModel> childModels;
             String titleGroup;
 
             JSONObject jsonObject = new JSONObject(response.toString());
