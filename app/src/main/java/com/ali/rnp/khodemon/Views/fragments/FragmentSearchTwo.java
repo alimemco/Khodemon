@@ -21,15 +21,16 @@ import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.BottomSheet.SortBottomSheet;
 import com.ali.rnp.khodemon.DataModel.ChipModel;
 import com.ali.rnp.khodemon.DataModel.Filter;
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.MyLibrary.MyButton;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Search.ChildModel;
 import com.ali.rnp.khodemon.Search.GroupModel;
 import com.ali.rnp.khodemon.Search.SearchAdapter;
 import com.ali.rnp.khodemon.SharedPrefManager;
 import com.ali.rnp.khodemon.UtilsApp.UtilsApp;
+import com.ali.rnp.khodemon.Views.Activities.DetailActivity;
 import com.ali.rnp.khodemon.Views.Activities.FilterActivity;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -243,9 +244,18 @@ public class FragmentSearchTwo extends Fragment implements
     }
 
     @Override
-    public void onChildClick(ChildModel childModel) {
-        Toast.makeText(view.getContext(), childModel.getName() + " " + childModel.getId(), Toast.LENGTH_SHORT).show();
-/*
+    public void onChildClick(LocationPeople locationPeople) {
+        // Toast.makeText(view.getContext(), locationPeople.getName() + " " + locationPeople.getId(), Toast.LENGTH_SHORT).show();
+
+
+        if (getActivity() != null) {
+            Intent intent = new Intent(getContext(), DetailActivity.class);
+            intent.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE, locationPeople);
+            getActivity().startActivity(intent);
+        }
+
+
+        /*
         Intent intent = new Intent(context, DetailActivity.class);
         //   intent.putExtra(ProvidersApp.KEY_POST_ID,postId);
         intent.putExtra(ProvidersApp.KEY_LOCATION_PEOPLE,locationPeopleList.get(position));
@@ -339,8 +349,10 @@ public class FragmentSearchTwo extends Fragment implements
     @Override
     public void OnErrorSearch(Object error) {
         searchAdapter.isEmpty();
+        if (!(error instanceof String)) {
+            Toast.makeText(getContext(), UtilsApp.errorHandler(getContext(), error), Toast.LENGTH_SHORT).show();
+        }
 
-        Toast.makeText(getContext(), UtilsApp.errorHandler(getContext(), error), Toast.LENGTH_SHORT).show();
 
     }
 

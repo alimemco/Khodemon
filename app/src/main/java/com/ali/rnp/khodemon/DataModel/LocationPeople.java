@@ -19,6 +19,7 @@ public class LocationPeople implements Parcelable {
     private String phone;
     private String dimen;
     private String since;
+    private String isAd;
 
 
     private String originalPic;
@@ -200,6 +201,7 @@ public class LocationPeople implements Parcelable {
         phone = in.readString();
         dimen = in.readString();
         since = in.readString();
+        isAd = in.readString();
 
         imageWidth = in.readInt();
         imageHeight = in.readInt();
@@ -228,6 +230,7 @@ public class LocationPeople implements Parcelable {
         dest.writeString(phone);
         dest.writeString(dimen);
         dest.writeString(since);
+        dest.writeString(String.valueOf(isAd));
 
         dest.writeString(timeReg);
         dest.writeInt(imageWidth);
@@ -250,5 +253,11 @@ public class LocationPeople implements Parcelable {
     };
 
 
+    public String getIsAd() {
+        return isAd;
+    }
 
+    public void setAd(String ad) {
+        isAd = ad;
+    }
 }

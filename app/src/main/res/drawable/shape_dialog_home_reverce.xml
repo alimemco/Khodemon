@@ -39,12 +39,12 @@
                         android:height="82dp" />
 
                     <!--Use android:dashWidth="2dp" and android:dashGap="2dp"
-                    to add dashes to your stroke-->
+                    to ad dashes to your stroke-->
                     <stroke
                         android:width="2dp"
                         android:color="@color/gray_300" />
 
-                    <!--If you want to add padding-->
+                    <!--If you want to ad padding-->
                     <!-- <padding
                          android:left="10dp"
                          android:top="20dp"
@@ -88,12 +88,12 @@
                         android:height="82dp" />
 
                     <!--Use android:dashWidth="2dp" and android:dashGap="2dp"
-                    to add dashes to your stroke-->
+                    to ad dashes to your stroke-->
                     <stroke
                         android:width="2dp"
                         android:color="@color/gray_300" />
 
-                    <!--If you want to add padding-->
+                    <!--If you want to ad padding-->
                     <!-- <padding
                          android:left="10dp"
                          android:top="20dp"
@@ -136,12 +136,12 @@
                         android:height="82dp" />
 
                     <!--Use android:dashWidth="2dp" and android:dashGap="2dp"
-                    to add dashes to your stroke-->
+                    to ad dashes to your stroke-->
                     <stroke
                         android:width="2dp"
                         android:color="@color/gray_300" />
 
-                    <!--If you want to add padding-->
+                    <!--If you want to ad padding-->
                     <!-- <padding
                          android:left="10dp"
                          android:top="20dp"

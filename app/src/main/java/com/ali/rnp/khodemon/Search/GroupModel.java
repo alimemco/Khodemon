@@ -1,14 +1,21 @@
 package com.ali.rnp.khodemon.Search;
 
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class GroupModel  extends ArrayList{
 
     private String title;
-    private ArrayList<ChildModel> items;
+    //private ArrayList<ChildModel> items;
+    private ArrayList<LocationPeople> items;
 
-    public GroupModel(String title, ArrayList<ChildModel> items) {
+  /*  public GroupModel(String title, ArrayList<ChildModel> items) {
+        this.title = title;
+        this.items = items;
+    }*/
+
+    public GroupModel(String title, ArrayList<LocationPeople> items) {
         this.title = title;
         this.items = items;
     }
@@ -17,7 +24,7 @@ public class GroupModel  extends ArrayList{
         return title;
     }
 
-    ArrayList<ChildModel> getItems() {
+    ArrayList<LocationPeople> getItems() {
         return items;
     }
 

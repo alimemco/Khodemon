@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.R;
 
 import java.util.ArrayList;
@@ -22,10 +23,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int isEmpty = 1;
     private static final int isSearching = 2;
     private static final int isSuccess = 29;
-    // private boolean isEmpty;
-    // private boolean isSearching;
-    // private int viewType;
-    private int state = isDefault;
+    private int state;
 
 
     public SearchAdapter() {
@@ -128,7 +126,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     break;
                 case SearchListPosition.CHILD:
-                    ChildModel childModel = group.getItems().get(listPos.childPos);
+                    // ChildModel childModel = group.getItems().get(listPos.childPos);
+                    LocationPeople childModel = group.getItems().get(listPos.childPos);
 
                     SearchHolder.ChildHolder mHolderChild = (SearchHolder.ChildHolder) holder;
 
@@ -151,7 +150,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public interface OnChildClickListener {
-        void onChildClick(ChildModel childModel);
+        void onChildClick(LocationPeople locationPeople);
     }
 
 

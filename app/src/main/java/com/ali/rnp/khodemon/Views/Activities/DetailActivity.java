@@ -12,6 +12,15 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.ali.rnp.khodemon.Adapter.InfoAdapter;
 import com.ali.rnp.khodemon.Adapter.PersonnelAdapter;
 import com.ali.rnp.khodemon.Adapter.ScreenSlidePagerAdapter;
@@ -39,15 +48,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 public class DetailActivity extends AppCompatActivity implements
         View.OnClickListener,
         ApiService.OnPersonnelReceived,
@@ -61,36 +61,51 @@ public class DetailActivity extends AppCompatActivity implements
 
 
     private static final String TAG = "DetailActivityDebug";
+    ApiService apiService;
+    // WormDotsIndicator wormDotsIndicator;
+    DotsIndicator dotsIndicator;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private Toolbar toolbar;
-
     private AppBarLayout appBarLayout;
     private MyTextView nameLocPeoTV;
     private MyTextView tagTV;
     private ImageView threeLineImageView;
-
     private RatingBar ratingBar;
     private MyTextView ratingBarTextView;
-
     private MyTextView titleSimilarTv;
-
     private RecyclerView personnelRecyclerView;
     private RecyclerView similarRecyclerView;
     private RecyclerView infoRecyclerView;
-
     //ConstraintLayout constraintLayout;
     private int post_id;
     private LocationPeople locPeoPost;
     private String number;
-
-    ApiService apiService;
-
-
-    // WormDotsIndicator wormDotsIndicator;
-    DotsIndicator dotsIndicator;
     //ArrayList<String> imgAddressList;
     // private ArrayList<PictureUpload> pictureUploadList;
+
+    public static String convertFormat(String inputDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(inputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        if (date == null) {
+            return "";
+        }
+
+        SimpleDateFormat convertDateFormatYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+        String year = convertDateFormatYear.format(date);
+
+        SimpleDateFormat convertDateFormatHour = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
+        String hour = convertDateFormatHour.format(date);
+        return year + "   " + hour;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +185,6 @@ public class DetailActivity extends AppCompatActivity implements
         }
     }
 
-
     private void initRatingBar() {
 
         ratingBar = findViewById(R.id.activity_detail_ratingBar);
@@ -191,7 +205,6 @@ public class DetailActivity extends AppCompatActivity implements
 
 
     }
-
 
     private void initViews() {
 
@@ -265,35 +278,10 @@ public class DetailActivity extends AppCompatActivity implements
 
     }
 
-
     private int getStatusBarHeight() {
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         return getResources().getDimensionPixelSize(resourceId);
     }
-
-    public static String convertFormat(String inputDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
-
-        Date date = null;
-        try {
-            date = simpleDateFormat.parse(inputDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-        if (date == null) {
-            return "";
-        }
-
-        SimpleDateFormat convertDateFormatYear = new SimpleDateFormat("yyyy", Locale.getDefault());
-        String year = convertDateFormatYear.format(date);
-
-        SimpleDateFormat convertDateFormatHour = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
-        String hour = convertDateFormatHour.format(date);
-        return year + "   " + hour;
-    }
-
 
     @Override
     public void onItemReceived(int status, ArrayList<LocationPeople> locationPeopleList, String error) {

@@ -7,11 +7,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ali.rnp.khodemon.Api.ApiService;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Search.ChildModel;
 import com.ali.rnp.khodemon.Search.GroupModel;
 import com.ali.rnp.khodemon.Search.SearchAdapter;
 import com.google.android.material.button.MaterialButton;
@@ -20,10 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class testUnit extends AppCompatActivity implements SearchAdapter.OnChildClickListener{
 
@@ -103,7 +102,7 @@ public class testUnit extends AppCompatActivity implements SearchAdapter.OnChild
     }
 
     @Override
-    public void onChildClick(ChildModel childModel) {
+    public void onChildClick(LocationPeople childModel) {
         Toast.makeText(this, childModel.getName(), Toast.LENGTH_SHORT).show();
     }
 

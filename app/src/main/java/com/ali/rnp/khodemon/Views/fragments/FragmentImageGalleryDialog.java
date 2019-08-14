@@ -2,11 +2,20 @@ package com.ali.rnp.khodemon.Views.fragments;
 
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.ali.rnp.khodemon.Adapter.ImageGalleryAdapter;
 import com.ali.rnp.khodemon.Adapter.ImageGalleryRcvAdapter;
@@ -18,16 +27,6 @@ import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 
 public class FragmentImageGalleryDialog extends FragmentDialog implements
@@ -43,7 +42,7 @@ public class FragmentImageGalleryDialog extends FragmentDialog implements
     private PagerAdapter mPagerAdapter;
    // private RecyclerView mRecyclerView;
     private DiscreteScrollView scrollView;
-    private ImageGalleryRcvAdapter mRecyclerViewAdapter;
+    // private ImageGalleryRcvAdapter mRecyclerViewAdapter;
     private MyTextView textViewToolbar;
 
 

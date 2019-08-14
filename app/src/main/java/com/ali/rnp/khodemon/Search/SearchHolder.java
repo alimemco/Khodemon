@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ali.rnp.khodemon.DataModel.LocationPeople;
 import com.ali.rnp.khodemon.Helper.StringHighlight;
 import com.ali.rnp.khodemon.MyLibrary.MyTextView;
 import com.ali.rnp.khodemon.R;
@@ -64,7 +65,7 @@ class SearchHolder {
         }
 
 
-        void bind(ChildModel childModel, String typed, boolean isHidden) {
+        void bind(LocationPeople childModel, String typed, boolean isHidden) {
 
             if (typed == null) {
                 typed = "";
@@ -73,13 +74,13 @@ class SearchHolder {
                 nameTv.setText(StringHighlight.highlight(childModel.getName(), typed,
                         ContextCompat.getColor(context, R.color.red400)));
 
-                categoryTv.setText(childModel.getCategory());
+            categoryTv.setText(childModel.getTag());
 
-                ad.setVisibility(childModel.isAd().equals("true") ? View.VISIBLE : View.INVISIBLE);
+            ad.setVisibility(childModel.getIsAd().equals("true") ? View.VISIBLE : View.INVISIBLE);
 
             line.setVisibility(isHidden ? View.INVISIBLE : View.VISIBLE);
 
-                UtilsApp.getImageResize(childModel.getOriginalPic(), childModel.getThumb_pic(), imageView);
+            UtilsApp.getImageResize(childModel.getOriginalPic(), childModel.getImageThumb150(), imageView);
 
 
 

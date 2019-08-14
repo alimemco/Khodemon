@@ -16,7 +16,6 @@ import com.ali.rnp.khodemon.ExpandableSingleItems.ChildExp;
 import com.ali.rnp.khodemon.ExpandableSingleItems.SingleCheckItemsExp;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
-import com.ali.rnp.khodemon.Search.ChildModel;
 import com.ali.rnp.khodemon.Search.GroupModel;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -1188,7 +1187,7 @@ public class ApiService {
 
         try {
             ArrayList<GroupModel> groupModels = new ArrayList<>();
-            ArrayList<ChildModel> childModels;
+            ArrayList<LocationPeople> childModels;
             String titleGroup;
 
             JSONObject jsonObject = new JSONObject(response.toString());
@@ -1212,6 +1211,19 @@ public class ApiService {
 
                         JSONObject objItem = arrItems.getJSONObject(j);
 
+                        LocationPeople locationPeople = new LocationPeople();
+                        locationPeople.setId(objItem.getInt("ID"));
+                        locationPeople.setName(objItem.getString("nameLocPeo"));
+                        locationPeople.setTag(objItem.getString("tagLocPeo"));
+                        locationPeople.setGroup(objItem.getString("group_name"));
+                        locationPeople.setCity(objItem.getString("city"));
+                        locationPeople.setAd(objItem.getString("is_ad"));
+                        locationPeople.setOriginalPic(objItem.getString("original_pic"));
+                        locationPeople.setImageThumb150(objItem.getString("thumb_pic"));
+
+                        childModels.add(locationPeople);
+
+/*
                         childModels.add(new ChildModel.Builder()
                                 .setId(objItem.getInt("ID"))
                                 .setName(objItem.getString("nameLocPeo"))
@@ -1221,7 +1233,7 @@ public class ApiService {
                                 .setIsAd(objItem.getString("is_ad"))
                                 .setOriginalPic(objItem.getString("original_pic"))
                                 .setThumb_pic(objItem.getString("thumb_pic"))
-                                .create());
+                                .create());*/
 
 
                     }

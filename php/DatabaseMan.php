@@ -1043,7 +1043,7 @@ class DatabaseMan
                 if (mysqli_query($conn, $mysqlInsert)) {
                     $result [] = array(
                         "success" => "true",
-                        "message" => "personnel add successfully"
+                        "message" => "personnel ad successfully"
                     );
 
                 } else {

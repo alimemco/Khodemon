@@ -1,16 +1,14 @@
 package com.ali.rnp.khodemon.Adapter;
 
-import com.ali.rnp.khodemon.DataModel.PictureUpload;
-import com.ali.rnp.khodemon.Views.fragments.FragmentImageGalley;
-import com.ali.rnp.khodemon.Views.fragments.ScreenSlidePageFragment;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.ali.rnp.khodemon.DataModel.PictureUpload;
+import com.ali.rnp.khodemon.Views.fragments.FragmentImageGalley;
+
+import java.util.ArrayList;
 
 public class ImageGalleryAdapter extends FragmentStatePagerAdapter {
 
@@ -18,7 +16,7 @@ public class ImageGalleryAdapter extends FragmentStatePagerAdapter {
     private ArrayList<PictureUpload> pictureUploadList;
 
     public ImageGalleryAdapter(FragmentManager fm, ArrayList<PictureUpload> pictureUploadList) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.pictureUploadList = pictureUploadList ;
 
     }

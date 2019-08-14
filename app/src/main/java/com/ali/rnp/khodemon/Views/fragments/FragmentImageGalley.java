@@ -13,33 +13,36 @@ import androidx.fragment.app.Fragment;
 import com.ali.rnp.khodemon.DataModel.PictureUpload;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import it.sephiroth.android.library.imagezoom.ImageViewTouch;
+import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
 
-public class FragmentImageGalley extends Fragment{
+public class FragmentImageGalley extends Fragment {
 
-    // private ImageViewTouch imageView;
+    private ImageViewTouch imageView;
 
     //TODO ImageView Removed for fix bug
 
-   // private ImageView imageView;
-   // private String IMG_ADDRESS = "";
+    // private ImageView imageView;
+    // private String IMG_ADDRESS = "";
     private ArrayList<PictureUpload> pictureUploadList;
-    private int position ;
-
+    private int position;
 
 
     public FragmentImageGalley() {
 
     }
 
-    public static FragmentImageGalley newInstance(int position,ArrayList<PictureUpload> pictureUploadList) {
+    public static FragmentImageGalley newInstance(int position, ArrayList<PictureUpload> pictureUploadList) {
 
         Bundle args = new Bundle();
-        args.putInt(ProvidersApp.KEY_BUNDLE_POSITION,position);
-        args.putParcelableArrayList(ProvidersApp.KEY_BUNDLE_IMG_LIST,pictureUploadList);
+        args.putInt(ProvidersApp.KEY_BUNDLE_POSITION, position);
+        args.putParcelableArrayList(ProvidersApp.KEY_BUNDLE_IMG_LIST, pictureUploadList);
         FragmentImageGalley fragment = new FragmentImageGalley();
         fragment.setArguments(args);
         return fragment;
@@ -48,7 +51,7 @@ public class FragmentImageGalley extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null){
+        if (getArguments() != null) {
             pictureUploadList = getArguments().getParcelableArrayList(ProvidersApp.KEY_BUNDLE_IMG_LIST);
             position = getArguments().getInt(ProvidersApp.KEY_BUNDLE_POSITION);
         }
@@ -58,7 +61,7 @@ public class FragmentImageGalley extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_image_galley, container, false);
-/*
+
         imageView = rootView.findViewById(R.id.fragment_image_gallery_imageView_show);
 
         if (!pictureUploadList.get(position).getPic_address().equals("")) {
@@ -97,13 +100,10 @@ public class FragmentImageGalley extends Fragment{
                     });
 
         }
-*/
+
 
         return rootView;
     }
-
-
-
 
 
 }

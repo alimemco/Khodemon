@@ -184,7 +184,6 @@ public class FilterActivity extends AppCompatActivity implements
 
             }
 
-
             MultiCheckGroup makeSingleCheckChild = new MultiCheckGroup(titleGroup, childList, R.drawable.ic_contrast);
             multiCheckGroups.add(makeSingleCheckChild);
 
