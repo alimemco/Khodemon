@@ -106,7 +106,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else {
             View viewChild = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_child, parent, false);
-            return new SearchHolder.ChildHolder(viewChild, parent.getContext());
+            return new SearchHolder.ChildHolder(viewChild);
         }
 
     }

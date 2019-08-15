@@ -48,19 +48,21 @@ class SearchHolder {
         MyTextView categoryTv;
         CircleImageView imageView;
         MyTextView ad;
+        MyTextView score;
         View line;
         Context context;
 
 
-        ChildHolder(@NonNull View itemView, Context context) {
+        ChildHolder(@NonNull View itemView) {
             super(itemView);
-            this.context = context;
+            this.context = itemView.getContext();
 
 
             nameTv = itemView.findViewById(R.id.rcv_search_category_nameTv);
             categoryTv = itemView.findViewById(R.id.rcv_search_category_categoryTv);
             imageView = itemView.findViewById(R.id.rcv_search_category_imageView);
             ad = itemView.findViewById(R.id.rcv_search_category_isAd);
+            score = itemView.findViewById(R.id.rcv_search_category_score);
             line = itemView.findViewById(R.id.rcv_search_category_line);
         }
 
@@ -71,17 +73,17 @@ class SearchHolder {
                 typed = "";
             }
 
-                nameTv.setText(StringHighlight.highlight(childModel.getName(), typed,
-                        ContextCompat.getColor(context, R.color.red400)));
+            nameTv.setText(StringHighlight.highlight(childModel.getName(), typed, ContextCompat.getColor(context, R.color.red400)));
 
             categoryTv.setText(childModel.getTag());
 
-            ad.setVisibility(childModel.getIsAd().equals("true") ? View.VISIBLE : View.INVISIBLE);
-
-            line.setVisibility(isHidden ? View.INVISIBLE : View.VISIBLE);
+            score.setText(String.valueOf(UtilsApp.randomFloat(0, 5)));
 
             UtilsApp.getImageResize(childModel.getOriginalPic(), childModel.getImageThumb150(), imageView);
 
+            ad.setVisibility(childModel.getIsAd().equals("true") ? View.VISIBLE : View.INVISIBLE);
+            score.setVisibility(childModel.getIsAd().equals("true") ? View.INVISIBLE : View.VISIBLE);
+            line.setVisibility(isHidden ? View.INVISIBLE : View.VISIBLE);
 
 
         }

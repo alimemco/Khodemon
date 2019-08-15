@@ -59,5 +59,6 @@
     <string name="ParseError">ParseError</string>
     <string name="JSONException">JSONException</string>
     <string name="UNKNOWN">UNKNOWN</string>
+    <string name="ad">ad</string>
 
 </resources>
