@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/standard_margin_2x"
+        android:gravity="center"
+        android:text="@string/hasٍError"
+        android:textSize="@dimen/large_textSize_sp" />
+
+    <com.ali.rnp.khodemon.MyLibrary.MyTextView
+        android:id="@+id/dialog_error_txt_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/standard_margin_2x"
+        android:gravity="center"
+        android:textSize="@dimen/large_textSize_sp"
+        tools:text="error" />
+
+
+    <com.ali.rnp.khodemon.MyLibrary.MyButton
+        android:id="@+id/dialog_error_btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/close"
+        android:textSize="@dimen/large_textSize_sp" />
+
+</LinearLayout>

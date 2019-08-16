@@ -63,6 +63,8 @@ public class ProvidersApp {
     public static final int KEY_JSON_EXCEPTION = 1;
     public static final int KEY_VOLLEY_ERROR = 2;
 
+    public static final String KEY_ERROR = "ERROR";
+
     public static final String KEY_ID = "ID";
     public static final String KEY_USERNAME = "USER_NAME";
     public static final String KEY_PHONE = "PHONE";
@@ -97,6 +99,7 @@ public class ProvidersApp {
     public static final String KEY_BUNDLE_PEOPLE_ID = "PEOPLE_ID";
     public static final String KEY_BUNDLE_POSITIVE_BUTTON = "POSITIVE";
     public static final String KEY_BUNDLE_NEGATIVE_BUTTON = "NEGATIVE";
+    public static final String KEY_BUNDLE_ERROR = "ERROR";
 
 
 

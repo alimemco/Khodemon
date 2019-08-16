@@ -66,6 +66,7 @@ public class ApiService {
     private final static String API_GET_SEARCH_CATEGORY = SITE + FOLDER + "searchCategory.php";
     private final static String API_GET_ALL_ITEMS = SITE + FOLDER + "getAll.php";
     private final static String API_GET_FILTER_OPTIONS = SITE + FOLDER + "filter.php";
+    private final static String API_SEND_ERROR = SITE + FOLDER + "putError.php";
     //JSON
     private final static String API_GET_PROVINCE = SITE + FOLDER + JSON_FOLDER + "city.json";
     private final static String API_GET_CATEGORY = SITE + "json/category.json  ";
@@ -611,6 +612,21 @@ public class ApiService {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_GET_SEARCH_SUGGESTION, null, response -> parseJsonSearchSuggestion(response, onReceivedSearch), error -> onReceivedSearch.onSearch(ProvidersApp.STATUS_CODE_VOLLEY_ERROR, null, error.toString()));
         request.setRetryPolicy(new DefaultRetryPolicy());
+        Volley.newRequestQueue(context).add(request);
+
+    }
+
+    public void sendError(String errorTxt, OnSendError onSendError) {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ProvidersApp.KEY_ERROR, errorTxt);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, API_SEND_ERROR, jsonObject, response -> parseJsonError(response, onSendError), error -> onSendError.ErrorSendError(error));
+        request.setRetryPolicy(new DefaultRetryPolicy(retryTime, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(context).add(request);
 
     }
@@ -1291,6 +1307,23 @@ public class ApiService {
         }
     }
 
+    private void parseJsonError(JSONObject response, OnSendError onSendError) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(response.toString());
+            JSONObject jsObjResult = jsonObject.getJSONObject("result");
+
+            if (jsObjResult.getBoolean("success")) {
+                onSendError.SuccessSendError();
+            } else {
+                onSendError.ErrorSendError(jsObjResult.getString("message"));
+            }
+
+        } catch (JSONException e) {
+            onSendError.ErrorSendError(e);
+        }
+    }
+
     private String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
@@ -1400,5 +1433,9 @@ public class ApiService {
         void OnErrorFiler(Object error);
     }
 
+    public interface OnSendError {
+        void SuccessSendError();
 
+        void ErrorSendError(Object error);
+    }
 }

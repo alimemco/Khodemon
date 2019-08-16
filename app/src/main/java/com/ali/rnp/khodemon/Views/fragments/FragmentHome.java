@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,6 +30,7 @@ import com.ali.rnp.khodemon.BannerSlider.MainSliderAdapter;
 import com.ali.rnp.khodemon.BannerSlider.PicassoImageLoadingService;
 import com.ali.rnp.khodemon.DataModel.ListLayout;
 import com.ali.rnp.khodemon.DataModel.LocationPeople;
+import com.ali.rnp.khodemon.Dialogs.DialogError;
 import com.ali.rnp.khodemon.MyLibrary.MyEditText;
 import com.ali.rnp.khodemon.ProvidersApp;
 import com.ali.rnp.khodemon.R;
@@ -341,7 +343,9 @@ public class FragmentHome extends Fragment implements
     public void onError(int statusCode, Object error) {
         progressBar.setVisibility(View.INVISIBLE);
 
-        Toast.makeText(context, UtilsApp.errorHandler(context, error), Toast.LENGTH_LONG).show();
+        DialogFragment dialog = DialogError.newInstance(UtilsApp.errorHandler(context, error));
+        dialog.show(getChildFragmentManager(), "DialogFragment");
+        // Toast.makeText(context, UtilsApp.errorHandler(context, error), Toast.LENGTH_LONG).show();
 
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,14 +18,15 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
+/*
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
-
+*/
 
 public class FragmentImageGalley extends Fragment {
 
-    private ImageViewTouch imageView;
+    // private ImageViewTouch imageView;
+    private ImageView imageView;
 
     //TODO ImageView Removed for fix bug
 
@@ -88,8 +90,8 @@ public class FragmentImageGalley extends Fragment {
                                     .placeholder(imageView.getDrawable())
                                     .into(imageView);
 
-                            imageView.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-
+                            //   imageView.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+//TODO Change it
                         }
 
                         @Override

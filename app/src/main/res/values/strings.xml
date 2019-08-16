@@ -60,5 +60,7 @@
     <string name="JSONException">JSONException</string>
     <string name="UNKNOWN">UNKNOWN</string>
     <string name="ad">ad</string>
+    <string name="hasٍError">خطایی رخ داده است</string>
+    <string name="close">بستن</string>
 
 </resources>
